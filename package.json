@@ -3,20 +3,47 @@
   "version": "0.0.0",
   "description": "A React components library.",
   "type": "module",
-  "main": "index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "private": false,
   "scripts": {
-    "dev": "node index"
+    "dev": "vite",
+    "build": "rimraf dist && rollup -c ./build/rollup.build.ts --bundleConfigAsCjs"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tangjiahui-cn/very-ui.git"
   },
-  "keywords": ["React", "components"],
+  "keywords": [
+    "React",
+    "components"
+  ],
   "author": "tangjiahui-cn",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/tangjiahui-cn/very-ui/issues"
   },
-  "homepage": "https://github.com/tangjiahui-cn/very-ui#readme"
+  "homepage": "https://github.com/tangjiahui-cn/very-ui#readme",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-alias": "^4.0.3",
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-terser": "^0.4.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@rollup/plugin-url": "^8.0.1",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "@vitejs/plugin-react": "^3.1.0",
+    "rimraf": "^4.4.0",
+    "rollup": "^3.19.1",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-progress": "^1.1.2",
+    "rollup-plugin-typescript2": "^0.34.1",
+    "typescript": "^4.9.3",
+    "vite": "^4.1.0"
+  }
 }
