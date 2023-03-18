@@ -36,6 +36,7 @@ export default {
         }),
         postcss({
             minimize: true,
+            modules: true
         }),
         terser()
     ]
