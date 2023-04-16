@@ -1,6 +1,5 @@
 /// <reference types="react" />
-interface Button {
-    children?: any;
+export interface IButtonProps {
+    type: 'primary' | 'default' | 'dashed';
 }
-export default function Button(props: Button): JSX.Element;
-export {};
+export default function (): JSX.Element;

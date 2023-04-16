@@ -1,5 +1,5 @@
 # tiger-ui
-A React components library.
+一个轻量化、简洁的React UI库。(开发中)
 
 
 ## 如何运行

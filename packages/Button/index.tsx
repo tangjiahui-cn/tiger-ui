@@ -1,16 +1,11 @@
-import React from "react";
+import React from 'react';
+import Styles from './index.less';
 
-interface Button {
-  children?: any;
+export interface IButtonProps {
+  type: 'primary' | 'default' | 'dashed';
 }
-export default function Button(props: Button) {
-  return <button
-    style={{
-        border: '1px solid #e5e5e5',
-        padding: '8px 24px',
-        background: 'white',
-        cursor: 'pointer',
-        borderRadius: 4
-    }}
-  >{props?.children}</button>;
+
+export default function () {
+
+  return <button className={Styles.my_btn}>按钮</button>
 }
