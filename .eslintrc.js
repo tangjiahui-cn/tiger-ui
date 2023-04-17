@@ -2,6 +2,8 @@ module.exports = {
   env: {
     browser: true,
     node: true,
+    jasmine: true,
+    jest: true,
     es6: true,
   },
   extends: ['plugin:react/recommended', 'prettier'],
@@ -14,7 +16,7 @@ module.exports = {
   settings: {
     react: {
       pragma: 'React',
-      version: '18.2.0',
+      version: 'detect',
     },
   },
   plugins: ['react', '@typescript-eslint', 'prettier'],
