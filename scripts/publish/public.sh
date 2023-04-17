@@ -35,6 +35,6 @@ conventional-changelog -p angular -i CHANGELOG.md -s -r 0
 git commit -am "docs(CHANGELOG.md): update changelog" # (新增提交，避免重写提交覆盖tag)
 
 # 发布库
-ADDRESS=http://npm.pinming.org/
+ADDRESS=https://registry.npmjs.org/
 npm unpublish ${NAME}@${VERSION} 2>/dev/null --registry=${ADDRESS}
 npm publish --registry=${ADDRESS}
