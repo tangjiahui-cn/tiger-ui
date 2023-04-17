@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from 'react-dom/client';
-import {Button} from '../../packages';
-// import {Button} from '../../lib/index';
+import {Button, Input} from '../../packages';
+// import {Button, Input} from '../../lib/index';
 // import '../../lib/index.css';
 
 function App () {
   return <div>
     <Button />
+    <Input />
   </div>
 }
 

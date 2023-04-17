@@ -1,7 +1,7 @@
 import React from 'react';
 import Styles from './index.less';
 
-export interface IButtonProps {
+export interface ButtonProps {
   type: 'primary' | 'default' | 'dashed';
 }
 

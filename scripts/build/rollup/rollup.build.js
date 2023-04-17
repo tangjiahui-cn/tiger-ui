@@ -18,7 +18,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const resolvePath = (...args) => path.resolve(__dirname, ...args)
 
 /**
- * it's a risk way to use Rollup for build this components library.
+ * it's a risk way to use Rollup for build this component library.
  * you can try, but don't publish to npm.
  */
 const root = pathDes => resolvePath('../../../', pathDes)
@@ -51,7 +51,7 @@ export default {
       modules: true,
       extract: true,
       plugins: [
-        // TODO: if you use postcssModule, can't get right className.
+        // TODO: if you use postcssModule and extract .css file, can't get right className.
         autoprefixer(),
         // postcssModule({
         //   generateScopedName: '[local]',

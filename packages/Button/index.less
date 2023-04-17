@@ -5,10 +5,19 @@
   padding: 4px 8px;
   border-radius: 2px;
   cursor: pointer;
-  transition: color .2s, border-color .2s;
+  transition: all .2s;
+  box-sizing: border-box;
 
   &:hover {
     color: blue;
     border-color: blue;
+  }
+
+  &:active {
+    background-color: #f7f9fd;
+  }
+
+  &:focus {
+    outline: 1px solid blue;
   }
 }
