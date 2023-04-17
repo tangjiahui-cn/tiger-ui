@@ -9,6 +9,7 @@ const devConfig = {
   mode: 'development',
   entry: root('./examples/src/index.tsx'),
   devServer: {
+    open: true,
     port: 10000,
   },
   devtool: 'source-map',

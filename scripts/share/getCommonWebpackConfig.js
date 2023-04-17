@@ -1,23 +1,23 @@
 const path = require('path');
 const miniCssExtractPlugin = require('mini-css-extract-plugin');
-const { root } = require('../index');
+const { root, PKG_NAME } = require('../index');
 
 /**
  * Webpack common config
  */
 const PACKAGES = root('packages')
 
-function getCommonConfig (isDev) {
+function getCommonConfig (__DEV__) {
   // compile include packages path.
-  const includePkg = isDev ? undefined : PACKAGES
+  const includePkg = __DEV__ ? undefined : PACKAGES
 
   // css loaders.
   const cssLoaders = [
     // css modules. just for start a local web application.
-    isDev && 'style-loader',
+    __DEV__ && 'style-loader',
 
     // extract css into a file.
-    !isDev && miniCssExtractPlugin.loader,
+    !__DEV__ && miniCssExtractPlugin.loader,
     {
       loader: 'css-loader',
       options: {
@@ -38,6 +38,15 @@ function getCommonConfig (isDev) {
       },
     },
   ].filter(Boolean)
+
+  // babel-import-plugins
+  const babelAutoImport = [
+    "import",
+    {
+      "libraryName": PKG_NAME,
+      "libraryDirectory": 'lib'
+    }
+  ]
 
   return {
     resolve: {
@@ -70,6 +79,7 @@ function getCommonConfig (isDev) {
           use: {
             loader: 'babel-loader',
             options: {
+              plugins: [babelAutoImport],
               presets: [
                 '@babel/preset-env',
                 '@babel/preset-typescript',
@@ -84,6 +94,7 @@ function getCommonConfig (isDev) {
           use: {
             loader: 'babel-loader',
             options: {
+              plugins: [babelAutoImport],
               presets: [
                 '@babel/preset-env',
                 '@babel/preset-react',

@@ -4,21 +4,42 @@ const miniCssExtractPlugin = require('mini-css-extract-plugin')
 const cssMinimizerWebpackPlugin = require('css-minimizer-webpack-plugin')
 const terserWebpackPlugin = require('terser-webpack-plugin')
 const { getCommonConfig } = require('../share/getCommonWebpackConfig')
-const { root, mergeWebpack } = require('../index')
+const { root, mergeWebpack, PKG_NAME } = require('../index')
+const { getPackageNamePathMap } = require('../share/getPackages')
 
 /**
  * Webpack build config
  */
 
-const pkg = require(root('package.json'))
+// it's a entry point name.
+const ENTRY = 'index'
+// component's name-absPath mapping.
+const packagesNamePathMap = getPackageNamePathMap(root('packages'))
+
+function isEntryName (name) {
+  return name === 'index'
+}
+
+function getExtractCssPath (config) {
+  const pkgName = config?.chunk?.name
+  return isEntryName(pkgName) ? 'index.css' : `${pkgName}/index.css`
+}
+
+function getOutFileName (pathData) {
+  const pkgName = pathData?.chunk?.name
+  return isEntryName(pkgName) ? 'index.js' : `${pkgName}/index.js`
+}
 
 const prodConfig =  {
   mode: 'production',
-  entry: root('./packages/index.ts'),
+  entry: {
+    [ENTRY]: root('./packages/index.ts'),
+    ...packagesNamePathMap
+  },
   output: {
     clean: false,
-    filename: 'index.js',
-    library: pkg.name,
+    filename: getOutFileName,
+    library: PKG_NAME,
     libraryTarget: 'umd',
     globalObject: 'this',
     path: root('lib')
@@ -30,11 +51,11 @@ const prodConfig =  {
       new cssMinimizerWebpackPlugin(),
       // terser js.
       new terserWebpackPlugin()
-    ],
+    ]
   },
   plugins: [
     new miniCssExtractPlugin({
-      filename: 'index.css',
+      filename: getExtractCssPath,
     })
   ]
 }
