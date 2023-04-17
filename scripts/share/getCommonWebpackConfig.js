@@ -49,7 +49,7 @@ function getCommonConfig(__DEV__) {
     },
   ];
 
-  const babelLoaderPresets = __DEV__ ? undefined : [babelAutoImport];
+  const babelLoaderPlugins = __DEV__ ? undefined : [babelAutoImport];
 
   return {
     resolve: {
@@ -80,7 +80,7 @@ function getCommonConfig(__DEV__) {
           use: {
             loader: 'babel-loader',
             options: {
-              plugins: babelLoaderPresets,
+              plugins: babelLoaderPlugins,
               presets: ['@babel/preset-env', '@babel/preset-typescript'],
             },
           },
@@ -92,7 +92,7 @@ function getCommonConfig(__DEV__) {
           use: {
             loader: 'babel-loader',
             options: {
-              plugins: babelLoaderPresets,
+              plugins: babelLoaderPlugins,
               presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
             },
           },
