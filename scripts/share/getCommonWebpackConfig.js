@@ -37,20 +37,6 @@ function getCommonConfig(__DEV__) {
     },
   ].filter(Boolean);
 
-  // babel-import-plugins
-  const babelAutoImport = [
-    'import',
-    {
-      libraryName: NAME,
-      libraryDirectory: 'lib',
-      style: (pkgName) => pkgName,
-      styleLibraryDirectory: 'lib',
-      camel2DashComponentName: false,
-    },
-  ];
-
-  const babelLoaderPlugins = __DEV__ ? undefined : [babelAutoImport];
-
   return {
     resolve: {
       alias,
@@ -80,7 +66,6 @@ function getCommonConfig(__DEV__) {
           use: {
             loader: 'babel-loader',
             options: {
-              plugins: babelLoaderPlugins,
               presets: ['@babel/preset-env', '@babel/preset-typescript'],
             },
           },
@@ -92,7 +77,6 @@ function getCommonConfig(__DEV__) {
           use: {
             loader: 'babel-loader',
             options: {
-              plugins: babelLoaderPlugins,
               presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
             },
           },
