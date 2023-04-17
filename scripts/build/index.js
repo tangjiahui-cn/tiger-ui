@@ -1,10 +1,9 @@
-
 const miniCssExtractPlugin = require('mini-css-extract-plugin')
 // const webpackBundleAnalyzer = require('webpack-bundle-analyzer')
 const cssMinimizerWebpackPlugin = require('css-minimizer-webpack-plugin')
 const terserWebpackPlugin = require('terser-webpack-plugin')
 const { getCommonConfig } = require('../share/getCommonWebpackConfig')
-const { root, mergeWebpack, PKG_NAME } = require('../index')
+const { root, mergeWebpack, NAME } = require('../index')
 const { getPackageNamePathMap } = require('../share/getPackages')
 
 /**
@@ -13,24 +12,28 @@ const { getPackageNamePathMap } = require('../share/getPackages')
 
 // it's a entry point name.
 const ENTRY = 'index'
+
 // component's name-absPath mapping.
 const packagesNamePathMap = getPackageNamePathMap(root('packages'))
 
+// judge is entry point or not.
 function isEntryName (name) {
   return name === 'index'
 }
 
+// extract css to /lib/.../index.css.
 function getExtractCssPath (config) {
   const pkgName = config?.chunk?.name
   return isEntryName(pkgName) ? 'index.css' : `${pkgName}/index.css`
 }
 
-function getOutFileName (pathData) {
+// bundle js to /lib/.../index.js.
+function getOutputFileName (pathData) {
   const pkgName = pathData?.chunk?.name
   return isEntryName(pkgName) ? 'index.js' : `${pkgName}/index.js`
 }
 
-const prodConfig =  {
+module.exports = mergeWebpack(getCommonConfig(), {
   mode: 'production',
   entry: {
     [ENTRY]: root('./packages/index.ts'),
@@ -38,8 +41,8 @@ const prodConfig =  {
   },
   output: {
     clean: false,
-    filename: getOutFileName,
-    library: PKG_NAME,
+    filename: getOutputFileName,
+    library: NAME,
     libraryTarget: 'umd',
     globalObject: 'this',
     path: root('lib')
@@ -47,9 +50,9 @@ const prodConfig =  {
   externals: ['react', 'react-dom'],
   optimization: {
     minimizer: [
-      // terser css.
+      // compress css.
       new cssMinimizerWebpackPlugin(),
-      // terser js.
+      // compress js.
       new terserWebpackPlugin()
     ]
   },
@@ -58,6 +61,4 @@ const prodConfig =  {
       filename: getExtractCssPath,
     })
   ]
-}
-
-module.exports = mergeWebpack(getCommonConfig(), prodConfig)
+})

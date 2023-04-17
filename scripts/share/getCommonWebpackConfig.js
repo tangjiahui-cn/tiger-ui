@@ -1,6 +1,6 @@
-const path = require('path');
 const miniCssExtractPlugin = require('mini-css-extract-plugin');
-const { root, PKG_NAME } = require('../index');
+const { root, NAME } = require('../index');
+const alias = require('../share/alias');
 
 /**
  * Webpack common config
@@ -16,7 +16,7 @@ function getCommonConfig (__DEV__) {
     // css modules. just for start a local web application.
     __DEV__ && 'style-loader',
 
-    // extract css into a file.
+    // extract css into .css file.
     !__DEV__ && miniCssExtractPlugin.loader,
     {
       loader: 'css-loader',
@@ -43,13 +43,19 @@ function getCommonConfig (__DEV__) {
   const babelAutoImport = [
     "import",
     {
-      "libraryName": PKG_NAME,
-      "libraryDirectory": 'lib'
+      "libraryName": NAME,
+      "libraryDirectory": 'lib',
+      "style": pkgName => pkgName,
+      "styleLibraryDirectory": 'lib',
+      "camel2DashComponentName": false
     }
   ]
 
+  const babelLoaderPresets = __DEV__ ? undefined : [babelAutoImport]
+
   return {
     resolve: {
+      alias,
       extensions: ['.js', '.ts', '.tsx', '.less', '.css'],
     },
     performance: {
@@ -79,7 +85,7 @@ function getCommonConfig (__DEV__) {
           use: {
             loader: 'babel-loader',
             options: {
-              plugins: [babelAutoImport],
+              plugins: babelLoaderPresets,
               presets: [
                 '@babel/preset-env',
                 '@babel/preset-typescript',
@@ -94,7 +100,7 @@ function getCommonConfig (__DEV__) {
           use: {
             loader: 'babel-loader',
             options: {
-              plugins: [babelAutoImport],
+              plugins: babelLoaderPresets,
               presets: [
                 '@babel/preset-env',
                 '@babel/preset-react',

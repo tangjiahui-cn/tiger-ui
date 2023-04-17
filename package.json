@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/tangjiahui-cn/tiger-ui#readme",
   "engines": {
-    "node": ">= 14.x"
+    "node": ">= 14.x || 16.x.x"
   },
   "peerDependencies": {
     "react": ">= 18",

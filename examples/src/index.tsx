@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from 'react-dom/client';
-import {Button, Input} from '../../packages';
+import {Button, Input} from 'tiger-ui';
 // import {Button, Input} from '../../lib/index';
 // import '../../lib/index.css';
 

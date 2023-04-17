@@ -5,7 +5,7 @@ const { root, mergeWebpack } = require('../index')
 /**
  * Webpack server config.
  */
-const devConfig = {
+module.exports = mergeWebpack(getCommonConfig(true), {
   mode: 'development',
   entry: root('./examples/src/index.tsx'),
   devServer: {
@@ -18,6 +18,4 @@ const devConfig = {
       template: root('./examples/public/index.html'),
     })
   ]
-}
-
-module.exports = mergeWebpack(devConfig, getCommonConfig(true))
+})
