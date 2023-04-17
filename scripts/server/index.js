@@ -1,6 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { getCommonConfig } = require('../share/getCommonWebpackConfig');
-const { root, mergeWebpack } = require('../index')
+const { root, mergeWebpack } = require('../index');
 
 /**
  * Webpack server config.
@@ -16,6 +16,6 @@ module.exports = mergeWebpack(getCommonConfig(true), {
   plugins: [
     new HtmlWebpackPlugin({
       template: root('./examples/public/index.html'),
-    })
-  ]
-})
+    }),
+  ],
+});

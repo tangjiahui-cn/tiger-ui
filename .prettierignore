@@ -1,0 +1,9 @@
+*.yaml
+*.json
+
+lib
+node_modules
+*ignore
+LICENSE
+*.md
+*.d.ts

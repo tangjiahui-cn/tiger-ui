@@ -6,6 +6,5 @@ export interface ButtonProps {
 }
 
 export default function () {
-
-  return <button className={Styles.my_btn}>按钮</button>
+  return <button className={Styles.my_btn}>按钮</button>;
 }

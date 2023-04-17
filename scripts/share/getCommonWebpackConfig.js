@@ -5,11 +5,11 @@ const alias = require('../share/alias');
 /**
  * Webpack common config
  */
-const PACKAGES = root('packages')
+const PACKAGES = root('packages');
 
-function getCommonConfig (__DEV__) {
+function getCommonConfig(__DEV__) {
   // compile include packages path.
-  const includePkg = __DEV__ ? undefined : PACKAGES
+  const includePkg = __DEV__ ? undefined : PACKAGES;
 
   // css loaders.
   const cssLoaders = [
@@ -23,35 +23,33 @@ function getCommonConfig (__DEV__) {
       options: {
         modules: {
           mode: 'local',
-          localIdentName: '[local]'
-        }
-      }
-    },
-    {
-      loader: "postcss-loader",
-      options: {
-        postcssOptions: {
-          plugins: [
-            "autoprefixer"
-          ],
+          localIdentName: '[local]',
         },
       },
     },
-  ].filter(Boolean)
+    {
+      loader: 'postcss-loader',
+      options: {
+        postcssOptions: {
+          plugins: ['autoprefixer'],
+        },
+      },
+    },
+  ].filter(Boolean);
 
   // babel-import-plugins
   const babelAutoImport = [
-    "import",
+    'import',
     {
-      "libraryName": NAME,
-      "libraryDirectory": 'lib',
-      "style": pkgName => pkgName,
-      "styleLibraryDirectory": 'lib',
-      "camel2DashComponentName": false
-    }
-  ]
+      libraryName: NAME,
+      libraryDirectory: 'lib',
+      style: (pkgName) => pkgName,
+      styleLibraryDirectory: 'lib',
+      camel2DashComponentName: false,
+    },
+  ];
 
-  const babelLoaderPresets = __DEV__ ? undefined : [babelAutoImport]
+  const babelLoaderPresets = __DEV__ ? undefined : [babelAutoImport];
 
   return {
     resolve: {
@@ -59,7 +57,7 @@ function getCommonConfig (__DEV__) {
       extensions: ['.js', '.ts', '.tsx', '.less', '.css'],
     },
     performance: {
-      hints: false
+      hints: false,
     },
     module: {
       rules: [
@@ -67,16 +65,13 @@ function getCommonConfig (__DEV__) {
         {
           include: includePkg,
           test: /\.css/,
-          use: cssLoaders
+          use: cssLoaders,
         },
         // less
         {
           include: includePkg,
           test: /\.less$/,
-          use: [
-            ...cssLoaders,
-            'less-loader'
-          ]
+          use: [...cssLoaders, 'less-loader'],
         },
         // ts
         {
@@ -86,12 +81,9 @@ function getCommonConfig (__DEV__) {
             loader: 'babel-loader',
             options: {
               plugins: babelLoaderPresets,
-              presets: [
-                '@babel/preset-env',
-                '@babel/preset-typescript',
-              ]
-            }
-          }
+              presets: ['@babel/preset-env', '@babel/preset-typescript'],
+            },
+          },
         },
         // tsx
         {
@@ -105,13 +97,13 @@ function getCommonConfig (__DEV__) {
                 '@babel/preset-env',
                 '@babel/preset-react',
                 '@babel/preset-typescript',
-              ]
-            }
-          }
-        }
-      ]
+              ],
+            },
+          },
+        },
+      ],
     },
-  }
+  };
 }
 
-module.exports.getCommonConfig = getCommonConfig
+module.exports.getCommonConfig = getCommonConfig;

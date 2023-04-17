@@ -14,14 +14,14 @@ import { fileURLToPath } from 'url';
 import autoprefixer from 'autoprefixer';
 import terser from '@rollup/plugin-terser';
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const resolvePath = (...args) => path.resolve(__dirname, ...args)
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const resolvePath = (...args) => path.resolve(__dirname, ...args);
 
 /**
  * it's a risk way to use Rollup for build this component library.
  * you can try, but don't publish to npm.
  */
-const root = pathDes => resolvePath('../../../', pathDes)
+const root = (pathDes) => resolvePath('../../../', pathDes);
 
 export default {
   external: ['react', 'react-dom'],
@@ -30,8 +30,8 @@ export default {
     {
       name: 'index',
       format: 'es',
-      dir: 'dist'
-    }
+      dir: 'dist',
+    },
   ],
   plugins: [
     progress(),
@@ -39,11 +39,11 @@ export default {
     commonjs(),
     alias({
       entries: {
-        '@/': root('./packages/')
-      }
+        '@/': root('./packages/'),
+      },
     }),
     typescript({
-      tsconfig: root('tsconfig.json')
+      tsconfig: root('tsconfig.json'),
     }),
     json(),
     babel(),
@@ -57,13 +57,13 @@ export default {
         //   generateScopedName: '[local]',
         //   getJSON: () => null
         // }),
-        cssnano()
+        cssnano(),
       ],
     }),
     url({
       // max 20kb inject to code.
-      limit: 20 * 1024
+      limit: 20 * 1024,
     }),
-    terser()
-  ]
-}
+    terser(),
+  ],
+};
