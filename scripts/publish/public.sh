@@ -25,9 +25,9 @@ git tag ${TAG_NAME}
 
 # 4、打印消息
 printf "\n\n"
-printf "---> UPDATE SUCCESS!\n"
-printf "---> Tag is ${TAG_NAME}.\n"
-printf "---> Version is ${VERSION}.\n"
+printf "【BUILD SUCCESS】\n"
+printf "Tag is ${TAG_NAME}.\n"
+printf "Version is ${VERSION}.\n"
 printf "\n\n"
 
 # 5、生成changelog
