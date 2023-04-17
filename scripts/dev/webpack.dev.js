@@ -2,13 +2,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 /**
- * project root directory path.
+ * Webpack server config.
  */
-const rootPath = pathName => path.resolve(__dirname, '../../', pathName)
+const root = pathName => path.resolve(__dirname, '../../', pathName)
 
 module.exports = {
   mode: 'development',
-  entry: rootPath('./examples/src/index.tsx'),
+  entry: root('./examples/src/index.tsx'),
   devServer: {
     open: true,
     port: 10000,
@@ -56,7 +56,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: rootPath('./examples/public/index.html'),
+      template: root('./examples/public/index.html'),
     })
   ]
 }

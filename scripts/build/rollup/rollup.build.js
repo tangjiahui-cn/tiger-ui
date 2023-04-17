@@ -18,13 +18,14 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const resolvePath = (...args) => path.resolve(__dirname, ...args)
 
 /**
- * project root directory path.
+ * it's a risk way to use Rollup for build this components library.
+ * you can try, but don't publish to npm.
  */
-const rootPath = pathDes => resolvePath('../../', pathDes)
+const root = pathDes => resolvePath('../../../', pathDes)
 
 export default {
   external: ['react', 'react-dom'],
-  input: rootPath('./packages/index.ts'),
+  input: root('./packages/index.ts'),
   output: [
     {
       name: 'index',
@@ -38,11 +39,11 @@ export default {
     commonjs(),
     alias({
       entries: {
-        '@/': rootPath('./packages/')
+        '@/': root('./packages/')
       }
     }),
     typescript({
-      tsconfig: rootPath('tsconfig.json')
+      tsconfig: root('tsconfig.json')
     }),
     json(),
     babel(),
@@ -50,6 +51,7 @@ export default {
       modules: true,
       extract: true,
       plugins: [
+        // TODO: if you use postcssModule, can't get right className.
         autoprefixer(),
         // postcssModule({
         //   generateScopedName: '[local]',

@@ -17,18 +17,20 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "emitDeclarationOnly": true,
     "jsx": "react-jsx",
     "paths": {
       "@/*": [
         "./packages/*"
       ]
     },
+    "baseUrl": ".",
+    "outDir": "./lib",
     "declaration": true,
-    "declarationDir": "dist"
+    "declarationDir": "./lib"
   },
   "include": [
-    "./packages",
-    "./typings.d.ts"
+    "packages",
+    "typings.d.ts"
   ]
 }

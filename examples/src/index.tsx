@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from 'react-dom/client';
 import {Button} from '../../packages';
-// import '../../dist/index.css';
-// import {Button} from '../../dist/index';
+// import {Button} from '../../lib/index';
+// import '../../lib/index.css';
 
 function App () {
   return <div>
