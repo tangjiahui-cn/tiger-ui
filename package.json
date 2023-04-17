@@ -10,12 +10,11 @@
   "private": false,
   "scripts": {
     "dev": "cross-env webpack serve -c scripts/server/index.js",
-    "build": "rimraf lib && cross-env webpack -c scripts/build/index.js && tsc",
+    "build": "rimraf lib && cross-env webpack -c scripts/build/index.js && tsc -p ./tsconfig.json",
     "build-rollup": "rimraf lib && rollup -c scripts/build/rollup/rollup.build.js --bundleConfigAsCjs",
-    "tsc": "tsc -p ./tsconfig.json",
-    "commit": "git-cz",
-    "prettier": "prettier --write .",
-    "publish-pms": "pnpm build && sh scripts/publish/public.sh",
+    "commit": "git add . && git-cz",
+    "fomat-code-all": "eslint --ext .js,.ts,.jsx,.tsx */* --fix && prettier --write .",
+    "publish-npm": "pnpm build && sh scripts/publish/public.sh",
     "prepare": "husky install"
   },
   "files": [
