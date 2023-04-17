@@ -4,6 +4,9 @@
   "description": "A React components library.",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
+  "author": "tangjiahui-cn",
+  "homepage": "https://github.com/tangjiahui-cn/tiger-ui#readme",
+  "license": "MIT",
   "private": false,
   "scripts": {
     "dev": "cross-env webpack serve -c scripts/server/index.js",
@@ -12,14 +15,13 @@
     "tsc": "tsc -p ./tsconfig.json",
     "commit": "git-cz",
     "prettier": "prettier --write .",
+    "publish-pms": "pnpm build && sh scripts/publish/public.sh",
     "prepare": "husky install"
   },
-  "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": [
-      "prettier --write .",
-      "eslint */* --fix"
-    ]
-  },
+  "files": [
+    "lib",
+    "packages"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tangjiahui-cn/tiger-ui.git"
@@ -28,12 +30,9 @@
     "React",
     "components"
   ],
-  "author": "tangjiahui-cn",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/tangjiahui-cn/tiger-ui/issues"
   },
-  "homepage": "https://github.com/tangjiahui-cn/tiger-ui#readme",
   "engines": {
     "node": ">= 14.x || 16.x.x"
   },
@@ -65,6 +64,7 @@
     "babel-loader": "^9.1.2",
     "babel-plugin-import": "^1.13.6",
     "commitizen": "^4.3.0",
+    "conventional-changelog-cli": "^2.2.2",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.3",
     "css-minimizer-webpack-plugin": "^5.0.0",
@@ -100,11 +100,6 @@
     "webpack-dev-server": "^4.13.3",
     "webpack-merge": "^5.8.0"
   },
-  "config": {
-    "commitizen": {
-      "path": "@commitlint/cz-commitlint"
-    }
-  },
   "browserslist": [
     "defaults",
     "not ie < 8",
@@ -112,5 +107,16 @@
     "> 1%",
     "iOS 7",
     "last 3 iOS versions"
-  ]
+  ],
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "prettier --write .",
+      "eslint */* --fix"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    }
+  }
 }
