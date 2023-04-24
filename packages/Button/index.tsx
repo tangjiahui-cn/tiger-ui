@@ -1,8 +1,8 @@
-import React, { MouseEventHandler, useMemo } from "react";
-import styles from "./index.less";
+import React, { MouseEventHandler, useMemo } from 'react';
+import styles from './index.less';
 
-export type ButtonType = "primary" | "dashed" | "default" | "text" | "dotted";
-export type ButtonSize = "large" | "middle" | "small";
+export type ButtonType = 'primary' | 'dashed' | 'default' | 'text' | 'dotted';
+export type ButtonSize = 'large' | 'middle' | 'small';
 
 export interface ButtonProps {
   // 按钮类型
@@ -35,17 +35,15 @@ export interface ButtonProps {
 export default function Button(props: ButtonProps) {
   const classes = useMemo(() => {
     return [
-      styles["btn"],
+      styles['btn'],
       styles[`btn-${props?.type}`],
       styles[`btn-${props?.size}`],
-      props?.danger && styles["btn-danger"],
-      props?.block && styles["btn-block"]
+      props?.danger && styles['btn-danger'],
+      props?.block && styles['btn-block'],
     ]
       .filter(Boolean)
-      .join(" ");
-  }, [
-    props?.type, props?.size, props?.danger, props?.block
-  ]);
+      .join(' ');
+  }, [props?.type, props?.size, props?.danger, props?.block]);
 
   return (
     <button
@@ -60,10 +58,10 @@ export default function Button(props: ButtonProps) {
 }
 
 Button.defaultProps = {
-  type: "default",
+  type: 'default',
   block: false,
   disabled: false,
   danger: false,
   // loading: false,
-  size: "middle"
+  size: 'middle',
 };
