@@ -1,8 +1,8 @@
-import React, { MouseEventHandler } from "react";
-import styles from "./index.less";
+import React, { MouseEventHandler } from 'react';
+import styles from './index.less';
 
-export type ButtonType = "primary" | 'dashed' | 'default' | 'text' | 'dotted';
-export type ButtonSize = "large" | "middle" | "small";
+export type ButtonType = 'primary' | 'dashed' | 'default' | 'text' | 'dotted';
+export type ButtonSize = 'large' | 'middle' | 'small';
 
 export interface ButtonProps {
   // 按钮类型
@@ -32,23 +32,27 @@ export interface ButtonProps {
  * At 2023/04/24
  * By TangJiaHui
  */
-export default function Button (props: ButtonProps) {
+export default function Button(props: ButtonProps) {
   const classes = [
     styles['btn'],
     styles[`btn-${props?.type}`],
     styles[`btn-${props?.size}`],
     props?.danger && styles['btn-danger'],
-    props?.block && styles['btn-block']
-  ].filter(Boolean).join(' ')
+    props?.block && styles['btn-block'],
+  ]
+    .filter(Boolean)
+    .join(' ');
 
-  return <button
-    className={classes}
-    disabled={props?.disabled}
-    onClick={props?.onClick}
-    style={props?.style}
-  >
-    {props?.children}
-  </button>;
+  return (
+    <button
+      className={classes}
+      disabled={props?.disabled}
+      onClick={props?.onClick}
+      style={props?.style}
+    >
+      {props?.children}
+    </button>
+  );
 }
 
 Button.defaultProps = {
@@ -57,5 +61,5 @@ Button.defaultProps = {
   disabled: false,
   danger: false,
   // loading: false,
-  size: 'middle'
-}
+  size: 'middle',
+};

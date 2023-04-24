@@ -18,10 +18,9 @@ function getPackageNames(directoryPath, matchedRegExp) {
   return fileNameList.filter((fileName) => {
     let matched = true;
     if (matchedRegExp) {
-      matched = matchedRegExp.test(fileName)
+      matched = matchedRegExp.test(fileName);
     }
-    return matched &&
-      isDirectory(path.resolve(directoryPath, fileName));
+    return matched && isDirectory(path.resolve(directoryPath, fileName));
   });
 }
 
@@ -30,7 +29,7 @@ function getPackageNames(directoryPath, matchedRegExp) {
  * get directory name-absPath mapping under 'directoryPath'
  */
 function getPackageNamePathMap(directoryPath) {
-  const matchedRegExp = /^[a-zA-Z](\w)*/
+  const matchedRegExp = /^[a-zA-Z](\w)*/;
   return getPackageNames(directoryPath, matchedRegExp).reduce((namePathMap, name) => {
     namePathMap[name] = root(directoryPath, name);
     return namePathMap;
