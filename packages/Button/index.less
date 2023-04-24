@@ -1,22 +1,183 @@
-.my_btn {
-  color: #151515;
-  background-color: white;
-  border: 1px solid #e8e8e8;
-  padding: 4px 8px;
-  border-radius: 2px;
-  cursor: pointer;
-  transition: all 0.2s;
+@import "../_style/theme";
 
+.btn-hover-primary () {
   &:hover {
-    color: blue;
-    border-color: blue;
+    background-color: @primaryHover;
+    border-color: @primaryHover;
   }
 
   &:active {
-    background-color: #f7f9fd;
+    background-color: @primaryActive;
+    border-color: @primaryActive;
   }
 
-  &:focus {
-    //outline: 1px solid blue;
+  &:disabled {
+    color: @disabled;
+    background-color: @disabledBg;
+    border-color: @disabled;
+  }
+}
+
+.btn-hover-default () {
+  transition: color @duration, border-color @duration;
+  .btn-danger-default();
+
+  &:hover {
+    color: @primaryHover;
+    border-color: @primaryHover;
+  }
+
+  &:active {
+    color: @primaryActive;
+    border-color: @primaryActive;
+  }
+
+  &:disabled {
+    color: @disabled;
+    border-color: @disabled;
+  }
+}
+
+.btn-hover-text () {
+  &:hover {
+    color: @textHover;
+  }
+
+  &:active {
+    color: @textActive;
+  }
+
+  &:disabled {
+    color: @disabled;
+    border-color: transparent;
+  }
+}
+
+.btn-danger-primary () {
+  &.btn-danger {
+    background-color: @danger;
+    border-color: @danger;
+
+    &:hover {
+      background-color: @dangerHover;
+      border-color: @dangerHover;
+    }
+
+    &:active {
+      background-color: @dangerActive;
+      border-color: @dangerActive;
+    }
+
+    &:disabled {
+      color: white;
+      background-color: @dangerDisabled;
+      border-color: @dangerDisabled;
+    }
+  }
+}
+
+.btn-danger-default () {
+  &.btn-danger {
+    color: @danger;
+    border-color: @danger;
+
+    &:hover {
+      color: @dangerHover;
+      border-color: @dangerHover;
+    }
+
+    &:active {
+      color: @dangerActive;
+      border-color: @dangerActive;
+    }
+
+    &:disabled {
+      color: @dangerDisabled;
+      border-color: @dangerDisabled;
+    }
+  }
+}
+
+.btn-danger-text () {
+  &.btn-danger {
+    color: @danger;
+
+    &:hover {
+      color: @dangerHover;
+    }
+
+    &:active {
+      color: @dangerActive;
+    }
+
+    &:disabled {
+      color: @dangerDisabled;
+      background: transparent;
+      border-color: transparent;
+    }
+  }
+}
+
+.btn {
+  font-size: @fontSize;
+  cursor: pointer;
+  user-select: none;
+  color: @color;
+  background: white;
+  border: 1px solid @borderColor;
+
+  &-default {
+    .btn-hover-default();
+  }
+
+  &-primary {
+    color: white;
+    background: @primary;
+    border-color: @primary;
+    transition: background-color @duration, border-color @duration;
+    .btn-danger-primary();
+    .btn-hover-primary();
+  }
+
+  &-dashed {
+    color: @color;
+    border-style: dashed;
+    .btn-hover-default();
+  }
+
+  &-dotted {
+    color: @color;
+    border-style: dotted;
+    .btn-hover-default();
+  }
+
+  &-text {
+    background: white;
+    border-color: transparent;
+    transition: color @duration;
+    .btn-danger-text();
+    .btn-hover-text();
+  }
+
+  &-block {
+    width: 100%;
+    display: block;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &-large {
+    padding: @paddingLarge;
+    font-size: @fontSizeLarge;
+  }
+
+  &-middle {
+    padding: @padding;
+  }
+
+  &-small {
+    padding: @paddingSmall;
   }
 }
