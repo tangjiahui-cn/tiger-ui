@@ -19,7 +19,6 @@
 }
 
 .btn-hover-default () {
-  transition: color @duration, border-color @duration;
   .btn-danger-default();
 
   &:hover {
@@ -126,6 +125,7 @@
   color: @color;
   background: white;
   border: 1px solid @borderColor;
+  transition: all @duration;
 
   &-default {
     .btn-hover-default();
@@ -135,7 +135,6 @@
     color: white;
     background: @primary;
     border-color: @primary;
-    transition: background-color @duration, border-color @duration;
     .btn-danger-primary();
     .btn-hover-primary();
   }
@@ -155,7 +154,6 @@
   &-text {
     background: white;
     border-color: transparent;
-    transition: color @duration;
     .btn-danger-text();
     .btn-hover-text();
   }
