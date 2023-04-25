@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Button Null and Undefined Children test should render empty button without errors 1`] = `
+exports[`Button Null and Undefined Children test should render null or undefined in children without errors 1`] = `
 <button
   class="btn btn-default btn-middle"
 />
