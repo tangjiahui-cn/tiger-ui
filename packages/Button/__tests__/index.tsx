@@ -1,6 +1,5 @@
-import * as renderer from 'react-test-renderer';
 import Button from '..';
-import { act, cleanup, fireEvent, FireFunction, FireObject, render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import React from 'react';
 import {
