@@ -8,7 +8,7 @@ import {
   mountTest,
   nullAndUndefinedChildrenTest,
   reactFragmentTest,
-  classNameTest,
+  cssSelectorTest,
 } from '../../../tests';
 
 describe('Button', () => {
@@ -28,12 +28,12 @@ describe('Button', () => {
     click: (triggerFn: any) => <Button onClick={triggerFn} />,
   });
 
-  classNameTest(['.btn', '.btn-default'], Button);
-  classNameTest(['.btn-danger'], () => <Button danger />);
-  classNameTest(['.btn-primary'], () => <Button type={'primary'} />);
-  classNameTest(['.btn-large'], () => <Button size={'large'} />);
-  classNameTest(['.btn-block'], () => <Button block />);
-  classNameTest(['[disabled]'], () => <Button disabled />);
+  cssSelectorTest(['.btn', '.btn-default'], Button);
+  cssSelectorTest(['.btn-danger'], () => <Button danger />);
+  cssSelectorTest(['.btn-primary'], () => <Button type={'primary'} />);
+  cssSelectorTest(['.btn-large'], () => <Button size={'large'} />);
+  cssSelectorTest(['.btn-block'], () => <Button block />);
+  cssSelectorTest(['[disabled]'], () => <Button disabled />);
 
   nullAndUndefinedChildrenTest(Button);
 
