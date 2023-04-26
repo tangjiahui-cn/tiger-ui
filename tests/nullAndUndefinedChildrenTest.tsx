@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function nullAndUndefinedChildrenTest(Component: React.ElementType) {
   describe('Null and Undefined Children test', () => {
-    it('should render empty button without errors', () => {
+    it('should render null or undefined in children without errors', () => {
       const wrapper = render(
         <Component>
           {null}
