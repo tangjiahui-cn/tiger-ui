@@ -32,5 +32,8 @@
   "include": [
     "packages",
     "typings.d.ts"
+  ],
+  "exclude": [
+    "**/__tests__"
   ]
 }
