@@ -126,6 +126,15 @@
   background: white;
   border: 1px solid @borderColor;
   transition: all @duration;
+  vertical-align: middle;
+
+  &:focus {
+    outline-color: @primary;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 
   &-default {
     .btn-hover-default();
@@ -161,10 +170,6 @@
   &-block {
     width: 100%;
     display: block;
-  }
-
-  &:disabled {
-    cursor: not-allowed;
   }
 
   &-large {

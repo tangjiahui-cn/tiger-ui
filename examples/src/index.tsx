@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 // import { Button, Input } from 'tiger-ui';
 import { Button, Input } from '../../packages';
@@ -6,60 +6,39 @@ import { Button, Input } from '../../packages';
 // import '../../lib/index.css';
 
 function App() {
+  const [inputValue, setInputValue] = useState<any>('');
   return (
     <div>
       <div>
-        <Button type={'primary'} size={'large'}>
-          按 钮
-        </Button>
-        <Button type={'default'} size={'large'}>
-          按 钮
-        </Button>
-        <Button type={'dashed'} size={'large'}>
-          按钮
-        </Button>
-        <Button type={'dotted'} size={'large'}>
-          按钮
-        </Button>
-        <Button type={'text'} size={'large'}>
-          按钮
-        </Button>
+        你好中国
+        <Button size={'middle'}>按钮</Button>
+        <Input value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
+        <Input
+          prefix={'11'}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          suffix={'22'}
+        />
       </div>
-
-      <div style={{ marginTop: 8 }}>
-        <Button type={'primary'} size={'middle'}>
-          按 钮
-        </Button>
-        <Button type={'default'} size={'middle'}>
-          按 钮
-        </Button>
-        <Button type={'dashed'} size={'middle'}>
-          按钮
-        </Button>
-        <Button type={'dotted'} size={'middle'}>
-          按钮
-        </Button>
-        <Button type={'text'} size={'middle'}>
-          按钮
-        </Button>
+      <div>
+        <Button size={'large'}>按钮</Button>
+        <Input size={'large'} value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
+        <Input
+          prefix={'11'}
+          size={'large'}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
       </div>
-
-      <div style={{ marginTop: 8 }}>
-        <Button type={'primary'} size={'small'}>
-          按钮
-        </Button>
-        <Button type={'default'} size={'small'}>
-          按钮
-        </Button>
-        <Button type={'dashed'} size={'small'}>
-          按钮
-        </Button>
-        <Button type={'dotted'} size={'small'}>
-          按钮
-        </Button>
-        <Button type={'text'} size={'small'}>
-          按钮
-        </Button>
+      <div>
+        <Button size={'small'}>按钮</Button>
+        <Input size={'small'} value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
+        <Input
+          prefix={'11'}
+          size={'small'}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
       </div>
     </div>
   );

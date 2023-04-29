@@ -1,8 +1,9 @@
 import React, { MouseEventHandler, useMemo } from 'react';
 import styles from './index.less';
+import { SizeType } from '../_types/common';
 
 export type ButtonType = 'primary' | 'dashed' | 'default' | 'text' | 'dotted';
-export type ButtonSize = 'large' | 'middle' | 'small';
+export type ButtonSize = SizeType;
 
 export interface ButtonProps {
   // 按钮类型
@@ -20,7 +21,7 @@ export interface ButtonProps {
   size?: ButtonSize;
   // 内联样式
   style?: React.CSSProperties;
-  // 点击事件回调
+  // onClick回调事件
   onClick?: MouseEventHandler<HTMLButtonElement>;
   // 子元素
   children?: any;
