@@ -1,4 +1,10 @@
 @import '../_style/theme';
+.disabled () {
+  border-color: @disabled;
+  color: @disabled;
+  background-color: @disabledBg;
+  cursor: not-allowed;
+}
 
 .input {
   font-size: @fontSize;
@@ -12,6 +18,10 @@
 
   &:focus {
     outline: none;
+  }
+
+  &:disabled {
+    .disabled();
   }
 
   &-only {
@@ -76,5 +86,9 @@
 
   & > input:focus ~ .input-border {
     border: 1px solid @primary;
+  }
+
+  &-disabled {
+    .disabled();
   }
 }

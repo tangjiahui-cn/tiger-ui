@@ -15,21 +15,30 @@ export interface InputProps {
   suffix?: string | JSX.Element;
   // 输入框占位符
   placeholder?: string;
+  // 禁止选中输入框
+  disabled?: boolean;
   // onChange回调事件
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function Input(props: InputProps) {
-  const [classes, isPure] = useMemo(() => {
+  const [wrapperClasses, classes, isPure] = useMemo(() => {
     const isPure = !(props.prefix || props.suffix);
+    const wrapperClasses = [
+      styles['input-wrapper'],
+      props.disabled && styles['input-wrapper-disabled'],
+    ]
+      .filter(Boolean)
+      .join(' ');
     const classes = [styles['input'], styles[`input-${props.size}`], isPure && styles['input-only']]
       .filter(Boolean)
       .join(' ');
-    return [classes, isPure];
+    return [wrapperClasses, classes, isPure];
   }, [props.prefix, props.suffix, props.size]);
 
   const InputEl = (
     <input
+      disabled={props.disabled}
       className={classes}
       placeholder={props?.placeholder}
       value={props?.value}
@@ -44,7 +53,7 @@ export default function Input(props: InputProps) {
   }
 
   return (
-    <span className={styles['input-wrapper']}>
+    <span className={wrapperClasses}>
       {props?.prefix && <span className={styles['input-fix-prefix']}>{props?.prefix}</span>}
       {InputEl}
       {props.suffix && <span className={styles['input-fix-suffix']}>{props?.suffix}</span>}

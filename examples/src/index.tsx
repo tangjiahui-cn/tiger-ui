@@ -6,15 +6,19 @@ import { Button, Input } from '../../packages';
 // import '../../lib/index.css';
 
 function App() {
-  const [inputValue, setInputValue] = useState<any>('');
+  const [inputValue, setInputValue] = useState<any>('fsdfasd');
   return (
     <div>
       <div>
+        <Button size={'middle'}>按钮</Button>
+      </div>
+      <div>
         你好中国
         <Button size={'middle'}>按钮</Button>
-        <Input value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
+        <Input value={inputValue} onChange={(e) => setInputValue(e.target.value)} disabled />
         <Input
           prefix={'11'}
+          disabled
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           suffix={'22'}
