@@ -13,6 +13,8 @@ export interface InputProps {
   prefix?: string | JSX.Element;
   // 输入框后缀
   suffix?: string | JSX.Element;
+  // 输入框占位符
+  placeholder?: string;
   // onChange回调事件
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -29,7 +31,7 @@ export default function Input(props: InputProps) {
   const InputEl = (
     <input
       className={classes}
-      placeholder={'请输入'}
+      placeholder={props?.placeholder}
       value={props?.value}
       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
         props?.onChange?.(e);
