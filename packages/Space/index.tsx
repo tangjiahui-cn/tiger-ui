@@ -26,7 +26,7 @@ export default function Space(props: SpaceProps) {
     ]
       .filter(Boolean)
       .join(' ');
-  }, [props.block]);
+  }, [props.block, props?.block, props?.direction]);
 
   return (
     <div className={classes} style={{ gap: props?.size, ...(props?.style || {}) }}>
