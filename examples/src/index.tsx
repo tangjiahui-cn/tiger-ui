@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 // import { Button, Input } from 'tiger-ui';
-import { Button, Input, message } from '../../packages';
-// import { Button, Input } from '../../lib/index';
+import { Button, Input, message, Space } from '../../packages';
+// import { Button, Input, message, Space } from '../../lib/index';
 // import '../../lib/index.css';
 
 function App() {
@@ -15,8 +15,8 @@ function App() {
   }, []);
 
   return (
-    <div>
-      <div>
+    <div style={{ padding: 16 }}>
+      <Space>
         <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
           success
         </Button>
@@ -46,7 +46,87 @@ function App() {
         >
           open
         </Button>
-      </div>
+      </Space>
+      1
+      <Space wrap block>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+      </Space>
+      <Space direction={'vertical'}>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
+          success
+        </Button>
+      </Space>
     </div>
   );
 }

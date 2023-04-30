@@ -4,3 +4,5 @@ export { default as Input } from './Input';
 export type { InputProps } from './Input';
 export { default as message } from './Message';
 export type { MessageProps } from './Message';
+export { default as Space } from './Space';
+export type { SpaceProps } from './Space';
