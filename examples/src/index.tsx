@@ -11,6 +11,7 @@ function App() {
   useEffect(() => {
     // message.success('操作成功', 2000)
     // message.success('操作成功2', 1000)
+    // message.info('11')
   }, []);
 
   return (
@@ -36,12 +37,12 @@ function App() {
         </Button>
         <Button
           size={'middle'}
-          onClick={() =>
+          onClick={() => {
             message.open({
               type: 'none',
               message: 'Hello',
-            })
-          }
+            });
+          }}
         >
           open
         </Button>

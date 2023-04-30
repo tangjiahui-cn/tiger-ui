@@ -25,12 +25,12 @@ const defaultMessageOptions: MessageOptions = {
   onClose: undefined,
 };
 
-export type MessageFunction =
-  | ((options: MessageOptions) => void)
-  | ((message: string) => void)
-  | ((message: string, duration: number) => void)
-  | ((message: string, onClose: () => void) => void)
-  | ((message: string, duration: number, onClose: () => void) => void);
+export type MessageOnCloseFn = () => void;
+export type MessageFunction = (
+  msg: string | MessageOptions,
+  duration?: number | MessageOnCloseFn,
+  onClose?: MessageOnCloseFn,
+) => void;
 
 export interface MessageProps {
   // 打开对话框
@@ -108,7 +108,6 @@ export class Message {
     return options;
   }
 
-  public open(options: MessageOptions): void;
   public open() {
     const options: MessageOptions = Object.assign(
       {},
@@ -119,11 +118,6 @@ export class Message {
   }
 
   // success
-  public success(options: MessageOptions): void;
-  public success(message: string): void;
-  public success(message: string, duration: number): void;
-  public success(message: string, onClose: () => void): void;
-  public success(message: string, duration: number, onClose: () => void): void;
   public success() {
     const options: MessageOptions = this.getOptions(arguments);
     options.type = 'success';
@@ -131,11 +125,6 @@ export class Message {
   }
 
   // error
-  public error(options: MessageOptions): void;
-  public error(message: string): void;
-  public error(message: string, duration: number): void;
-  public error(message: string, onClose: () => void): void;
-  public error(message: string, duration: number, onClose: () => void): void;
   public error(): void {
     const options: MessageOptions = this.getOptions(arguments);
     options.type = 'error';
@@ -143,11 +132,6 @@ export class Message {
   }
 
   // warn
-  public warn(options: MessageOptions): void;
-  public warn(message: string): void;
-  public warn(message: string, duration: number): void;
-  public warn(message: string, onClose: () => void): void;
-  public warn(message: string, duration: number, onClose: () => void): void;
   public warn(): void {
     const options: MessageOptions = this.getOptions(arguments);
     options.type = 'warn';
@@ -155,35 +139,18 @@ export class Message {
   }
 
   // warning
-  public warning(options: MessageOptions): void;
-  public warning(message: string): void;
-  public warning(message: string, duration: number): void;
-  public warning(message: string, onClose: () => void): void;
-  public warning(message: string, duration: number, onClose: () => void): void;
   public warning() {
     const options: MessageOptions = this.getOptions(arguments);
     options.type = 'warning';
     this.openMessageBox(options);
   }
 
-  // info
-  public info(options: MessageOptions): void;
-  public info(message: string): void;
-  public info(message: string, duration: number): void;
-  public info(message: string, onClose: () => void): void;
-  public info(message: string, duration: number, onClose: () => void): void;
   public info() {
     const options: MessageOptions = this.getOptions(arguments);
     options.type = 'info';
     this.openMessageBox(options);
   }
 
-  // loading
-  public loading(options: MessageOptions): void;
-  public loading(message: string): void;
-  public loading(message: string, duration: number): void;
-  public loading(message: string, onClose: () => void): void;
-  public loading(message: string, duration: number, onClose: () => void): void;
   public loading() {
     const options: MessageOptions = this.getOptions(arguments);
     options.type = 'loading';
