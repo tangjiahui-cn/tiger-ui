@@ -3,7 +3,8 @@ import styles from './index.less';
 import { SizeType } from '../_types/common';
 
 export interface InputProps {
-  // TODO: 允许清空(使用图标库) // 是否允许清空
+  // TODO: 后面允许清空(使用图标库)
+  // 是否允许清空
   // allowClear?: boolean;
   // 绑定值
   value?: string;
@@ -30,7 +31,7 @@ export default function Input(props: InputProps) {
     ]
       .filter(Boolean)
       .join(' ');
-    const classes = [styles['input'], styles[`input-${props.size}`], isPure && styles['input-only']]
+    const classes = [styles['input'], styles[`input-${props.size}`], isPure && styles['input-pure']]
       .filter(Boolean)
       .join(' ');
     return [wrapperClasses, classes, isPure];
