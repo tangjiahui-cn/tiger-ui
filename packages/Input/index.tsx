@@ -18,6 +18,8 @@ export interface InputProps {
   placeholder?: string;
   // 禁止选中输入框
   disabled?: boolean;
+  // 输入框样式
+  style?: React.CSSProperties;
   // onChange回调事件
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -39,6 +41,7 @@ export default function Input(props: InputProps) {
 
   const InputEl = (
     <input
+      style={(isPure && props?.style) || undefined}
       disabled={props.disabled}
       className={classes}
       placeholder={props?.placeholder}
@@ -54,7 +57,7 @@ export default function Input(props: InputProps) {
   }
 
   return (
-    <span className={wrapperClasses}>
+    <span className={wrapperClasses} style={props?.style}>
       {props?.prefix && <span className={styles['input-fix-prefix']}>{props?.prefix}</span>}
       {InputEl}
       {props.suffix && <span className={styles['input-fix-suffix']}>{props?.suffix}</span>}

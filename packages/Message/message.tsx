@@ -1,5 +1,5 @@
 import { isFunction, isNumber, isObject, isString } from '../_utils/type';
-import MessageBox from './messagebox';
+import MessageBox from './messageBox';
 import styles from './index.less';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
