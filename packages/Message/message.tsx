@@ -3,6 +3,7 @@ import MessageBox from './messageBox';
 import styles from './index.less';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { RequiredOnly } from '@/_types';
 
 export type MessageReturn = Promise<undefined>;
 export type MessageType = 'none' | 'success' | 'error' | 'warn' | 'warning' | 'info' | 'loading';
@@ -21,7 +22,7 @@ export type MessageOptions = {
   onClose?: () => void;
 };
 
-const defaultMessageOptions: MessageOptions = {
+const defaultMessageOptions: RequiredOnly<MessageOptions, 'duration' | 'animationTime' | 'type'> = {
   type: 'none',
   content: '',
   duration: 1200,
@@ -64,6 +65,12 @@ export class Message {
 
   private openMessageBox(options: MessageOptions): MessageReturn {
     return new Promise((resolve) => {
+      options.duration = options.duration || defaultMessageOptions.duration;
+      options.animationTime = options.animationTime || defaultMessageOptions.animationTime;
+
+      if (options.duration < 0) options.duration = defaultMessageOptions.duration;
+      if (options.animationTime < 0) options.animationTime = defaultMessageOptions.animationTime;
+
       // duration not less than 0.
       if (typeof options.duration === 'number' && options.duration < 0) {
         throw new Error(`duration "${options.duration}" is Not less than 0.`);
@@ -81,13 +88,11 @@ export class Message {
       this.containerDom.appendChild(messageBoxDom);
 
       // unmount messageBox.
-      const duration = options.duration || defaultMessageOptions.duration || 0;
-      const animationTime = options.animationTime || defaultMessageOptions.animationTime || 0;
       setTimeout(() => {
         this.containerDom?.removeChild(messageBoxDom);
         options?.onClose?.();
         return resolve?.(undefined);
-      }, duration + animationTime);
+      }, options.duration + options.animationTime);
     });
   }
 

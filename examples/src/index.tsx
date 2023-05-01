@@ -21,6 +21,7 @@ function App() {
           message.open({
             type: 'success',
             content: '11',
+            duration: -10,
           });
         }}
       >
