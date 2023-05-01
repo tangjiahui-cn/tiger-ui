@@ -7,15 +7,17 @@ import { createRoot } from 'react-dom/client';
 export type MessageReturn = Promise<undefined>;
 export type MessageType = 'none' | 'success' | 'error' | 'warn' | 'warning' | 'info' | 'loading';
 export type MessageOptions = {
-  // 对话框消息图标
+  // 全局消息图标
   icon?: JSX.Element;
-  // 对话框内容
+  // 全局消息内容
   type: MessageType;
-  // 对话框提示内容
+  // 全局消息提示内容
   content?: string | JSX.Element;
-  // 对话框关闭延时
+  // 全局消息关闭延时
   duration?: number;
-  // 对话框关闭回调函数
+  // 全局消息出现/消失动画延时（单位: ms）
+  animationTime?: number;
+  // 全局消息关闭回调函数
   onClose?: () => void;
 };
 
@@ -23,6 +25,7 @@ const defaultMessageOptions: MessageOptions = {
   type: 'none',
   content: '',
   duration: 1200,
+  animationTime: 200,
   onClose: undefined,
 };
 
@@ -78,11 +81,13 @@ export class Message {
       this.containerDom.appendChild(messageBoxDom);
 
       // unmount messageBox.
+      const duration = options.duration || defaultMessageOptions.duration || 0;
+      const animationTime = options.animationTime || defaultMessageOptions.animationTime || 0;
       setTimeout(() => {
         this.containerDom?.removeChild(messageBoxDom);
         options?.onClose?.();
         return resolve?.(undefined);
-      }, options.duration);
+      }, duration + animationTime);
     });
   }
 
