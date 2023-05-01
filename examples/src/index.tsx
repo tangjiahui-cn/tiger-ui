@@ -15,119 +15,22 @@ function App() {
   }, []);
 
   return (
-    <div style={{ padding: 16 }}>
-      <Space>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.error('Hello', 1000)}>
-          error
-        </Button>
-        <Button size={'middle'} onClick={() => message.warn('Hello', 1000)}>
-          warn
-        </Button>
-        <Button size={'middle'} onClick={() => message.warning('Hello', 1000)}>
-          warning
-        </Button>
-        <Button size={'middle'} onClick={() => message.loading('Hello', 1000)}>
-          loading
-        </Button>
-        <Button size={'middle'} onClick={() => message.info('Hello', 1000)}>
-          info
-        </Button>
-        <Button
-          size={'middle'}
-          onClick={() => {
-            message.open({
-              type: 'none',
-              message: 'Hello',
+    <Space size={16} style={{ padding: 16 }}>
+      <Button
+        onClick={() => {
+          message
+            .success('success', 1200, () => {
+              console.log('关闭');
+            })
+            .then(() => {
+              console.log('then');
             });
-          }}
-        >
-          open
-        </Button>
-      </Space>
-      1
-      <Space wrap block>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-      </Space>
-      <Space direction={'vertical'}>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-        <Button size={'middle'} onClick={() => message.success('Hello', 1000)}>
-          success
-        </Button>
-      </Space>
-    </div>
+        }}
+      >
+        按钮1
+      </Button>
+      <Button>按钮2</Button>
+    </Space>
   );
 }
 

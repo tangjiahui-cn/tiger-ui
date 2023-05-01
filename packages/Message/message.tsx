@@ -4,6 +4,7 @@ import styles from './index.less';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
+export type MessageReturn = Promise<undefined>;
 export type MessageType = 'none' | 'success' | 'error' | 'warn' | 'warning' | 'info' | 'loading';
 export type MessageOptions = {
   // 对话框消息图标
@@ -30,7 +31,7 @@ export type MessageFunction = (
   msg: string | MessageOptions,
   duration?: number | MessageOnCloseFn,
   onClose?: MessageOnCloseFn,
-) => void;
+) => MessageReturn;
 
 export interface MessageProps {
   // 打开对话框
@@ -58,28 +59,31 @@ export class Message {
     return dom;
   }
 
-  private openMessageBox(options: MessageOptions) {
-    // duration not less than 0.
-    if (typeof options.duration === 'number' && options.duration < 0) {
-      throw new Error(`duration "${options.duration}" is Not less than 0.`);
-    }
+  private openMessageBox(options: MessageOptions): MessageReturn {
+    return new Promise((resolve) => {
+      // duration not less than 0.
+      if (typeof options.duration === 'number' && options.duration < 0) {
+        throw new Error(`duration "${options.duration}" is Not less than 0.`);
+      }
 
-    // check container.
-    if (!this.containerDom) {
-      this.containerDom = this.createContainerDom();
-      document.body.appendChild(this.containerDom);
-    }
+      // check container.
+      if (!this.containerDom) {
+        this.containerDom = this.createContainerDom();
+        document.body.appendChild(this.containerDom);
+      }
 
-    // mount messageBox.
-    const messageBoxDom = document.createElement('div');
-    createRoot(messageBoxDom).render(<MessageBox {...options} />);
-    this.containerDom.appendChild(messageBoxDom);
+      // mount messageBox.
+      const messageBoxDom = document.createElement('div');
+      createRoot(messageBoxDom).render(<MessageBox {...options} />);
+      this.containerDom.appendChild(messageBoxDom);
 
-    // unmount messageBox.
-    setTimeout(() => {
-      this.containerDom?.removeChild(messageBoxDom);
-      options?.onClose?.();
-    }, options.duration);
+      // unmount messageBox.
+      setTimeout(() => {
+        this.containerDom?.removeChild(messageBoxDom);
+        options?.onClose?.();
+        return resolve?.(undefined);
+      }, options.duration);
+    });
   }
 
   private getOptions(args: IArguments): MessageOptions {
@@ -108,52 +112,52 @@ export class Message {
     return options;
   }
 
-  public open() {
+  public open(): MessageReturn {
     const options: MessageOptions = Object.assign(
       {},
       defaultMessageOptions,
       this.getOptions(arguments),
     );
-    this.openMessageBox(options);
+    return this.openMessageBox(options);
   }
 
   // success
-  public success() {
+  public success(): MessageReturn {
     const options: MessageOptions = this.getOptions(arguments);
     options.type = 'success';
-    this.openMessageBox(options);
+    return this.openMessageBox(options);
   }
 
   // error
-  public error(): void {
+  public error(): MessageReturn {
     const options: MessageOptions = this.getOptions(arguments);
     options.type = 'error';
-    this.openMessageBox(options);
+    return this.openMessageBox(options);
   }
 
   // warn
-  public warn(): void {
+  public warn(): MessageReturn {
     const options: MessageOptions = this.getOptions(arguments);
     options.type = 'warn';
-    this.openMessageBox(options);
+    return this.openMessageBox(options);
   }
 
   // warning
-  public warning() {
+  public warning(): MessageReturn {
     const options: MessageOptions = this.getOptions(arguments);
     options.type = 'warning';
-    this.openMessageBox(options);
+    return this.openMessageBox(options);
   }
 
-  public info() {
+  public info(): MessageReturn {
     const options: MessageOptions = this.getOptions(arguments);
     options.type = 'info';
-    this.openMessageBox(options);
+    return this.openMessageBox(options);
   }
 
-  public loading() {
+  public loading(): MessageReturn {
     const options: MessageOptions = this.getOptions(arguments);
     options.type = 'loading';
-    this.openMessageBox(options);
+    return this.openMessageBox(options);
   }
 }
