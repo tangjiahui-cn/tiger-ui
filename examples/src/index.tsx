@@ -18,18 +18,28 @@ function App() {
     <Space size={16} style={{ padding: 16 }}>
       <Button
         onClick={() => {
-          message
-            .success('success', 1200, () => {
-              console.log('关闭');
-            })
-            .then(() => {
-              console.log('then');
-            });
+          message.open({
+            type: 'success',
+            content: '11',
+          });
         }}
       >
-        按钮1
+        open
       </Button>
-      <Button>按钮2</Button>
+      {['success', 'warn', 'warning', 'info', 'loading', 'error'].map((type: any) => {
+        return (
+          <Button
+            key={type}
+            onClick={() => {
+              // @ts-ignore
+              message.success('操作成功');
+              // message['success']?.(type)
+            }}
+          >
+            {type}
+          </Button>
+        );
+      })}
     </Space>
   );
 }

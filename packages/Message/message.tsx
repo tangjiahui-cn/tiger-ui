@@ -12,7 +12,7 @@ export type MessageOptions = {
   // 对话框内容
   type: MessageType;
   // 对话框提示内容
-  message?: string | JSX.Element;
+  content?: string | JSX.Element;
   // 对话框关闭延时
   duration?: number;
   // 对话框关闭回调函数
@@ -21,7 +21,7 @@ export type MessageOptions = {
 
 const defaultMessageOptions: MessageOptions = {
   type: 'none',
-  message: '',
+  content: '',
   duration: 1200,
   onClose: undefined,
 };
@@ -35,7 +35,7 @@ export type MessageFunction = (
 
 export interface MessageProps {
   // 打开对话框
-  open: MessageFunction;
+  open: (options: MessageOptions) => void;
   // 成功提示语
   success: MessageFunction;
   // 失败提示语
@@ -94,7 +94,7 @@ export class Message {
 
     const options: MessageOptions = Object.assign({}, defaultMessageOptions);
     if (isString(args[0])) {
-      options.message = args[0];
+      options.content = args[0];
     }
 
     if (args?.[1] !== undefined) {
@@ -112,6 +112,12 @@ export class Message {
     return options;
   }
 
+  private openMessage(args: IArguments, type: MessageType): MessageReturn {
+    const options: MessageOptions = this.getOptions(args);
+    options.type = type;
+    return this.openMessageBox(options);
+  }
+
   public open(): MessageReturn {
     const options: MessageOptions = Object.assign(
       {},
@@ -123,41 +129,29 @@ export class Message {
 
   // success
   public success(): MessageReturn {
-    const options: MessageOptions = this.getOptions(arguments);
-    options.type = 'success';
-    return this.openMessageBox(options);
+    return this.openMessage(arguments, 'success');
   }
 
   // error
   public error(): MessageReturn {
-    const options: MessageOptions = this.getOptions(arguments);
-    options.type = 'error';
-    return this.openMessageBox(options);
+    return this.openMessage(arguments, 'error');
   }
 
   // warn
   public warn(): MessageReturn {
-    const options: MessageOptions = this.getOptions(arguments);
-    options.type = 'warn';
-    return this.openMessageBox(options);
+    return this.openMessage(arguments, 'warn');
   }
 
   // warning
   public warning(): MessageReturn {
-    const options: MessageOptions = this.getOptions(arguments);
-    options.type = 'warning';
-    return this.openMessageBox(options);
+    return this.openMessage(arguments, 'warning');
   }
 
   public info(): MessageReturn {
-    const options: MessageOptions = this.getOptions(arguments);
-    options.type = 'info';
-    return this.openMessageBox(options);
+    return this.openMessage(arguments, 'info');
   }
 
   public loading(): MessageReturn {
-    const options: MessageOptions = this.getOptions(arguments);
-    options.type = 'loading';
-    return this.openMessageBox(options);
+    return this.openMessage(arguments, 'loading');
   }
 }

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import styles from './index.less';
 import { MessageOptions } from '@/Message/message';
 
-type MessageBoxProps = Pick<MessageOptions, 'message' | 'type' | 'icon'>;
+type MessageBoxProps = Pick<MessageOptions, 'content' | 'type' | 'icon'>;
 
 export default function (props: MessageBoxProps) {
   const icon = useMemo(() => {
@@ -27,7 +27,7 @@ export default function (props: MessageBoxProps) {
     <div className={styles['message-box']}>
       <div className={styles['message-box-body']}>
         {props.icon || icon}
-        {props?.message}
+        {props?.content}
       </div>
     </div>
   );
