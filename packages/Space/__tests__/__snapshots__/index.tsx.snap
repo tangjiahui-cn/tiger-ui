@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`space Null and Undefined Children test should render null or undefined in children without errors 1`] = `
+<div
+  class="space"
+  style="gap: 8px;"
+/>
+`;
+
+exports[`space react fragment test should render React.Fragment without error. 1`] = `
+<div
+  class="space"
+  style="gap: 8px;"
+>
+  text
+</div>
+`;
+
+exports[`space render test render correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="space"
+    style="gap: 8px;"
+  />
+</DocumentFragment>
+`;

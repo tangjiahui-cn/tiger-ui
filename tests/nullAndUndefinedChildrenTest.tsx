@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import React from 'react';
+import * as React from 'react';
 
 export default function nullAndUndefinedChildrenTest(Component: React.ElementType) {
   describe('Null and Undefined Children test', () => {

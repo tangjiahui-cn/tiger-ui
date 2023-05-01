@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import React from 'react';
+import * as React from 'react';
 
 export default function cssSelectorTest(includeSelectors: string[], Component: React.ElementType) {
   describe('css selector test', () => {

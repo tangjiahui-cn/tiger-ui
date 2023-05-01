@@ -3,12 +3,12 @@ import { fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {
   renderTest,
-  domEventTest,
   mountTest,
   nullAndUndefinedChildrenTest,
   reactFragmentTest,
   cssSelectorTest,
 } from '../../../tests';
+import * as React from 'react';
 
 describe('Button', () => {
   renderTest(Button);
@@ -23,8 +23,18 @@ describe('Button', () => {
     </Button>
   ));
 
-  domEventTest({
-    click: (triggerFn: any) => <Button onClick={triggerFn} />,
+  describe('dom event test', () => {
+    it('onclick trigger', () => {
+      const mockClick = jest.fn();
+      const wrapper = render(<Button onClick={mockClick} />);
+      const dom = wrapper.container.firstChild;
+      expect(dom).toBeTruthy();
+      if (dom) {
+        // @ts-ignore
+        fireEvent?.click?.(dom);
+        expect(mockClick).toBeCalled();
+      }
+    });
   });
 
   cssSelectorTest(['.btn', '.btn-default'], Button);

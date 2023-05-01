@@ -15,7 +15,9 @@ exports[`Button react fragment test should render React.Fragment without error. 
 `;
 
 exports[`Button render test render correctly 1`] = `
-<button
-  class="btn btn-default btn-middle"
-/>
+<DocumentFragment>
+  <button
+    class="btn btn-default btn-middle"
+  />
+</DocumentFragment>
 `;

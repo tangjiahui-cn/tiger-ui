@@ -34,6 +34,7 @@ export interface ButtonProps {
  * By TangJiaHui
  */
 export default function Button(props: ButtonProps) {
+  const x = 3;
   const classes = useMemo(() => {
     return [
       styles['btn'],

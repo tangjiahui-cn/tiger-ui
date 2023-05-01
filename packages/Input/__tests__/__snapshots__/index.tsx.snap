@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`input render test render correctly 1`] = `
+<DocumentFragment>
+  <input
+    class="input input-middle input-pure"
+    value=""
+  />
+</DocumentFragment>
+`;
