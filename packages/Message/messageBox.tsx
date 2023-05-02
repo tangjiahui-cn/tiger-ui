@@ -4,12 +4,12 @@ import { MessageOptions } from '@/Message/message';
 
 type MessageBoxProps = Pick<
   MessageOptions,
-  'content' | 'type' | 'icon' | 'duration' | 'animationTime'
+  'content' | 'type' | 'icon' | 'duration' | 'animationDuration'
 >;
 
 export default function (props: MessageBoxProps) {
-  const { animationTime = 0 } = props;
-  const [isDisAppear, setIsDisAppear] = useState<boolean>(false);
+  const { animationDuration = 0 } = props;
+  const [isAppear, setIsAppear] = useState<boolean>(false);
 
   const icon = useMemo(() => {
     switch (props.type) {
@@ -30,16 +30,21 @@ export default function (props: MessageBoxProps) {
   }, [props.type]);
 
   useEffect(() => {
+    setIsAppear(true);
     setTimeout(() => {
-      setIsDisAppear(true);
+      setIsAppear(false);
     }, props?.duration);
   }, []);
 
   return (
     <div
-      className={`${styles['message-box']}`}
+      className={
+        `${styles['message-box']}` +
+        ' ' +
+        `${styles[isAppear ? 'message-box-appear' : 'message-box-disappear']}`
+      }
       style={{
-        animation: `${isDisAppear ? 'disappear' : 'appear'} ${animationTime}ms`,
+        animationDuration: `${animationDuration}ms`,
       }}
     >
       <div className={styles['message-box-body']}>

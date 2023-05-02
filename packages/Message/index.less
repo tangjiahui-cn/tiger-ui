@@ -10,8 +10,9 @@
   pointer-events: none;
 }
 
-.appear (@marginTop: 0px) {
-  @keyframes appear {
+
+.message-animation (@marginTop: 0) {
+  @keyframes message-animation-appear {
     0% {
       margin-top: 0;
     }
@@ -20,10 +21,7 @@
       margin-top: @marginTop;
     }
   }
-}
-
-.disappear (@marginTop: 0px) {
-  @keyframes disappear {
+  @keyframes message-animation-disappear {
     0% {
       margin-top: @marginTop;
       opacity: 1;
@@ -37,28 +35,28 @@
 }
 
 .message-box {
-  .appear(16px);
-  .disappear(16px);
+  @marginTop: 16px;
   font-size: @fontSize;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 16px;
+  margin-top: @marginTop;
   transition: all 0.3s;
   z-index: @messageZIndex;
+  .message-animation(@marginTop);
 
   &-appear {
-    animation: appear 0.2s;
+    animation: message-animation-appear 0.2s;
   }
 
   &-disappear {
-    animation: disappear 0.2s;
+    animation: message-animation-disappear 0.2s;
   }
 
   &-body {
     background-color: white;
     padding: 8px 16px;
     display: inline-block;
-    box-shadow: 0px 0px 20px #e8e8e8;
+    box-shadow: @boxShadow-3;
   }
 }

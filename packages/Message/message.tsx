@@ -9,24 +9,27 @@ export type MessageReturn = Promise<undefined>;
 export type MessageType = 'none' | 'success' | 'error' | 'warn' | 'warning' | 'info' | 'loading';
 export type MessageOptions = {
   // 全局消息图标
-  icon?: JSX.Element;
+  icon?: React.ReactNode;
   // 全局消息内容
   type: MessageType;
   // 全局消息提示内容
-  content?: string | JSX.Element;
+  content?: string | React.ReactNode;
   // 全局消息关闭延时
   duration?: number;
   // 全局消息出现/消失动画延时（单位: ms）
-  animationTime?: number;
+  animationDuration?: number;
   // 全局消息关闭回调函数
   onClose?: () => void;
 };
 
-const defaultMessageOptions: RequiredOnly<MessageOptions, 'duration' | 'animationTime' | 'type'> = {
+const defaultMessageOptions: RequiredOnly<
+  MessageOptions,
+  'duration' | 'animationDuration' | 'type'
+> = {
   type: 'none',
   content: '',
   duration: 1200,
-  animationTime: 200,
+  animationDuration: 200,
   onClose: undefined,
 };
 
@@ -66,10 +69,12 @@ export class Message {
   private openMessageBox(options: MessageOptions): MessageReturn {
     return new Promise((resolve) => {
       options.duration = options.duration || defaultMessageOptions.duration;
-      options.animationTime = options.animationTime || defaultMessageOptions.animationTime;
+      options.animationDuration =
+        options.animationDuration || defaultMessageOptions.animationDuration;
 
       if (options.duration < 0) options.duration = defaultMessageOptions.duration;
-      if (options.animationTime < 0) options.animationTime = defaultMessageOptions.animationTime;
+      if (options.animationDuration < 0)
+        options.animationDuration = defaultMessageOptions.animationDuration;
 
       // duration not less than 0.
       if (typeof options.duration === 'number' && options.duration < 0) {
@@ -92,7 +97,7 @@ export class Message {
         this.containerDom?.removeChild(messageBoxDom);
         options?.onClose?.();
         return resolve?.(undefined);
-      }, options.duration + options.animationTime);
+      }, options.duration + options.animationDuration);
     });
   }
 

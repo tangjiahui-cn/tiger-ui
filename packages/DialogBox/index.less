@@ -1,0 +1,83 @@
+@import "../_style/theme";
+
+.dialogBox-animation () {
+  @keyframes dialogBox-animation-appear {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes dialogBox-animation-disappear {
+    0% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+}
+
+.dialogBox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .dialogBox-animation();
+
+  &-mask {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  &-content {
+    background-color: white;
+    z-index: @dialogBoxZIndex;
+    box-shadow: @boxShadow-3;
+
+    &-head {
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &-title {
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      &-close {
+        cursor: pointer;
+      }
+    }
+
+    &-body {
+      padding: 0 16px;
+    }
+
+    &-footer {
+      overflow: hidden;
+      padding: 16px;
+    }
+  }
+
+  &-appear {
+    opacity: 1;
+    animation: dialogBox-animation-appear 500ms;
+  }
+
+  &-disappear {
+    opacity: 0;
+    animation: dialogBox-animation-disappear 500ms;
+  }
+}

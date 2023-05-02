@@ -11,9 +11,9 @@ export interface InputProps {
   // 输入框大小
   size?: SizeType;
   // 输入框前缀
-  prefix?: string | JSX.Element;
+  prefix?: React.ReactNode;
   // 输入框后缀
-  suffix?: string | JSX.Element;
+  suffix?: React.ReactNode;
   // 输入框占位符
   placeholder?: string;
   // 禁止选中输入框

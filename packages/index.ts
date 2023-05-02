@@ -6,3 +6,5 @@ export { default as message } from './Message';
 export type { MessageProps } from './Message';
 export { default as Space } from './Space';
 export type { SpaceProps } from './Space';
+export { default as DialogBox } from './DialogBox';
+export type { DialogBoxProps } from './DialogBox';
