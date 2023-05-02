@@ -32,7 +32,6 @@ components:
 - Icon
 - Select
 - Alert
-- Modal
 - Drawer
 - Image
 - Upload
