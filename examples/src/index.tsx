@@ -7,7 +7,7 @@ import { Button, Input, message, Space, DialogBox } from '../../packages';
 
 function App() {
   const [inputValue, setInputValue] = useState<any>('fsdfasd');
-  const [visible, setVisible] = useState<boolean>(true);
+  const [visible, setVisible] = useState<boolean>(false);
 
   useEffect(() => {
     // message.success('操作成功', 100000)
@@ -16,28 +16,56 @@ function App() {
   }, []);
 
   return (
-    <Space size={16} style={{ padding: 16 }}>
-      <Button
-        onClick={() => {
-          setVisible(true);
-        }}
-      >
-        打开对话框
-      </Button>
+    <>
+      <div style={{ padding: 10 }}>
+        <Button>按钮</Button>
+        <Input style={{ width: 200 }} />
+        <Input style={{ width: 200 }} prefix={'prefix'} suffix={'suffix'} />
+        你好Aabc
+      </div>
+      <div style={{ padding: 10 }}>
+        <Input />
+      </div>
+      <Space size={16} style={{ padding: 16 }} direction={'vertical'}>
+        <Button
+          onClick={() => {
+            setVisible(true);
+          }}
+        >
+          打开对话框
+        </Button>
 
-      <DialogBox
-        destroyOnClose
-        visible={visible}
-        onCancel={() => {
-          setVisible(false);
-        }}
-        onOk={() => {
-          message.success('操作成功');
-        }}
-      >
-        <div style={{ height: 100, background: 'whitesmoke' }}></div>
-      </DialogBox>
-    </Space>
+        <DialogBox
+          destroyOnClose
+          visible={visible}
+          onCancel={() => {
+            setVisible(false);
+          }}
+          onOk={() => {
+            message.success('操作成功');
+          }}
+        >
+          <div style={{ background: 'whitesmoke' }}>
+            <Input />
+            <div>
+              <Input style={{ width: 200 }} value={'111'} />
+              <Input prefix={'xx'} style={{ width: 200 }} value={'222'} />
+              <Button>按钮</Button>
+            </div>
+            <div>
+              <Input size={'large'} style={{ width: 200 }} value={'111'} />
+              <Input size={'large'} prefix={'xx'} style={{ width: 200 }} value={'222'} />
+              <Button size={'large'}>按钮</Button>
+            </div>
+            <div>
+              <Input size={'small'} style={{ width: 200 }} value={'111'} />
+              <Input size={'small'} prefix={'xx'} style={{ width: 200 }} value={'222'} />
+              <Button size={'small'}>按钮</Button>
+            </div>
+          </div>
+        </DialogBox>
+      </Space>
+    </>
   );
 }
 
