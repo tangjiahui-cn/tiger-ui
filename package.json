@@ -15,12 +15,11 @@
     "commit": "git add . && git-cz",
     "test": "jest -c jest.config.js --no-cache",
     "fomat-code-all": "eslint --ext .js,.ts,.jsx,.tsx */* --fix && prettier --write .",
-    "publish-npm": "pnpm test && sh scripts/publish/checkLogin.sh && pnpm build && sh scripts/publish/public.sh",
+    "publish-npm": "sh scripts/publish/checkLogin.sh && pnpm test && pnpm build && sh scripts/publish/public.sh",
     "prepare": "husky install"
   },
   "files": [
-    "lib",
-    "packages"
+    "lib"
   ],
   "repository": {
     "type": "git",
