@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import ReactDom from 'react-dom';
 import { Button, Space } from '@/index';
 
-export interface DialogBoxProps {
+export interface DialogProps {
   // 对话框是否可见
   visible?: boolean;
   // 对话框标题
@@ -41,7 +41,7 @@ export interface DialogBoxProps {
   children?: any;
 }
 
-DialogBox.defaultProps = {
+Dialog.defaultProps = {
   width: 500,
   destroyOnClose: false,
   title: '标题',
@@ -55,7 +55,7 @@ DialogBox.defaultProps = {
 
 const animationDuration: number = 150;
 const disappearAnimationDuration: number = 80;
-export default function DialogBox(props: DialogBoxProps) {
+export default function Dialog(props: DialogProps) {
   const [isAppear, setIsAppear] = useState<boolean>(false);
 
   function handleCancel() {
@@ -68,8 +68,8 @@ export default function DialogBox(props: DialogBoxProps) {
 
   const mask = props?.mask && (
     <div
-      className={`${styles['dialogBox-mask']} ${
-        styles[isAppear ? 'dialogBox-appear' : 'dialogBox-disappear']
+      className={`${styles['dialog-mask']} ${
+        styles[isAppear ? 'dialog-appear' : 'dialog-disappear']
       }`}
       style={{ ...(props?.maskStyle || {}), animationDuration: `${animationDuration}ms` }}
       onClick={() => props?.maskClosable && handleCancel()}
@@ -78,10 +78,10 @@ export default function DialogBox(props: DialogBoxProps) {
 
   const header =
     props?.header === undefined ? (
-      <div className={styles['dialogBox-content-head']}>
-        <div className={styles['dialogBox-content-head-title']}>{props?.title}</div>
+      <div className={styles['dialog-content-head']}>
+        <div className={styles['dialog-content-head-title']}>{props?.title}</div>
         {props?.closable && (
-          <div className={styles['dialogBox-content-head-close']} onClick={() => handleCancel()}>
+          <div className={styles['dialog-content-head-close']} onClick={() => handleCancel()}>
             {props?.closeIcon}
           </div>
         )}
@@ -92,7 +92,7 @@ export default function DialogBox(props: DialogBoxProps) {
 
   const footer =
     props?.footer === undefined ? (
-      <div className={styles['dialogBox-content-footer']}>
+      <div className={styles['dialog-content-footer']}>
         <Space style={{ float: 'right' }}>
           {props?.cancelText && <div onClick={() => handleCancel()}>{props?.cancelText}</div>}
           {props?.okText && <div onClick={() => props?.onOk?.()}>{props?.okText}</div>}
@@ -111,11 +111,11 @@ export default function DialogBox(props: DialogBoxProps) {
   // TODO: 初次打开有几率闪烁，后续考虑增加一个变量，等打开后先显示遮罩层，并延时一段时间再显示弹窗内容
   return !props.destroyOnClose || props?.visible ? (
     ReactDom.createPortal(
-      <div className={styles['dialogBox']} style={{ display: props?.visible ? undefined : 'none' }}>
+      <div className={styles['dialog']} style={{ display: props?.visible ? undefined : 'none' }}>
         {mask}
         <div
-          className={`${styles['dialogBox-content']} ${
-            styles[isAppear ? 'dialogBox-appear' : 'dialogBox-disappear']
+          className={`${styles['dialog-content']} ${
+            styles[isAppear ? 'dialog-appear' : 'dialog-disappear']
           }`}
           style={{
             width: props?.width,
@@ -124,7 +124,7 @@ export default function DialogBox(props: DialogBoxProps) {
           }}
         >
           {header}
-          <div className={styles['dialogBox-content-body']} style={props?.bodyStyle}>
+          <div className={styles['dialog-content-body']} style={props?.bodyStyle}>
             {props?.children}
           </div>
           {footer}

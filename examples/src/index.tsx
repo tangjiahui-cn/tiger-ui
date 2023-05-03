@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 // import { Button, Input } from 'tiger-ui';
-import { Button, Input, message, Space, DialogBox, Drawer } from '../../packages';
+import { Button, Input, message, Space, Dialog, Drawer } from '../../packages';
 // import { Button, Input, message, Space, DialogBox } from '../../lib/index';
 // import '../../lib/index.css';
 
@@ -69,13 +69,13 @@ function App() {
           </div>
         </Drawer>
 
-        <DialogBox
+        <Dialog
           visible={dialogVisible}
           onCancel={() => setDialogVisible(false)}
           onOk={() => message.success('操作成功')}
         >
           对话框
-        </DialogBox>
+        </Dialog>
       </Space>
     </>
   );

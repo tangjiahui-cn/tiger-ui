@@ -1,7 +1,7 @@
 @import '../_style/theme';
 
-.dialogBox-animation () {
-  @keyframes dialogBox-animation-appear {
+.dialog-animation () {
+  @keyframes dialog-animation-appear {
     0% {
       opacity: 0;
     }
@@ -11,7 +11,7 @@
     }
   }
 
-  @keyframes dialogBox-animation-disappear {
+  @keyframes dialog-animation-disappear {
     0% {
       opacity: 1;
     }
@@ -22,7 +22,7 @@
   }
 }
 
-.dialogBox {
+.dialog {
   position: fixed;
   top: 0;
   left: 0;
@@ -31,7 +31,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  .dialogBox-animation();
+  .dialog-animation();
 
   &-mask {
     position: fixed;
@@ -42,7 +42,7 @@
 
   &-content {
     background-color: white;
-    z-index: @dialogBoxZIndex;
+    z-index: @dialogZIndex;
     box-shadow: @boxShadow-3;
 
     &-head {
@@ -73,11 +73,11 @@
 
   &-appear {
     opacity: 1;
-    animation: dialogBox-animation-appear 500ms;
+    animation: dialog-animation-appear 500ms;
   }
 
   &-disappear {
     opacity: 0;
-    animation: dialogBox-animation-disappear 500ms;
+    animation: dialog-animation-disappear 500ms;
   }
 }
