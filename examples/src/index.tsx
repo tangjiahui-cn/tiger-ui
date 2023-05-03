@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 // import { Button, Input } from 'tiger-ui';
-import { Button, Input, message, Space, DialogBox } from '../../packages';
+import { Button, Input, message, Space, DialogBox, Drawer } from '../../packages';
 // import { Button, Input, message, Space, DialogBox } from '../../lib/index';
 // import '../../lib/index.css';
 
 function App() {
   const [inputValue, setInputValue] = useState<any>('fsdfasd');
-  const [visible, setVisible] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(true);
+  const [dialogVisible, setDialogVisible] = useState<boolean>(false);
 
   useEffect(() => {
     // message.success('操作成功', 100000)
@@ -35,8 +36,8 @@ function App() {
           打开对话框
         </Button>
 
-        <DialogBox
-          destroyOnClose
+        <Drawer
+          destroyOnClose={false}
           visible={visible}
           onCancel={() => {
             setVisible(false);
@@ -45,7 +46,10 @@ function App() {
             message.success('操作成功');
           }}
         >
-          <div style={{ background: 'whitesmoke' }}>
+          <div style={{ background: 'whitesmoke', minHeight: '100%' }}>
+            <Button onClick={() => setDialogVisible(true)} type={'primary'}>
+              打开对话框
+            </Button>
             <Input />
             <div>
               <Input style={{ width: 200 }} value={'111'} />
@@ -63,6 +67,14 @@ function App() {
               <Button size={'small'}>按钮</Button>
             </div>
           </div>
+        </Drawer>
+
+        <DialogBox
+          visible={dialogVisible}
+          onCancel={() => setDialogVisible(false)}
+          onOk={() => message.success('操作成功')}
+        >
+          对话框
         </DialogBox>
       </Space>
     </>

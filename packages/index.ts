@@ -8,3 +8,5 @@ export { default as Space } from './Space';
 export type { SpaceProps } from './Space';
 export { default as DialogBox } from './DialogBox';
 export type { DialogBoxProps } from './DialogBox';
+export { default as Drawer } from './Drawer';
+export type { DrawerProps } from './Drawer';
