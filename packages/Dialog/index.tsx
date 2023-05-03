@@ -108,7 +108,7 @@ export default function Dialog(props: DialogProps) {
     }
   }, [props.visible]);
 
-  // TODO: 初次打开有几率闪烁，后续考虑增加一个变量，等打开后先显示遮罩层，并延时一段时间再显示弹窗内容
+  // TODO: 初次打开有几率闪烁，后续考虑先显示背景色（appear动画），动画完成后使用mask背景色替代背景色。
   return !props.destroyOnClose || props?.visible ? (
     ReactDom.createPortal(
       <div className={styles['dialog']} style={{ display: props?.visible ? undefined : 'none' }}>
