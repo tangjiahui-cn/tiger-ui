@@ -74,7 +74,7 @@ function App() {
           onCancel={() => setDialogVisible(false)}
           onOk={() => message.success('操作成功')}
         >
-          对话框
+          <Input maxLength={10} />
         </Dialog>
       </Space>
     </>

@@ -6,6 +6,8 @@ export interface InputProps {
   // TODO: 后面允许清空(使用图标库)
   // 是否允许清空
   // allowClear?: boolean;
+  // 最大长度
+  maxLength?: number;
   // 绑定值
   value?: string;
   // 输入框大小
@@ -41,6 +43,7 @@ export default function Input(props: InputProps) {
 
   const InputEl = (
     <input
+      maxLength={props?.maxLength}
       style={(isPure && props?.style) || undefined}
       disabled={props.disabled}
       className={classes}
