@@ -2,7 +2,7 @@
 一个轻量化、简洁的React UI库。(开发中)
 
 ## 技术栈
-```shell
+```text
 React18 + TypeScript + Webpack5 + Less
 ```
 
@@ -32,7 +32,7 @@ pnpm build
 ```
 
 ## Next plan:
-```shell
+```text
 components:
 - Icon
 - Select
@@ -60,6 +60,6 @@ components:
 ```
 
 ## Future
-```shell
+```text
 Wait More...
 ```
