@@ -1,10 +1,10 @@
 @import '../_style/theme';
 
 .btn-hover-primary () {
-  &:hover {
+  .hover({
     background-color: @primaryHover;
     border-color: @primaryHover;
-  }
+  });
 
   &:active {
     background-color: @primaryActive;
@@ -18,13 +18,22 @@
   }
 }
 
+// mixin
+.hover (@code) {
+  &:hover,
+  &.btn-force-focus,
+  &:focus.btn-stay-focus:not(:active) {
+    @code();
+  }
+}
+
 .btn-hover-default () {
   .btn-danger-default();
 
-  &:hover {
+  .hover({
     color: @primaryHover;
     border-color: @primaryHover;
-  }
+  });
 
   &:active {
     color: @primaryActive;
@@ -38,9 +47,9 @@
 }
 
 .btn-hover-text () {
-  &:hover {
+  .hover({
     color: @textHover;
-  }
+  });
 
   &:active {
     color: @textActive;
@@ -57,10 +66,10 @@
     background-color: @danger;
     border-color: @danger;
 
-    &:hover {
+    .hover({
       background-color: @dangerHover;
       border-color: @dangerHover;
-    }
+    });
 
     &:active {
       background-color: @dangerActive;
@@ -80,10 +89,10 @@
     color: @danger;
     border-color: @danger;
 
-    &:hover {
+    .hover({
       color: @dangerHover;
       border-color: @dangerHover;
-    }
+    });
 
     &:active {
       color: @dangerActive;
@@ -101,9 +110,9 @@
   &.btn-danger {
     color: @danger;
 
-    &:hover {
+    .hover({
       color: @dangerHover;
-    }
+    });
 
     &:active {
       color: @dangerActive;

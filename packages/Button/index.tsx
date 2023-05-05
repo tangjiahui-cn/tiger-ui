@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useMemo } from 'react';
+import React, { MouseEventHandler, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './index.less';
 import { SizeType } from '../_types/common';
 
@@ -21,6 +21,10 @@ export interface ButtonProps {
   size?: ButtonSize;
   // 内联样式
   style?: React.CSSProperties;
+  // 保持聚焦（点击后选中样式不会消失，点击其他地方取消选中）
+  stayFocus?: boolean;
+  // 保持选中（受控状态）
+  focus?: boolean;
   // onClick回调事件
   onClick?: MouseEventHandler<HTMLButtonElement>;
   // 子元素
@@ -34,6 +38,8 @@ export interface ButtonProps {
  * By TangJiaHui
  */
 export default function Button(props: ButtonProps) {
+  const btnRef = useRef(null);
+
   const classes = useMemo(() => {
     return [
       styles['btn'],
@@ -41,14 +47,18 @@ export default function Button(props: ButtonProps) {
       styles[`btn-${props?.size}`],
       props?.danger && styles['btn-danger'],
       props?.block && styles['btn-block'],
+      props?.stayFocus && styles['btn-stay-focus'],
+      props?.focus && styles['btn-force-focus'],
     ]
       .filter(Boolean)
       .join(' ');
-  }, [props?.type, props?.size, props?.danger, props?.block]);
+  }, [props?.type, props?.size, props?.danger, props?.block, props.stayFocus, props?.focus]);
 
   return (
     <button
+      ref={btnRef}
       className={classes}
+      // className={classes + (focus ? ` ${styles['btn-force-focus']}` : '')}
       disabled={props?.disabled}
       onClick={props?.onClick}
       style={props?.style}
@@ -65,4 +75,5 @@ Button.defaultProps = {
   danger: false,
   // loading: false,
   size: 'middle',
+  stayFocus: false,
 };

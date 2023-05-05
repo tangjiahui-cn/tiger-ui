@@ -24,6 +24,8 @@ export interface InputProps {
   style?: React.CSSProperties;
   // onChange回调事件
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  // onKeyDown事件
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 export default function Input(props: InputProps) {
@@ -51,6 +53,9 @@ export default function Input(props: InputProps) {
       value={props?.value}
       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
         props?.onChange?.(e);
+      }}
+      onKeyDown={(e) => {
+        props?.onKeyDown?.(e);
       }}
     />
   );
