@@ -39,7 +39,6 @@ components:
 - Tag
 - Tree
 - ToolTip
-- Pagination
 - Popover
 - InputNumber
 - Checkbox
