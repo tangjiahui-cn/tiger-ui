@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { Locale, zh_CN } from '@/_locales';
+import { Locale, zh_CN } from '../_locales';
 
 interface ConfigProps {
   locale: Locale;

@@ -1,6 +1,6 @@
 import React from 'react';
-import { zh_CN, Locale } from '@/_locales';
-import { ConfigContext } from '@/ConfigProvider/useAppContext';
+import { zh_CN, Locale } from '../_locales';
+import { ConfigContext } from './useAppContext';
 export * from './useAppContext';
 
 export interface ConfigProviderProps {

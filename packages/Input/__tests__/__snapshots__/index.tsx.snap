@@ -4,6 +4,7 @@ exports[`input render test render correctly 1`] = `
 <DocumentFragment>
   <input
     class="input input-middle input-pure"
+    placeholder="请输入"
     value=""
   />
 </DocumentFragment>

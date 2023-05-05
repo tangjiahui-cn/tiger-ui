@@ -8,7 +8,8 @@ module.exports = {
   collectCoverage: false,
   testEnvironment: 'jsdom',
   moduleNameMapper: {
-    //
+    '@/ConfigProvider': '<rootDir>/packages/ConfigProvider',
+    '@/': '<rootDir>/packages/',
     // or use 'identity-obj-proxy' to mock css module.
     // '^.+\\.less$': '<rootDir>/scripts/jest/mockModule.js',
   },

@@ -2,20 +2,14 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import {
   Button,
-  // Input,
+  Input,
   message,
   Space,
   Dialog,
   Drawer,
   Pagination,
-  // ConfigProvider,
+  ConfigProvider,
 } from '../../packages';
-// import { Input, ConfigProvider } from "../../packages";
-import Input from '../../packages/Input';
-import ConfigProvider from '../../packages/ConfigProvider';
-// import ConfigProvider from '../../lib/ConfigProvider';
-// import Drawer from '../../lib/Drawer';
-// import { Button, Input, message, Space, Dialog, Drawer, Pagination, ConfigProvider } from '../../lib';
 import '../../lib/index.css';
 import * as locales from '../../packages/_locales';
 
