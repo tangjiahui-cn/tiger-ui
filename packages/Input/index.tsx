@@ -54,7 +54,7 @@ export default function Input(props: InputProps) {
       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
         props?.onChange?.(e);
       }}
-      onKeyDown={(e) => {
+      onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
         props?.onKeyDown?.(e);
       }}
     />
