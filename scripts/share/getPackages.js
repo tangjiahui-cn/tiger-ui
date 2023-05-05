@@ -29,7 +29,7 @@ function getPackageNames(directoryPath, matchedRegExp) {
  * get directory name-absPath mapping under 'directoryPath'
  */
 function getPackageNamePathMap(directoryPath) {
-  const matchedRegExp = /^[a-zA-Z](\w)*/;
+  const matchedRegExp = /^((?!style).)+$/;
   return getPackageNames(directoryPath, matchedRegExp).reduce((namePathMap, name) => {
     namePathMap[name] = root(directoryPath, name);
     return namePathMap;
