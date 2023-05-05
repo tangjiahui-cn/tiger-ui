@@ -50,7 +50,6 @@ Drawer.defaultProps = {
   direction: 'right',
   width: 350,
   destroyOnClose: false,
-  title: '标题',
   mask: true,
   maskClosable: true,
   closable: true,
@@ -65,6 +64,7 @@ export default function Drawer(props: DrawerProps) {
   const locales = useGetLocaleValues();
 
   const {
+    title = locales.titleValue,
     okText = <Button type={'primary'}>{locales.confirmValue}</Button>,
     cancelText = <Button>{locales.cancelValue}</Button>,
   } = props;
@@ -103,7 +103,7 @@ export default function Drawer(props: DrawerProps) {
   const header =
     props?.header === undefined ? (
       <div className={styles['drawer-content-head']}>
-        <div className={styles['drawer-content-head-title']}>{props?.title}</div>
+        <div className={styles['drawer-content-head-title']}>{title}</div>
         {props?.closable && (
           <div className={styles['drawer-content-head-close']} onClick={() => handleCancel()}>
             {props?.closeIcon}

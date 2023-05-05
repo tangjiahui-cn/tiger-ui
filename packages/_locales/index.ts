@@ -8,4 +8,6 @@ export interface Locale {
   confirmValue: string;
   // all cancel value.
   cancelValue: string;
+  // dialog and drawer value.
+  titleValue: string;
 }

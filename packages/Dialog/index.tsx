@@ -45,7 +45,6 @@ export interface DialogProps {
 Dialog.defaultProps = {
   width: 500,
   destroyOnClose: false,
-  title: '标题',
   mask: true,
   maskClosable: true,
   closable: true,
@@ -57,6 +56,7 @@ const disappearAnimationDuration: number = 80;
 export default function Dialog(props: DialogProps) {
   const locales = useGetLocaleValues();
   const {
+    title = locales.titleValue,
     okText = <Button type={'primary'}>{locales.confirmValue}</Button>,
     cancelText = <Button>{locales.cancelValue}</Button>,
   } = props;
@@ -84,7 +84,7 @@ export default function Dialog(props: DialogProps) {
   const header =
     props?.header === undefined ? (
       <div className={styles['dialog-content-head']}>
-        <div className={styles['dialog-content-head-title']}>{props?.title}</div>
+        <div className={styles['dialog-content-head-title']}>{title}</div>
         {props?.closable && (
           <div className={styles['dialog-content-head-close']} onClick={() => handleCancel()}>
             {props?.closeIcon}
