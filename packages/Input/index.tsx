@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import styles from './index.less';
 import { SizeType } from '../_types/common';
+import { useGetLocaleValues } from '@/ConfigProvider';
 
 export interface InputProps {
   // TODO: 后面允许清空(使用图标库)
@@ -29,6 +30,7 @@ export interface InputProps {
 }
 
 export default function Input(props: InputProps) {
+  const locale = useGetLocaleValues();
   const [wrapperClasses, classes, isPure] = useMemo(() => {
     const isPure = !(props.prefix || props.suffix);
     const wrapperClasses = [
@@ -49,7 +51,7 @@ export default function Input(props: InputProps) {
       style={(isPure && props?.style) || undefined}
       disabled={props.disabled}
       className={classes}
-      placeholder={props?.placeholder}
+      placeholder={props?.placeholder || locale.inputPlaceholder}
       value={props?.value}
       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
         props?.onChange?.(e);

@@ -12,3 +12,5 @@ export { default as Drawer } from './Drawer';
 export type { DrawerProps } from './Drawer';
 export { default as Pagination } from './Pagination';
 export type { PaginationProps } from './Pagination';
+export { default as ConfigProvider } from './ConfigProvider';
+export type { ConfigProviderProps } from './ConfigProvider';

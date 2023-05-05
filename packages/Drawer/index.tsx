@@ -3,6 +3,7 @@ import ReactDom from 'react-dom';
 import styles from './index.less';
 import { useEffect, useMemo, useState } from 'react';
 import { Button, Space } from '@/index';
+import { useGetLocaleValues } from '@/ConfigProvider';
 
 type directionType = 'top' | 'left' | 'right' | 'bottom';
 
@@ -52,8 +53,6 @@ Drawer.defaultProps = {
   title: '标题',
   mask: true,
   maskClosable: true,
-  okText: <Button type={'primary'}>确定</Button>,
-  cancelText: <Button>取消</Button>,
   closable: true,
   closeIcon: <span>close</span>, // TODO: replace close icon
 };
@@ -63,6 +62,13 @@ const contentAnimationDuration: number = 500;
 const disappearAnimationDuration: number = 300;
 
 export default function Drawer(props: DrawerProps) {
+  const locales = useGetLocaleValues();
+
+  const {
+    okText = <Button type={'primary'}>{locales.confirmValue}</Button>,
+    cancelText = <Button>{locales.cancelValue}</Button>,
+  } = props;
+
   const [isAppear, setIsAppear] = useState<boolean>(false);
   const [width, height, bodyClasses] = useMemo(() => {
     const bodyClasses = [
@@ -112,8 +118,8 @@ export default function Drawer(props: DrawerProps) {
     props?.footer === undefined ? (
       <div className={styles['drawer-content-footer']}>
         <Space style={{ float: 'right' }}>
-          {props?.cancelText && <div onClick={() => handleCancel()}>{props?.cancelText}</div>}
-          {props?.okText && <div onClick={() => props?.onOk?.()}>{props?.okText}</div>}
+          {cancelText && <div onClick={() => handleCancel()}>{cancelText}</div>}
+          {okText && <div onClick={() => props?.onOk?.()}>{okText}</div>}
         </Space>
       </div>
     ) : (

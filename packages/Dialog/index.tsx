@@ -3,6 +3,7 @@ import styles from './index.less';
 import { useEffect, useState } from 'react';
 import ReactDom from 'react-dom';
 import { Button, Space } from '@/index';
+import { useGetLocaleValues } from '@/ConfigProvider';
 
 export interface DialogProps {
   // 对话框是否可见
@@ -47,8 +48,6 @@ Dialog.defaultProps = {
   title: '标题',
   mask: true,
   maskClosable: true,
-  okText: <Button type={'primary'}>确定</Button>,
-  cancelText: <Button>取消</Button>,
   closable: true,
   closeIcon: <span>close</span>, // TODO: replace close icon
 };
@@ -56,6 +55,12 @@ Dialog.defaultProps = {
 const animationDuration: number = 150;
 const disappearAnimationDuration: number = 80;
 export default function Dialog(props: DialogProps) {
+  const locales = useGetLocaleValues();
+  const {
+    okText = <Button type={'primary'}>{locales.confirmValue}</Button>,
+    cancelText = <Button>{locales.cancelValue}</Button>,
+  } = props;
+
   const [isAppear, setIsAppear] = useState<boolean>(false);
 
   function handleCancel() {
@@ -94,8 +99,8 @@ export default function Dialog(props: DialogProps) {
     props?.footer === undefined ? (
       <div className={styles['dialog-content-footer']}>
         <Space style={{ float: 'right' }}>
-          {props?.cancelText && <div onClick={() => handleCancel()}>{props?.cancelText}</div>}
-          {props?.okText && <div onClick={() => props?.onOk?.()}>{props?.okText}</div>}
+          {cancelText && <div onClick={() => handleCancel()}>{cancelText}</div>}
+          {okText && <div onClick={() => props?.onOk?.()}>{okText}</div>}
         </Space>
       </div>
     ) : (

@@ -1,18 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-// import { Button, Input } from 'tiger-ui';
-import { Button, Input, message, Space, Dialog, Drawer, Pagination } from '../../packages';
-// import { Button, Input, message, Space, DialogBox } from '../../lib/index';
-// import '../../lib/index.css';
+import {
+  Button,
+  Input,
+  message,
+  Space,
+  Dialog,
+  Drawer,
+  Pagination,
+  ConfigProvider,
+} from '../../packages';
+// import { Button, Input, message, Space, Dialog, Drawer, Pagination, ConfigProvider } from '../../lib';
+import '../../lib/index.css';
+import * as locales from '../../packages/_locales';
 
 function App() {
   const [pagination, setPagination] = useState<{ current: number; pageSize: number }>({
     current: 1,
     pageSize: 10,
   });
-  const [inputValue, setInputValue] = useState<any>('fsdfasd');
-  const [visible, setVisible] = useState<boolean>(true);
-  const [dialogVisible, setDialogVisible] = useState<boolean>(false);
+
+  const [dialogVisible, setDialogVisible] = useState(false);
+  const [drawerVisible, setDrawerVisible] = useState(false);
 
   useEffect(() => {
     // message.success('操作成功', 100000)
@@ -20,33 +29,43 @@ function App() {
     // message.info('11')
   }, []);
 
+  const [locale, setLocale] = useState(locales.zh_CN);
+
   return (
     <div>
-      <Pagination
-        current={pagination.current}
-        pageSize={pagination.pageSize}
-        total={1126}
-        moveLeftSize={10}
-        moveRightSize={20}
-        onChange={(current = 1, pageSize = 10) => {
-          setPagination({ current, pageSize });
-        }}
-      />
-      <Pagination
-        disabled
-        current={pagination.current}
-        pageSize={pagination.pageSize}
-        total={1120}
-        onChange={(current = 1, pageSize = 10) => {
-          console.log('-->', current, pageSize);
-          setPagination({ current, pageSize });
-        }}
-      />
-      {/*<Pagination size={'middle'}/>*/}
-      {/*<Pagination size={'large'}/>*/}
-      {/*<Pagination size={'small'} mini/>*/}
-      {/*<Pagination size={'middle'} mini/>*/}
-      {/*<Pagination size={'large'} mini/>*/}
+      <Space>
+        <Button onClick={() => setDialogVisible(true)}>打开弹窗</Button>
+        <Button onClick={() => setDrawerVisible(true)}>打开抽屉</Button>
+      </Space>
+      <Test />
+      <ConfigProvider locale={locale}>
+        <div>
+          <Space>
+            <Button onClick={() => setLocale(locales.zh_CN)}>中文</Button>
+            <Button onClick={() => setLocale(locales.en_US)}>英文</Button>
+          </Space>
+          <div style={{ width: 200 }}>
+            <Test />
+          </div>
+        </div>
+
+        <Dialog visible={dialogVisible} onCancel={() => setDialogVisible(false)}>
+          弹窗
+        </Dialog>
+
+        <Drawer visible={drawerVisible} onCancel={() => setDrawerVisible(false)}>
+          抽屉
+        </Drawer>
+      </ConfigProvider>
+    </div>
+  );
+}
+
+function Test() {
+  return (
+    <div style={{ width: 200 }}>
+      <Input />
+      <Input />
     </div>
   );
 }

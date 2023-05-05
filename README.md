@@ -35,7 +35,6 @@ components:
 - Image
 - Upload
 - Notification
-- ConfigProvider
 - Tag
 - Tree
 - ToolTip
