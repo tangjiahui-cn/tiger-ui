@@ -16,6 +16,7 @@ function App() {
   return (
     <ConfigProvider locale={en_US}>
       <Select options={options} value={current} onChange={setCurrent} />
+      <Select options={options} value={current} onChange={setCurrent} />
     </ConfigProvider>
   );
 }

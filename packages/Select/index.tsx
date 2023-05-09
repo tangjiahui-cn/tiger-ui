@@ -131,7 +131,11 @@ export default function Select(props: SelectProps) {
       <PopupPanel
         visible={popupVisible}
         getPopularContainer={props?.getPopularContainer}
-        style={{ width: popupInfo.width }}
+        style={{
+          width: popupInfo.width,
+          left: popupInfo.left,
+          top: popupInfo.top,
+        }}
         onBlur={() => {
           setPopupVisible(false);
         }}
