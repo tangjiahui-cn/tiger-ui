@@ -63,10 +63,6 @@ export default function Select(props: SelectProps) {
     return list;
   }, [props?.options]);
 
-  useEffect(() => {
-    setCurrentOption(optionsMap.current?.[props?.value || '']);
-  }, [props?.value]);
-
   function initPopupPanelInfo() {
     const info: DOMRect = (headDom?.current as any)?.getBoundingClientRect();
     setPopupInfo({
@@ -109,6 +105,10 @@ export default function Select(props: SelectProps) {
       })}
     </div>
   );
+
+  useEffect(() => {
+    setCurrentOption(optionsMap.current?.[props?.value || '']);
+  }, [props?.value]);
 
   useEffect(() => {
     initPopupPanelInfo();
