@@ -38,3 +38,6 @@ git commit -am "docs(CHANGELOG.md): update changelog" # (新增提交，避免�
 ADDRESS=https://registry.npmjs.org/
 npm unpublish ${NAME}@${VERSION} 2>/dev/null --registry=${ADDRESS}
 npm publish --registry=${ADDRESS}
+
+# tag 推送到远程
+git push origin --tags
