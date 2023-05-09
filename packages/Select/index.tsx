@@ -84,12 +84,8 @@ export default function Select(props: SelectProps) {
     >
       {options.map((option: Option) => {
         const isChoose: boolean = option.value === currentOption?.value;
-        const classes: string = [
-          styles['select-option'],
-          isChoose && styles['select-option-choose'],
-        ]
-          .filter(Boolean)
-          .join(' ');
+        const classes: string =
+          `${styles['select-option']} ` + `${isChoose ? styles['select-option-choose'] : ''}`;
         return (
           <div
             className={classes}
