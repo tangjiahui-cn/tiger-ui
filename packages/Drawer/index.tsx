@@ -43,7 +43,7 @@ export interface DrawerProps {
   // 点击取消按钮回调事件
   onCancel?: () => void;
   // 子元素
-  children?: any;
+  children?: React.ReactNode;
 }
 
 Drawer.defaultProps = {

@@ -28,7 +28,7 @@ export interface ButtonProps {
   // onClick回调事件
   onClick?: MouseEventHandler<HTMLButtonElement>;
   // 子元素
-  children?: any;
+  children?: React.ReactNode;
 }
 
 /**
@@ -58,7 +58,6 @@ export default function Button(props: ButtonProps) {
     <button
       ref={btnRef}
       className={classes}
-      // className={classes + (focus ? ` ${styles['btn-force-focus']}` : '')}
       disabled={props?.disabled}
       onClick={props?.onClick}
       style={props?.style}

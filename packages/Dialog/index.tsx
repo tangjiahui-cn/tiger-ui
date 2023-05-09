@@ -39,7 +39,7 @@ export interface DialogProps {
   // 关闭对话框回调
   onCancel?: () => void;
   // 子元素
-  children?: any;
+  children?: React.ReactNode;
 }
 
 Dialog.defaultProps = {

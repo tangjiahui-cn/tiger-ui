@@ -13,7 +13,7 @@ export interface SpaceProps {
   // 容器样式
   style?: React.CSSProperties;
   // 子元素
-  children?: any;
+  children?: React.ReactNode;
 }
 
 export default function Space(props: SpaceProps) {

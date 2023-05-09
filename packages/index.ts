@@ -14,3 +14,5 @@ export { default as Pagination } from './Pagination';
 export type { PaginationProps } from './Pagination';
 export { default as ConfigProvider } from './ConfigProvider';
 export type { ConfigProviderProps } from './ConfigProvider';
+export { default as Select } from './Select';
+export type { SelectProps } from './Select';
