@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styles from './index.less';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import PopupPanel from '@/Select/PopupPanel';
+import PopupPanel, { GetPopularContainer } from '@/Select/PopupPanel';
 import { useGetConfig } from '@/ConfigProvider';
 
 export type Key = string | number;
@@ -22,7 +22,7 @@ export interface SelectProps {
   // 是否块级属性
   block?: boolean;
   // 浮层挂载位置
-  getPopularContainer?: (el?: any) => Element;
+  getPopularContainer?: GetPopularContainer;
   // 下拉框占位样式
   style?: React.CSSProperties;
   // 占位符
@@ -37,7 +37,6 @@ export default function Select(props: SelectProps) {
   const { locale } = useGetConfig();
   const { style = {}, placeholder = locale.inputPlaceholder } = props;
   const headDom = useRef(null);
-  const popupDom = useRef(null);
 
   const [popupVisible, setPopupVisible] = useState<boolean>(false);
   const [popupInfo, setPopupInfo] = useState<{
@@ -74,7 +73,6 @@ export default function Select(props: SelectProps) {
 
   const selectBody: React.ReactNode = (
     <div
-      ref={popupDom}
       className={styles['select-popup']}
       style={{
         left: popupInfo.left,

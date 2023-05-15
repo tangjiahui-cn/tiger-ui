@@ -132,6 +132,7 @@
     }
   },
   "dependencies": {
-    "jest-css-modules-transform": "^4.4.2"
+    "jest-css-modules-transform": "^4.4.2",
+    "moment": "^2.29.4"
   }
 }

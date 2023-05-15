@@ -49,7 +49,6 @@ components:
 - Slider
 - Switch
 - DatePicker/TimePicker
-- Calendar
 - Carouel
 - Collapse
 - Empty

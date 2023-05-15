@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { ConfigProvider, Select } from '../../packages';
+import { ConfigProvider, DatePicker, Select, Drawer } from '../../packages';
 import { Option } from '../../packages/Select';
 import { en_US } from '../../packages/_locales';
+import { Button } from '../../lib';
+import moment from 'moment';
 
 function App() {
   const [current, setCurrent] = useState<any>(undefined);
@@ -15,8 +17,12 @@ function App() {
 
   return (
     <ConfigProvider locale={en_US}>
-      <Select options={options} value={current} onChange={setCurrent} />
-      <Select options={options} value={current} onChange={setCurrent} />
+      <DatePicker
+        value={moment()}
+        onChange={(...args) => {
+          console.log(...args);
+        }}
+      />
     </ConfigProvider>
   );
 }

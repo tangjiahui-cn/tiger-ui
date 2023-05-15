@@ -3,13 +3,15 @@ import * as React from 'react';
 import styles from './PopupPanel.less';
 import { createPortal } from 'react-dom';
 
+export type GetPopularContainer = (el?: any) => Element;
+
 interface IPopupPanel {
   // 浮层出现触发聚焦
   visible?: boolean;
   // 浮层样式
   style?: React.CSSProperties;
   // 浮层挂载位置
-  getPopularContainer?: (el?: any) => Element;
+  getPopularContainer?: GetPopularContainer;
   // 聚焦回调事件
   onFocus?: () => void;
   // 失焦回调事件
@@ -44,7 +46,7 @@ export default function PopupPanel(props: IPopupPanel) {
       tabIndex={0}
       className={styles.popupPanel}
       style={{
-        maxHeight: props?.visible ? 256 : 0,
+        maxHeight: props?.visible ? 325 : 0,
         ...style,
       }}
       onBlur={() => {

@@ -16,3 +16,5 @@ export { default as ConfigProvider } from './ConfigProvider';
 export type { ConfigProviderProps } from './ConfigProvider';
 export { default as Select } from './Select';
 export type { SelectProps } from './Select';
+export { default as DatePicker } from './DatePicker';
+export type { DatePickerProps } from './DatePicker';
