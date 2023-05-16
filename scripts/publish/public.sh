@@ -22,6 +22,7 @@ git commit -am "docs(.): publish version ${VERSION}"
 TAG_NAME=v${VERSION}
 git tag -d ${TAG_NAME} 2>/dev/null
 git tag ${TAG_NAME}
+git push origin --tags
 
 # 4、打印消息
 printf "\n\n"
@@ -38,6 +39,3 @@ git commit -am "docs(CHANGELOG.md): update changelog" # (新增提交，避免�
 ADDRESS=https://registry.npmjs.org/
 npm unpublish ${NAME}@${VERSION} 2>/dev/null --registry=${ADDRESS}
 npm publish --registry=${ADDRESS}
-
-# tag 推送到远程
-git push origin --tags
