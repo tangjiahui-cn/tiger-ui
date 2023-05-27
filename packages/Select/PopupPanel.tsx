@@ -41,20 +41,24 @@ export default function PopupPanel(props: IPopupPanel) {
   }, [props?.visible]);
 
   return createPortal(
-    <div
-      ref={domRef}
-      tabIndex={0}
-      className={styles.popupPanel}
-      style={{
-        maxHeight: props?.visible ? 325 : 0,
-        ...style,
-      }}
-      onBlur={() => {
-        props?.onBlur?.();
-      }}
-    >
-      {props?.children}
-    </div>,
+    props?.visible ? (
+      <div
+        ref={domRef}
+        tabIndex={0}
+        className={styles.popupPanel}
+        style={{
+          maxHeight: props?.visible ? 325 : 0,
+          ...style,
+        }}
+        onBlur={() => {
+          props?.onBlur?.();
+        }}
+      >
+        {props?.children}
+      </div>
+    ) : (
+      <></>
+    ),
     mountDom,
   );
 }

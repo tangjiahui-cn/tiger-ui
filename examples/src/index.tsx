@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { ConfigProvider, DatePicker, Select, Drawer } from '../../packages';
+import {
+  ConfigProvider,
+  DatePicker,
+  Select,
+  Drawer,
+  Dialog,
+  Space,
+  Input,
+  Pagination,
+} from '../../packages';
 import { Option } from '../../packages/Select';
 import { en_US } from '../../packages/_locales';
 import { Button } from '../../lib';
@@ -15,14 +24,34 @@ function App() {
     { label: '选项四', value: '4' },
   ]);
 
+  const [visible, setVisible] = useState<boolean>(true);
+  const [visible2, setVisible2] = useState<boolean>(true);
+
   return (
     <ConfigProvider locale={en_US}>
-      <DatePicker
-        value={moment()}
-        onChange={(...args) => {
-          console.log(...args);
+      <Dialog
+        visible={visible || visible2}
+        onCancel={() => {
+          setVisible(false);
+          setVisible2(false);
         }}
-      />
+      >
+        {visible2 && <Input />}
+        <Select options={options} />
+        <DatePicker />
+        <Pagination />
+      </Dialog>
+
+      <Space>
+        <Button onClick={() => setVisible(true)}>open</Button>
+        <Button onClick={() => setVisible2(true)}>open2</Button>
+        <DatePicker
+          value={moment()}
+          onChange={(...args) => {
+            console.log(...args);
+          }}
+        />
+      </Space>
     </ConfigProvider>
   );
 }

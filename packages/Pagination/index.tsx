@@ -63,7 +63,7 @@ const DEFAULT_MOVE_SIZE: number = 5;
 export default function Pagination(props: PaginationProps) {
   const {
     size = DEFAULT_SIZE,
-    total = 1,
+    total = 0,
     current = 1,
     pageSize = 10,
     pureSize = 5,
@@ -223,7 +223,7 @@ export default function Pagination(props: PaginationProps) {
       跳至
       <Input
         disabled={props?.disabled}
-        style={{ width: 64 }}
+        style={{ width: 70 }}
         maxLength={100}
         value={jumpPage}
         onChange={(e) => {
@@ -264,25 +264,28 @@ export default function Pagination(props: PaginationProps) {
   return (
     <Space block size={props?.mini ? 4 : 8} style={{ padding: 16, ...(props?.style || {}) }}>
       {renderTotal}
-      {paginationList.map((x: any) => {
-        const disabled =
-          (pagination.current === 1 && x.id === PaginationDataType.PREV) ||
-          (pagination.current === pagination.pages && x.id === PaginationDataType.NEXT);
-        const focus = pagination.current === x.id;
-        return (
-          <Button
-            key={x?.id}
-            disabled={disabled || props?.disabled}
-            type={x?.type || btnType}
-            size={size}
-            focus={focus}
-            onClick={() => handleClick(x)}
-          >
-            {x.value}
-          </Button>
-        );
-      })}
-      {props?.showQuickJumper && renderJump}
+      {total ? ',' : ''}
+      {total === 0
+        ? null
+        : paginationList.map((x: any) => {
+            const disabled =
+              (pagination.current === 1 && x.id === PaginationDataType.PREV) ||
+              (pagination.current === pagination.pages && x.id === PaginationDataType.NEXT);
+            const focus = pagination.current === x.id;
+            return (
+              <Button
+                key={x?.id}
+                disabled={disabled || props?.disabled}
+                type={x?.type || btnType}
+                size={size}
+                focus={focus}
+                onClick={() => handleClick(x)}
+              >
+                {x.value}
+              </Button>
+            );
+          })}
+      {total ? props?.showQuickJumper && renderJump : ''}
     </Space>
   );
 }
@@ -297,5 +300,5 @@ Pagination.defaultProps = {
   moveLeftSize: DEFAULT_MOVE_SIZE,
   moveRightSize: DEFAULT_MOVE_SIZE,
   showQuickJumper: true,
-  showTotal: (total: number) => `总共 ${total} 条记录，`,
+  showTotal: (total: number) => `总共 ${total} 条记录`,
 };

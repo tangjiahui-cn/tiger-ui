@@ -64,6 +64,7 @@ export default function Select(props: SelectProps) {
 
   function initPopupPanelInfo() {
     const info: DOMRect = (headDom?.current as any)?.getBoundingClientRect();
+
     setPopupInfo({
       width: info.width,
       left: info.x,
@@ -119,6 +120,7 @@ export default function Select(props: SelectProps) {
         }}
         className={styles.select}
         onMouseDown={() => {
+          initPopupPanelInfo();
           setPopupVisible(true);
         }}
       >
@@ -133,6 +135,7 @@ export default function Select(props: SelectProps) {
           width: popupInfo.width,
           left: popupInfo.left,
           top: popupInfo.top,
+          background: 'white',
         }}
         onBlur={() => {
           setPopupVisible(false);

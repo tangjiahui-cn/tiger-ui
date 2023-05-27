@@ -161,6 +161,7 @@ export default function DatePicker(props: DatePickerProps) {
         }}
         className={styles.datePicker}
         onMouseDown={() => {
+          initPopupPanelInfo();
           setPopupVisible(true);
         }}
       >
@@ -175,6 +176,7 @@ export default function DatePicker(props: DatePickerProps) {
         style={{
           left: popupInfo.left,
           top: popupInfo.top,
+          background: 'white',
         }}
         onBlur={() => {
           setPopupVisible(false);
