@@ -24,7 +24,6 @@ export class EventEmitter {
 
   emit(type: string, payload: any) {
     if (this.msg[type]) {
-      this.msg[type] = this.msg[type];
       this.msg[type] = this.msg[type].filter((msgData: EventEmitterMsgData) => {
         msgData?.fn?.(payload)?.();
         return !msgData?.once;
