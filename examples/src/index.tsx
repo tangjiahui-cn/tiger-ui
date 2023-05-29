@@ -9,10 +9,10 @@ import {
   Space,
   Input,
   Pagination,
+  Button,
 } from '../../packages';
 import { Option } from '../../packages/Select';
 import { en_US } from '../../packages/_locales';
-import { Button } from '../../lib';
 import moment from 'moment';
 
 function App() {
@@ -37,7 +37,7 @@ function App() {
         }}
       >
         {visible2 && <Input />}
-        <Select options={options} />
+        <Select options={options} value={current} onChange={setCurrent} />
         <DatePicker />
         <Pagination />
       </Dialog>

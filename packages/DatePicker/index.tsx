@@ -7,6 +7,7 @@ import { createDateArrayByMonth, createDateItem, doubleNumStr } from './utils';
 import { useGetConfig } from '@/ConfigProvider';
 import moment from 'moment';
 import { useUpdateEffect } from '@/_hooks';
+import classNames from 'classnames';
 
 export type DateItem = {
   year: number;
@@ -110,7 +111,7 @@ export default function DatePicker(props: DatePickerProps) {
           return (
             <div
               key={dateItem.key}
-              className={classes.join(' ')}
+              className={classNames(classes)}
               onClick={() => {
                 const current = { ...dateItem };
                 current.dateStr = current.moment.format(format);
@@ -165,7 +166,7 @@ export default function DatePicker(props: DatePickerProps) {
           setPopupVisible(true);
         }}
       >
-        <span className={!current?.dateStr ? styles['datePicker-placeholder'] : ''}>
+        <span className={classNames({ [styles['datePicker-placeholder']]: !current?.dateStr })}>
           {current?.dateStr || placeholder}
         </span>
       </div>

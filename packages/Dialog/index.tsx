@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import ReactDom from 'react-dom';
 import { Button, Space } from '@/index';
 import { useGetLocaleValues } from '@/ConfigProvider';
+import classNames from 'classnames';
 
 export interface DialogProps {
   // 对话框是否可见
@@ -73,9 +74,10 @@ export default function Dialog(props: DialogProps) {
 
   const mask = props?.mask && (
     <div
-      className={`${styles['dialog-mask']} ${
-        styles[isAppear ? 'dialog-appear' : 'dialog-disappear']
-      }`}
+      className={classNames(
+        styles['dialog-mask'],
+        styles[isAppear ? 'dialog-appear' : 'dialog-disappear'],
+      )}
       style={{ ...(props?.maskStyle || {}), animationDuration: `${animationDuration}ms` }}
       onClick={() => props?.maskClosable && handleCancel()}
     />
@@ -119,9 +121,10 @@ export default function Dialog(props: DialogProps) {
       <div className={styles['dialog']} style={{ display: props?.visible ? undefined : 'none' }}>
         {mask}
         <div
-          className={`${styles['dialog-content']} ${
-            styles[isAppear ? 'dialog-appear' : 'dialog-disappear']
-          }`}
+          className={classNames(
+            styles['dialog-content'],
+            styles[isAppear ? 'dialog-appear' : 'dialog-disappear'],
+          )}
           style={{
             width: props?.width,
             animationDuration: `${animationDuration}ms`,

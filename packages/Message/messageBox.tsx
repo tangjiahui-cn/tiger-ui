@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import styles from './index.less';
 import { MessageOptions } from '@/Message/message';
+import classNames from 'classnames';
 
 type MessageBoxProps = Pick<
   MessageOptions,
@@ -38,11 +39,10 @@ export default function (props: MessageBoxProps) {
 
   return (
     <div
-      className={
-        `${styles['message-box']}` +
-        ' ' +
-        `${styles[isAppear ? 'message-box-appear' : 'message-box-disappear']}`
-      }
+      className={classNames(
+        styles['message-box'],
+        styles[isAppear ? 'message-box-appear' : 'message-box-disappear'],
+      )}
       style={{
         animationDuration: `${animationDuration}ms`,
       }}

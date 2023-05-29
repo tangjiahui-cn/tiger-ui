@@ -15,7 +15,7 @@
     "commit": "git add . && git-cz",
     "test": "jest -c jest.config.js --no-cache",
     "fomat-code-all": "eslint --ext .js,.ts,.jsx,.tsx */* --fix && prettier --write .",
-    "publish-npm": "sh scripts/publish/checkLogin.sh && pnpm test && pnpm build && sh scripts/publish/public.sh",
+    "publish-npm": "nr test && sh scripts/publish/checkLogin.sh && pnpm test && pnpm build && sh scripts/publish/public.sh",
     "prepare": "husky install"
   },
   "files": [
@@ -132,6 +132,7 @@
     }
   },
   "dependencies": {
+    "classnames": "^2.3.2",
     "jest-css-modules-transform": "^4.4.2",
     "moment": "^2.29.4"
   }

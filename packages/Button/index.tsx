@@ -1,6 +1,7 @@
-import React, { MouseEventHandler, useEffect, useMemo, useRef, useState } from 'react';
+import React, { MouseEventHandler, useMemo, useRef } from 'react';
 import styles from './index.less';
 import { SizeType } from '../_types/common';
+import classNames from 'classnames';
 
 export type ButtonType = 'primary' | 'dashed' | 'default' | 'text' | 'dotted';
 export type ButtonSize = SizeType;
@@ -41,7 +42,7 @@ export default function Button(props: ButtonProps) {
   const btnRef = useRef(null);
 
   const classes = useMemo(() => {
-    return [
+    return classNames([
       styles['btn'],
       styles[`btn-${props?.type}`],
       styles[`btn-${props?.size}`],
@@ -49,9 +50,7 @@ export default function Button(props: ButtonProps) {
       props?.block && styles['btn-block'],
       props?.stayFocus && styles['btn-stay-focus'],
       props?.focus && styles['btn-force-focus'],
-    ]
-      .filter(Boolean)
-      .join(' ');
+    ]);
   }, [props?.type, props?.size, props?.danger, props?.block, props.stayFocus, props?.focus]);
 
   return (

@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import styles from './index.less';
 import { SizeType } from '../_types/common';
 import { useGetLocaleValues } from '@/ConfigProvider';
+import classNames from 'classnames';
 
 export interface InputProps {
   // TODO: 后面允许清空(使用图标库)
@@ -33,15 +34,15 @@ export default function Input(props: InputProps) {
   const locale = useGetLocaleValues();
   const [wrapperClasses, classes, isPure] = useMemo(() => {
     const isPure = !(props.prefix || props.suffix);
-    const wrapperClasses = [
+    const wrapperClasses = classNames(
       styles['input-wrapper'],
       props.disabled && styles['input-wrapper-disabled'],
-    ]
-      .filter(Boolean)
-      .join(' ');
-    const classes = [styles['input'], styles[`input-${props.size}`], isPure && styles['input-pure']]
-      .filter(Boolean)
-      .join(' ');
+    );
+    const classes = classNames(
+      styles['input'],
+      styles[`input-${props.size}`],
+      isPure && styles['input-pure'],
+    );
     return [wrapperClasses, classes, isPure];
   }, [props.prefix, props.suffix, props.size]);
 

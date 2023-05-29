@@ -4,6 +4,7 @@ import styles from './index.less';
 import { useEffect, useMemo, useState } from 'react';
 import { Button, Space } from '@/index';
 import { useGetLocaleValues } from '@/ConfigProvider';
+import classNames from 'classnames';
 
 type directionType = 'top' | 'left' | 'right' | 'bottom';
 
@@ -71,11 +72,11 @@ export default function Drawer(props: DrawerProps) {
 
   const [isAppear, setIsAppear] = useState<boolean>(false);
   const [width, height, bodyClasses] = useMemo(() => {
-    const bodyClasses = [
+    const bodyClasses = classNames(
       styles['drawer-content'],
       styles[`drawer-content-${props.direction}`],
       styles[`drawer-content-${props.direction}-${isAppear ? 'appear' : 'disappear'}`],
-    ].join(' ');
+    );
 
     return ['top', 'bottom'].includes(props.direction)
       ? ['100%', props.width, bodyClasses]
@@ -92,9 +93,10 @@ export default function Drawer(props: DrawerProps) {
 
   const mask = props?.mask && (
     <div
-      className={`${styles['drawer-mask']} ${
-        styles[isAppear ? 'drawer-mask-appear' : 'drawer-mask-disappear']
-      }`}
+      className={classNames(
+        styles['drawer-mask'],
+        styles[isAppear ? 'drawer-mask-appear' : 'drawer-mask-disappear'],
+      )}
       style={{ ...(props?.maskStyle || {}), animationDuration: `${animationDuration}ms` }}
       onClick={() => props?.maskClosable && handleCancel()}
     />

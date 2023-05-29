@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import styles from './index.less';
+import classNames from 'classnames';
 
 export interface SpaceProps {
   // 间距大小
@@ -18,14 +19,12 @@ export interface SpaceProps {
 
 export default function Space(props: SpaceProps) {
   const classes = useMemo(() => {
-    return [
+    return classNames(
       styles['space'],
       props?.wrap && styles['space-wrap'],
       props?.block && styles['space-block'],
       props?.direction === 'vertical' && styles['space-vertical'],
-    ]
-      .filter(Boolean)
-      .join(' ');
+    );
   }, [props.block, props?.block, props?.direction]);
 
   return (

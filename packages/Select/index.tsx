@@ -3,6 +3,7 @@ import styles from './index.less';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import PopupPanel, { GetPopularContainer } from '@/Select/PopupPanel';
 import { useGetConfig } from '@/ConfigProvider';
+import classNames from 'classnames';
 
 export type Key = string | number;
 export interface Option {
@@ -83,8 +84,10 @@ export default function Select(props: SelectProps) {
     >
       {options.map((option: Option) => {
         const isChoose: boolean = option.value === currentOption?.value;
-        const classes: string =
-          `${styles['select-option']} ` + `${isChoose ? styles['select-option-choose'] : ''}`;
+        const classes: string = classNames(
+          styles['select-option'],
+          isChoose && styles['select-option-choose'],
+        );
         return (
           <div
             className={classes}
@@ -124,7 +127,7 @@ export default function Select(props: SelectProps) {
           setPopupVisible(true);
         }}
       >
-        <span className={!currentOption ? styles['select-placeholder'] : ''}>
+        <span className={classNames(!currentOption && styles['select-placeholder'])}>
           {currentOption?.label || placeholder}
         </span>
       </div>
