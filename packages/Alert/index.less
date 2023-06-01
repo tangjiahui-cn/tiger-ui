@@ -1,0 +1,61 @@
+@import '../_style/theme';
+
+.alert {
+  border: 1px solid @borderColor;
+  padding: 8px 16px;
+  border-radius: 2px;
+  display: flex;
+  //align-items: center;
+
+  &-hidden {
+    display: none;
+  }
+
+  &-icon {
+    padding-right: 8px;
+    align-self: flex-start;
+    font-size: 16px;
+  }
+
+  &-message {
+    font-size: 16px;
+    width:100%;
+    word-break: break-all;
+  }
+
+  &-description {
+    width:100%;
+    word-break: break-all;
+  }
+
+  &-close {
+    cursor: pointer;
+    font-size: 12px;
+    padding-left: 8px;
+    display: flex;
+
+    &:hover {
+      color: @textHover;
+    }
+  }
+
+  &-info {
+    border-color: @infoBorderColor;
+    background-color: @infoBg;
+  }
+
+  &-success {
+    border-color: @successBorderColor;
+    background-color: @successBg;
+  }
+
+  &-error {
+    border-color: @errorBorderColor;
+    background-color: @errorBg;
+  }
+
+  &-warn {
+    border-color: @warnBorderColor;
+    background-color: @warnBg;
+  }
+}

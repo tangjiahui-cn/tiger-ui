@@ -35,7 +35,6 @@ pnpm build
 ```text
 components:
 - Icon
-- Alert
 - Image
 - Upload
 - Notification

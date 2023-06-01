@@ -10,6 +10,8 @@ import {
   Input,
   Pagination,
   Button,
+  Alert,
+  message,
 } from '../../packages';
 import { Option } from '../../packages/Select';
 import { en_US } from '../../packages/_locales';
@@ -24,33 +26,53 @@ function App() {
     { label: '选项四', value: '4' },
   ]);
 
-  const [visible, setVisible] = useState<boolean>(true);
-  const [visible2, setVisible2] = useState<boolean>(true);
+  const [visible, setVisible] = useState<boolean>(false);
+  const [visible2, setVisible2] = useState<boolean>(false);
+
+  const types: any[] = ['success', 'error', 'warn', 'info'];
 
   return (
     <ConfigProvider locale={en_US}>
-      <Dialog
-        visible={visible || visible2}
-        onCancel={() => {
-          setVisible(false);
-          setVisible2(false);
-        }}
-      >
-        {visible2 && <Input />}
-        <Select options={options} value={current} onChange={setCurrent} />
-        <DatePicker />
-        <Pagination />
-      </Dialog>
-
-      <Space>
-        <Button onClick={() => setVisible(true)}>open</Button>
-        <Button onClick={() => setVisible2(true)}>open2</Button>
-        <DatePicker
-          value={moment()}
-          onChange={(...args) => {
-            console.log(...args);
-          }}
-        />
+      <Space style={{ padding: 16 }} direction={'vertical'}>
+        {types.map((type) => {
+          return (
+            <Alert
+              style={{ width: 200 }}
+              type={type}
+              key={type}
+              showIcon
+              messageStyle={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+              descriptionStyle={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+              message={'这是一段消息提示'}
+              description={'一个描述没有什么用处，手动阀省得麻烦骄傲我'}
+              onClose={() => {
+                console.log('关闭');
+              }}
+            />
+          );
+        })}
+        {types.map((type) => {
+          return <Alert type={type} key={type} closable showIcon />;
+        })}
+        {types.map((type: any) => {
+          return (
+            <Button
+              key={type}
+              onClick={() => {
+                message.open({
+                  type,
+                  content: type,
+                });
+              }}
+            >
+              {type}
+            </Button>
+          );
+        })}
       </Space>
     </ConfigProvider>
   );
