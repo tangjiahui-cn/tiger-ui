@@ -12,6 +12,7 @@ import {
   Button,
   Alert,
   message,
+  Slider,
 } from '../../packages';
 import { Option } from '../../packages/Select';
 import { en_US } from '../../packages/_locales';
@@ -31,49 +32,22 @@ function App() {
 
   const types: any[] = ['success', 'error', 'warn', 'info'];
 
+  const [value, setValue] = useState<number>(30);
+
   return (
     <ConfigProvider locale={en_US}>
-      <Space style={{ padding: 16 }} direction={'vertical'}>
-        {types.map((type) => {
-          return (
-            <Alert
-              style={{ width: 200 }}
-              type={type}
-              key={type}
-              showIcon
-              messageStyle={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
-              descriptionStyle={{
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}
-              message={'这是一段消息提示'}
-              description={'一个描述没有什么用处，手动阀省得麻烦骄傲我'}
-              onClose={() => {
-                console.log('关闭');
-              }}
-            />
-          );
-        })}
-        {types.map((type) => {
-          return <Alert type={type} key={type} closable showIcon />;
-        })}
-        {types.map((type: any) => {
-          return (
-            <Button
-              key={type}
-              onClick={() => {
-                message.open({
-                  type,
-                  content: type,
-                });
-              }}
-            >
-              {type}
-            </Button>
-          );
-        })}
-      </Space>
+      <div style={{ padding: 16 }}>
+        <Slider
+          smooth
+          value={value}
+          defaultValue={50}
+          onChange={(...args: any) => {
+            console.log(...args);
+            setValue(args?.[0] || 0);
+          }}
+        />
+        <Slider defaultValue={50} />
+      </div>
     </ConfigProvider>
   );
 }

@@ -45,7 +45,6 @@ components:
 - InputNumber
 - Checkbox
 - Radio
-- Slider
 - Switch
 - DatePicker/TimePicker
 - Carouel

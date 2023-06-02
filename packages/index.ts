@@ -20,3 +20,5 @@ export { default as DatePicker } from './DatePicker';
 export type { DatePickerProps } from './DatePicker';
 export { default as Alert } from './Alert';
 export type { AlertProps } from './Alert';
+export { default as Slider } from './Slider';
+export type { SliderProps } from './Slider';
