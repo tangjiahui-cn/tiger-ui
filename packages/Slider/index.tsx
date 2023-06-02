@@ -11,6 +11,8 @@ export interface SliderProps {
   defaultValue?: SliderValue;
   // 无极滑动
   smooth?: boolean;
+  // 滑动输入条样式
+  style?: React.CSSProperties;
   // 值改变回调
   onChange?: (value?: SliderValue, preValue?: SliderValue) => void;
 }
@@ -71,7 +73,7 @@ export default function Slider(props: SliderProps) {
   }, [props?.value]);
 
   return (
-    <div className={styles['slider']}>
+    <div className={styles['slider']} style={props?.style}>
       <div
         className={styles['slider-track']}
         ref={trackDomRef}
