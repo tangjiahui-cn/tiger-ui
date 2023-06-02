@@ -22,3 +22,5 @@ export { default as Alert } from './Alert';
 export type { AlertProps } from './Alert';
 export { default as Slider } from './Slider';
 export type { SliderProps } from './Slider';
+export { default as Image } from './Image';
+export type { ImageProps } from './Image';

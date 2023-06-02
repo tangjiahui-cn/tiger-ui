@@ -13,6 +13,7 @@ import {
   Alert,
   message,
   Slider,
+  Image,
 } from '../../packages';
 import { Option } from '../../packages/Select';
 import { en_US } from '../../packages/_locales';
@@ -37,16 +38,14 @@ function App() {
   return (
     <ConfigProvider locale={en_US}>
       <div style={{ padding: 16 }}>
-        <Slider
-          smooth
-          value={value}
-          defaultValue={50}
-          onChange={(...args: any) => {
-            console.log(...args);
-            setValue(args?.[0] || 0);
-          }}
+        <Image
+          preview
+          // width={200}
+          // height={200}
+          src={
+            'https://ts1.cn.mm.bing.net/th?id=OIP-C.85Y7QDuk39Ct6ShTKKEmggHaLH&w=120&h=185&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2'
+          }
         />
-        <Slider defaultValue={50} />
       </div>
     </ConfigProvider>
   );

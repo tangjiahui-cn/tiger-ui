@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { PointerEventHandler, useMemo } from 'react';
 import styles from './index.less';
 import classNames from 'classnames';
 
@@ -15,6 +15,8 @@ export interface SpaceProps {
   style?: React.CSSProperties;
   // 子元素
   children?: React.ReactNode;
+  // 鼠标按下回调
+  onPointerDown?: PointerEventHandler<any> | undefined;
 }
 
 export default function Space(props: SpaceProps) {
@@ -28,7 +30,11 @@ export default function Space(props: SpaceProps) {
   }, [props.block, props?.block, props?.direction]);
 
   return (
-    <div className={classes} style={{ gap: props?.size, ...(props?.style || {}) }}>
+    <div
+      className={classes}
+      style={{ gap: props?.size, ...(props?.style || {}) }}
+      onPointerDown={props?.onPointerDown}
+    >
       {props?.children}
     </div>
   );
