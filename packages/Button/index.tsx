@@ -41,17 +41,15 @@ export interface ButtonProps {
 export default function Button(props: ButtonProps) {
   const btnRef = useRef(null);
 
-  const classes = useMemo(() => {
-    return classNames([
-      styles['btn'],
-      styles[`btn-${props?.type}`],
-      styles[`btn-${props?.size}`],
-      props?.danger && styles['btn-danger'],
-      props?.block && styles['btn-block'],
-      props?.stayFocus && styles['btn-stay-focus'],
-      props?.focus && styles['btn-force-focus'],
-    ]);
-  }, [props?.type, props?.size, props?.danger, props?.block, props.stayFocus, props?.focus]);
+  const classes = classNames([
+    styles['btn'],
+    styles[`btn-${props?.type}`],
+    styles[`btn-${props?.size}`],
+    props?.danger && styles['btn-danger'],
+    props?.block && styles['btn-block'],
+    props?.stayFocus && styles['btn-stay-focus'],
+    props?.focus && styles['btn-force-focus'],
+  ]);
 
   return (
     <button

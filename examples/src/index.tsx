@@ -37,16 +37,28 @@ function App() {
 
   return (
     <ConfigProvider locale={en_US}>
-      <div style={{ padding: 16 }}>
-        <Image
-          preview
-          // width={200}
-          // height={200}
-          src={
-            'https://ts1.cn.mm.bing.net/th?id=OIP-C.85Y7QDuk39Ct6ShTKKEmggHaLH&w=120&h=185&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2'
-          }
-        />
-      </div>
+      <Space style={{ padding: 16 }} block>
+        <Button>按钮</Button>
+        <Button type={'default'}>按钮</Button>
+        <Button type={'primary'}>按钮</Button>
+        <Button type={'text'}>按钮</Button>
+        <Button type={'dashed'}>按钮</Button>
+      </Space>
+      <Space style={{ padding: 16 }} block>
+        <Button danger>按钮</Button>
+        <Button danger type={'default'}>
+          按钮
+        </Button>
+        <Button danger type={'primary'}>
+          按钮
+        </Button>
+        <Button danger type={'text'}>
+          按钮
+        </Button>
+        <Button danger type={'dashed'}>
+          按钮
+        </Button>
+      </Space>
     </ConfigProvider>
   );
 }
