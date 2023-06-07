@@ -14,6 +14,7 @@ import {
   message,
   Slider,
   Image,
+  Tag,
 } from '../../packages';
 import { Option } from '../../packages/Select';
 import { en_US } from '../../packages/_locales';
@@ -37,27 +38,14 @@ function App() {
 
   return (
     <ConfigProvider locale={en_US}>
-      <Space style={{ padding: 16 }} block>
-        <Button>按钮</Button>
-        <Button type={'default'}>按钮</Button>
-        <Button type={'primary'}>按钮</Button>
-        <Button type={'text'}>按钮</Button>
-        <Button type={'dashed'}>按钮</Button>
-      </Space>
-      <Space style={{ padding: 16 }} block>
-        <Button danger>按钮</Button>
-        <Button danger type={'default'}>
-          按钮
-        </Button>
-        <Button danger type={'primary'}>
-          按钮
-        </Button>
-        <Button danger type={'text'}>
-          按钮
-        </Button>
-        <Button danger type={'dashed'}>
-          按钮
-        </Button>
+      <Space wrap style={{ padding: 16 }}>
+        {types.map((type) => {
+          return (
+            <Tag key={type} type={type}>
+              {type}
+            </Tag>
+          );
+        })}
       </Space>
     </ConfigProvider>
   );

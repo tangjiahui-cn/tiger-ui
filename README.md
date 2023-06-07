@@ -37,7 +37,6 @@ components:
 - Icon
 - Upload
 - Notification
-- Tag
 - Tree
 - ToolTip
 - Popover

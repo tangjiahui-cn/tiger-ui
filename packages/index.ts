@@ -24,3 +24,5 @@ export { default as Slider } from './Slider';
 export type { SliderProps } from './Slider';
 export { default as Image } from './Image';
 export type { ImageProps } from './Image';
+export { default as Tag } from './Tag';
+export type { TagProps } from './Tag';
