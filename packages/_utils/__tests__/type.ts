@@ -52,4 +52,11 @@ describe('_utils type.ts test', () => {
       expect(type.isObject(v)).toBe(res[index]);
     });
   });
+
+  it('isBoolean', () => {
+    const res = [false, false, false, false, true, false, false, false, false, false, false, false];
+    examples.forEach((v, index) => {
+      expect(type.isBoolean(v)).toBe(res[index]);
+    });
+  });
 });

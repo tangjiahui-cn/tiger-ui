@@ -42,7 +42,6 @@ components:
 - Popover
 - InputNumber
 - Checkbox
-- Radio
 - Switch
 - DatePicker/TimePicker
 - Carouel

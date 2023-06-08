@@ -15,6 +15,7 @@ import {
   Slider,
   Image,
   Tag,
+  Radio,
 } from '../../packages';
 import { Option } from '../../packages/Select';
 import { en_US } from '../../packages/_locales';
@@ -34,18 +35,20 @@ function App() {
 
   const types: any[] = ['success', 'error', 'warn', 'info'];
 
-  const [value, setValue] = useState<number>(30);
+  const [value, setValue] = useState<boolean>(false);
 
   return (
     <ConfigProvider locale={en_US}>
       <Space wrap style={{ padding: 16 }}>
-        {types.map((type) => {
-          return (
-            <Tag key={type} type={type}>
-              {type}
-            </Tag>
-          );
-        })}
+        <Button>按钮</Button>
+        <Radio
+          defaultChecked={value}
+          onChange={(checked) => {
+            // setValue(checked);
+          }}
+        >
+          11
+        </Radio>
       </Space>
     </ConfigProvider>
   );

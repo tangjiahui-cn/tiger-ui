@@ -1,0 +1,39 @@
+@import '../_style/theme';
+
+.radio {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    .radio-circle {
+      border-color: @primaryHover;
+    }
+  }
+
+  .radio-circle {
+    box-sizing: border-box;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 1px solid @primary;
+    transition: border-color @duration;
+  }
+
+  & > input[type='radio'] {
+    display: none;
+
+    &:checked + .radio-circle {
+      border: 4px solid @primaryActive;
+    }
+  }
+
+  &-content {
+    vertical-align: middle;
+    margin-left: 8px;
+  }
+}
