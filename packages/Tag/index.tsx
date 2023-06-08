@@ -15,6 +15,8 @@ export interface TagProps {
   bordered?: boolean;
   // 类型（预设了4种）
   type?: TagType;
+  // 样式
+  style?: React.CSSProperties;
   // 子元素
   children?: any;
 }
