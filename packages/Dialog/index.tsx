@@ -50,7 +50,6 @@ Dialog.defaultProps = {
   mask: true,
   maskClosable: true,
   closable: true,
-  closeIcon: <CloseOutline pointer />,
 };
 
 const animationDuration: number = 150;
@@ -61,6 +60,7 @@ export default function Dialog(props: DialogProps) {
     title = locales.titleValue,
     okText = <Button type={'primary'}>{locales.confirmValue}</Button>,
     cancelText = <Button>{locales.cancelValue}</Button>,
+    closeIcon = <CloseOutline pointer />,
   } = props;
 
   const [isAppear, setIsAppear] = useState<boolean>(false);
@@ -90,7 +90,7 @@ export default function Dialog(props: DialogProps) {
         <div className={styles['dialog-content-head-title']}>{title}</div>
         {props?.closable && (
           <div className={styles['dialog-content-head-close']} onClick={() => handleCancel()}>
-            {props?.closeIcon}
+            {closeIcon}
           </div>
         )}
       </div>

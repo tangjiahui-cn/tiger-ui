@@ -55,7 +55,6 @@ Drawer.defaultProps = {
   mask: true,
   maskClosable: true,
   closable: true,
-  closeIcon: <CloseOutline pointer />,
 };
 
 const animationDuration: number = 500;
@@ -69,6 +68,7 @@ export default function Drawer(props: DrawerProps) {
     title = locales.titleValue,
     okText = <Button type={'primary'}>{locales.confirmValue}</Button>,
     cancelText = <Button>{locales.cancelValue}</Button>,
+    closeIcon = <CloseOutline pointer />,
   } = props;
 
   const [isAppear, setIsAppear] = useState<boolean>(false);
@@ -109,7 +109,7 @@ export default function Drawer(props: DrawerProps) {
         <div className={styles['drawer-content-head-title']}>{title}</div>
         {props?.closable && (
           <div className={styles['drawer-content-head-close']} onClick={() => handleCancel()}>
-            {props?.closeIcon}
+            {closeIcon}
           </div>
         )}
       </div>
