@@ -30,8 +30,28 @@ pnpm build
 - 拥有完整的 docs 站点
 ...
 ```
+## Done（16 / 31）
+```text
+components
+- Alert
+- Button
+- ConfigProvider
+- DataPicker
+- Dialog
+- Drawer
+- Icon
+- Image
+- Input
+- Message
+- Pagination
+- Radio
+- Select
+- Slider
+- Space
+- Tag
+```
 
-## Next plan:
+## Next plan
 ```text
 components:
 - Upload
@@ -53,5 +73,7 @@ components:
 
 ## Future
 ```text
-Wait More...
+1. 完成全部组件
+
+2. 迭代新功能
 ```
