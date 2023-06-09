@@ -34,7 +34,6 @@ pnpm build
 ## Next plan:
 ```text
 components:
-- Icon
 - Upload
 - Notification
 - Tree
@@ -43,7 +42,7 @@ components:
 - InputNumber
 - Checkbox
 - Switch
-- DatePicker/TimePicker
+- TimePicker
 - Carouel
 - Collapse
 - Empty
