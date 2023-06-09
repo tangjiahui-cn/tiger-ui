@@ -1,10 +1,12 @@
 export type OutlineIcon =
   | 'CloseOutline'
-  | 'ArrowDownOutline'
   | 'DeleteOutline'
   | 'CopyOutline'
   | 'ArrowLeftDoubleOutline'
   | 'ArrowRightDoubleOutline'
-  | 'ArrowLeftOutline';
+  | 'ArrowLeftOutline'
+  | 'ArrowTopOutline'
+  | 'ArrowRightOutline'
+  | 'ArrowDownOutline';
 
 export type FillIcon = 'SuccessFill' | 'InfoFill' | 'CloseFill';

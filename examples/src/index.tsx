@@ -20,7 +20,7 @@ import {
 import { Option } from '../../packages/Select';
 import { en_US } from '../../packages/_locales';
 import moment from 'moment';
-import { CloseOutline, Icon } from '../../packages/Icon';
+import { CloseOutLine, Icon } from '../../packages/Icon';
 
 function App() {
   const [current, setCurrent] = useState<any>(undefined);
@@ -41,11 +41,13 @@ function App() {
   return (
     <ConfigProvider locale={en_US}>
       <Icon iconName={'ArrowDownOutline'} />
+      <Icon iconName={'ArrowTopOutline'} />
+      <Icon iconName={'ArrowRightOutline'} />
       <Icon iconName={'ArrowRightDoubleOutline'} />
       <Icon iconName={'ArrowLeftDoubleOutline'} />
       <Icon iconName={'ArrowLeftOutline'} />
       <Space wrap style={{ padding: 16 }}>
-        <CloseOutline />
+        <CloseOutLine />
         <Button>按钮</Button>
         <Radio
           defaultChecked={value}
