@@ -1,6 +1,8 @@
 *.yaml
 *.json
 
+/packages/Icon/*.js
+
 lib
 node_modules
 *ignore
