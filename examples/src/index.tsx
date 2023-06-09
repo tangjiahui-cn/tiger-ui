@@ -19,7 +19,6 @@ import {
 } from '../../packages';
 import { Option } from '../../packages/Select';
 import { en_US } from '../../packages/_locales';
-import moment from 'moment';
 import { CloseFill, CloseOutline, Icon } from '../../packages/Icon';
 import { DirectionType } from '../../packages/Drawer';
 import { ButtonType } from '../../packages/Button';
@@ -43,7 +42,7 @@ function App() {
 
   return (
     <ConfigProvider locale={en_US}>
-      <div style={{ padding: 16, gap: 16, display: 'flex', flexDirection: 'column' }}>
+      <Space direction={'vertical'} style={{ padding: 16 }}>
         <CloseFill pointer />
         <CloseFill color={'red'} fontSize={18} spin />
         <Space>
@@ -130,7 +129,7 @@ function App() {
           })}
           <Button onClick={() => setDialogVisible(true)}>打开Dialog</Button>
         </Space>
-      </div>
+      </Space>
 
       <Drawer
         visible={drawVisible}

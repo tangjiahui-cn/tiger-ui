@@ -25,7 +25,7 @@ export default function Space(props: SpaceProps) {
       styles['space'],
       props?.wrap && styles['space-wrap'],
       props?.block && styles['space-block'],
-      props?.direction === 'vertical' && styles['space-vertical'],
+      props?.direction === 'vertical' ? styles['space-vertical'] : styles['space-horizontal'],
     );
   }, [props.block, props?.block, props?.direction]);
 
