@@ -22,16 +22,18 @@ export type IconProps = {
 } & IconCommonProps;
 
 export default function Icon(props: IconProps) {
-  const { fontSize = 14 } = props;
+  const { fontSize = 16 } = props;
 
   return (
-    <div
-      className={classNames(styles['icon'], props?.spin && styles['icon-spin'])}
-      style={{ color: props?.color, cursor: props?.pointer ? 'pointer' : 'default', fontSize }}
-    >
-      <svg className='tiger-ui-icon' aria-hidden='true'>
-        <use xlinkHref={`#icon-${props?.iconName}`} />
-      </svg>
-    </div>
+    <span className={classNames(styles['icon-wrapper'], props?.pointer && styles['icon-pointer'])}>
+      <a
+        className={classNames(styles['icon'], props?.spin && styles['icon-spin'])}
+        style={{ color: props?.color, fontSize }}
+      >
+        <svg className='tiger-ui-icon' aria-hidden='true'>
+          <use xlinkHref={`#icon-${props?.iconName}`} />
+        </svg>
+      </a>
+    </span>
   );
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './index.less';
 import classNames from 'classnames';
 import { Space } from '@/index';
+import { CloseFill, InfoFill, SuccessFill, IconPresets } from '../Icon';
 
 type AlertType = 'success' | 'error' | 'warn' | 'info';
 
@@ -32,12 +33,11 @@ type IconMapType = {
   [k in AlertType]: React.ReactNode;
 };
 
-// TODO：待替换图标
 const ICON_MAP: IconMapType = {
-  success: <span>success</span>,
-  warn: <span>warn</span>,
-  info: <span>info</span>,
-  error: <span>error</span>,
+  success: <IconPresets.SuccessFillIcon />,
+  warn: <IconPresets.WarnFillIcon />,
+  info: <IconPresets.InfoFillIcon />,
+  error: <IconPresets.ErrorFillIcon />,
 };
 
 /**

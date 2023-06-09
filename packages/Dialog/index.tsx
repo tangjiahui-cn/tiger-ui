@@ -2,9 +2,10 @@ import * as React from 'react';
 import styles from './index.less';
 import { useEffect, useState } from 'react';
 import ReactDom from 'react-dom';
-import { Button, Space } from '@/index';
+import { Button, Space } from '..';
 import { useGetLocaleValues } from '@/ConfigProvider';
 import classNames from 'classnames';
+import { CloseOutline } from '../Icon';
 
 export interface DialogProps {
   // 对话框是否可见
@@ -49,7 +50,7 @@ Dialog.defaultProps = {
   mask: true,
   maskClosable: true,
   closable: true,
-  closeIcon: <span>close</span>, // TODO: replace close icon
+  closeIcon: <CloseOutline pointer />,
 };
 
 const animationDuration: number = 150;

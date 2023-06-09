@@ -8,3 +8,5 @@ LICENSE
 *.md
 *.d.ts
 *.rc
+
+/packages/Icon/*.js

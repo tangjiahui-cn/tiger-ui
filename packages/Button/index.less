@@ -1,9 +1,19 @@
 @import '../_style/theme';
 
+// mixin
+.hover (@code) {
+  &:hover,
+  &.btn-force-focus,
+  &:focus.btn-stay-focus:not(:active) {
+    @code();
+  }
+}
+
 .btn-hover-primary () {
   .hover({
     background-color: @primaryHover;
     border-color: @primaryHover;
+    .setLoading(white, pointer);
   });
 
   &:active {
@@ -15,49 +25,50 @@
     color: @disabled;
     background-color: @disabledBg;
     border-color: @disabled;
-  }
-}
-
-// mixin
-.hover (@code) {
-  &:hover,
-  &.btn-force-focus,
-  &:focus.btn-stay-focus:not(:active) {
-    @code();
+    .setLoading(@disabled, not-allowed);
   }
 }
 
 .btn-hover-default () {
   .btn-danger-default();
+  .setLoading(color, default);
 
   .hover({
     color: @primaryHover;
     border-color: @primaryHover;
+    .setLoading(@primaryHover, pointer);
   });
 
   &:active {
     color: @primaryActive;
     border-color: @primaryActive;
+    .setLoading(@primaryActive, pointer);
   }
 
   &:disabled {
     color: @disabled;
     border-color: @disabled;
+    .setLoading(@disabled, not-allowed);
   }
 }
 
 .btn-hover-text () {
+  .setLoading(@color, default);
+
   .hover({
     color: @textHover;
+    .setLoading(@textHover, pointer);
   });
 
   &:active {
     color: @textActive;
+    .setLoading(@textActive, pointer);
   }
 
   &:disabled {
     color: @disabled;
     border-color: transparent;
+    .setLoading(@disabled, not-allowed);
   }
 }
 
@@ -80,6 +91,7 @@
       color: white;
       background-color: @dangerDisabled;
       border-color: @dangerDisabled;
+      .setLoading(white, not-allowed);
     }
   }
 }
@@ -88,20 +100,24 @@
   &.btn-danger {
     color: @danger;
     border-color: @danger;
+    .setLoading(@danger, default);
 
     .hover({
       color: @dangerHover;
       border-color: @dangerHover;
+      .setLoading(@dangerHover, pointer);
     });
 
     &:active {
       color: @dangerActive;
       border-color: @dangerActive;
+      .setLoading(@dangerActive, pointer);
     }
 
     &:disabled {
       color: @dangerDisabled;
       border-color: @dangerDisabled;
+      .setLoading(@dangerDisabled, not-allowed);
     }
   }
 }
@@ -109,19 +125,23 @@
 .btn-danger-text () {
   &.btn-danger {
     color: @danger;
+    .setLoading(@danger, default);
 
     .hover({
       color: @dangerHover;
+      .setLoading(@dangerHover, pointer);
     });
 
     &:active {
       color: @dangerActive;
+      .setLoading(@dangerActive, pointer);
     }
 
     &:disabled {
       color: @dangerDisabled;
       background: transparent;
       border-color: transparent;
+      .setLoading(@dangerDisabled, not-allowed);
     }
   }
 }
@@ -145,6 +165,10 @@
     cursor: not-allowed;
   }
 
+  &-loading {
+    margin-right: 8px;
+  }
+
   &-default {
     .btn-hover-default();
   }
@@ -153,6 +177,7 @@
     color: white;
     background: @primary;
     border-color: @primary;
+    .setLoading(white, default);
     .btn-danger-primary();
     .btn-hover-primary();
   }

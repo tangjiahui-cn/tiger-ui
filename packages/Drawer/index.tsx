@@ -2,11 +2,12 @@ import * as React from 'react';
 import ReactDom from 'react-dom';
 import styles from './index.less';
 import { useEffect, useMemo, useState } from 'react';
-import { Button, Space } from '@/index';
+import { Button, Space } from '..';
 import { useGetLocaleValues } from '@/ConfigProvider';
 import classNames from 'classnames';
+import { CloseOutline } from '../Icon';
 
-type directionType = 'top' | 'left' | 'right' | 'bottom';
+export type DirectionType = 'top' | 'left' | 'right' | 'bottom';
 
 export interface DrawerProps {
   // 抽屉是否显示
@@ -16,7 +17,7 @@ export interface DrawerProps {
   // 标题
   title?: React.ReactNode;
   // 出现方向
-  direction: directionType;
+  direction: DirectionType;
   // 是否显示右上角关闭图标
   closable?: boolean;
   // 自定义右上角关闭图标
@@ -54,7 +55,7 @@ Drawer.defaultProps = {
   mask: true,
   maskClosable: true,
   closable: true,
-  closeIcon: <span>close</span>, // TODO: replace close icon
+  closeIcon: <CloseOutline pointer />,
 };
 
 const animationDuration: number = 500;

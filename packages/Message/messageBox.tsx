@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import styles from './index.less';
 import { MessageOptions } from '@/Message/message';
 import classNames from 'classnames';
+import { IconPresets } from '../Icon';
 
 type MessageBoxProps = Pick<
   MessageOptions,
@@ -15,17 +16,41 @@ export default function (props: MessageBoxProps) {
   const icon = useMemo(() => {
     switch (props.type) {
       case 'success':
-        return <>(success)</>;
+        return (
+          <>
+            <IconPresets.SuccessFillIcon />
+          </>
+        );
       case 'error':
-        return <>(error)</>;
+        return (
+          <>
+            <IconPresets.ErrorFillIcon />
+          </>
+        );
       case 'loading':
-        return <>(loading)</>;
+        return (
+          <>
+            <IconPresets.LoadingOutlineIcon />
+          </>
+        );
       case 'warn':
-        return <>(warn)</>;
+        return (
+          <>
+            <IconPresets.WarnFillIcon />
+          </>
+        );
       case 'warning':
-        return <>(warning)</>;
+        return (
+          <>
+            <IconPresets.WarningFillIcon />
+          </>
+        );
       case 'info':
-        return <>(info)</>;
+        return (
+          <>
+            <IconPresets.InfoFillIcon />
+          </>
+        );
     }
     return <></>;
   }, [props.type]);

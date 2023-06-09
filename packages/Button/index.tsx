@@ -1,6 +1,7 @@
-import React, { MouseEventHandler, useMemo, useRef } from 'react';
+import React, { MouseEventHandler, useRef } from 'react';
 import styles from './index.less';
-import { SizeType } from '../_types/common';
+import { SizeType } from '@/_types/common';
+import { LoadingOutline } from '../Icon';
 import classNames from 'classnames';
 
 export type ButtonType = 'primary' | 'dashed' | 'default' | 'text' | 'dotted';
@@ -15,9 +16,8 @@ export interface ButtonProps {
   block?: boolean;
   // 危险按钮
   danger?: boolean;
-  // todo: 按钮添加'加载中'效果
-  // // 是否加载中
-  // loading?: boolean;
+  // 是否加载中
+  loading?: boolean;
   // 按钮大小
   size?: ButtonSize;
   // 内联样式
@@ -56,9 +56,14 @@ export default function Button(props: ButtonProps) {
       ref={btnRef}
       className={classes}
       disabled={props?.disabled}
-      onClick={props?.onClick}
+      onClick={props?.loading ? undefined : props?.onClick}
       style={props?.style}
     >
+      {props?.loading && (
+        <span className={styles['btn-loading']}>
+          <LoadingOutline fontSize={14} />
+        </span>
+      )}
       {props?.children}
     </button>
   );
