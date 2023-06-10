@@ -5,6 +5,7 @@ const terserWebpackPlugin = require('terser-webpack-plugin');
 const { getCommonConfig } = require('../share/getCommonWebpackConfig');
 const { root, mergeWebpack, NAME } = require('../index');
 const { getPackageNamePathMap } = require('../share/getPackages');
+const WebpackBar = require('webpackbar');
 
 /**
  * Webpack build config
@@ -59,6 +60,11 @@ module.exports = mergeWebpack(getCommonConfig(), {
   plugins: [
     new miniCssExtractPlugin({
       filename: getExtractCssPath,
+    }),
+    new WebpackBar({
+      color: '#85d',
+      basic: true,
+      profile: true,
     }),
   ],
 });
