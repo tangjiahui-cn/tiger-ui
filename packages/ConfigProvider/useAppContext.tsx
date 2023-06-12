@@ -10,7 +10,7 @@ const config: ConfigProps = {
 };
 
 const ConfigContext = createContext<ConfigProps>(config);
-export { ConfigContext, useGetConfig, useGetLocaleValue, useGetLocaleValues };
+export { ConfigContext, useGetConfig, useGetLocaleValues };
 
 function useConfigContext(): ConfigProps {
   return useContext(ConfigContext);
@@ -18,11 +18,6 @@ function useConfigContext(): ConfigProps {
 
 function useGetConfig(): ConfigProps {
   return useConfigContext();
-}
-
-function useGetLocaleValue(prop: keyof Locale): string {
-  const { locale } = useConfigContext();
-  return locale?.[prop];
 }
 
 function useGetLocaleValues(): Locale {
