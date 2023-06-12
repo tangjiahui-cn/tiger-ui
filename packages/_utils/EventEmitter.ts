@@ -7,6 +7,9 @@ interface EventEmitterMsg {
   [k: string]: EventEmitterMsgData[];
 }
 
+/**
+ * 发布-订阅事件
+ */
 export class EventEmitter {
   msg: EventEmitterMsg = {};
 

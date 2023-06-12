@@ -49,12 +49,12 @@ components
 - Slider
 - Space
 - Tag
+- Upload
 ```
 
 ## Next plan
 ```text
 components:
-- Upload
 - Notification
 - Tree
 - ToolTip

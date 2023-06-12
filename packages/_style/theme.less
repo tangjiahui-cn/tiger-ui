@@ -4,6 +4,12 @@
 @import 'gold';
 @import 'green';
 
+.textEllipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .setLoading (@_color, @_cursor) {
   & .icon-wrapper.icon-wrapper.icon-wrapper.icon-wrapper a {
     color: @_color;

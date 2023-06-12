@@ -28,3 +28,5 @@ export { default as Tag } from './Tag';
 export type { TagProps } from './Tag';
 export { default as Radio } from './Radio';
 export type { RadioProps } from './Radio';
+export { default as Upload } from './Upload';
+export type { UploadProps } from './Upload';

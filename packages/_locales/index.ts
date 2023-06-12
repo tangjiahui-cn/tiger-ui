@@ -10,4 +10,9 @@ export interface Locale {
   cancelValue: string;
   // dialog and drawer value.
   titleValue: string;
+  // 上传
+  upload: {
+    value: string;
+    sizeErrorMsg: string;
+  };
 }
