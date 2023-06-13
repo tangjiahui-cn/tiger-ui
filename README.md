@@ -30,7 +30,7 @@ pnpm build
 - 拥有完整的 docs 站点
 ...
 ```
-## Done（17 / 31）
+## Done（18 / 31）
 ```text
 components
 - Alert
@@ -50,6 +50,7 @@ components
 - Space
 - Tag
 - Upload
+- Switch
 ```
 
 ## Next plan
@@ -61,7 +62,6 @@ components:
 - Popover
 - InputNumber
 - Checkbox
-- Switch
 - TimePicker
 - Carouel
 - Collapse
