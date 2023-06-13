@@ -56,21 +56,15 @@
   }
 }
 
-.hiddenText () {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .input-fix {
   &-prefix {
     margin-left: 12px;
-    .hiddenText();
+    .textEllipsis();
   }
 
   &-suffix {
     margin-right: 12px;
-    .hiddenText();
+    .textEllipsis();
   }
 }
 
