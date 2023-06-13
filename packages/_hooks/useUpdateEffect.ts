@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 
-export default function useUpdateEffect(fn: () => void, effect: any[]) {
+export type UnMountFn = () => void;
+export default function useUpdateEffect(fn: () => void | UnMountFn, effect: any[]) {
   const first = useRef(false);
   useEffect(() => {
     if (!first.current) {
