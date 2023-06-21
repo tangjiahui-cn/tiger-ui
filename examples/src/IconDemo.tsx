@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   ConfigProvider,
   DatePicker,
@@ -17,15 +17,28 @@ import {
   Radio,
 } from '../../packages';
 import { Option } from '../../packages/Select';
-import { en_US } from '../../packages/_locales';
 import { CloseFill, CloseOutline, Icon } from '../../packages/Icon';
 import { DirectionType } from '../../packages/Drawer';
 import { ButtonType } from '../../packages/Button';
+
+import zh_CN from '../../packages/_locales/zh_CN';
+import en_US from '../../packages/_locales/en_US';
+import { Locale } from '../../packages/_locales';
+
+const localeMap = {
+  zh_CN,
+  en_US,
+};
+
+type Language = keyof typeof localeMap;
 
 const types: any[] = ['success', 'error', 'warn', 'info'];
 const directions: DirectionType[] = ['top', 'left', 'right', 'bottom'];
 const buttonType: ButtonType[] = ['primary', 'dashed', 'default', 'text', 'dotted'];
 export default function () {
+  const [language, setLanguage] = useState<Language>('zh_CN');
+  const locale = useMemo<Locale>(() => localeMap[language], [language]);
+
   const [current, setCurrent] = useState<any>(undefined);
   const [options, setOptions] = useState<Option[]>([
     { label: '选项一', value: '1' },
@@ -40,8 +53,14 @@ export default function () {
   const [dialogVisible, setDialogVisible] = useState<boolean>(false);
 
   return (
-    <ConfigProvider locale={en_US}>
+    <ConfigProvider locale={locale}>
       <Space direction={'vertical'} style={{ padding: 16 }}>
+        <Space block>
+          <Button onClick={() => setLanguage('zh_CN')}>中文</Button>
+          <Button onClick={() => setLanguage('en_US')}>english</Button>
+          {'->'}
+          <Input style={{ width: 200 }} />
+        </Space>
         <CloseFill pointer />
         <CloseFill color={'red'} fontSize={18} spin />
         <Space>
