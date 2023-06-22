@@ -51,6 +51,7 @@ components
 - Tag
 - Upload
 - Switch
+- Checkbox
 ```
 
 ## Next plan
@@ -61,7 +62,6 @@ components:
 - ToolTip
 - Popover
 - InputNumber
-- Checkbox
 - TimePicker
 - Carouel
 - Collapse
