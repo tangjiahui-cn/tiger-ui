@@ -30,7 +30,7 @@ pnpm build
 - 拥有完整的 docs 站点
 ...
 ```
-## Done（18 / 31）
+## Done（20 / 31）
 ```text
 components
 - Alert
@@ -52,6 +52,7 @@ components
 - Upload
 - Switch
 - Checkbox
+- Table
 ```
 
 ## Next plan
@@ -66,7 +67,6 @@ components:
 - Carouel
 - Collapse
 - Empty
-- Table
 - Counter
 - Tabs
 ```

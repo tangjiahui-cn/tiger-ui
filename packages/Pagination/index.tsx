@@ -261,7 +261,7 @@ export default function Pagination(props: PaginationProps) {
     setPaginationList(list);
   }, [pagination, pureSize]);
 
-  return (
+  return total ? (
     <Space block size={props?.mini ? 4 : 8} style={{ padding: 16, ...(props?.style || {}) }}>
       {renderTotal}
       {total ? ',' : ''}
@@ -287,6 +287,8 @@ export default function Pagination(props: PaginationProps) {
           })}
       {total ? props?.showQuickJumper && renderJump : ''}
     </Space>
+  ) : (
+    <></>
   );
 }
 

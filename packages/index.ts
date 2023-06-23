@@ -34,3 +34,5 @@ export { default as Switch } from './Switch';
 export type { SwitchProps } from './Switch';
 export { default as CheckBox } from './CheckBox';
 export type { CheckBoxProps } from './CheckBox';
+export { default as Table } from './Table';
+export type { TableProps } from './Table';
