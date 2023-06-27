@@ -36,6 +36,7 @@ export default function NotificationBox(props: NotificationBoxProps) {
     style = {},
   } = props;
 
+  const icon = props?.icon || (props?.type && IconMap?.[props?.type]?.({ fontSize: 18 }));
   const disappearTimerId = useRef<any>();
   const [isAppear, setIsAppear] = useState<boolean>(true);
 
@@ -66,12 +67,16 @@ export default function NotificationBox(props: NotificationBoxProps) {
       style={{ width: 300, animationDuration: `${animationDuration}ms`, ...style }}
     >
       <Space style={{ width: '100%' }} size={10}>
-        <div style={{ alignSelf: 'flex-start' }} className={styles['notificationBox-title']}>
-          {props?.type && IconMap?.[props?.type]?.({ fontSize: 18 })}
-        </div>
+        {icon && (
+          <div style={{ alignSelf: 'flex-start' }} className={styles['notificationBox-title']}>
+            {icon}
+          </div>
+        )}
         <Space direction={'vertical'} style={{ flex: 1, wordBreak: 'break-all' }}>
-          <div className={styles['notificationBox-title']}>{props?.message}</div>
-          <div>{props?.description}</div>
+          {props?.message && (
+            <div className={styles['notificationBox-title']}>{props?.message}</div>
+          )}
+          {props?.description && <div>{props?.description}</div>}
         </Space>
         {closable && (
           <div style={{ alignSelf: 'flex-start' }} onClick={handleRemove}>
