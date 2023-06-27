@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import styles from './index.less';
 import classNames from 'classnames';
-import { Space } from '@/index';
-import { CloseFill, InfoFill, SuccessFill, IconPresets } from '../Icon';
-
-type AlertType = 'success' | 'error' | 'warn' | 'info';
+import { Space } from '..';
+import { IconMap, IconType } from '@/Icon/_presets';
 
 export interface AlertProps {
   // 类型
-  type?: AlertType;
+  type?: IconType;
   // 提示内容
   message?: string | React.ReactNode;
   // 提示描述
@@ -28,17 +26,6 @@ export interface AlertProps {
   // 关闭回调
   onClose?: () => void;
 }
-
-type IconMapType = {
-  [k in AlertType]: React.ReactNode;
-};
-
-const ICON_MAP: IconMapType = {
-  success: <IconPresets.SuccessFillIcon />,
-  warn: <IconPresets.WarnFillIcon />,
-  info: <IconPresets.InfoFillIcon />,
-  error: <IconPresets.ErrorFillIcon />,
-};
 
 /**
  * 警告提示
@@ -65,7 +52,7 @@ export default function Alert(props: AlertProps) {
       style={props?.style}
     >
       {props?.showIcon && (
-        <div className={styles['alert-icon']}>{props?.icon || ICON_MAP[type]}</div>
+        <div className={styles['alert-icon']}>{props?.icon || IconMap[type]?.()}</div>
       )}
       <Space direction={'vertical'} style={{ flex: 1, overflow: 'hidden' }}>
         {message && (

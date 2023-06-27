@@ -61,3 +61,11 @@ export const CloseOutlineIcon = function (props: IconCommonProps) {
     </span>
   );
 };
+
+export type IconType = 'success' | 'error' | 'warn' | 'info';
+export const IconMap = {
+  success: (props?: IconCommonProps) => <SuccessFillIcon {...props} />,
+  warn: (props?: IconCommonProps) => <WarnFillIcon {...props} />,
+  info: (props?: IconCommonProps) => <InfoFillIcon {...props} />,
+  error: (props?: IconCommonProps) => <ErrorFillIcon {...props} />,
+};
