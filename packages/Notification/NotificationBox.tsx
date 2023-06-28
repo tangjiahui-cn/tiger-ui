@@ -37,23 +37,28 @@ export default function NotificationBox(props: NotificationBoxProps) {
   } = props;
 
   const icon = props?.icon || (props?.type && IconMap?.[props?.type]?.({ fontSize: 18 }));
+  const timerId = useRef<any>();
   const disappearTimerId = useRef<any>();
   const [isAppear, setIsAppear] = useState<boolean>(true);
 
+  function clearInitTimer() {
+    timerId.current && clearTimeout(timerId.current);
+  }
+
   function handleRemove() {
     setIsAppear(false);
+    clearInitTimer();
     disappearTimerId.current = setTimeout(() => {
       props?.onRemove?.();
     }, animationDuration - 50);
   }
 
   useEffect(() => {
-    let timerId: any = null;
     if (duration) {
-      timerId = setTimeout(() => handleRemove(), duration);
+      timerId.current = setTimeout(() => handleRemove(), duration);
     }
     return () => {
-      timerId && clearTimeout(timerId);
+      clearInitTimer();
       disappearTimerId.current && clearTimeout(disappearTimerId.current);
     };
   }, []);
