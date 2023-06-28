@@ -38,3 +38,5 @@ export { default as Table } from './Table';
 export type { TableProps } from './Table';
 export { default as Notification } from './Notification';
 export type { NotificationProps } from './Notification';
+export { default as Counter } from './Counter';
+export type { CounterProps } from './Counter';

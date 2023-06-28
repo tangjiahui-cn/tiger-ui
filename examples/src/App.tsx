@@ -1,47 +1,20 @@
 import * as React from 'react';
-import { Button, Notification, Space } from '../../packages';
-import { NotificationType } from '../../packages/Notification/notification';
-import { useEffect } from 'react';
+import { Button, Notification, Space, Counter } from '../../packages';
+import { useEffect, useState } from 'react';
 
 export default function () {
-  function openNotification(type: NotificationType) {
-    Notification.open({
-      type,
-      message: type,
-      description: type,
-    }).then(() => {
-      console.log('close: ', type);
-    });
-  }
-
-  useEffect(() => {
-    openNotification('success');
-  }, []);
+  const [value, setValue] = useState<number>(0);
 
   return (
-    <div>
-      <Space style={{ padding: 16 }}>
-        {['success', 'error', 'info', 'warn'].map((type: any) => {
-          return (
-            <Button key={type} onClick={() => openNotification(type)}>
-              {type}
-            </Button>
-          );
-        })}
-        <Button
-          onClick={() =>
-            Notification.open({
-              message: '消息提醒框',
-              duration: 0,
-              onClose() {
-                console.log('close');
-              },
-            })
-          }
-        >
-          打开通知提醒框
-        </Button>
+    <Space block direction={'vertical'} style={{ padding: 16 }}>
+      <Space block>
+        计数器：
+        <Counter duration={2000} end={value} />
       </Space>
-    </div>
+      <Space block>
+        <Button onClick={() => setValue(1000)}>1000</Button>
+        <Button onClick={() => setValue(999)}>999</Button>
+      </Space>
+    </Space>
   );
 }

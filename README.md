@@ -54,6 +54,7 @@ components
 - Checkbox
 - Table
 - Notification
+- Counter
 ```
 
 ## Next plan
@@ -64,10 +65,9 @@ components:
 - Popover
 - InputNumber
 - TimePicker
-- Carouel
+- Carousel
 - Collapse
 - Empty
-- Counter
 - Tabs
 ```
 
