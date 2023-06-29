@@ -9,4 +9,5 @@ export default {
     value: '上传',
     sizeErrorMsg: '上传文件大小不超过',
   },
+  emptyValue: '暂无数据',
 } as Locale;

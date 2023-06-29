@@ -9,4 +9,5 @@ export default {
     value: 'upload',
     sizeErrorMsg: 'upload size not large than ',
   },
+  emptyValue: 'No Data',
 } as Locale;

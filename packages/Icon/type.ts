@@ -8,6 +8,7 @@ export type OutlineIcon =
   | 'ArrowTopOutline'
   | 'ArrowRightOutline'
   | 'ArrowDownOutline'
-  | 'LoadingOutline';
+  | 'LoadingOutline'
+  | 'EmptyOutline';
 
-export type FillIcon = 'SuccessFill' | 'InfoFill' | 'CloseFill';
+export type FillIcon = 'SuccessFill' | 'InfoFill' | 'CloseFill' | 'EmptyFill';

@@ -15,6 +15,7 @@ import {
   Image,
   Tag,
   Radio,
+  Empty,
 } from '../../packages';
 import { Option } from '../../packages/Select';
 import { CloseFill, CloseOutline, Icon } from '../../packages/Icon';
@@ -55,6 +56,12 @@ export default function () {
   return (
     <ConfigProvider locale={locale}>
       <Space direction={'vertical'} style={{ padding: 16 }}>
+        <Empty />
+        <Empty
+          message={'一段空提示语一段空提示语一段空提示语一段空提示语一段空提示语一段空提示语'}
+          border
+          type={'fill'}
+        />
         <Space block>
           <Button onClick={() => setLanguage('zh_CN')}>中文</Button>
           <Button onClick={() => setLanguage('en_US')}>english</Button>

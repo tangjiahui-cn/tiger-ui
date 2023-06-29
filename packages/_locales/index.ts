@@ -15,4 +15,6 @@ export interface Locale {
     value: string;
     sizeErrorMsg: string;
   };
+  // emptyValue
+  emptyValue: string;
 }
