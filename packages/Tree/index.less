@@ -1,0 +1,50 @@
+@import '../_style/theme';
+
+.tree {
+  padding: 8px;
+
+  &-line {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    &-hide-children {
+      & > .tree-line {
+        display: none;
+      }
+    }
+
+    &:not(.tree) > & {
+      margin-left: 16px;
+    }
+
+    &-head {
+      display: flex;
+
+      &-arrow {
+        width: 20px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & > div {
+          transition: all @duration;
+        }
+      }
+
+      &-title {
+        flex: 1;
+        .textEllipsis();
+      }
+    }
+  }
+}
+
+.display-none {
+  display: none;
+}
+
+.bordered {
+  border: 1px solid @borderColor;
+}
