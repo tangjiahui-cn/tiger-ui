@@ -16,41 +16,17 @@ export default function (props: MessageBoxProps) {
   const icon = useMemo(() => {
     switch (props.type) {
       case 'success':
-        return (
-          <>
-            <IconPresets.SuccessFillIcon />
-          </>
-        );
+        return <IconPresets.SuccessFillIcon />;
       case 'error':
-        return (
-          <>
-            <IconPresets.ErrorFillIcon />
-          </>
-        );
+        return <IconPresets.ErrorFillIcon />;
       case 'loading':
-        return (
-          <>
-            <IconPresets.LoadingOutlineIcon />
-          </>
-        );
+        return <IconPresets.LoadingOutlineIcon />;
       case 'warn':
-        return (
-          <>
-            <IconPresets.WarnFillIcon />
-          </>
-        );
+        return <IconPresets.WarnFillIcon />;
       case 'warning':
-        return (
-          <>
-            <IconPresets.WarningFillIcon />
-          </>
-        );
+        return <IconPresets.WarningFillIcon />;
       case 'info':
-        return (
-          <>
-            <IconPresets.InfoFillIcon />
-          </>
-        );
+        return <IconPresets.InfoFillIcon />;
     }
     return <></>;
   }, [props.type]);
