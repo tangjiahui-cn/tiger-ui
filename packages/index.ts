@@ -44,3 +44,5 @@ export { default as Empty } from './Empty';
 export type { EmptyProps } from './Empty';
 export { default as Tree } from './Tree';
 export type { TreeProps, TreeNode } from './Tree';
+export { default as ToolTip } from './ToolTip';
+export type { ToolTipProps } from './ToolTip';
