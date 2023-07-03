@@ -1,12 +1,18 @@
 @import '../_style/theme';
 
-.tooltip {
+.popover {
+  &-title {
+    font-weight: bolder;
+  }
+
+  &-content {
+  }
+
   &-overlay {
     box-shadow: @boxShadow-3;
+    background: white;
     position: absolute;
-    color: white;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 8px 12px;
+    padding: 16px;
     border-radius: @borderRadius;
   }
 }

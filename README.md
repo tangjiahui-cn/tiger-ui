@@ -58,12 +58,12 @@ components
 - Empty
 - Tree
 - ToolTip
+- Popover
 ```
 
 ## Next plan
 ```text
 components:
-- Popover
 - InputNumber
 - TimePicker
 - Carousel

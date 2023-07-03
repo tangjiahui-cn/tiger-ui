@@ -7,7 +7,7 @@ const { root, mergeWebpack } = require('../index');
  */
 module.exports = mergeWebpack(getCommonConfig(true), {
   mode: 'development',
-  entry: root('./examples/src/index.tsx.tsx'),
+  entry: root('./examples/src/index'),
   devServer: {
     open: true,
     port: 10000,
@@ -15,7 +15,7 @@ module.exports = mergeWebpack(getCommonConfig(true), {
   devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      template: root('./examples/public/index.tsx.html'),
+      template: root('./examples/public/index.html'),
     }),
   ],
 });

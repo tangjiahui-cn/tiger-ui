@@ -46,3 +46,5 @@ export { default as Tree } from './Tree';
 export type { TreeProps, TreeNode } from './Tree';
 export { default as ToolTip } from './ToolTip';
 export type { ToolTipProps } from './ToolTip';
+export { default as Popover } from './Popover';
+export type { PopoverProps } from './Popover';

@@ -1,26 +1,17 @@
-import { MutableRefObject, useLayoutEffect, useRef, useState } from 'react';
-import styles from './index.less';
 import * as React from 'react';
+import { MouseEvent, MutableRefObject, useLayoutEffect, useRef, useState } from 'react';
+import styles from './index.less';
+import { Position } from '@/ToolTip/ToolTipPopup';
 
-export interface Position {
-  bottom: number;
-  height: number;
-  left: number;
-  right: number;
-  top: number;
-  width: number;
-  x: number;
-  y: number;
-}
-
-interface ToolTipPopupProps {
+interface PopoverPopupProps {
+  baseRef?: MutableRefObject<any>;
   visible?: boolean;
   style?: React.CSSProperties;
-  baseRef?: MutableRefObject<any>;
-  children?: React.ReactNode;
+  children?: any;
+  onMouseEnter?: (e: MouseEvent<any>) => void;
+  onMouseLeave?: (e: MouseEvent<any>) => void;
 }
-
-export default function ToolTipPopup(props: ToolTipPopupProps) {
+export default function PopoverPopup(props: PopoverPopupProps) {
   const { visible } = props;
   const ref = useRef<any>();
   const [position, setPosition] = useState<{ left: number; top: number }>({ left: 0, top: 0 });
@@ -47,12 +38,14 @@ export default function ToolTipPopup(props: ToolTipPopupProps) {
   return (
     <div
       ref={ref}
-      className={styles['tooltip-overlay']}
+      className={styles['popover-overlay']}
       style={{
         left: position.left,
         top: position.top,
         ...props?.style,
       }}
+      onMouseOver={props?.onMouseEnter}
+      onMouseLeave={props?.onMouseLeave}
     >
       {props?.children}
     </div>
