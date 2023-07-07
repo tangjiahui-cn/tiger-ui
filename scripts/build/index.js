@@ -25,19 +25,19 @@ function isEntryName(name) {
 // extract css to /lib/.../index.tsx.css.
 function getExtractCssPath(config) {
   const pkgName = config?.chunk?.name;
-  return isEntryName(pkgName) ? 'index.tsx.css' : `${pkgName}/index.css`;
+  return isEntryName(pkgName) ? 'index.css' : `${pkgName}/index.css`;
 }
 
 // bundle js to /lib/.../index.tsx.js.
 function getOutputFileName(pathData) {
   const pkgName = pathData?.chunk?.name;
-  return isEntryName(pkgName) ? 'index.tsx.js' : `${pkgName}/index.js`;
+  return isEntryName(pkgName) ? 'index.js' : `${pkgName}/index.js`;
 }
 
 module.exports = mergeWebpack(getCommonConfig(), {
   mode: 'production',
   entry: {
-    [ENTRY]: root('./packages/index.tsx.ts'),
+    [ENTRY]: root('./packages/index.ts'),
     ...packagesNamePathMap,
   },
   output: {
