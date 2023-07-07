@@ -7,6 +7,7 @@ import {
   DatePicker,
   Button,
   ConfigProvider,
+  Tabs,
 } from '../../packages';
 import moment, { Moment } from 'moment';
 import { useState } from 'react';
@@ -18,19 +19,30 @@ export default function () {
 
   return (
     <ConfigProvider locale={locale}>
-      <Space block style={{ padding: 16 }} wrap>
-        <Button onClick={() => setLocale(zh_CN)}>中文</Button>
-        <Button onClick={() => setLocale(en_US)}>English</Button>
-        <DatePicker />
-        <TimePicker
-          picker={'minute'}
-          value={time}
-          onChange={(mom, str) => {
-            setTime(mom);
-          }}
-        />
-        <TimePicker />
-      </Space>
+      <Tabs
+        options={[
+          {
+            key: '1',
+            label: 'tab1',
+            value: (
+              <Space block wrap>
+                <Button onClick={() => setLocale(zh_CN)}>中文</Button>
+                <Button onClick={() => setLocale(en_US)}>English</Button>
+                <DatePicker />
+                <TimePicker
+                  picker={'minute'}
+                  value={time}
+                  onChange={(mom, str) => {
+                    setTime(mom);
+                  }}
+                />
+                <TimePicker />
+              </Space>
+            ),
+          },
+          { key: '2', label: 'tab2', value: <div>222</div> },
+        ]}
+      />
     </ConfigProvider>
   );
 }

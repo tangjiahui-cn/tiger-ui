@@ -50,3 +50,5 @@ export { default as Popover } from './Popover';
 export type { PopoverProps } from './Popover';
 export { default as TimePicker } from './TimePicker';
 export type { TimePickerProps } from './TimePicker';
+export { default as Tabs } from './Tabs';
+export type { TabsProps } from './Tabs';
