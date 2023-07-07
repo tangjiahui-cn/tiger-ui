@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import moment, { Moment } from 'moment';
-import { doubleString, largeThan } from '@/_utils';
+import { doubleString } from '@/_utils';
 import ReactDOM from 'react-dom';
 import styles from './index.less';
-import { Button, Space } from '..';
-import PopupPanel, { GetPopularContainer } from '@/Select/PopupPanel';
+import PopupPanel from '@/Select/PopupPanel';
 import classNames from 'classnames';
 import { useGetConfig } from '@/ConfigProvider';
 
