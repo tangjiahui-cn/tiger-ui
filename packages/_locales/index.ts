@@ -10,11 +10,20 @@ export interface Locale {
   cancelValue: string;
   // dialog and drawer value.
   titleValue: string;
-  // 上传
+  // upload
   upload: {
     value: string;
     sizeErrorMsg: string;
   };
   // emptyValue
   emptyValue: string;
+  // timepicker
+  timepicker: {
+    // 占位符
+    placeholder: string;
+    // 此刻
+    now: string;
+    // 确定
+    confirm: string;
+  };
 }

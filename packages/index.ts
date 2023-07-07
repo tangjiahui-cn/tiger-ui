@@ -48,3 +48,5 @@ export { default as ToolTip } from './ToolTip';
 export type { ToolTipProps } from './ToolTip';
 export { default as Popover } from './Popover';
 export type { PopoverProps } from './Popover';
+export { default as TimePicker } from './TimePicker';
+export type { TimePickerProps } from './TimePicker';

@@ -45,7 +45,7 @@ export interface DatePickerProps {
 const dayList: string[] = ['一', '二', '三', '四', '五', '六', '日'];
 export default function DatePicker(props: DatePickerProps) {
   const { locale } = useGetConfig();
-  const { style = {}, placeholder = locale.inputPlaceholder, format = 'YYYY-MM-DD', value } = props;
+  const { style = {}, placeholder = locale.inputPlaceholder, format = 'YYYY-MM-DD' } = props;
   const headDom = useRef(null);
 
   const [dateArray, setDateArray] = useState<DateItem[][]>([]);
@@ -183,9 +183,7 @@ export default function DatePicker(props: DatePickerProps) {
           setPopupVisible(false);
         }}
       >
-        <div
-          style={{ display: 'inline-block', border: '1px solid #d9d9d9', boxSizing: 'border-box' }}
-        >
+        <div style={{ display: 'inline-block', boxSizing: 'border-box' }}>
           <div className={styles['datePicker-head']}>
             <span className={styles['datePicker-btn']} onClick={() => changeYearMonth('year', -1)}>
               {'<<'}

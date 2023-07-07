@@ -10,4 +10,9 @@ export default {
     sizeErrorMsg: 'upload size not large than ',
   },
   emptyValue: 'No Data',
+  timepicker: {
+    placeholder: 'select here',
+    now: 'now',
+    confirm: 'confirm',
+  },
 } as Locale;

@@ -1,26 +1,36 @@
 import * as React from 'react';
-import { Space, ToolTip, Popover } from '../../packages';
+import {
+  Space,
+  ToolTip,
+  Popover,
+  TimePicker,
+  DatePicker,
+  Button,
+  ConfigProvider,
+} from '../../packages';
+import moment, { Moment } from 'moment';
+import { useState } from 'react';
+import { en_US, zh_CN } from '../../packages/_locales';
 
 export default function () {
+  const [locale, setLocale] = useState(zh_CN);
+  const [time, setTime] = useState<Moment>(moment());
+
   return (
-    <Space block style={{ padding: 100 }} size={400} wrap>
-      <Popover title={'鼠标移入'}>
-        <span>只有标题</span>
-      </Popover>
-      <Popover
-        title={'标题'}
-        content={'这是一段文件这是一段文件这是一段文件这是一段文件这是一段文件这是'}
-      >
-        <div>标题和内容</div>
-      </Popover>
-
-      <Popover title={'一段内容'}>
-        <span>只有内容</span>
-      </Popover>
-
-      <ToolTip title={'一段文字'} defaultVisible>
-        <span>你好</span>
-      </ToolTip>
-    </Space>
+    <ConfigProvider locale={locale}>
+      <Space block style={{ padding: 16 }} wrap>
+        <Button onClick={() => setLocale(zh_CN)}>中文</Button>
+        <Button onClick={() => setLocale(en_US)}>English</Button>
+        <DatePicker />
+        <TimePicker
+          picker={'minute'}
+          value={time}
+          onChange={(mom, str) => {
+            setTime(mom);
+          }}
+        />
+        <TimePicker />
+      </Space>
+    </ConfigProvider>
   );
 }

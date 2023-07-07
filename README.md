@@ -30,7 +30,7 @@ pnpm build
 - 拥有完整的 docs 站点
 ...
 ```
-## Done（25 / 31）
+## Done（27 / 31）
 ```text
 components
 - Alert
@@ -59,13 +59,13 @@ components
 - Tree
 - ToolTip
 - Popover
+- TimePicker
 ```
 
 ## Next plan
 ```text
 components:
 - InputNumber
-- TimePicker
 - Carousel
 - Collapse
 - Tabs

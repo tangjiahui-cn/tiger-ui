@@ -10,4 +10,9 @@ export default {
     sizeErrorMsg: '上传文件大小不超过',
   },
   emptyValue: '暂无数据',
+  timepicker: {
+    placeholder: '请选择',
+    now: '此刻',
+    confirm: '确定',
+  },
 } as Locale;
