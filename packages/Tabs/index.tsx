@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import styles from './index.less';
 import classNames from 'classnames';
 
@@ -12,6 +12,14 @@ export interface TabsOption {
 export interface TabsProps {
   // 选项
   options?: TabsOption[];
+  // tabs样式
+  style?: React.CSSProperties;
+  // tabs_bar样式
+  barStyle?: React.CSSProperties;
+  // tabs_body
+  bodyStyle?: React.CSSProperties;
+  // 切换时是否销毁
+  destroy?: boolean;
   // 当前激活tab
   activeKey?: string;
   // 切换tab回调
@@ -19,18 +27,6 @@ export interface TabsProps {
 }
 export default function Tabs(props: TabsProps) {
   const [activeKey, setActiveKey] = useState<string>(props?.options?.[0]?.key || '');
-
-  const tabMap: { [k: string]: any } = useMemo(() => {
-    return (
-      props?.options?.reduce(
-        (pre, cur) =>
-          Object.assign(pre, {
-            [cur.key]: cur,
-          }),
-        {},
-      ) || {}
-    );
-  }, [props?.options]);
 
   function handleClick(option: TabsOption) {
     if (props?.onChange || props?.activeKey) {
@@ -41,8 +37,8 @@ export default function Tabs(props: TabsProps) {
   }
 
   return (
-    <div className={styles['tabs']}>
-      <div className={styles['tabs-bar']}>
+    <div className={styles['tabs']} style={props?.style}>
+      <div className={styles['tabs-bar']} style={props?.barStyle}>
         {props?.options?.map((x) => {
           const isChoose = activeKey === x.key;
           return (
@@ -59,7 +55,20 @@ export default function Tabs(props: TabsProps) {
           );
         })}
       </div>
-      <div className={styles['tabs-children']}>{tabMap?.[activeKey]?.value}</div>
+      {props?.options?.map((x) => {
+        const isVisible = x.key === activeKey;
+        return (
+          (isVisible || !props?.destroy) && (
+            <div
+              key={x.key}
+              className={styles['tabs-body']}
+              style={{ display: isVisible ? 'block' : 'none', ...props?.bodyStyle }}
+            >
+              {x?.value}
+            </div>
+          )
+        );
+      })}
     </div>
   );
 }

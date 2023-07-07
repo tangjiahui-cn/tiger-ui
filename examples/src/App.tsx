@@ -15,11 +15,21 @@ import { en_US, zh_CN } from '../../packages/_locales';
 
 export default function () {
   const [locale, setLocale] = useState(zh_CN);
+  const [destroy, setDestroy] = useState<boolean>(false);
   const [time, setTime] = useState<Moment>(moment());
 
   return (
     <ConfigProvider locale={locale}>
+      <Space style={{ padding: 16 }}>
+        <Button onClick={() => setDestroy(true)}>destroy</Button>
+        <Button onClick={() => setDestroy(false)}>not destroy</Button>
+        <span style={{ color: 'gray' }}>
+          destroy：
+          {destroy ? 'true（切换页面状态会丢失）' : 'false（状态保存）'}
+        </span>
+      </Space>
       <Tabs
+        destroy={destroy}
         options={[
           {
             key: '1',
