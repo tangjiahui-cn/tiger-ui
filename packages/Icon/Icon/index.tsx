@@ -14,6 +14,8 @@ export interface IconCommonProps {
   pointer?: boolean;
   // 大小
   fontSize?: number;
+  // 样式
+  style?: React.CSSProperties;
 }
 
 export type IconProps = {
@@ -25,7 +27,10 @@ export default function Icon(props: IconProps) {
   const { fontSize = 16 } = props;
 
   return (
-    <span className={classNames(styles['icon-wrapper'], props?.pointer && styles['icon-pointer'])}>
+    <span
+      className={classNames(styles['icon-wrapper'], props?.pointer && styles['icon-pointer'])}
+      style={props?.style}
+    >
       <a
         className={classNames(styles['icon'], props?.spin && styles['icon-spin'])}
         style={{ color: props?.color, fontSize }}

@@ -8,15 +8,17 @@ import {
   Button,
   ConfigProvider,
   Tabs,
+  InputNumber,
+  Input,
 } from '../../packages';
-import moment, { Moment } from 'moment';
 import { useState } from 'react';
 import { en_US, zh_CN } from '../../packages/_locales';
 
 export default function () {
   const [locale, setLocale] = useState(zh_CN);
   const [destroy, setDestroy] = useState<boolean>(false);
-  const [time, setTime] = useState<Moment>(moment());
+
+  const [value, setValue] = useState<number>(100);
 
   return (
     <ConfigProvider locale={locale}>
@@ -35,18 +37,21 @@ export default function () {
             key: '1',
             label: 'tab1',
             value: (
-              <Space block wrap>
-                <Button onClick={() => setLocale(zh_CN)}>中文</Button>
-                <Button onClick={() => setLocale(en_US)}>English</Button>
-                <DatePicker />
-                <TimePicker
-                  picker={'minute'}
-                  value={time}
-                  onChange={(mom, str) => {
-                    setTime(mom);
-                  }}
-                />
-                <TimePicker />
+              <Space block direction={'vertical'}>
+                <Space block wrap>
+                  <Button onClick={() => setLocale(zh_CN)}>中文</Button>
+                  <Button onClick={() => setLocale(en_US)}>English</Button>
+                </Space>
+                <Space block direction={'vertical'}>
+                  InputNumber (defaultValue: 11)：{' '}
+                  <InputNumber style={{ width: 220 }} defaultValue={11} max={100} min={0} />
+                  InputNumber (受控的value)：{' '}
+                  <InputNumber style={{ width: 220 }} value={value} onChange={setValue} max={10} />
+                  InputNumber (受控的value, 无onChange)：{' '}
+                  <InputNumber style={{ width: 220 }} value={value} />
+                  Input：
+                  <Input style={{ width: 220 }} suffix={'suffix'} />
+                </Space>
               </Space>
             ),
           },

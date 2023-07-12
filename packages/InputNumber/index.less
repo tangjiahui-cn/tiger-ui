@@ -1,0 +1,25 @@
+@import '../_style/theme';
+
+.inputNumber {
+  &-btn {
+    display: inline-block;
+    flex: 1;
+    cursor: pointer;
+    padding: 0 8px;
+    border-left: 1px solid @borderColor;
+    transition: all @duration;
+
+    // 改变图标颜色
+    & a {
+      color: @borderColor;
+    }
+
+    &:hover {
+      background: whitesmoke;
+    }
+
+    &:first-child {
+      border-bottom: 1px solid @borderColor;
+    }
+  }
+}

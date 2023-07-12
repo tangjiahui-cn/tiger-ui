@@ -24,10 +24,15 @@ export interface InputProps {
   disabled?: boolean;
   // 输入框样式
   style?: React.CSSProperties;
+  // 前缀样式
+  prefixStyle?: React.CSSProperties;
+  // 后缀样式
+  suffixStyle?: React.CSSProperties;
   // onChange回调事件
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   // onKeyDown事件
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function Input(props: InputProps) {
@@ -57,6 +62,9 @@ export default function Input(props: InputProps) {
       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
         props?.onChange?.(e);
       }}
+      onBlur={(e: React.ChangeEvent<HTMLInputElement>) => {
+        props?.onBlur?.(e);
+      }}
       onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
         props?.onKeyDown?.(e);
       }}
@@ -69,9 +77,17 @@ export default function Input(props: InputProps) {
 
   return (
     <span className={wrapperClasses} style={props?.style}>
-      {props?.prefix && <span className={styles['input-fix-prefix']}>{props?.prefix}</span>}
+      {props?.prefix && (
+        <span className={styles['input-fix-prefix']} style={props?.prefixStyle}>
+          {props?.prefix}
+        </span>
+      )}
       {InputEl}
-      {props.suffix && <span className={styles['input-fix-suffix']}>{props?.suffix}</span>}
+      {props.suffix && (
+        <span className={styles['input-fix-suffix']} style={props?.suffixStyle}>
+          {props?.suffix}
+        </span>
+      )}
       <span className={styles['input-border']} />
     </span>
   );

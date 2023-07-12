@@ -18,3 +18,12 @@ export function lessThan(n: number, target: number): number {
 export function doubleString(n: number): string {
   return n < 10 ? `0${n}` : `${n}`;
 }
+
+export function isEmpty(v: any): boolean {
+  return !v && v !== 0;
+}
+
+export function isNumberString(v: string): boolean {
+  if (!v) return false;
+  return !isNaN(Number(v));
+}
