@@ -1,0 +1,45 @@
+@import '../_style/theme';
+
+.collapse {
+  @padding: 8px 16px;
+
+  &-item {
+    border: 1px solid @borderColor;
+
+    &-expand {
+      transform: rotate(90deg);
+    }
+
+    &-label {
+      padding: @padding;
+      background: whitesmoke;
+      border-radius: @borderRadius;
+      cursor: pointer;
+
+      &-icon {
+        display: inline-block;
+        margin-right: 8px;
+        transition: all @duration;
+
+        & a {
+          color: @color;
+        }
+      }
+    }
+
+    &-children {
+      padding: @padding;
+      border-radius: @borderRadius;
+      border-top: 1px solid @borderColor;
+    }
+
+    &-children-wrap {
+      overflow: hidden;
+      transition: all .3s;
+    }
+
+    & + & {
+      margin-top: -1px;
+    }
+  }
+}
