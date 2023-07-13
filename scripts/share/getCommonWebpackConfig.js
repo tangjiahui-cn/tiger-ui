@@ -45,6 +45,10 @@ function getCommonConfig(__DEV__) {
     performance: {
       hints: false,
     },
+    cache: {
+      type: 'filesystem',
+      allowCollectingMemory: true,
+    },
     module: {
       rules: [
         // css
