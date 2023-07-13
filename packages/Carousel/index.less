@@ -1,0 +1,92 @@
+@import '../_style/theme';
+
+.carousel {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+
+  &-body {
+    height: 100%;
+    transition: all @duration;
+
+    &-option {
+      height: 100%;
+      display: inline-block;
+    }
+  }
+}
+
+.switchBar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  .common (@code) {
+    background-color: white;
+    cursor: pointer;
+    user-select: none;
+    transition: all @duration;
+    @code();
+  }
+
+  &-rect {
+    .common({
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: @borderRadius;
+    });
+
+    &:hover {
+      background-color: whitesmoke;
+    }
+
+    &-choose {
+      color: white;
+      background-color: @primary;
+
+      &:hover {
+        background-color: @primaryHover;
+      }
+    }
+  }
+
+  &-dot {
+    .common({
+      width: 10px;
+      height: 10px;
+      border: 1px solid @borderColor;
+      border-radius: 50%;
+    });
+
+    &:hover {
+      background-color: whitesmoke;
+    }
+
+    &-choose {
+      background-color: @primary;
+
+      &:hover {
+        background-color: @primaryHover;
+      }
+    }
+  }
+
+  &-line {
+    .common({
+      height: 3px;
+      width: 20px;
+      background-color: rgba(0, 0, 0, 0.4);
+      border-radius: 1px;
+    });
+
+    &-choose {
+      width: 25px;
+      height: 4px;
+      background-color: white;
+    }
+  }
+}

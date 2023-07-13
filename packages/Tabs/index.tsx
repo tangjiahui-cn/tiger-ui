@@ -20,13 +20,17 @@ export interface TabsProps {
   bodyStyle?: React.CSSProperties;
   // 切换时是否销毁
   destroy?: boolean;
+  // 默认激活tab
+  defaultActiveKey?: string;
   // 当前激活tab
   activeKey?: string;
   // 切换tab回调
   onChange?: (activeKey: string, node: TabsOption) => void;
 }
 export default function Tabs(props: TabsProps) {
-  const [activeKey, setActiveKey] = useState<string>(props?.options?.[0]?.key || '');
+  const [activeKey, setActiveKey] = useState<string>(
+    props?.defaultActiveKey || props?.options?.[0]?.key || '',
+  );
 
   function handleClick(option: TabsOption) {
     if (props?.onChange || props?.activeKey) {
