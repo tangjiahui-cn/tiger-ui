@@ -1,11 +1,10 @@
 # tiger-ui
-一个轻量化、简洁的React UI库。(开发中)
+一个轻量化、简洁的React UI库。(重构中)
 
 ## 技术栈
 ```text
 React18 + TypeScript + Webpack5 + Less
 ```
-ls
 ## 如何运行
 ``` shell
 pnpm install
