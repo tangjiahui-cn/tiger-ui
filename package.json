@@ -14,7 +14,7 @@
     "commit": "git add . && git-cz",
     "test": "jest -c jest.config.js --no-cache",
     "fomat-code-all": "eslint --ext .js,.ts,.jsx,.tsx */* --fix && prettier --write .",
-    "publish-npm": "nr test && sh scripts/publish/checkLogin.sh && pnpm test && pnpm build && sh scripts/publish/public.sh",
+    "publish-npm": "sh scripts/publish/checkLogin.sh && pnpm test && pnpm build && sh scripts/publish/publish.sh",
     "prepare": "husky install"
   },
   "files": [

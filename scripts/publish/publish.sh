@@ -29,11 +29,11 @@ printf "【BUILD SUCCESS】\n"
 printf "Tag is ${TAG_NAME}.\n"
 printf "Version is ${VERSION}.\n"
 printf "\n\n"
+git push origin --tags
 
 # 5、生成changelog
 conventional-changelog -p angular -i CHANGELOG.md -s -r 0
 git commit -am "docs(CHANGELOG.md): update changelog" # (新增提交，避免重写提交覆盖tag)
-git push origin --tags
 
 # 发布库
 ADDRESS=https://registry.npmjs.org/
