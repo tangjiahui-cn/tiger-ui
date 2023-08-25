@@ -30,6 +30,7 @@ printf "Tag is ${TAG_NAME}.\n"
 printf "Version is ${VERSION}.\n"
 printf "\n\n"
 git push origin --tags
+git push origin
 
 # 5、生成changelog
 conventional-changelog -p angular -i CHANGELOG.md -s -r 0
