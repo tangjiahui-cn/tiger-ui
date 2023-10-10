@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styles from './index.less';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import PopupPanel, { GetPopularContainer } from '@/Select/PopupPanel';
 import { useGetConfig } from '@/ConfigProvider';
 import classNames from 'classnames';
+import SelectPanel from './PopupPanel';
 
 export type Key = string | number;
 export interface Option {
@@ -22,8 +22,6 @@ export interface SelectProps {
   options?: Option[];
   // 是否块级属性
   block?: boolean;
-  // 浮层挂载位置
-  getPopularContainer?: GetPopularContainer;
   // 下拉框占位样式
   style?: React.CSSProperties;
   // 占位符
@@ -131,21 +129,21 @@ export default function Select(props: SelectProps) {
           {currentOption?.label || placeholder}
         </span>
       </div>
-      <PopupPanel
+
+      <SelectPanel
         visible={popupVisible}
-        getPopularContainer={props?.getPopularContainer}
         style={{
           width: popupInfo.width,
           left: popupInfo.left,
           top: popupInfo.top,
           background: 'white',
         }}
-        onBlur={() => {
+        onClickOut={() => {
           setPopupVisible(false);
         }}
       >
         {selectBody}
-      </PopupPanel>
+      </SelectPanel>
     </>
   );
 }

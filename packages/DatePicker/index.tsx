@@ -2,7 +2,7 @@ import * as React from 'react';
 import type { Moment } from 'moment';
 import styles from './index.less';
 import { useEffect, useRef, useState } from 'react';
-import PopupPanel, { GetPopularContainer } from '@/Select/PopupPanel';
+import SelectPanel from '@/Select/PopupPanel';
 import { createDateArrayByMonth, createDateItem, doubleNumStr } from './utils';
 import { useGetConfig } from '@/ConfigProvider';
 import moment from 'moment';
@@ -26,8 +26,6 @@ export type PanelDateProps = {
 };
 
 export interface DatePickerProps {
-  // 浮层绑定位置
-  getPopularContainer?: GetPopularContainer;
   // 外界绑定值
   value?: Moment;
   // 默认提示语
@@ -171,15 +169,14 @@ export default function DatePicker(props: DatePickerProps) {
         </span>
       </div>
 
-      <PopupPanel
+      <SelectPanel
         visible={popupVisible}
-        getPopularContainer={props?.getPopularContainer}
         style={{
           left: popupInfo.left,
           top: popupInfo.top,
           background: 'white',
         }}
-        onBlur={() => {
+        onClickOut={() => {
           setPopupVisible(false);
         }}
       >
@@ -223,7 +220,7 @@ export default function DatePicker(props: DatePickerProps) {
             </div>
           </div>
         </div>
-      </PopupPanel>
+      </SelectPanel>
     </>
   );
 }

@@ -4,7 +4,7 @@ import moment, { Moment } from 'moment';
 import { doubleString } from '@/_utils';
 import ReactDOM from 'react-dom';
 import styles from './index.less';
-import PopupPanel from '@/Select/PopupPanel';
+import SelectPanel from '@/Select/PopupPanel';
 import classNames from 'classnames';
 import { useGetConfig } from '@/ConfigProvider';
 
@@ -119,14 +119,14 @@ export default function TimePicker(props: TimePickerProps) {
       </div>
 
       {ReactDOM.createPortal(
-        <PopupPanel
+        <SelectPanel
           visible={popupVisible}
           style={{
             left: popupInfo.left,
             top: popupInfo.top,
             background: 'white',
           }}
-          onBlur={() => {
+          onClickOut={() => {
             setPopupVisible(false);
           }}
         >
@@ -177,7 +177,7 @@ export default function TimePicker(props: TimePickerProps) {
               </div>
             </div>
           </div>
-        </PopupPanel>,
+        </SelectPanel>,
         document.body,
       )}
     </div>

@@ -1,64 +1,59 @@
-import { useEffect, useRef } from 'react';
-import * as React from 'react';
+import React, { useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import styles from './PopupPanel.less';
-import { createPortal } from 'react-dom';
 
-export type GetPopularContainer = (el?: any) => Element;
-
-interface IPopupPanel {
+interface IProps {
   // 浮层出现触发聚焦
   visible?: boolean;
   // 浮层样式
   style?: React.CSSProperties;
-  // 浮层挂载位置
-  getPopularContainer?: GetPopularContainer;
-  // 聚焦回调事件
-  onFocus?: () => void;
-  // 失焦回调事件
-  onBlur?: () => void;
+  // 点击外部区域
+  onClickOut?: () => void;
   // 子元素
   children?: React.ReactNode;
 }
-
-export default function PopupPanel(props: IPopupPanel) {
-  const { style = {} } = props;
-  const mountDom: Element = props?.getPopularContainer?.() || document.body;
-
-  const domRef = useRef<any>();
-  const isFocus = useRef<boolean>(false);
+export default function (props: IProps) {
+  const ref = useRef<HTMLDivElement>();
 
   useEffect(() => {
-    if (props?.visible && !isFocus.current) {
-      isFocus.current = true;
-      setTimeout(() => {
-        props?.onFocus?.();
-        domRef.current?.focus?.();
-      });
-    } else {
-      isFocus.current = false;
-      domRef.current?.blur();
+    function pointerdown() {
+      props?.onClickOut?.();
     }
+
+    function mouseleave() {
+      window.addEventListener('pointerdown', pointerdown);
+    }
+
+    function mouseenter() {
+      window.removeEventListener('pointerdown', pointerdown);
+    }
+
+    window.addEventListener('pointerdown', pointerdown);
+    ref.current?.addEventListener('mouseleave', mouseleave);
+    ref.current?.addEventListener('mouseenter', mouseenter);
+
+    return () => {
+      ref.current?.removeEventListener('mouseleave', mouseleave);
+      ref.current?.removeEventListener('mouseenter', mouseenter);
+      window.removeEventListener('pointerdown', pointerdown);
+    };
   }, [props?.visible]);
 
-  return createPortal(
+  return ReactDOM.createPortal(
     props?.visible ? (
       <div
-        ref={domRef}
-        tabIndex={0}
-        className={styles.popupPanel}
+        ref={ref as any}
+        className={styles.panel}
         style={{
-          maxHeight: props?.visible ? 325 : 0,
-          ...style,
-        }}
-        onBlur={() => {
-          props?.onBlur?.();
+          position: 'absolute',
+          maxHeight: 325,
+          overflowY: 'auto',
+          ...props?.style,
         }}
       >
         {props?.children}
       </div>
-    ) : (
-      <></>
-    ),
-    mountDom,
+    ) : null,
+    document.body,
   );
 }
