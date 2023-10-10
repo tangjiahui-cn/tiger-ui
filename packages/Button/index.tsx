@@ -1,34 +1,64 @@
 import React, { MouseEventHandler, useRef } from 'react';
 import styles from './index.less';
-import { SizeType } from '@/_types/common';
 import { LoadingOutline } from '../Icon';
 import classNames from 'classnames';
+import { SizeType } from '../_types/common';
 
 export type ButtonType = 'primary' | 'dashed' | 'default' | 'text' | 'dotted';
 export type ButtonSize = SizeType;
 
 export interface ButtonProps {
-  // 按钮类型
+  /**
+   * @description 按钮类型
+   * @default default
+   */
   type?: ButtonType;
-  // 是否禁用
+  /**
+   * @description 按钮禁用
+   * @default false
+   */
   disabled?: boolean;
-  // 块按钮
+  /**
+   * @description 是否块级按钮，即宽度100%。
+   * @default false
+   */
   block?: boolean;
-  // 危险按钮
+  /**
+   * @description 是否危险按钮，危险按钮颜色为醒目色。
+   * @default false
+   */
   danger?: boolean;
-  // 是否加载中
+  /**
+   * @description 按钮加载中
+   * @default false
+   */
   loading?: boolean;
-  // 按钮大小
+  /**
+   * @description 按钮大小，有三种默认尺寸。
+   * @default false
+   */
   size?: ButtonSize;
-  // 内联样式
+  /**
+   * @description 按钮内联样式
+   */
   style?: React.CSSProperties;
-  // 保持聚焦（点击后选中样式不会消失，点击其他地方取消选中）
+  /**
+   * @description 保持聚焦（点击后选中样式不会消失，点击其他地方取消选中）
+   * @default false
+   */
   stayFocus?: boolean;
-  // 保持选中（受控状态）
+  /**
+   * @description 保持选中（受控状态）
+   * @default false
+   */
   focus?: boolean;
-  // onClick回调事件
+  /**
+   * @description 点击按钮回调事件
+   */
   onClick?: MouseEventHandler<HTMLButtonElement>;
-  // 子元素
+  /**
+   * @description 子元素
+   */
   children?: React.ReactNode;
 }
 

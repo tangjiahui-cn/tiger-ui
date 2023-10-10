@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styles from './index.less';
 import { Space } from '..';
-import { IconMap, IconType } from '@/Icon/_presets';
+import { IconMap, IconType } from '../Icon/_presets';
 import { useEffect, useRef, useState } from 'react';
-import { CloseOutline } from '@/Icon';
+import { CloseOutline } from '../Icon';
 import classNames from 'classnames';
 
 export interface NotificationBoxProps {

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
-import PopoverPopup from '@/Popover/PopoverPopup';
+import PopoverPopup from '../Popover/PopoverPopup';
 import styles from './index.less';
-import { Space } from '@/index';
+import { Space } from '..';
 
 export interface PopoverProps {
   // 标题

@@ -9,6 +9,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
+    "dumi": "cross-env dumi dev",
     "dev": "cross-env webpack serve -c scripts/server/index.js",
     "build": "rimraf lib && cross-env webpack -c scripts/build/index.js && tsc -p ./tsconfig.json",
     "commit": "git add . && git-cz",
@@ -52,6 +53,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@types/jest": "^29.5.1",
+    "@types/node": "^20.8.4",
     "@types/react": "^18.0.35",
     "@types/react-dom": "^18.0.11",
     "@types/react-test-renderer": "^18.0.0",
@@ -120,6 +122,8 @@
   "dependencies": {
     "@types/lodash": "^4.14.195",
     "classnames": "^2.3.2",
+    "dumi": "^2.2.12",
+    "dumi-theme-lobehub": "^1.7.3",
     "jest-css-modules-transform": "^4.4.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.4"

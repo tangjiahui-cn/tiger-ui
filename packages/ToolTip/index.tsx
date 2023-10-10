@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
-import ToolTipPopup from '@/ToolTip/ToolTipPopup';
+import ToolTipPopup from './ToolTipPopup';
 
 export interface ToolTipProps {
   // 浮层内容
