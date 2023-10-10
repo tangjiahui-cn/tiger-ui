@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Icon } from '@/Icon';
+import { Icon } from '..';
 import { IconCommonProps } from '..';
 
 export default function CloseOutline(props: IconCommonProps) {

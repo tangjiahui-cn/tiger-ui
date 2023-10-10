@@ -9,7 +9,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "dumi": "cross-env dumi dev",
+    "docs": "pnpm build && dumi dev",
     "dev": "cross-env webpack serve -c scripts/server/index.js",
     "build": "rimraf lib && cross-env webpack -c scripts/build/index.js && tsc -p ./tsconfig.json",
     "commit": "git add . && git-cz",

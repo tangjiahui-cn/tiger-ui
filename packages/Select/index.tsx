@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styles from './index.less';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useGetConfig } from '@/ConfigProvider';
+import { useGetConfig } from '../ConfigProvider';
 import classNames from 'classnames';
 import SelectPanel from './PopupPanel';
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { EmptyOutline, EmptyFill } from '../Icon';
 import styles from './index.less';
 import classNames from 'classnames';
-import { useGetConfig } from '@/ConfigProvider';
+import { useGetConfig } from '../ConfigProvider';
 
 export interface EmptyProps {
   // 自定义空图标

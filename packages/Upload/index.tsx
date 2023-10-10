@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Button, message, Space } from '..';
 import styles from './index.less';
-import { isString, isBoolean } from '@/_utils';
-import { useGetConfig } from '@/ConfigProvider';
+import { isString, isBoolean } from '../_utils';
+import { useGetConfig } from '../ConfigProvider';
 
 type OperateType = {
   preview?: boolean;

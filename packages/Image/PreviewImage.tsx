@@ -2,8 +2,8 @@ import * as React from 'react';
 import styles from './PreviewImage.less';
 import { Button, Space } from '..';
 import { useEffect, useRef, useState } from 'react';
-import { getImageResolution, range } from '@/_utils';
-import type { Pos } from '@/_types';
+import { getImageResolution, range } from '../_utils';
+import type { Pos } from '../_types';
 import { createPortal } from 'react-dom';
 
 interface PreviewImageProps {

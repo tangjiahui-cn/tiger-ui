@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Input, InputProps, Space } from '..';
 import { ArrowDownOutline, ArrowTopOutline } from '../Icon';
 import { useEffect, useState } from 'react';
-import { isEmpty, isNumber, isNumberString, largeThan, lessThan } from '@/_utils';
+import { isEmpty, isNumber, isNumberString, largeThan, lessThan } from '../_utils';
 import styles from './index.less';
 
 export type InputNumberProps = Omit<InputProps, 'suffix' | 'value' | 'onChange'> & {

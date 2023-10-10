@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { MouseEvent, MutableRefObject, useLayoutEffect, useRef, useState } from 'react';
 import styles from './index.less';
-import { Position } from '@/ToolTip/ToolTipPopup';
+import { Position } from '../ToolTip/ToolTipPopup';
 
 interface PopoverPopupProps {
   baseRef?: MutableRefObject<any>;

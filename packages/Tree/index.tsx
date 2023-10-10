@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './index.less';
 import classNames from 'classnames';
 import { ArrowRightOutline } from '../Icon';
-import { isBoolean } from '@/_utils';
+import { isBoolean } from '../_utils';
 
 export type TreeNode = {
   key?: string;

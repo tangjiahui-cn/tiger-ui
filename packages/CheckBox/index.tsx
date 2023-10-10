@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.less';
 import classNames from 'classnames';
-import { isBoolean } from '@/_utils';
+import { isBoolean } from '../_utils';
 
 export interface CheckBoxProps {
   // 是否选中

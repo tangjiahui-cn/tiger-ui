@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styles from './index.less';
 import { useEffect, useRef, useState } from 'react';
-import { isNumber, range } from '@/_utils';
+import { isNumber, range } from '../_utils';
 
 export type SliderValue = number;
 export interface SliderProps {

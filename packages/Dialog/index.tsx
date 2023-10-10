@@ -3,7 +3,7 @@ import styles from './index.less';
 import { useEffect, useState } from 'react';
 import ReactDom from 'react-dom';
 import { Button, Space } from '..';
-import { useGetLocaleValues } from '@/ConfigProvider';
+import { useGetLocaleValues } from '../ConfigProvider';
 import classNames from 'classnames';
 import { CloseOutline } from '../Icon';
 

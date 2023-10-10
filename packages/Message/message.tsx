@@ -3,7 +3,7 @@ import MessageBox from './messageBox';
 import styles from './index.less';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { RequiredOnly } from '@/_types';
+import { RequiredOnly } from '../_types';
 
 export type MessageReturn = Promise<undefined>;
 export type MessageType = 'none' | 'success' | 'error' | 'warn' | 'warning' | 'info' | 'loading';

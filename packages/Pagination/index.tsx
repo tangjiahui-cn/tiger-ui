@@ -2,9 +2,9 @@ import * as React from 'react';
 import { Button, Input, Space } from '../index';
 import { SizeType } from '../_types/common';
 import { useEffect, useState } from 'react';
-import { ButtonType } from '@/Button';
-import { range } from '@/_utils';
-import { useUpdateEffect } from '@/_hooks';
+import { ButtonType } from '../Button';
+import { range } from '../_utils';
+import { useUpdateEffect } from '../_hooks';
 
 export interface PaginationProps {
   // 分页样式

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import styles from './index.less';
-import { MessageOptions } from '@/Message/message';
+import { MessageOptions } from '../Message/message';
 import classNames from 'classnames';
 import { IconPresets } from '../Icon';
 

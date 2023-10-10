@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import moment, { Moment } from 'moment';
-import { doubleString } from '@/_utils';
+import { doubleString } from '../_utils';
 import ReactDOM from 'react-dom';
 import styles from './index.less';
 import SelectPanel from '../Select/PopupPanel';
 import classNames from 'classnames';
-import { useGetConfig } from '@/ConfigProvider';
+import { useGetConfig } from '../ConfigProvider';
 
 function genNumberArray(size: number): number[] {
   return Array(size)

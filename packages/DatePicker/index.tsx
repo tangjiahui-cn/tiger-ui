@@ -4,9 +4,9 @@ import styles from './index.less';
 import { useEffect, useRef, useState } from 'react';
 import SelectPanel from '../Select/PopupPanel';
 import { createDateArrayByMonth, createDateItem, doubleNumStr } from './utils';
-import { useGetConfig } from '@/ConfigProvider';
+import { useGetConfig } from '../ConfigProvider';
 import moment from 'moment';
-import { useUpdateEffect } from '@/_hooks';
+import { useUpdateEffect } from '../_hooks';
 import classNames from 'classnames';
 
 export type DateItem = {

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import styles from './index.less';
 import { SizeType } from '../_types/common';
-import { useGetLocaleValues } from '@/ConfigProvider';
+import { useGetLocaleValues } from '../ConfigProvider';
 import classNames from 'classnames';
 
 export interface InputProps {

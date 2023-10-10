@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from './index.less';
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { isBoolean } from '@/_utils';
+import { isBoolean } from '../_utils';
 
 export interface SwitchProps {
   // 样式

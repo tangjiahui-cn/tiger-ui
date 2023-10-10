@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { SwitchBar, SwitchBarType } from './SwitchBar';
 import styles from './index.less';
 import { throttle } from 'lodash';
-import { useStateWithRef } from '@/_hooks';
+import { useStateWithRef } from '../_hooks';
 
 type DOMRectWrite = {
   [k in keyof Omit<DOMRect, 'toJSON'>]: number;

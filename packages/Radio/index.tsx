@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styles from './index.less';
 import { useEffect, useRef, useState } from 'react';
-import { isBoolean } from '@/_utils';
+import { isBoolean } from '../_utils';
 
 export interface RadioProps {
   // 受控的选中
