@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styles from './index.less';
 import { useEffect, useState } from 'react';
-import Item, { CollapseItemProps } from '@/Collapse/Item';
-import { ArrowRightOutline } from '@/Icon';
+import Item, { CollapseItemProps } from './Item';
+import { ArrowRightOutline } from '../Icon';
 
 type CollapseOption = Omit<CollapseItemProps, 'expand' | 'onExpand'>;
 

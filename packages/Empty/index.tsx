@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { EmptyOutline, EmptyFill } from '@/Icon';
+import { EmptyOutline, EmptyFill } from '../Icon';
 import styles from './index.less';
 import classNames from 'classnames';
 import { useGetConfig } from '@/ConfigProvider';

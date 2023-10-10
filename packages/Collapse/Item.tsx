@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react';
-import styles from '@/Collapse/index.less';
+import styles from './index.less';
 import classNames from 'classnames';
-import { Empty } from '@/index';
+import { Empty } from '..';
 import * as React from 'react';
 
 export interface CollapseItemProps {

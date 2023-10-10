@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './index.less';
 import classNames from 'classnames';
 import { Space } from '..';
-import { IconMap, IconType } from '@/Icon/_presets';
+import { IconMap, IconType } from '../Icon/_presets';
 
 export interface AlertProps {
   // 类型
