@@ -5,7 +5,6 @@ nav: 组件
 ## 基本使用
 ```jsx
 import {Button} from 'tiger-ui';
-import 'tiger-ui/index.css';
 
 export default () => {
   return <Button>按钮</Button>;
@@ -15,7 +14,6 @@ export default () => {
 ## 按钮大小（size）
 ```jsx
 import {Button, Space} from 'tiger-ui';
-import 'tiger-ui/index.css';
 
 export default () => {
   return <Space>
@@ -30,7 +28,6 @@ export default () => {
 ## 按钮类型（type）
 ```jsx
 import {Button, Space} from 'tiger-ui';
-import 'tiger-ui/index.css';
 
 export default () => {
   return <Space>
@@ -46,7 +43,6 @@ export default () => {
 ## 危险按钮（danger）
 ```jsx
 import {Button, Space} from 'tiger-ui';
-import 'tiger-ui/index.css';
 
 export default () => {
   return <Space>
@@ -62,7 +58,6 @@ export default () => {
 ## 按钮禁用（disable）
 ```jsx
 import {Button, Space} from 'tiger-ui';
-import 'tiger-ui/index.css';
 
 export default () => {
   return <Space direction={'vertical'}>

@@ -1,11 +1,10 @@
 import React, { MouseEventHandler, useRef } from 'react';
-import styles from './index.less';
-import { LoadingOutline } from '../Icon';
 import classNames from 'classnames';
-import { SizeType } from '../_types/common';
+import { SizeType as ButtonSize } from '../_types/common';
+import { useStyle } from './style';
 
 export type ButtonType = 'primary' | 'dashed' | 'default' | 'text' | 'dotted';
-export type ButtonSize = SizeType;
+export type { ButtonSize };
 
 export interface ButtonProps {
   /**
@@ -29,11 +28,6 @@ export interface ButtonProps {
    */
   danger?: boolean;
   /**
-   * @description 按钮加载中
-   * @default false
-   */
-  loading?: boolean;
-  /**
    * @description 按钮大小，有三种默认尺寸。
    * @default false
    */
@@ -42,6 +36,10 @@ export interface ButtonProps {
    * @description 按钮内联样式
    */
   style?: React.CSSProperties;
+  /**
+   * @description 按钮类class
+   */
+  className?: string;
   /**
    * @description 保持聚焦（点击后选中样式不会消失，点击其他地方取消选中）
    * @default false
@@ -70,15 +68,18 @@ export interface ButtonProps {
  */
 export default function Button(props: ButtonProps) {
   const btnRef = useRef(null);
+  const style = useStyle('button');
 
   const classes = classNames([
-    styles['btn'],
-    styles[`btn-${props?.type}`],
-    styles[`btn-${props?.size}`],
-    props?.danger && styles['btn-danger'],
-    props?.block && styles['btn-block'],
-    props?.stayFocus && styles['btn-stay-focus'],
-    props?.focus && styles['btn-force-focus'],
+    style.button(props?.danger),
+    style.type(props?.type || 'default'),
+    style.size(props?.size || 'middle'),
+    props?.block && style.block(),
+    props?.danger && style.danger(),
+    props?.disabled && style.disabled(),
+    props?.stayFocus && style.stayFocus(),
+    props?.focus && style.focus(),
+    props?.className,
   ]);
 
   return (
@@ -86,14 +87,9 @@ export default function Button(props: ButtonProps) {
       ref={btnRef}
       className={classes}
       disabled={props?.disabled}
-      onClick={props?.loading ? undefined : props?.onClick}
+      onClick={props?.disabled ? undefined : props?.onClick}
       style={props?.style}
     >
-      {props?.loading && (
-        <span className={styles['btn-loading']}>
-          <LoadingOutline fontSize={14} />
-        </span>
-      )}
       {props?.children}
     </button>
   );

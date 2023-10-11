@@ -9,7 +9,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "docs": "pnpm build && dumi dev",
+    "docs": "dumi dev",
     "dev": "cross-env webpack serve -c scripts/server/index.js",
     "build": "rimraf lib && cross-env webpack -c scripts/build/index.js && tsc -p ./tsconfig.json",
     "commit": "git add . && git-cz",
@@ -120,6 +120,7 @@
     }
   },
   "dependencies": {
+    "@emotion/css": "^11.11.2",
     "@types/lodash": "^4.14.195",
     "classnames": "^2.3.2",
     "dumi": "^2.2.12",
