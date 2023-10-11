@@ -6,7 +6,7 @@ export default function childrenSelector(style: { [k: string]: any }) {
   return Object.keys(style).reduce((res, cur) => {
     return {
       ...res,
-      [`& ${cur}`]: style[cur],
+      [`& .${cur}`]: style[cur],
     };
   }, {});
 }

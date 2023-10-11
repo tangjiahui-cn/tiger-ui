@@ -78,7 +78,20 @@ export default () => {
   </Space>;
 }
 ```
+## 停留聚焦
+```jsx
+import {Button, Space} from 'tiger-ui';
+
+export default () => {
+  return <Space>
+    {
+      ['primary', 'dashed', 'default', 'text', 'dotted'].map(type => {
+        return <Button type={type} key={type} stayFocus>{type}</Button>
+      })
+    }
+  </Space>;
+}
+```
 
 ## API
-按钮的属性说明如下：
 <API id="Button"></API>

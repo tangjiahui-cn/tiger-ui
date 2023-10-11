@@ -1,6 +1,6 @@
 import React from 'react';
-import ButtonDemo from './button';
+import InputDemo from './input';
 
 export default function () {
-  return <ButtonDemo />;
+  return <InputDemo />;
 }

@@ -15,10 +15,12 @@ export interface Token {
 
   // 文字
   fontSize: number | string; // 默认文字大小
+  fontSizeLarge: number | string; // 大号文字大小
   color: string; // 文字颜色
   colorHover: string; // 文字颜色 （hover）
   colorActive: string; // 文字颜色 （active）
   colorDisabled: string; // 文字颜色（disabled）
+  colorBgDisabled: string; // 文字背景禁用
 
   // 边框
   borderColor: string; // 边框颜色
@@ -40,10 +42,12 @@ export const INIT_TOKEN: Token = {
   dangerDisabled: '#ffa39e',
 
   fontSize: 14,
+  fontSizeLarge: 16,
   color: 'rgba(0,0,0,0.85)',
   colorHover: '#bfbfbf',
   colorActive: '#262626',
   colorDisabled: '#bfbfbf',
+  colorBgDisabled: '#fafafa',
 
   borderColor: '#e8e8e8',
   duration: '.3s',

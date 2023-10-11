@@ -1,55 +1,86 @@
-import React, { useMemo } from 'react';
-import styles from './index.less';
-import { SizeType } from '../_types/common';
+import React from 'react';
+import { SizeType as InputSize } from '../_types/common';
 import { useGetLocaleValues } from '../ConfigProvider';
 import classNames from 'classnames';
+import { useStyle } from './style';
+export type { InputSize };
 
 export interface InputProps {
-  // TODO: 后面允许清空(使用图标库)
-  // 是否允许清空
-  // allowClear?: boolean;
-  // 最大长度
+  /**
+   * @description 输入框最大输入长度
+   * @default undefined
+   */
   maxLength?: number;
-  // 绑定值
+  /**
+   * @description 输入框受控绑定值
+   * @default undefined
+   */
   value?: string;
-  // 输入框大小
-  size?: SizeType;
-  // 输入框前缀
+  /**
+   * @description 输入框大小
+   * @default middle
+   */
+  size?: InputSize;
+  /**
+   * @description 输入框前缀
+   */
   prefix?: React.ReactNode;
-  // 输入框后缀
+  /**
+   * @description 输入框后缀
+   */
   suffix?: React.ReactNode;
-  // 输入框占位符
+  /**
+   * @description 输入框占位符
+   * @default 请输入
+   */
   placeholder?: string;
-  // 禁止选中输入框
+  /**
+   * @description 是否禁用
+   * @default false
+   */
   disabled?: boolean;
-  // 输入框样式
+  /**
+   * @description 输入框样式
+   */
   style?: React.CSSProperties;
-  // 前缀样式
+  /**
+   * @description 前缀样式
+   */
   prefixStyle?: React.CSSProperties;
-  // 后缀样式
+  /**
+   * @description 后缀样式
+   */
   suffixStyle?: React.CSSProperties;
-  // onChange回调事件
+  /**
+   * @description onChange回调事件
+   */
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  // onKeyDown事件
+  /**
+   * @description onKeyDown回调事件
+   */
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  /**
+   * @description onBlur回调事件
+   */
   onBlur?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function Input(props: InputProps) {
   const locale = useGetLocaleValues();
-  const [wrapperClasses, classes, isPure] = useMemo(() => {
-    const isPure = !(props.prefix || props.suffix);
-    const wrapperClasses = classNames(
-      styles['input-wrapper'],
-      props.disabled && styles['input-wrapper-disabled'],
-    );
-    const classes = classNames(
-      styles['input'],
-      styles[`input-${props.size}`],
-      isPure && styles['input-pure'],
-    );
-    return [wrapperClasses, classes, isPure];
-  }, [props.prefix, props.suffix, props.size]);
+  const style = useStyle('input');
+
+  const isPure = !(props.prefix || props.suffix);
+
+  const wrapperClasses = classNames(
+    style.inputWrapper(),
+    props?.disabled && style.wrapperDisabled(),
+  );
+
+  const classes = classNames(
+    style.input(),
+    style.size(props?.size || 'middle'),
+    isPure && style.pure(),
+  );
 
   const InputEl = (
     <input
@@ -78,17 +109,17 @@ export default function Input(props: InputProps) {
   return (
     <span className={wrapperClasses} style={props?.style}>
       {props?.prefix && (
-        <span className={styles['input-fix-prefix']} style={props?.prefixStyle}>
+        <span className={style.prefix()} style={props?.prefixStyle}>
           {props?.prefix}
         </span>
       )}
       {InputEl}
       {props.suffix && (
-        <span className={styles['input-fix-suffix']} style={props?.suffixStyle}>
+        <span className={style.suffix()} style={props?.suffixStyle}>
           {props?.suffix}
         </span>
       )}
-      <span className={styles['input-border']} />
+      <span className={style.border()} />
     </span>
   );
 }
