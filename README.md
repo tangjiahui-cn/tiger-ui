@@ -12,23 +12,25 @@ pnpm install
 pnpm dev
 
 pnpm build
+
+// 运行文档
+pnpm docs
 ```
 
 ## 已支持特性
 ```text
 - 支持国际化
-- 支持全局化配置
-- 打包单独的组件（支持按需引入）
+- 支持全局主题色配置
 - 拥有完整的单元测试（3/n）
+- 拥有完整的docs站点
+- 无需引入css文件（使用css-in-js实现样式）
 ```
 
 ## 期待特性
-```txt
-- 支持主题色
-- 采用 monorepo 管理项目
-- 拥有完整的 docs 站点
-...
+```text
+- 支持 umd、cjs、esm 格式产物
 ```
+
 ## Done（31 / 31）
 ```text
 components

@@ -3,4 +3,5 @@ dist
 lib
 .idea
 .DS_Store
-.dumi/tmp
+.dumi/tmp*
+docs-dist
