@@ -32,6 +32,7 @@ export interface Token {
   shadow1: string;
   shadow2: string;
   shadow3: string;
+  maskBg: string;
 }
 
 export const INIT_TOKEN: Token = {
@@ -65,6 +66,7 @@ export const INIT_TOKEN: Token = {
   shadow3:
     '0px 6px 16px -8px rgba(0, 0, 0, 0.08), 0px 9px 28px 0px rgba(0, 0, 0, 0.05),\n' +
     '  0px 14px 48px 16px rgba(0, 0, 0, 0.03)',
+  maskBg: 'rgba(0, 0, 0, 0.5)',
 };
 
 export interface Theme {

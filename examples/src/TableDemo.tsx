@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table } from '../../packages';
-import { Space } from '../../lib';
+import { Table, Space } from '../../packages';
 
 export default function () {
   const [dataSource, setDataSource] = useState<any[]>([
