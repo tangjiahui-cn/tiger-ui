@@ -3,6 +3,7 @@ import styles from './index.less';
 import { MessageOptions } from '../Message/message';
 import classNames from 'classnames';
 import { IconPresets } from '../Icon';
+import { useStyle } from './style/messageBox';
 
 type MessageBoxProps = Pick<
   MessageOptions,
@@ -11,6 +12,7 @@ type MessageBoxProps = Pick<
 
 export default function (props: MessageBoxProps) {
   const { animationDuration = 0 } = props;
+  const style = useStyle('message-box');
   const [isAppear, setIsAppear] = useState<boolean>(false);
 
   const icon = useMemo(() => {
@@ -40,15 +42,13 @@ export default function (props: MessageBoxProps) {
 
   return (
     <div
-      className={classNames(
-        styles['message-box'],
-        styles[isAppear ? 'message-box-appear' : 'message-box-disappear'],
-      )}
+      className={classNames(style.messageBox(), style.appear(isAppear))}
       style={{
+        zIndex: 999,
         animationDuration: `${animationDuration}ms`,
       }}
     >
-      <div className={styles['message-box-body']}>
+      <div className={style.body()}>
         {props.icon || icon}
         {props?.content}
       </div>

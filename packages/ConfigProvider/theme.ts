@@ -27,6 +27,11 @@ export interface Token {
 
   // 动画
   duration: string; // 动画时长
+
+  // 阴影
+  shadow1: string;
+  shadow2: string;
+  shadow3: string;
 }
 
 export const INIT_TOKEN: Token = {
@@ -51,6 +56,15 @@ export const INIT_TOKEN: Token = {
 
   borderColor: '#e8e8e8',
   duration: '.3s',
+  shadow1:
+    '0px 1px 2px -2px rgba(0, 0, 0, 0.16), 0px 3px 6px 0px rgba(0, 0, 0, 0.16),\n' +
+    '  0px 5px 12px 4px rgba(0, 0, 0, 0.16)',
+  shadow2:
+    '0px 3px 6px -4px rgba(0, 0, 0, 0.12), 0px 6px 16px 0px rgba(0, 0, 0, 0.08),\n' +
+    '  0px 9px 28px 8px rgba(0, 0, 0, 0.05)',
+  shadow3:
+    '0px 6px 16px -8px rgba(0, 0, 0, 0.08), 0px 9px 28px 0px rgba(0, 0, 0, 0.05),\n' +
+    '  0px 14px 48px 16px rgba(0, 0, 0, 0.03)',
 };
 
 export interface Theme {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FillIcon, OutlineIcon } from '../type';
-import styles from './index.less';
 import classNames from 'classnames';
+import { useStyle } from './style';
 
 export type IconType = OutlineIcon | FillIcon;
 
@@ -25,14 +25,15 @@ export type IconProps = {
 
 export default function Icon(props: IconProps) {
   const { fontSize = 16 } = props;
+  const style = useStyle('icon');
 
   return (
     <span
-      className={classNames(styles['icon-wrapper'], props?.pointer && styles['icon-pointer'])}
+      className={classNames(style.iconWrapper(), props?.pointer && style.pointer())}
       style={props?.style}
     >
       <a
-        className={classNames(styles['icon'], props?.spin && styles['icon-spin'])}
+        className={classNames(style.icon(), props?.spin && style.spin())}
         style={{ color: props?.color, fontSize }}
       >
         <svg className='tiger-ui-icon' aria-hidden='true'>

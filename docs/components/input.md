@@ -2,7 +2,7 @@
 nav: 组件
 ---
 
-## 基本使用
+## 一、基本使用
 ```jsx
 import {Input} from 'tiger-ui';
 
@@ -11,7 +11,7 @@ export default () => {
 }
 ```
 
-## 自定义占位符
+## 二、自定义占位符
 ```jsx
 import {Input} from 'tiger-ui';
 
@@ -19,7 +19,7 @@ export default () => {
   return <Input placeholder={'一端自定义占位符'}/>;
 }
 ```
-## 最大输入长度
+## 三、最大输入长度
 ```jsx
 import {Input} from 'tiger-ui';
 
@@ -27,7 +27,7 @@ export default () => {
   return <Input maxLength={10}/>;
 }
 ```
-## 自定义前后缀
+## 四、自定义前后缀
 ```jsx
 import {Input, Space} from 'tiger-ui';
 
@@ -39,7 +39,7 @@ export default () => {
   </Space>;
 }
 ```
-## 禁用状态
+## 五、禁用状态
 ```jsx
 import {Input, Space} from 'tiger-ui';
 

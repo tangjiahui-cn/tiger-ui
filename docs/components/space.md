@@ -2,7 +2,7 @@
 nav: 组件
 ---
 
-## 基本使用
+## 一、基本使用
 ```jsx
 import {Space, Button} from 'tiger-ui';
 
@@ -16,7 +16,7 @@ export default () => {
 }
 ```
 
-## 竖向排列
+## 二、竖向排列
 ```jsx
 import {Space, Button} from 'tiger-ui';
 
@@ -30,7 +30,7 @@ export default () => {
 }
 ```
 
-## 间距（size）
+## 三、间距（size）
 ```jsx
 import {Space, Button} from 'tiger-ui';
 
@@ -44,7 +44,7 @@ export default () => {
 }
 ```
 
-## 自动换行（wrap）
+## 四、自动换行（wrap）
 ```jsx
 import {Space, Button} from 'tiger-ui';
 
