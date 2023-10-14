@@ -8,9 +8,9 @@ export { default as Space } from './Space';
 export type { SpaceProps } from './Space';
 export { default as Dialog } from './Dialog';
 export type { DialogProps } from './Dialog';
-
 export { default as Drawer } from './Drawer';
 export type { DrawerProps } from './Drawer';
+
 export { default as Pagination } from './Pagination';
 export type { PaginationProps } from './Pagination';
 export { default as ConfigProvider } from './ConfigProvider';

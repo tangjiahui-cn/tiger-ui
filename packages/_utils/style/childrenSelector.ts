@@ -4,9 +4,8 @@
  */
 export default function childrenSelector(style: { [k: string]: any }) {
   return Object.keys(style).reduce((res, cur) => {
-    return {
-      ...res,
+    return Object.assign(res, {
       [`& .${cur}`]: style[cur],
-    };
+    });
   }, {});
 }

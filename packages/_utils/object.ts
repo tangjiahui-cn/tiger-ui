@@ -9,9 +9,8 @@ export function pickTruthyValue(obj: CommonObject): CommonObject {
   return Object.keys(obj)
     .filter((k) => obj[k])
     .reduce((res, curKey) => {
-      return {
-        ...res,
+      return Object.assign(res, {
         [curKey]: obj[curKey],
-      };
+      });
     }, {});
 }
