@@ -45,15 +45,15 @@ export function useStyle(componentName: string): {
       // disabled
       [`&.${disabledClassName}`]: {
         cursor: 'not-allowed',
-        color: token.primaryDisabled,
-        borderColor: token.primaryDisabled,
+        color: token.colorDisabled,
+        borderColor: token.colorDisabled,
         '&:hover': {
-          color: token.primaryDisabled,
-          borderColor: token.primaryDisabled,
+          color: token.colorDisabled,
+          borderColor: token.colorDisabled,
         },
         '&:active': {
-          color: token.primaryDisabled,
-          borderColor: token.primaryDisabled,
+          color: token.colorDisabled,
+          borderColor: token.colorDisabled,
         },
       },
       // danger

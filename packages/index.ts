@@ -10,11 +10,11 @@ export { default as Dialog } from './Dialog';
 export type { DialogProps } from './Dialog';
 export { default as Drawer } from './Drawer';
 export type { DrawerProps } from './Drawer';
-
 export { default as Pagination } from './Pagination';
 export type { PaginationProps } from './Pagination';
 export { default as ConfigProvider } from './ConfigProvider';
 export type { ConfigProviderProps } from './ConfigProvider';
+
 export { default as Select } from './Select';
 export type { SelectProps } from './Select';
 export { default as DatePicker } from './DatePicker';

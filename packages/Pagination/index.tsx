@@ -7,41 +7,80 @@ import { range } from '../_utils';
 import { useUpdateEffect } from '../_hooks';
 
 export interface PaginationProps {
-  // 分页样式
+  /**
+   * @description 分页样式
+   */
   style?: React.CSSProperties;
-  // 分页大小
+  /**
+   * @description 分页大小
+   */
   size?: SizeType;
-  // 是否简洁模式
+  /**
+   * @description 是否简洁模式
+   */
   mini?: boolean;
-  // 受控的当前页
+  /**
+   * @description 受控的当前页
+   */
   current?: number;
-  // 受控的分页大小
+  /**
+   * @description 受控的分页大小
+   * @default 10
+   */
   pageSize?: number;
-  // 是否禁用
+  /**
+   * @description 是否禁用
+   * @default false
+   */
   disabled?: boolean;
-  // 总数
+  /**
+   * @description 总数
+   */
   total?: number;
-  // 前一页文字
+  /**
+   * @description 前一页元素
+   */
   prev?: React.ReactNode;
-  // 下一页文字
+  /**
+   * @description 后一页元素
+   */
   next?: React.ReactNode;
-  // 快速左移文字
+  /**
+   * @description 快速左移元素
+   */
   moveLeft?: React.ReactNode;
-  // 快速右移文字
+  /**
+   * @description 快速右移元素
+   */
   moveRight?: React.ReactNode;
-  // 显示快速跳转
+  /**
+   * @description 是否显示快速跳转
+   * @default true
+   */
   showQuickJumper?: boolean;
-  // 显示除第一页、最后一页，剩余的展示分页按钮数目
+  /**
+   * @description 显示除第一页、最后一页，剩余的展示分页按钮数目
+   */
   pureSize?: number;
-  // 快速左移页数
+  /**
+   * @description 快速左移页数
+   * @default 5
+   */
   moveLeftSize?: number;
-  // 快速右移页数
+  /**
+   * @description 快速右移页数
+   * @default 5
+   */
   moveRightSize?: number;
   // TODO: wait 'Select' component finish, then add this prop.
   // showSizeChanger?: boolean;
-  // 显示全部的文字
-  showTotal?: (total?: number, current?: number) => React.ReactNode;
-  // 分页修改回调
+  /**
+   * @description 显示"全部"的内容
+   */
+  showTotal?: false | ((total?: number, current?: number) => React.ReactNode);
+  /**
+   * @description 分页修改回调
+   */
   onChange?: (current?: number, pageSize?: number) => void;
 }
 
@@ -216,8 +255,6 @@ export default function Pagination(props: PaginationProps) {
     }
   }
 
-  const renderTotal = <>{props?.showTotal?.(total)}</>;
-
   const renderJump = (
     <Space>
       跳至
@@ -263,8 +300,12 @@ export default function Pagination(props: PaginationProps) {
 
   return total ? (
     <Space block size={props?.mini ? 4 : 8} style={{ padding: 16, ...(props?.style || {}) }}>
-      {renderTotal}
-      {total ? ',' : ''}
+      {props?.showTotal && (
+        <>
+          {props?.showTotal?.(total)}
+          {total ? ',' : ''}
+        </>
+      )}
       {total === 0
         ? null
         : paginationList.map((x: any) => {
