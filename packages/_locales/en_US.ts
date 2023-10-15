@@ -2,6 +2,7 @@ import type { Locale } from '.';
 
 export default {
   inputPlaceholder: 'search here',
+  selectPlaceholder: 'please select',
   confirmValue: 'confirm',
   cancelValue: 'cancel',
   titleValue: 'title',

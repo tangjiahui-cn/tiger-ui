@@ -1,9 +1,10 @@
 import * as React from 'react';
-import styles from './index.less';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useGetConfig } from '../ConfigProvider';
 import classNames from 'classnames';
 import SelectPanel from './PopupPanel';
+import { useStyle } from './style';
+import useToken from '../_utils/hooks/useToken';
 
 export type Key = string | number;
 export interface Option {
@@ -16,26 +17,42 @@ type OptionMap = {
 };
 
 export interface SelectProps {
-  // 受控属性
+  /**
+   * @description 受控值
+   */
   value?: string;
-  // 下拉框选项
+  /**
+   * @description 下拉框选项
+   */
   options?: Option[];
-  // 是否块级属性
+  /**
+   * @description 是否块级属性
+   */
   block?: boolean;
-  // 下拉框占位样式
+  /**
+   * @description 下拉框占位样式
+   */
   style?: React.CSSProperties;
-  // 占位符
+  /**
+   * @description 占位符
+   */
   placeholder?: string;
-  // 下拉框选中回调事件
-  onChange?: (value?: Key, label?: string, option?: Option) => void;
-  // 子元素
+  /**
+   * @description 下拉框选中回调事件
+   */
+  onChange?: (value: Key, label: string, option: Option) => void;
+  /**
+   * @description 子元素
+   */
   children?: React.ReactNode;
 }
 
 export default function Select(props: SelectProps) {
   const { locale } = useGetConfig();
-  const { style = {}, placeholder = locale.inputPlaceholder } = props;
+  const { placeholder = locale.selectPlaceholder } = props;
   const headDom = useRef(null);
+  const style = useStyle('select');
+  const token = useToken();
 
   const [popupVisible, setPopupVisible] = useState<boolean>(false);
   const [popupInfo, setPopupInfo] = useState<{
@@ -73,7 +90,7 @@ export default function Select(props: SelectProps) {
 
   const selectBody: React.ReactNode = (
     <div
-      className={styles['select-popup']}
+      className={style.selectPopup()}
       style={{
         left: popupInfo.left,
         top: popupInfo.top,
@@ -83,8 +100,8 @@ export default function Select(props: SelectProps) {
       {options.map((option: Option) => {
         const isChoose: boolean = option.value === currentOption?.value;
         const classes: string = classNames(
-          styles['select-option'],
-          isChoose && styles['select-option-choose'],
+          style.selectOption(),
+          isChoose && style.selectOptionChoose(),
         );
         return (
           <div
@@ -117,16 +134,18 @@ export default function Select(props: SelectProps) {
         ref={headDom}
         style={{
           width: props?.block ? '100%' : 100,
-          ...style,
+          ...props?.style,
         }}
-        className={styles.select}
+        className={style.select()}
         onMouseDown={() => {
           initPopupPanelInfo();
           setPopupVisible(true);
         }}
       >
-        <span className={classNames(!currentOption && styles['select-placeholder'])}>
-          {currentOption?.label || placeholder}
+        <span className={classNames(!currentOption && style.selectPlaceholder())}>
+          {currentOption?.label || (
+            <span style={{ color: token.placeholderColor }}>{placeholder}</span>
+          )}
         </span>
       </div>
 

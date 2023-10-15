@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import styles from './PopupPanel.less';
+import useToken from '../_utils/hooks/useToken';
 
 interface IProps {
   // 浮层出现触发聚焦
@@ -14,6 +14,7 @@ interface IProps {
 }
 export default function (props: IProps) {
   const ref = useRef<HTMLDivElement>();
+  const token = useToken();
 
   useEffect(() => {
     function pointerdown() {
@@ -43,9 +44,12 @@ export default function (props: IProps) {
     props?.visible ? (
       <div
         ref={ref as any}
-        className={styles.panel}
         style={{
+          boxShadow: token.shadow2,
+          outline: 'none',
+          overflow: 'hidden',
           position: 'absolute',
+          transition: `height ${token.duration}`,
           maxHeight: 325,
           overflowY: 'auto',
           ...props?.style,

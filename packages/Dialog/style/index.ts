@@ -1,7 +1,7 @@
 import createEmotion from '@emotion/css/create-instance';
 import usePrefix from '../../_utils/hooks/usePrefix';
 import useToken from '../../_utils/hooks/useToken';
-import childrenSelector from '@/_utils/style/childrenSelector';
+import childrenSelector from '../../_utils/style/childrenSelector';
 
 type StyleObject = {
   [k: string]: any | StyleObject;

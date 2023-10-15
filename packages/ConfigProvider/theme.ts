@@ -1,6 +1,6 @@
 import { pickTruthyValue } from '../_utils/object';
 
-export interface Token {
+export type Token = {
   prefix: string; // 前缀
 
   // 颜色
@@ -21,9 +21,11 @@ export interface Token {
   colorActive: string; // 文字颜色 （active）
   colorDisabled: string; // 文字颜色（disabled）
   colorBgDisabled: string; // 文字背景禁用
+  placeholderColor: string; // 占位符颜色
 
   // 边框
   borderColor: string; // 边框颜色
+  borderRadius: string | number; // 边框大小
 
   // 动画
   duration: string; // 动画时长
@@ -33,7 +35,10 @@ export interface Token {
   shadow2: string;
   shadow3: string;
   maskBg: string;
-}
+} & {
+  selectPrimary: string;
+  selectHover: string;
+};
 
 export const INIT_TOKEN: Token = {
   prefix: 'tiger-ui',
@@ -54,8 +59,10 @@ export const INIT_TOKEN: Token = {
   colorActive: '#262626',
   colorDisabled: '#bfbfbf',
   colorBgDisabled: '#fafafa',
+  placeholderColor: '#d9d9d9',
 
   borderColor: '#e8e8e8',
+  borderRadius: 2,
   duration: '.3s',
   shadow1:
     '0px 1px 2px -2px rgba(0, 0, 0, 0.16), 0px 3px 6px 0px rgba(0, 0, 0, 0.16),\n' +
@@ -67,6 +74,10 @@ export const INIT_TOKEN: Token = {
     '0px 6px 16px -8px rgba(0, 0, 0, 0.08), 0px 9px 28px 0px rgba(0, 0, 0, 0.05),\n' +
     '  0px 14px 48px 16px rgba(0, 0, 0, 0.03)',
   maskBg: 'rgba(0, 0, 0, 0.5)',
+
+  // Select
+  selectPrimary: '#bae0ff',
+  selectHover: '#e6f4ff',
 };
 
 export interface Theme {
