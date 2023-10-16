@@ -38,6 +38,11 @@ export type Token = {
 } & {
   selectPrimary: string; // 选中主色
   selectHover: string; // 选中鼠标经过色
+
+  switchText: string; // switch 文字色
+  switchTextDisabled: string; // switch 文字禁用色
+  switchTextHover: string; // switch 文字经过色
+
   infoBorderColor: string; // info 边框色
   infoColor: string; // info 文字色
   infoBg: string; // info 背景色
@@ -90,6 +95,11 @@ export const INIT_TOKEN: Token = {
   // Select
   selectPrimary: '#bae0ff',
   selectHover: '#e6f4ff',
+
+  switchText: '#8c8c8c',
+  switchTextDisabled: '#bfbfbf',
+  switchTextHover: '#595959',
+
   infoBorderColor: '#69b1ff',
   infoColor: '#4096ff',
   infoBg: '#e6f4ff',
