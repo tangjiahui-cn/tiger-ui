@@ -18,9 +18,9 @@ export { default as Select } from './Select';
 export type { SelectProps } from './Select';
 export { default as DatePicker } from './DatePicker';
 export type { DatePickerProps } from './DatePicker';
-
 export { default as Alert } from './Alert';
 export type { AlertProps } from './Alert';
+
 export { default as Slider } from './Slider';
 export type { SliderProps } from './Slider';
 export { default as Image } from './Image';
