@@ -1,7 +1,7 @@
 import * as React from 'react';
-import styles from './index.less';
 import { Pagination, PaginationProps } from '..';
 import classNames from 'classnames';
+import { useStyle } from './style';
 
 type SingleArgsRender = (item: any) => React.ReactNode;
 type DoubleArgsRender = (value: any, item: any) => React.ReactNode;
@@ -15,22 +15,37 @@ export interface Column {
 }
 
 export interface TableProps {
-  // 是否有边框
+  /**
+   * @description 是否显示边框
+   * @default false
+   */
   bordered?: boolean;
-  // 列
+  /**
+   * @description 列表列配置
+   */
   columns?: Column[];
-  // 数据项
+  /**
+   * @description 列表数据项
+   */
   dataSource?: any[];
-  // 列key
+  /**
+   * @description 每一列的key
+   * @default key
+   */
   rowKey?: string;
-  // 样式
+  /**
+   * @description 样式
+   */
   style?: React.CSSProperties;
-  // 分页
+  /**
+   * @description 分页配置
+   */
   pagination?: PaginationProps;
 }
 
 export default function Table(props: TableProps) {
   const { columns = [], dataSource = [], rowKey = 'key', pagination = {} } = props;
+  const style = useStyle('table');
 
   function genTableHeader(columns: Column[]): React.ReactNode {
     return (
@@ -77,7 +92,7 @@ export default function Table(props: TableProps) {
 
   return (
     <div style={props?.style}>
-      <table className={classNames(styles['table'], props?.bordered && styles['table-bordered'])}>
+      <table className={classNames(style.table(), props?.bordered && style.tableBordered())}>
         <thead>{genTableHeader(columns)}</thead>
         <tbody>{genTableBody(columns, dataSource)}</tbody>
       </table>
