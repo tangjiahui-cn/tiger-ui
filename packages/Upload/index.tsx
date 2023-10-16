@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Button, message, Space } from '..';
-import styles from './index.less';
 import { isString, isBoolean } from '../_utils';
 import { useGetConfig } from '../ConfigProvider';
+import { useStyle } from './style';
 
 type OperateType = {
   preview?: boolean;
@@ -10,23 +10,44 @@ type OperateType = {
 };
 
 export interface UploadProps {
-  // 样式
+  /**
+   * @description 组件样式
+   */
   style?: React.CSSProperties;
-  // 允许上传文件类型
+  /**
+   * @description 允许上传的类型
+   */
   accept?: string;
-  // 最大上传数量
+  /**
+   * @description 最大上传数量
+   * @default 9
+   */
   maxCount?: number;
-  // 最大上传大小（单位：MB）
+  /**
+   * @description 最大上传大小（单位：MB）
+   * @default 10
+   */
   maxSize?: number;
-  // 超过最大上传大小报错
+  /**
+   * @description 超过最大上传大小报错消息
+   */
+  //
   maxSizeErrorMsg?: string | ((maxSize: number) => string);
-  // 占位符
+  /**
+   * @description 上传占位符
+   */
   children?: any;
-  // 上传内容操作
+  /**
+   * @description 上传内容支持操作
+   */
   operate?: OperateType;
-  // 预览方法
+  /**
+   * @description 自定义预览方法
+   */
   onPreview?: (file: File) => void;
-  // 文件列表change
+  /**
+   * @description 文件列表change
+   */
   onChange?: (files: File[]) => void;
 }
 
@@ -36,6 +57,7 @@ type IFile = File & {
 
 export default function Upload(props: UploadProps) {
   const { locale } = useGetConfig();
+  const style = useStyle('upload');
 
   const {
     maxCount = 9,
@@ -102,12 +124,12 @@ export default function Upload(props: UploadProps) {
   }
 
   return (
-    <div className={styles['upload']} style={props?.style}>
+    <div className={style.upload()} style={props?.style}>
       {files.length < maxCount && <div onClick={() => openUpload()}>{children}</div>}
       {files.map((file: IFile) => {
         return (
-          <div key={file.id} className={styles['upload-item']}>
-            <div className={styles['upload-item-name']} title={file.name}>
+          <div key={file.id} className={style.uploadItem()}>
+            <div className={style.uploadItemName()} title={file.name}>
               {file.name}
             </div>
             <Space>
