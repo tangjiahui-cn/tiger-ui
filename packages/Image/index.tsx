@@ -1,32 +1,44 @@
 import * as React from 'react';
-import styles from './index.less';
 import classNames from 'classnames';
 import PreviewImage from './PreviewImage';
 import { useState } from 'react';
+import { useStyle } from './style';
 
 export interface ImageProps {
-  // 图片源地址
+  /**
+   * @description 图片源地址
+   */
   src?: string;
-  // 图片宽度
+  /**
+   * @description 宽度
+   */
   width?: number;
-  // 图片高度
+  /**
+   * @description 高度
+   */
   height?: number;
-  // 图片样式
+  /**
+   * @description 图片样式
+   */
   style?: React.CSSProperties;
-  // 是否可以预览
+  /**
+   * @description 是否预览
+   * @default false
+   */
   preview?: boolean;
 }
 
 export default function Image(props: ImageProps) {
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
+  const style = useStyle('image');
 
   return (
-    <div className={classNames(styles['image'])}>
+    <div className={classNames(style.image())}>
       <img src={props?.src} width={props?.width} height={props?.height} style={props?.style} />
 
       {props?.preview && (
         <>
-          <div className={styles['image-preview']} onClick={() => setPreviewVisible(true)}>
+          <div className={style.imagePreviewButton()} onClick={() => setPreviewVisible(true)}>
             预 览
           </div>
 
