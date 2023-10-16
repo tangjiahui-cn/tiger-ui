@@ -1,22 +1,31 @@
 import * as React from 'react';
-import styles from './index.less';
 import { useEffect, useRef, useState } from 'react';
 import { isBoolean } from '../_utils';
+import { useStyle } from './style';
 
 export interface RadioProps {
-  // 受控的选中
+  /**
+   * @description 受控选中
+   */
   checked?: boolean;
-  // 默认选中
+  /**
+   * @description 默认选中
+   */
   defaultChecked?: boolean;
-  // 改变选中状态回调
+  /**
+   * @description 改变选中状态回调
+   */
   onChange?: (checked: boolean) => void;
-  // 子元素
+  /**
+   * @description 子元素
+   */
   children?: any;
 }
 
 export default function Radio(props: RadioProps) {
   const inputRef = useRef(null);
   const [checked, setChecked] = useState<boolean>(!!props?.defaultChecked);
+  const style = useStyle('radio');
 
   function handleClick() {
     !checked && props?.onChange?.(true);
@@ -32,10 +41,10 @@ export default function Radio(props: RadioProps) {
   }, [props?.checked]);
 
   return (
-    <span className={styles.radio} onClick={() => handleClick()}>
+    <span className={style.radio()} onClick={() => handleClick()}>
       <input ref={inputRef} type={'radio'} checked={checked} onChange={(e) => null} />
-      <label className={styles['radio-circle']} />
-      <span className={styles['radio-content']}>{props?.children}</span>
+      <label className={style.radioCircle()} />
+      <span className={style.radioContent()}>{props?.children}</span>
     </span>
   );
 }
