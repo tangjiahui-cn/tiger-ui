@@ -32,11 +32,11 @@ export { default as Upload } from './Upload';
 export type { UploadProps } from './Upload';
 export { default as Switch } from './Switch';
 export type { SwitchProps } from './Switch';
-
 export { default as CheckBox } from './CheckBox';
 export type { CheckBoxProps } from './CheckBox';
 export { default as Table } from './Table';
 export type { TableProps } from './Table';
+
 export { default as Notification } from './Notification';
 export type { NotificationProps } from './Notification';
 export { default as Counter } from './Counter';
