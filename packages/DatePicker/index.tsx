@@ -1,6 +1,5 @@
 import * as React from 'react';
 import type { Moment } from 'moment';
-import styles from './index.less';
 import { useEffect, useRef, useState } from 'react';
 import SelectPanel from '../Select/PopupPanel';
 import { createDateArrayByMonth, createDateItem, doubleNumStr } from './utils';
@@ -8,6 +7,7 @@ import { useGetConfig } from '../ConfigProvider';
 import moment from 'moment';
 import { useUpdateEffect } from '../_hooks';
 import classNames from 'classnames';
+import { useStyle } from './style';
 
 export type DateItem = {
   year: number;
@@ -26,25 +26,41 @@ export type PanelDateProps = {
 };
 
 export interface DatePickerProps {
-  // 外界绑定值
+  /**
+   * @description 受控值
+   */
   value?: Moment;
-  // 默认提示语
+  /**
+   * @description 占位符
+   * @default 请选择
+   */
   placeholder?: string;
-  // 头部是否占据一行
+  /**
+   * @description 是否块级组件
+   * @default false
+   */
   block?: boolean;
-  // 头部样式
+  /**
+   * @description 头部样式
+   */
   style?: React.CSSProperties;
-  // 时间格式
+  /**
+   * @description 时间格式
+   * @default YYYY-MM-DD
+   */
   format?: string; // default: YYYY-MM-DD
-  // 日期改变回调事件
+  /**
+   * @description 日期改变回调事件
+   */
   onChange?: (str?: string, mom?: Moment, item?: DateItem) => void;
 }
 
 const dayList: string[] = ['一', '二', '三', '四', '五', '六', '日'];
 export default function DatePicker(props: DatePickerProps) {
   const { locale } = useGetConfig();
-  const { style = {}, placeholder = locale.inputPlaceholder, format = 'YYYY-MM-DD' } = props;
+  const { placeholder = locale.selectPlaceholder, format = 'YYYY-MM-DD' } = props;
   const headDom = useRef(null);
+  const style = useStyle('datepicker');
 
   const [dateArray, setDateArray] = useState<DateItem[][]>([]);
 
@@ -98,13 +114,15 @@ export default function DatePicker(props: DatePickerProps) {
 
   function renderDateLine(lineArr: DateItem[], key: number): React.ReactNode {
     return (
-      <div className={styles['datePicker-body-content-line']} key={key}>
+      <div className={style.datepickerBodyContentLine()} key={key}>
         {lineArr.map((dateItem: DateItem) => {
           const classes = [
-            styles[`datePicker-body-content-item${dateItem?._current ? '-current' : ''}`],
+            dateItem?._current
+              ? style.datepickerBodyContentItemCurrent()
+              : style.datepickerBodyContentItem(),
           ];
           if (dateItem.key === current?.key && panelDate.month === current.month) {
-            classes.push(styles['datePicker-body-content-item-choose']);
+            classes.push(style.datepickerBodyContentItemChoose());
           }
           return (
             <div
@@ -113,11 +131,13 @@ export default function DatePicker(props: DatePickerProps) {
               onClick={() => {
                 const current = { ...dateItem };
                 current.dateStr = current.moment.format(format);
-                setCurrent(current);
                 panelDate.year = dateItem.year;
                 panelDate.day = dateItem.day;
                 panelDate.month = dateItem.month;
-                setPanelDate({ ...panelDate });
+                if (!props?.onChange && !props?.value) {
+                  setPanelDate({ ...panelDate });
+                  setCurrent(current);
+                }
                 props?.onChange?.(current.dateStr, current?.moment, current);
                 setPopupVisible(false);
               }}
@@ -143,7 +163,7 @@ export default function DatePicker(props: DatePickerProps) {
     } else {
       !current && setCurrent(null);
     }
-  }, [props?.value]);
+  }, [props?.value, props.format]);
 
   useUpdateEffect(() => {
     setDateArray(createDateArrayByMonth(`${panelDate.year}-${doubleNumStr(panelDate.month)}`));
@@ -156,15 +176,15 @@ export default function DatePicker(props: DatePickerProps) {
         ref={headDom}
         style={{
           width: props?.block ? '100%' : 200,
-          ...style,
+          ...props?.style,
         }}
-        className={styles.datePicker}
+        className={style.datepicker()}
         onMouseDown={() => {
           initPopupPanelInfo();
           setPopupVisible(true);
         }}
       >
-        <span className={classNames({ [styles['datePicker-placeholder']]: !current?.dateStr })}>
+        <span className={classNames({ [style.datepickerPlaceholder()]: !current?.dateStr })}>
           {current?.dateStr || placeholder}
         </span>
       </div>
@@ -180,12 +200,12 @@ export default function DatePicker(props: DatePickerProps) {
           setPopupVisible(false);
         }}
       >
-        <div style={{ display: 'inline-block', boxSizing: 'border-box' }}>
-          <div className={styles['datePicker-head']}>
-            <span className={styles['datePicker-btn']} onClick={() => changeYearMonth('year', -1)}>
+        <div className={style.datepickerPanel()}>
+          <div className={style.datepickerHead()}>
+            <span className={style.datepickerBtn()} onClick={() => changeYearMonth('year', -1)}>
               {'<<'}
             </span>
-            <span className={styles['datePicker-btn']} onClick={() => changeYearMonth('month', -1)}>
+            <span className={style.datepickerBtn()} onClick={() => changeYearMonth('month', -1)}>
               {'<'}
             </span>
             <div style={{ padding: '0 24px', display: 'inline-block', fontWeight: 'bold' }}>
@@ -196,24 +216,24 @@ export default function DatePicker(props: DatePickerProps) {
               </div>
               <span>月</span>
             </div>
-            <span className={styles['datePicker-btn']} onClick={() => changeYearMonth('month', 1)}>
+            <span className={style.datepickerBtn()} onClick={() => changeYearMonth('month', 1)}>
               {'>'}
             </span>
-            <span className={styles['datePicker-btn']} onClick={() => changeYearMonth('year', 1)}>
+            <span className={style.datepickerBtn()} onClick={() => changeYearMonth('year', 1)}>
               {'>>'}
             </span>
           </div>
-          <div className={styles['datePicker-body']}>
-            <div className={styles['datePicker-body-head']}>
+          <div className={style.datepickerBody()}>
+            <div className={style.datepickerBodyHead()}>
               {dayList.map((day) => {
                 return (
-                  <div className={styles['datePicker-body-head-item']} key={day}>
+                  <div className={style.datepickerBodyHeadItem()} key={day}>
                     {day}
                   </div>
                 );
               })}
             </div>
-            <div className={styles['datePicker-body-content']}>
+            <div className={style.datepickerBodyContent()}>
               {dateArray.map((lineArray: DateItem[], index: number) => {
                 return renderDateLine(lineArray, index);
               })}
