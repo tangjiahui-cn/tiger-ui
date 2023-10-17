@@ -1,28 +1,44 @@
 import * as React from 'react';
 import { EmptyOutline, EmptyFill } from '../Icon';
-import styles from './index.less';
 import classNames from 'classnames';
 import { useGetConfig } from '../ConfigProvider';
+import { useStyle } from './style';
 
 export interface EmptyProps {
-  // 自定义空图标
+  /**
+   * @description 自定义空图标
+   */
   icon?: React.ReactNode;
-  // 是否填充类型
+  /**
+   * @description 自定义填充类型
+   * @default default
+   */
   type?: 'default' | 'fill';
-  // 提示语
+  /**
+   * @description 提示内容
+   * @default 暂无数据
+   */
   message?: React.ReactNode;
-  // 提示语央视
+  /**
+   * @description 提示语样式
+   */
   messageStyle?: React.CSSProperties;
-  // 是否显示边框
-  border?: boolean;
-  // 样式
+  /**
+   * @description 是否显示边框
+   * @default false
+   */
+  bordered?: boolean;
+  /**
+   * @description 组件样式
+   */
   style?: React.CSSProperties;
 }
 
 const iconSize = 40;
 export default function Empty(props: EmptyProps) {
   const { locale } = useGetConfig();
-  const { type = 'default', style = {}, message = locale.emptyValue } = props;
+  const { type = 'default', message = locale.emptyValue } = props;
+  const style = useStyle('empty');
 
   function getDefaultIcon() {
     if (type === 'default') return <EmptyOutline fontSize={iconSize} />;
@@ -32,12 +48,12 @@ export default function Empty(props: EmptyProps) {
 
   return (
     <div
-      style={style}
-      className={classNames(styles['empty'], props?.border && styles['empty-border'])}
+      style={props?.style}
+      className={classNames(style.empty(), props?.bordered && style.emptyBorder())}
     >
       {props?.icon || getDefaultIcon()}
       {message && (
-        <div className={styles['empty-message']} style={props?.messageStyle}>
+        <div className={style.emptyMessage()} style={props?.messageStyle}>
           {message}
         </div>
       )}
