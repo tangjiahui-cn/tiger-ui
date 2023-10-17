@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { SwitchBar, SwitchBarType } from './SwitchBar';
-import styles from './index.less';
 import { throttle } from 'lodash';
 import { useStateWithRef } from '../_hooks';
+import { useStyle } from './style';
 
 type DOMRectWrite = {
   [k in keyof Omit<DOMRect, 'toJSON'>]: number;
@@ -40,21 +40,39 @@ export interface CarouselOption {
 }
 
 export interface CarouselProps {
-  // 样式
+  /**
+   * @description 样式
+   */
   style?: React.CSSProperties;
-  // 切换样式
+  /**
+   * @description 操作栏样式
+   */
   dotStyle?: React.CSSProperties;
-  // 切换图标类型
+  /**
+   * @description 操作栏类型
+   */
   type?: SwitchBarType;
-  // 子页面
+  /**
+   * @description 页面配置
+   */
   options?: CarouselOption[];
-  // 当前页面索引（从0开始）
+  /**
+   * @description 当前页（从0开始计数）
+   */
   current?: number;
-  // 自动播放
+  /**
+   * @description 是否启用轮播图
+   * @default false
+   */
   autoplay?: boolean;
-  // 自动播放延时
+  /**
+   * @description 自动播放延时（单位：ms）
+   * @default 2000
+   */
   delay?: number;
-  // 切换页面回调
+  /**
+   * @description 切换页面回调
+   */
   onChange?: (current: number) => void;
 }
 
@@ -63,6 +81,7 @@ export default function Carousel(props: CarouselProps) {
   const [options, setOptions] = useState<CarouselOption[]>([]);
   const isOut = typeof props?.current === 'number';
   const timerIdRef = useRef<any>();
+  const style = useStyle('carousel');
 
   const [current, setCurrent, currentRef] = useStateWithRef<number>(0);
   const [carouselPosInfo, setCarouselPosInfo] = useState<DOMRectWrite>({ ...INIT_POSITION });
@@ -118,9 +137,9 @@ export default function Carousel(props: CarouselProps) {
   }, []);
 
   return (
-    <div className={styles['carousel']} style={props?.style} ref={carouselRef}>
+    <div className={style.carousel()} style={props?.style} ref={carouselRef}>
       <div
-        className={styles['carousel-body']}
+        className={style.carouselBody()}
         style={{
           width: carouselPosInfo.width * options?.length,
           transform: `translate3d(-${carouselPosInfo.width * (props?.current || current)}px, 0, 0)`,
@@ -130,7 +149,7 @@ export default function Carousel(props: CarouselProps) {
           return (
             <div
               key={x?.key}
-              className={styles['carousel-body-option']}
+              className={style.carouselBodyOption()}
               style={{ width: carouselPosInfo.width }}
             >
               {x?.children}

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import styles from './index.less';
 import classNames from 'classnames';
+import { useStyle } from '@/Carousel/style';
 
 export type SwitchBarType = 'rect' | 'dot' | 'line';
 export interface SwitchBarProps {
@@ -14,6 +14,7 @@ export interface SwitchBarProps {
 
 export function SwitchBar(props: SwitchBarProps) {
   const { type = 'rect' } = props;
+  const style = useStyle('carousel');
 
   function renderItem(total: number): React.ReactNode {
     const list: React.ReactNode[] = [];
@@ -25,8 +26,8 @@ export function SwitchBar(props: SwitchBarProps) {
         <div
           key={i}
           className={classNames(
-            styles[`switchBar-${type}`],
-            isChoose && styles[`switchBar-${type}-choose`],
+            style.carouseBarType(type),
+            isChoose && style.carouseBarTypeChoose(type),
           )}
           style={props?.itemStyle}
           onClick={() => props?.onChange?.(i)}
@@ -40,7 +41,7 @@ export function SwitchBar(props: SwitchBarProps) {
   }
 
   return (
-    <div className={styles.switchBar} style={props?.style}>
+    <div className={style.carouseBar()} style={props?.style}>
       {renderItem(props.total)}
     </div>
   );
