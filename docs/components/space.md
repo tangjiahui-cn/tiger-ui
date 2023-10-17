@@ -31,15 +31,26 @@ export default () => {
 ```
 
 ## 三、间距（size）
+
 ```jsx
-import {Space, Button} from 'tiger-ui';
+import {Space, Button, Slider} from 'tiger-ui';
+import {useState} from 'react';
 
 export default () => {
-  return <Space size={32}>
-    <Button>按钮</Button>
-    <Button>按钮</Button>
-    <Button>按钮</Button>
-    <Button>按钮</Button>
+  const [value, setValue] = useState(16);
+  return <Space direction={'vertical'} block>
+    <div style={{display: 'flex', gap: 8, alignItems: 'center'}}>
+      <Slider style={{flex: 1}} value={value} onChange={setValue}/>
+      <span>
+        {value}px
+      </span>
+    </div>
+    <Space size={value}>
+      <Button>按钮</Button>
+      <Button>按钮</Button>
+      <Button>按钮</Button>
+      <Button>按钮</Button>
+    </Space>
   </Space>;
 }
 ```
