@@ -4,4 +4,4 @@ lib
 .idea
 .DS_Store
 .dumi/tmp*
-docs-dist
+#docs-dist

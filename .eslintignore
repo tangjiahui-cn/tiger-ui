@@ -11,6 +11,6 @@ LICENSE
 *.d.ts
 *.rc
 /examples/
-/docs-dist/
+docs-dist
 /docs/
 /.dumi/

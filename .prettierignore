@@ -10,3 +10,4 @@ LICENSE
 *.rc
 
 /packages/Icon/*.js
+docs-dist
