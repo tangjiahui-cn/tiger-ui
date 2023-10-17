@@ -3,10 +3,10 @@ import { useEffect, useRef, useState } from 'react';
 import moment, { Moment } from 'moment';
 import { doubleString } from '../_utils';
 import ReactDOM from 'react-dom';
-import styles from './index.less';
 import SelectPanel from '../Select/PopupPanel';
 import classNames from 'classnames';
 import { useGetConfig } from '../ConfigProvider';
+import { useStyle } from './style';
 
 function genNumberArray(size: number): number[] {
   return Array(size)
@@ -23,17 +23,30 @@ type ValueType = [number, number, number];
 export type TimePickerType = 'second' | 'minute' | 'hour';
 
 export interface TimePickerProps {
-  // 时间选择器类型
+  /**
+   * @description 时间选择器类型
+   * @default second
+   */
   picker?: TimePickerType;
-  // 样式
+  /**
+   * @description 样式
+   */
   style?: React.CSSProperties;
-  // 外界绑定值
+  /**
+   * @description 受控值
+   */
   value?: Moment;
-  // 默认值
+  /**
+   * @description 默认值
+   */
   defaultValue?: Moment;
-  // 占位符
+  /**
+   * @description 占位符
+   */
   placeholder?: React.ReactNode;
-  // 值回调事件
+  /**
+   * @description 值改变回调事件
+   */
   onChange?: (time: Moment, str: string) => void;
 }
 
@@ -41,6 +54,7 @@ export default function TimePicker(props: TimePickerProps) {
   const { locale } = useGetConfig();
   const { picker = 'second', placeholder = locale?.timepicker?.placeholder } = props;
   const headDom = useRef<any>();
+  const style = useStyle('timepicker');
 
   const [popupVisible, setPopupVisible] = useState<boolean>(false);
   const [popupInfo, setPopupInfo] = useState<{
@@ -113,9 +127,9 @@ export default function TimePicker(props: TimePickerProps) {
   }, [props?.value]);
 
   return (
-    <div className={styles['timepicker']}>
-      <div className={styles['timepicker-header']} ref={headDom} onMouseDown={handleOpen}>
-        {renderValue || <span className={styles['timepicker-placeholder']}>{placeholder}</span>}
+    <div className={style.timepicker()}>
+      <div className={style.timepickerHeader()} ref={headDom} onMouseDown={handleOpen}>
+        {renderValue || <span className={style.timepickerPlaceholder()}>{placeholder}</span>}
       </div>
 
       {ReactDOM.createPortal(
@@ -130,8 +144,8 @@ export default function TimePicker(props: TimePickerProps) {
             setPopupVisible(false);
           }}
         >
-          <div style={{ width: 150 }}>
-            <div style={{ height: 256 }} className={styles['timepicker-picker']}>
+          <div className={style.timePanel()}>
+            <div style={{ height: 256 }} className={style.timePanelPicker()}>
               {[hourArr, minuteArr, secondArr]
                 .filter((_, index) => {
                   return (
@@ -142,15 +156,15 @@ export default function TimePicker(props: TimePickerProps) {
                 })
                 .map((arr: number[], index: number) => {
                   return (
-                    <div key={index} className={styles['timepicker-picker-column']}>
+                    <div key={index} className={style.timePanelPickerColumn()}>
                       {arr.map((v: number, vIndex: number) => {
                         const isSelected = chooseValue?.[index] === v;
                         return (
                           <div
                             key={`${index}-${vIndex}`}
                             className={classNames(
-                              styles['timepicker-picker-item'],
-                              isSelected && styles['timepicker-picker-item-choose'],
+                              style.timePanelPickerItem(),
+                              isSelected && style.timePanelPickerItemChoose(),
                             )}
                             onClick={() => {
                               setChooseValue((chooseValue) => {
@@ -167,10 +181,18 @@ export default function TimePicker(props: TimePickerProps) {
                   );
                 })}
             </div>
-            <div className={styles['timepicker-bottom']}>
-              <div className={styles['timepicker-bottom-now']}>{locale?.timepicker?.now}</div>
+            <div className={style.timePanelBottom()}>
               <div
-                className={styles['timepicker-bottom-confirm']}
+                className={style.timePanelBottomNow()}
+                onClick={() => {
+                  const now = new Date();
+                  handleChoose([now.getHours(), now.getMinutes(), now.getSeconds()]);
+                }}
+              >
+                {locale?.timepicker?.now}
+              </div>
+              <div
+                className={style.timePanelBottomConfirm()}
                 onClick={() => handleChoose(chooseValue)}
               >
                 {locale?.timepicker?.confirm}
