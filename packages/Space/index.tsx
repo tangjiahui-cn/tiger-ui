@@ -43,6 +43,10 @@ export interface SpaceProps {
    * @description 鼠标按下回调
    */
   onPointerDown?: PointerEventHandler<any> | undefined;
+  /**
+   * @description 类名
+   */
+  className?: string;
 }
 
 export default function Space(props: SpaceProps) {
@@ -53,6 +57,7 @@ export default function Space(props: SpaceProps) {
     props?.wrap && style.wrap(),
     props?.block && style.block(),
     style.direction(props?.direction || 'horizontal'),
+    props?.className,
   );
 
   return (

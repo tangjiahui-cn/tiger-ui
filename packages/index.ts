@@ -52,9 +52,9 @@ export { default as TimePicker } from './TimePicker';
 export type { TimePickerProps } from './TimePicker';
 export { default as Tabs } from './Tabs';
 export type { TabsProps } from './Tabs';
-
 export { default as InputNumber } from './InputNumber';
 export type { InputNumberProps } from './InputNumber';
+
 export { default as Collapse } from './Collapse';
 export type { CollapseProps } from './Collapse';
 export { default as Carousel } from './Carousel';
