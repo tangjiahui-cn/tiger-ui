@@ -4,6 +4,8 @@ export { default as en_US } from './en_US';
 export interface Locale {
   // input: placeholder.
   inputPlaceholder: string;
+  // select: placeholder
+  selectPlaceholder: string;
   // all confirm value.
   confirmValue: string;
   // all cancel value.

@@ -3,27 +3,43 @@ import { Input, InputProps, Space } from '..';
 import { ArrowDownOutline, ArrowTopOutline } from '../Icon';
 import { useEffect, useState } from 'react';
 import { isEmpty, isNumber, isNumberString, largeThan, lessThan } from '../_utils';
-import styles from './index.less';
+import { useStyle } from './style';
 
 export type InputNumberProps = Omit<InputProps, 'suffix' | 'value' | 'onChange'> & {
-  // 步进
+  /**
+   * @description 步进
+   * @default 1
+   */
   step?: number;
-  // 值
+  /**
+   * @description 受控值
+   */
   value?: number;
-  // 最小值
+  /**
+   * @description 最小值
+   */
   min?: number;
-  // 最大值
+  /**
+   * @description 最大值
+   */
   max?: number;
-  // 默认值
+  /**
+   * @description 默认值
+   */
   defaultValue?: number;
-  // 值改变回调事件
+  /**
+   * @description 值改变回调事件
+   */
   onChange?: (value: number) => void;
-  // 原始输入框输入回调
+  /**
+   * @description 原始输入框输入回调
+   */
   onInput?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export default function InputNumber(props: InputNumberProps) {
   const { step = 1, min, max } = props;
+  const style = useStyle('input-number');
   const [value, setValue] = useState<string>(
     isNumberString(`${props?.defaultValue}`) ? `${props?.defaultValue}` : '',
   );
@@ -85,11 +101,11 @@ export default function InputNumber(props: InputNumberProps) {
       onBlur={handleBlur}
       suffixStyle={{ marginRight: 0 }}
       suffix={
-        <Space direction={'vertical'} size={0} style={{}}>
-          <span className={styles['inputNumber-btn']} onClick={handleAdd}>
+        <Space direction={'vertical'} size={0} className={style.inputNumber()}>
+          <span className={style.inputNumberBtn()} onClick={handleAdd}>
             <ArrowTopOutline style={{ pointerEvents: 'none' }} fontSize={12} />
           </span>
-          <span className={styles['inputNumber-btn']} onClick={handleDec}>
+          <span className={style.inputNumberBtn()} onClick={handleDec}>
             <ArrowDownOutline style={{ pointerEvents: 'none' }} fontSize={12} />
           </span>
         </Space>

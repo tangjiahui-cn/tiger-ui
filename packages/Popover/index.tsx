@@ -2,25 +2,32 @@ import * as React from 'react';
 import { useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import PopoverPopup from '../Popover/PopoverPopup';
-import styles from './index.less';
 import { Space } from '..';
+import { useStyle } from './style';
 
 export interface PopoverProps {
-  // 标题
+  /**
+   * @description 标题
+   */
   title?: React.ReactNode;
-  // 内容
+  /**
+   * @description 内容
+   */
   content?: React.ReactNode;
-  // 默认展开
-  defaultVisible?: boolean;
-  // 浮层样式
+  /**
+   * @description 浮层样式
+   */
   overlayStyle?: React.CSSProperties;
-  // 占位子元素
+  /**
+   * @description 子元素
+   */
   children?: React.ReactElement;
 }
 
 export default function Popover(props: PopoverProps) {
-  const [visible, setVisible] = useState<boolean>(!!props?.defaultVisible);
+  const [visible, setVisible] = useState<boolean>(false);
   const ref = useRef();
+  const style = useStyle('popover');
 
   return (
     <>
@@ -38,8 +45,10 @@ export default function Popover(props: PopoverProps) {
         ReactDOM.createPortal(
           <PopoverPopup baseRef={ref} visible={visible} style={props?.overlayStyle}>
             <Space direction={'vertical'}>
-              {props?.title && <div className={styles['popover-title']}>{props?.title}</div>}
-              {props?.content && <div className={styles['popover-content']}>{props?.content}</div>}
+              {props?.title && <div className={style.popoverOverlayTitle()}>{props?.title}</div>}
+              {props?.content && (
+                <div className={style.popoverOverlayContent()}>{props?.content}</div>
+              )}
             </Space>
           </PopoverPopup>,
           document.body,

@@ -1,6 +1,6 @@
 import { MutableRefObject, useLayoutEffect, useRef, useState } from 'react';
-import styles from './index.less';
 import * as React from 'react';
+import { useStyle } from './style';
 
 export interface Position {
   bottom: number;
@@ -22,6 +22,7 @@ interface ToolTipPopupProps {
 
 export default function ToolTipPopup(props: ToolTipPopupProps) {
   const { visible } = props;
+  const style = useStyle('tooltip-overlay');
   const ref = useRef<any>();
   const [position, setPosition] = useState<{ left: number; top: number }>({ left: 0, top: 0 });
 
@@ -47,7 +48,7 @@ export default function ToolTipPopup(props: ToolTipPopupProps) {
   return (
     <div
       ref={ref}
-      className={styles['tooltip-overlay']}
+      className={style.tooltipOverlay()}
       style={{
         left: position.left,
         top: position.top,

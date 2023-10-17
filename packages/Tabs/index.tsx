@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
-import styles from './index.less';
 import classNames from 'classnames';
+import { useStyle } from './style';
 
 export interface TabsOption {
   key: string;
@@ -10,26 +10,44 @@ export interface TabsOption {
 }
 
 export interface TabsProps {
-  // 选项
+  /**
+   * @description tabs的选项配置
+   */
   options?: TabsOption[];
-  // tabs样式
+  /**
+   * @description 样式
+   */
   style?: React.CSSProperties;
-  // tabs_bar样式
+  /**
+   * @description tabsBar 样式
+   */
   barStyle?: React.CSSProperties;
-  // tabs_body
+  /**
+   * @description tabsBody 样式
+   */
   bodyStyle?: React.CSSProperties;
-  // 切换时是否销毁
+  /**
+   * @description 切换时是否销毁
+   * @default false
+   */
   destroy?: boolean;
-  // 默认激活tab
+  /**
+   * @description 默认激活tab
+   */
   defaultActiveKey?: string;
-  // 当前激活tab
+  /**
+   * @description 受控值
+   */
   activeKey?: string;
-  // 切换tab回调
+  /**
+   * @description 切换tab回调
+   */
   onChange?: (activeKey: string, node: TabsOption) => void;
 }
 export default function Tabs(props: TabsProps) {
+  const style = useStyle('tabs');
   const [activeKey, setActiveKey] = useState<string>(
-    props?.defaultActiveKey || props?.options?.[0]?.key || '',
+    props?.activeKey || props?.defaultActiveKey || props?.options?.[0]?.key || '',
   );
 
   function handleClick(option: TabsOption) {
@@ -41,18 +59,15 @@ export default function Tabs(props: TabsProps) {
   }
 
   return (
-    <div className={styles['tabs']} style={props?.style}>
-      <div className={styles['tabs-bar']} style={props?.barStyle}>
+    <div className={style.tabs()} style={props?.style}>
+      <div className={style.tabsBar()} style={props?.barStyle}>
         {props?.options?.map((x) => {
           const isChoose = activeKey === x.key;
           return (
             <div
               key={x?.key}
               onClick={() => handleClick(x)}
-              className={classNames(
-                styles['tabs-bar-item'],
-                isChoose && styles['tabs-bar-item-choose'],
-              )}
+              className={classNames(style.tabsBarItem(), isChoose && style.tabsBarItemChoose())}
             >
               {x.label}
             </div>
@@ -65,7 +80,7 @@ export default function Tabs(props: TabsProps) {
           (isVisible || !props?.destroy) && (
             <div
               key={x.key}
-              className={styles['tabs-body']}
+              className={style.tabsBody()}
               style={{ display: isVisible ? 'block' : 'none', ...props?.bodyStyle }}
             >
               {x?.value}

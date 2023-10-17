@@ -13,53 +13,29 @@ import {
 } from '..';
 
 export const SuccessFillIcon = function (props: IconCommonProps) {
-  return (
-    <span className={styles.success}>
-      <SuccessFill {...props} />
-    </span>
-  );
+  return <SuccessFill {...props} pointer color={'#73d13d'} fontSize={16} />;
 };
 
 export const ErrorFillIcon = function (props: IconCommonProps) {
-  return (
-    <span className={styles.error}>
-      <CloseFill {...props} />
-    </span>
-  );
+  return <CloseFill {...props} pointer color={'#ff4d4f'} fontSize={16} />;
 };
 
 export const WarnFillIcon = function (props: IconCommonProps) {
-  return (
-    <span className={styles.warn}>
-      <InfoFill {...props} />
-    </span>
-  );
+  return <InfoFill {...props} pointer color={'#ffc53d'} fontSize={16} />;
 };
 
 export const WarningFillIcon = WarnFillIcon;
 
 export const InfoFillIcon = function (props: IconCommonProps) {
-  return (
-    <span className={styles.info}>
-      <InfoFill {...props} />
-    </span>
-  );
+  return <InfoFill {...props} pointer color={'#4096ff'} fontSize={16} />;
 };
 
 export const LoadingOutlineIcon = function (props: IconCommonProps) {
-  return (
-    <span className={styles.default}>
-      <LoadingOutline {...props} />
-    </span>
-  );
+  return <LoadingOutline {...props} pointer color={'#141414'} fontSize={16} />;
 };
 
 export const CloseOutlineIcon = function (props: IconCommonProps) {
-  return (
-    <span className={styles.default}>
-      <CloseOutline {...props} />
-    </span>
-  );
+  return <CloseOutline {...props} pointer color={'#141414'} fontSize={16} />;
 };
 
 export type IconType = 'success' | 'error' | 'warn' | 'info';

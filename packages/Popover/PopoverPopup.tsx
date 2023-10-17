@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { MouseEvent, MutableRefObject, useLayoutEffect, useRef, useState } from 'react';
-import styles from './index.less';
 import { Position } from '../ToolTip/ToolTipPopup';
+import { useStyle } from './style';
 
 interface PopoverPopupProps {
   baseRef?: MutableRefObject<any>;
@@ -13,6 +13,7 @@ interface PopoverPopupProps {
 }
 export default function PopoverPopup(props: PopoverPopupProps) {
   const { visible } = props;
+  const style = useStyle('popover');
   const ref = useRef<any>();
   const [position, setPosition] = useState<{ left: number; top: number }>({ left: 0, top: 0 });
 
@@ -38,7 +39,7 @@ export default function PopoverPopup(props: PopoverPopupProps) {
   return (
     <div
       ref={ref}
-      className={styles['popover-overlay']}
+      className={style.popoverOverlay()}
       style={{
         left: position.left,
         top: position.top,

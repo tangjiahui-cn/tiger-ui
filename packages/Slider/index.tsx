@@ -1,19 +1,31 @@
 import * as React from 'react';
-import styles from './index.less';
 import { useEffect, useRef, useState } from 'react';
 import { isNumber, range } from '../_utils';
+import { useStyle } from './style';
 
 export type SliderValue = number;
 export interface SliderProps {
-  // 值 (0-100之间)
+  /**
+   * @description 受控值(0-100之间)
+   */
   value?: SliderValue;
-  // 默认值
+  /**
+   * @description 默认值
+   * @default 0
+   */
   defaultValue?: SliderValue;
-  // 无极滑动
+  /**
+   * @description 平滑移动
+   * @default false
+   */
   smooth?: boolean;
-  // 滑动输入条样式
+  /**
+   * @description 组件样式
+   */
   style?: React.CSSProperties;
-  // 值改变回调
+  /**
+   * @description 值改变回调
+   */
   onChange?: (value?: SliderValue, preValue?: SliderValue) => void;
 }
 
@@ -26,6 +38,9 @@ export default function Slider(props: SliderProps) {
   const trackDomRef = useRef<any>(null);
   const trackThumbDomRef = useRef<any>(null);
   const pointDomRef = useRef<any>(null);
+  const style = useStyle('slider');
+
+  const isNotControl = props?.value === undefined; // 是否外界受控值
 
   function getPercent(x: number, width: number) {
     const percent = (range(x, 0, width) / width) * 100;
@@ -48,7 +63,7 @@ export default function Slider(props: SliderProps) {
       if (percent === lastPercent) return;
       props?.onChange?.(percent, lastPercent);
 
-      if (!isNumber(props?.value)) {
+      if (isNotControl) {
         trackThumbDomRef.current.style.width = `${percent}%`;
         pointDomRef.current.style.left = `calc(${percent}% - ${halfPointSize}px)`;
       }
@@ -57,7 +72,9 @@ export default function Slider(props: SliderProps) {
     }
 
     function up() {
-      setEnd(percent);
+      if (isNotControl) {
+        setEnd(percent);
+      }
       window.removeEventListener('pointermove', move);
       window.removeEventListener('pointerup', up);
     }
@@ -73,22 +90,22 @@ export default function Slider(props: SliderProps) {
   }, [props?.value]);
 
   return (
-    <div className={styles['slider']} style={props?.style}>
+    <div className={style.slider()} style={props?.style}>
       <div
-        className={styles['slider-track']}
+        className={style.sliderTrack()}
         ref={trackDomRef}
         onMouseDown={(e) => {
           const width = trackDomRef.current?.clientWidth || 0;
           const x = range(e.nativeEvent.offsetX, 0, width);
           const percent = getPercent(x, width);
           props?.onChange?.(percent, end);
-          if (!isNumber(props?.value)) {
+          if (isNotControl) {
             setEnd(percent);
           }
         }}
       >
         <div
-          className={styles['slider-track-thumb']}
+          className={style.sliderTrackThumb()}
           ref={trackThumbDomRef}
           style={{ width: `${end}%` }}
         />
@@ -99,7 +116,7 @@ export default function Slider(props: SliderProps) {
             height: pointSize,
             left: `calc(${end}% - ${halfPointSize}px)`,
           }}
-          className={styles['slider-point']}
+          className={style.sliderPoint()}
           onMouseDown={handleStartMove}
         />
       </div>

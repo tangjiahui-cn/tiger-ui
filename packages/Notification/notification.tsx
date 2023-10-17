@@ -1,8 +1,8 @@
 import * as React from 'react';
 import NotificationBox from './NotificationBox';
 import ReactDOM from 'react-dom/client';
-import styles from './index.less';
 import type { NotificationBoxProps } from './NotificationBox';
+import createEmotion from '@emotion/css/create-instance';
 
 export type NotificationConfig = Omit<NotificationBoxProps, 'onRemove'> & {
   onClose?: () => void;
@@ -25,12 +25,17 @@ function genConfig(config: NotificationConfig): NotificationConfig {
   return Object.assign({}, defaultConfig, config);
 }
 
+const { css } = createEmotion({ key: 'notification' });
 export class NotificationGen {
   private containerDom?: HTMLDivElement;
 
   private createContainerDom(): HTMLDivElement {
     const dom = document.createElement('div');
-    dom.className = styles['notification-container'];
+    dom.className = css({
+      position: 'fixed',
+      right: 16,
+      top: 16,
+    });
     return dom;
   }
 
@@ -66,6 +71,10 @@ export class NotificationGen {
   }
 
   public warn(config: NotificationConfig) {
+    return this.open(Object.assign(config, { type: 'warn' }));
+  }
+
+  public warning(config: NotificationConfig) {
     return this.open(Object.assign(config, { type: 'warn' }));
   }
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import styles from './index.less';
 import classNames from 'classnames';
 import { isBoolean } from '../_utils';
+import { useStyle } from './style';
 
 export interface CheckBoxProps {
   // 是否选中
@@ -20,6 +20,7 @@ export interface CheckBoxProps {
 
 export default function CheckBox(props: CheckBoxProps) {
   const [checked, setChecked] = useState<boolean>(!!props?.defaultChecked);
+  const style = useStyle('checkbox');
 
   function handleClick() {
     const targetChecked = !checked;
@@ -40,12 +41,12 @@ export default function CheckBox(props: CheckBoxProps) {
   }, [props?.checked]);
 
   return (
-    <span onClick={handleClick} className={styles['checkbox']} style={props?.style}>
+    <span onClick={handleClick} className={style.checkbox()} style={props?.style}>
       <span
         className={classNames(
-          styles['checkbox-icon'],
-          !props?.indeterminate && checked && styles['checkbox-icon-checked'],
-          props?.indeterminate && styles['checkbox-icon-indeterminate'],
+          style.checkboxIcon(),
+          !props?.indeterminate && checked && style.checkboxIconChecked(),
+          props?.indeterminate && style.checkboxIconIndeterminate(),
         )}
       />
       <span>{props?.children}</span>

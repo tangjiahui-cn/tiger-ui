@@ -1,8 +1,8 @@
 import { useLayoutEffect, useRef, useState } from 'react';
-import styles from './index.less';
 import classNames from 'classnames';
 import { Empty } from '..';
 import * as React from 'react';
+import { useStyle } from './style';
 
 export interface CollapseItemProps {
   // key 值
@@ -30,6 +30,7 @@ export interface CollapseItemProps {
 export default function Item(props: CollapseItemProps) {
   const childrenRef = useRef<any>();
   const [height, setHeight] = useState<number>(0);
+  const style = useStyle('collapse');
 
   function handleClickLabel() {
     props?.onExpand?.(!props?.expand);
@@ -43,17 +44,17 @@ export default function Item(props: CollapseItemProps) {
   }, [props?.expand]);
 
   return (
-    <div className={styles['collapse-item']} style={props?.style}>
+    <div className={style.collapseItem()} style={props?.style}>
       <div
-        className={styles['collapse-item-label']}
+        className={style.collapseItemLabel()}
         onClick={() => handleClickLabel()}
         style={props?.labelStyle}
       >
         {props?.icon && (
           <div
             className={classNames(
-              styles['collapse-item-label-icon'],
-              props?.expand && styles['collapse-item-expand'],
+              style.collapseItemLabelIcon(),
+              props?.expand && style.collapseItemExpand(),
             )}
           >
             {props?.icon}
@@ -63,11 +64,11 @@ export default function Item(props: CollapseItemProps) {
       </div>
       <div
         style={{ height: props?.expand ? height : 0 }}
-        className={styles['collapse-item-children-wrap']}
+        className={style.collapseItemChildrenWrap()}
       >
         {(!props?.destroy || props?.expand) && (
           <div
-            className={styles['collapse-item-children']}
+            className={style.collapseItemChildren()}
             ref={childrenRef}
             style={props?.childrenStyle}
           >

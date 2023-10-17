@@ -1,29 +1,52 @@
 import React, { useState } from 'react';
-import styles from './index.less';
 import classNames from 'classnames';
 import { Space } from '..';
-import { IconMap, IconType } from '../Icon/_presets';
+import { IconMap } from '../Icon/_presets';
+import { AlertType, useStyle } from './style';
 
 export interface AlertProps {
-  // 类型
-  type?: IconType;
-  // 提示内容
+  /**
+   * @description 类型
+   * @default info
+   */
+  type?: AlertType;
+  /**
+   * @description 主要提示内容
+   */
   message?: string | React.ReactNode;
-  // 提示描述
-  description?: string | React.ReactNode;
-  // 自定义图标
-  icon?: React.ReactNode;
-  // 是否可以关闭
-  closable?: boolean;
-  // 是否显示图标
-  showIcon?: boolean;
-  // 容器样式
-  style?: React.CSSProperties;
-  // 提示内容样式
+  /**
+   * @description 主要提示内容样式
+   */
   messageStyle?: React.CSSProperties;
-  // 提示描述样式
+  /**
+   * @description 描述内容
+   */
+  description?: string | React.ReactNode;
+  /**
+   * @description 描述内容样式
+   */
   descriptionStyle?: React.CSSProperties;
-  // 关闭回调
+  /**
+   * @description 自定义图标
+   */
+  icon?: React.ReactNode;
+  /**
+   * @description 右上角是否显示关闭图标
+   * @default false
+   */
+  closable?: boolean;
+  /**
+   * @description 是否显示图标
+   * @default false
+   */
+  showIcon?: boolean;
+  /**
+   * @description 容器样式
+   */
+  style?: React.CSSProperties;
+  /**
+   * @description 关闭元素时回调事件
+   */
   onClose?: () => void;
 }
 
@@ -36,6 +59,7 @@ export interface AlertProps {
 export default function Alert(props: AlertProps) {
   const { type = 'info', message, description } = props;
   const [visible, setVisible] = useState<boolean>(true);
+  const style = useStyle('alert');
 
   function handleClose() {
     setVisible(false);
@@ -44,24 +68,20 @@ export default function Alert(props: AlertProps) {
 
   return (
     <div
-      className={classNames(
-        styles['alert'],
-        styles[`alert-${type}`],
-        !visible && styles['alert-hidden'],
-      )}
+      className={classNames(style.alert(), style.alertType(type), !visible && style.alertHidden())}
       style={props?.style}
     >
       {props?.showIcon && (
-        <div className={styles['alert-icon']}>{props?.icon || IconMap[type]?.()}</div>
+        <div className={style.alertIcon()}>{props?.icon || IconMap[type]?.()}</div>
       )}
       <Space direction={'vertical'} style={{ flex: 1, overflow: 'hidden' }}>
         {message && (
-          <div className={styles['alert-message']} style={props?.messageStyle}>
+          <div className={style.alertMessage()} style={props?.messageStyle}>
             {message}
           </div>
         )}
         {description && (
-          <div className={styles['alert-description']} style={props?.descriptionStyle}>
+          <div className={style.alertDescription()} style={props?.descriptionStyle}>
             {description}
           </div>
         )}
@@ -69,7 +89,7 @@ export default function Alert(props: AlertProps) {
       {props?.closable && (
         <div
           style={{ alignItems: message ? undefined : 'center' }}
-          className={styles['alert-close']}
+          className={style.alertClose()}
           onClick={() => handleClose()}
         >
           X

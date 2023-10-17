@@ -25,7 +25,7 @@ export default defineConfig({
   // },
   chainWebpack(memo: any) {
     memo.resolve.alias
-      .set('tiger-ui', path.resolve(__dirname, './lib'))
-      .set('@', path.resolve(__dirname, './lib'));
+      .set('tiger-ui', path.resolve(__dirname, './packages'))
+      .set('@', path.resolve(__dirname, './packages'));
   },
 });

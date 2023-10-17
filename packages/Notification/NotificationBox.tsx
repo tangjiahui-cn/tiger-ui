@@ -5,6 +5,7 @@ import { IconMap, IconType } from '../Icon/_presets';
 import { useEffect, useRef, useState } from 'react';
 import { CloseOutline } from '../Icon';
 import classNames from 'classnames';
+import { useStyle } from './style';
 
 export interface NotificationBoxProps {
   // 图标类型
@@ -33,8 +34,8 @@ export default function NotificationBox(props: NotificationBoxProps) {
     closeIcon = <CloseOutline pointer fontSize={14} />,
     closable = true,
     duration = 4500,
-    style = {},
   } = props;
+  const style = useStyle('notification-box');
 
   const icon = props?.icon || (props?.type && IconMap?.[props?.type]?.({ fontSize: 18 }));
   const timerId = useRef<any>();
@@ -65,22 +66,17 @@ export default function NotificationBox(props: NotificationBoxProps) {
 
   return (
     <div
-      className={classNames(
-        styles['notificationBox'],
-        isAppear ? styles['notificationBox-appear'] : styles['notificationBox-disappear'],
-      )}
-      style={{ width: 300, animationDuration: `${animationDuration}ms`, ...style }}
+      className={classNames(style.notificationBox(), style.notificationBoxAppear(isAppear))}
+      style={{ width: 300, animationDuration: `${animationDuration}ms`, ...props?.style }}
     >
       <Space style={{ width: '100%' }} size={10}>
         {icon && (
-          <div style={{ alignSelf: 'flex-start' }} className={styles['notificationBox-title']}>
+          <div style={{ alignSelf: 'flex-start' }} className={style.notificationBoxTitle()}>
             {icon}
           </div>
         )}
         <Space direction={'vertical'} style={{ flex: 1, wordBreak: 'break-all' }}>
-          {props?.message && (
-            <div className={styles['notificationBox-title']}>{props?.message}</div>
-          )}
+          {props?.message && <div className={style.notificationBoxTitle()}>{props?.message}</div>}
           {props?.description && <div>{props?.description}</div>}
         </Space>
         {closable && (

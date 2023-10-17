@@ -1,24 +1,41 @@
 import * as React from 'react';
-import styles from './index.less';
 import { useEffect, useState } from 'react';
 import Item, { CollapseItemProps } from './Item';
 import { ArrowRightOutline } from '../Icon';
+import { useStyle } from './style';
 
 type CollapseOption = Omit<CollapseItemProps, 'expand' | 'onExpand'>;
 
 export interface CollapseProps {
+  /**
+   * @description 自定义图标
+   */
   icon?: React.ReactNode;
-  // 关闭时是否销毁
+  /**
+   * @description 关闭时是否销毁
+   * @default false
+   */
   destroy?: boolean;
-  // 激活key
+  /**
+   * @description 受控属性
+   */
   value?: string[];
-  // 选项列表
+  /**
+   * @description 选项配置
+   */
   options?: CollapseOption[];
-  // 手风琴
+  /**
+   * @description 手风琴模式
+   * @default false
+   */
   accordion?: boolean;
-  // 样式
+  /**
+   * @description 样式
+   */
   style?: React.CSSProperties;
-  // 改变回调
+  /**
+   * @description 值改变回调
+   */
   onChange?: (value: string[]) => void;
 }
 
@@ -26,6 +43,7 @@ export default function Collapse(props: CollapseProps) {
   const { icon = <ArrowRightOutline fontSize={12} pointer /> } = props;
   const isValue = Array.isArray(props?.value);
   const [options, setOptions] = useState<CollapseItemProps[]>([]);
+  const style = useStyle('collapse');
 
   function handleExpand(item: CollapseItemProps, expand: boolean) {
     item.expand = expand;
@@ -51,7 +69,7 @@ export default function Collapse(props: CollapseProps) {
   }, [props?.options]);
 
   return (
-    <div className={styles['collapse']} style={props?.style}>
+    <div className={style.collapse()} style={props?.style}>
       {options?.map((item: CollapseItemProps) => {
         const { key = '' } = item;
         return (

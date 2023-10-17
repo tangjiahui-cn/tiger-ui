@@ -1,33 +1,53 @@
 import * as React from 'react';
-import styles from './index.less';
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { isBoolean } from '../_utils';
+import { useStyle } from './style';
 
 export interface SwitchProps {
-  // 样式
+  /**
+   * @description 样式
+   */
   style?: React.CSSProperties;
-  // 选中元素样式
+  /**
+   * @description 选中元素样式
+   */
   checkedStyle?: React.CSSProperties;
-  // 未选中元素样式
+  /**
+   * @description 未选中元素样式
+   */
   unCheckedStyle?: React.CSSProperties;
-  // 禁用
+  /**
+   * @description 是否禁用
+   * @default false
+   */
   disabled?: boolean;
-  // 是否选中
+  /**
+   * @description 受控选中
+   */
   checked?: boolean;
-  // 默认选中
+  /**
+   * @description 默认选中
+   * @default false
+   */
   defaultChecked?: boolean;
-  // 选中元素
+  /**
+   * @description 自定义选中元素
+   */
   checkedChildren?: React.ReactNode;
-  // 未选中元素
+  /**
+   * @description 未选中元素
+   */
   unCheckedChildren?: React.ReactNode;
-  // 选中状态回调
+  /**
+   * @description 选中状态回调
+   */
   onChange?: (checked: boolean) => void;
 }
 
 export default function Switch(props: SwitchProps) {
-  const { style = {} } = props;
   const [checked, setChecked] = useState<boolean>(!!props?.defaultChecked);
+  const style = useStyle('switch');
 
   function handleChecked() {
     const targetChecked = !checked;
@@ -45,19 +65,19 @@ export default function Switch(props: SwitchProps) {
 
   return (
     <div
-      style={{ width: 48, ...style }}
+      style={{ width: 48, ...props?.style }}
       className={classNames(
-        styles['switch'],
-        checked && styles['switch-checked'],
-        props?.disabled && styles['switch-disabled'],
+        style.switchClass(),
+        checked && style.switchChecked(),
+        props?.disabled && style.switchDisabled(),
       )}
       onMouseUp={() => !props?.disabled && handleChecked()}
     >
-      <div className={styles['switch-inner']}>
-        <div className={styles['switch-inner-checked']}>{props?.checkedChildren}</div>
-        <div className={styles['switch-inner-unchecked']}>{props?.unCheckedChildren}</div>
+      <div className={style.switchInner()}>
+        <div className={style.switchInnerChecked()}>{props?.checkedChildren}</div>
+        <div className={style.switchInnerUnChecked()}>{props?.unCheckedChildren}</div>
       </div>
-      <div className={styles['switch-circle']} />
+      <div className={style.switchCircle()} />
     </div>
   );
 }

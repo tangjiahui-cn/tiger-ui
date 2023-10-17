@@ -1,16 +1,28 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styles from './index.less';
+import { useStyle } from './style';
 
 export interface CounterProps {
-  // 结束值
+  /**
+   * @description 开始值
+   */
   start?: number;
-  // 开始值
+  /**
+   * @description 结束值
+   */
   end?: number;
-  // 动画时长
+  /**
+   * @description 总动画时长（单位: ms）
+   * @default 2000
+   */
   duration?: number;
-  // 数字变化时间间隔
+  /**
+   * @description 数字变化时间间隔（值越小，数值跳动越快）
+   * @default 20
+   */
   timeSplit?: number;
-  // 样式
+  /**
+   * @description 样式
+   */
   style?: React.CSSProperties;
 }
 
@@ -21,6 +33,7 @@ export default function Counter(props: CounterProps) {
   const { duration = 2000, timeSplit = 20, start = 0, end = 0 } = props;
   const [value, setValue] = useState<number | null>(null);
   const timeId = useRef<any>();
+  const style = useStyle('count');
 
   function startAnimation(startValue: number, endValue: number) {
     const _timeSplit = Math.min(timeSplit, duration);
@@ -78,7 +91,7 @@ export default function Counter(props: CounterProps) {
   }, [start, end]);
 
   return (
-    <div className={styles['counter']} style={props?.style}>
+    <div className={style.counter()} style={props?.style}>
       {value}
     </div>
   );

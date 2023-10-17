@@ -9,9 +9,10 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "docs": "pnpm build && dumi dev",
     "dev": "cross-env webpack serve -c scripts/server/index.js",
     "build": "rimraf lib && cross-env webpack -c scripts/build/index.js && tsc -p ./tsconfig.json",
+    "docs": "dumi dev",
+    "docs:build": "dumi build",
     "commit": "git add . && git-cz",
     "test": "jest -c jest.config.js --no-cache",
     "fomat-code-all": "eslint --ext .js,.ts,.jsx,.tsx */* --fix && prettier --write .",
@@ -120,6 +121,7 @@
     }
   },
   "dependencies": {
+    "@emotion/css": "^11.11.2",
     "@types/lodash": "^4.14.195",
     "classnames": "^2.3.2",
     "dumi": "^2.2.12",

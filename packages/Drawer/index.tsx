@@ -1,50 +1,92 @@
 import * as React from 'react';
 import ReactDom from 'react-dom';
-import styles from './index.less';
 import { useEffect, useMemo, useState } from 'react';
 import { Button, Space } from '..';
 import { useGetLocaleValues } from '../ConfigProvider';
 import classNames from 'classnames';
 import { CloseOutline } from '../Icon';
+import { useStyle } from './style';
 
 export type DirectionType = 'top' | 'left' | 'right' | 'bottom';
 
 export interface DrawerProps {
-  // 抽屉是否显示
+  /**
+   * @description 是否显示弹窗
+   */
   visible?: boolean;
-  // 关闭时销毁子元素
+  /**
+   * @description 关闭时销毁子元素
+   * @default false
+   */
   destroyOnClose?: boolean;
-  // 标题
+  /**
+   * @description 标题
+   */
   title?: React.ReactNode;
-  // 出现方向
-  direction: DirectionType;
-  // 是否显示右上角关闭图标
+  /**
+   * @description 弹窗出现方向
+   * @default right
+   */
+  direction?: DirectionType;
+  /**
+   * @description 是否显示右上角关闭图标
+   * @default true
+   */
   closable?: boolean;
-  // 自定义右上角关闭图标
+  /**
+   * @description 自定义右上角关闭图标
+   */
   closeIcon?: React.ReactNode;
-  // 是否显示遮罩层
+  /**
+   * @description 是否显示遮罩层
+   * @default true
+   */
   mask?: boolean;
-  // 点击遮罩层是否可以关闭
+  /**
+   * @description 点击遮罩层是否可以关闭
+   * @default true
+   */
   maskClosable?: boolean;
-  // 遮罩层样式
+  /**
+   * @description 遮罩层样式
+   */
   maskStyle?: React.CSSProperties;
-  // 抽屉内部样式
+  /**
+   * @description 抽屉内部样式
+   */
   bodyStyle?: React.CSSProperties;
-  // 抽屉头部
+  /**
+   * @description 抽屉头部
+   */
   header?: null | React.ReactNode;
-  // 抽屉底部
+  /**
+   * @description 抽屉底部
+   */
   footer?: null | React.ReactNode;
-  // 取消按钮文字
+  /**
+   * @description 取消按钮文字
+   */
   cancelText?: React.ReactNode;
-  // 确定按钮文字
+  /**
+   * @description 自定义确定按钮
+   */
   okText?: React.ReactNode;
-  // 对话框宽度
+  /**
+   * @description 对话框宽度
+   * @default 350
+   */
   width?: number | string;
-  // 点击确定按钮回调事件
+  /**
+   * @description 点击确定按钮回调事件
+   */
   onOk?: () => void;
-  // 点击取消按钮回调事件
+  /**
+   * @description 点击取消按钮回调事件
+   */
   onCancel?: () => void;
-  // 子元素
+  /**
+   * @description 子元素
+   */
   children?: React.ReactNode;
 }
 
@@ -63,6 +105,7 @@ const disappearAnimationDuration: number = 300;
 
 export default function Drawer(props: DrawerProps) {
   const locales = useGetLocaleValues();
+  const style = useStyle('drawer');
 
   const {
     title = locales.titleValue,
@@ -74,12 +117,12 @@ export default function Drawer(props: DrawerProps) {
   const [isAppear, setIsAppear] = useState<boolean>(false);
   const [width, height, bodyClasses] = useMemo(() => {
     const bodyClasses = classNames(
-      styles['drawer-content'],
-      styles[`drawer-content-${props.direction}`],
-      styles[`drawer-content-${props.direction}-${isAppear ? 'appear' : 'disappear'}`],
+      style.drawerContent(),
+      style.drawerContentDirection(props?.direction || 'right'),
+      style.drawerContentDirectionAppear(props?.direction || 'right', isAppear),
     );
 
-    return ['top', 'bottom'].includes(props.direction)
+    return ['top', 'bottom'].includes(props?.direction || '')
       ? ['100%', props.width, bodyClasses]
       : [props.width, '100%', bodyClasses];
   }, [props.direction, isAppear]);
@@ -94,10 +137,7 @@ export default function Drawer(props: DrawerProps) {
 
   const mask = props?.mask && (
     <div
-      className={classNames(
-        styles['drawer-mask'],
-        styles[isAppear ? 'drawer-mask-appear' : 'drawer-mask-disappear'],
-      )}
+      className={classNames(style.drawerMask(), style.drawerMaskAppear(isAppear))}
       style={{ ...(props?.maskStyle || {}), animationDuration: `${animationDuration}ms` }}
       onClick={() => props?.maskClosable && handleCancel()}
     />
@@ -105,10 +145,10 @@ export default function Drawer(props: DrawerProps) {
 
   const header =
     props?.header === undefined ? (
-      <div className={styles['drawer-content-head']}>
-        <div className={styles['drawer-content-head-title']}>{title}</div>
+      <div className={style.drawerContentHead()}>
+        <div className={style.drawerContentHeadTitle()}>{title}</div>
         {props?.closable && (
-          <div className={styles['drawer-content-head-close']} onClick={() => handleCancel()}>
+          <div className={style.drawerContentHeadClose()} onClick={() => handleCancel()}>
             {closeIcon}
           </div>
         )}
@@ -119,7 +159,7 @@ export default function Drawer(props: DrawerProps) {
 
   const footer =
     props?.footer === undefined ? (
-      <div className={styles['drawer-content-footer']}>
+      <div className={style.drawerContentFooter()}>
         <Space style={{ float: 'right' }}>
           {cancelText && <div onClick={() => handleCancel()}>{cancelText}</div>}
           {okText && <div onClick={() => props?.onOk?.()}>{okText}</div>}
@@ -137,7 +177,7 @@ export default function Drawer(props: DrawerProps) {
 
   return !props.destroyOnClose || props?.visible ? (
     ReactDom.createPortal(
-      <div className={styles['drawer']} style={{ display: props?.visible ? undefined : 'none' }}>
+      <div className={style.drawer()} style={{ display: props?.visible ? undefined : 'none' }}>
         {mask}
         <div
           style={{
@@ -149,7 +189,7 @@ export default function Drawer(props: DrawerProps) {
           className={bodyClasses}
         >
           {header}
-          <div className={styles['drawer-content-body']} style={props?.bodyStyle}>
+          <div className={style.drawerContentBody()} style={props?.bodyStyle}>
             {props?.children}
           </div>
           {footer}
