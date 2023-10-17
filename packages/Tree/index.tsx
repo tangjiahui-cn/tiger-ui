@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import styles from './index.less';
 import classNames from 'classnames';
 import { ArrowRightOutline } from '../Icon';
 import { isBoolean } from '../_utils';
+import { useStyle } from './style';
 
 export type TreeNode = {
   key?: string;
@@ -13,23 +13,35 @@ export type TreeNode = {
 };
 
 export interface TreeProps {
-  // 样式
+  /**
+   * @description 样式
+   */
   style?: React.CSSProperties;
-  // 是否边框
+  /**
+   * @description 是否显示边框
+   * @default false
+   */
   bordered?: boolean;
-  // 设置树数据
+  /**
+   * @description 树数据
+   */
   treeData?: TreeNode[];
   // todo: 受控的数据
   // selectedKeys?: string[];
   // expandedKeys?: string[];
-  // 选中回调
+  /**
+   * @description 选中回调
+   */
   onSelect?: (node: TreeNode) => void;
-  // 展开回调
+  /**
+   * @description 展开回调
+   */
   onExpand?: (node: TreeNode) => void;
 }
 
 export default function Tree(props: TreeProps) {
   const [data, setData] = useState<TreeNode[]>([]);
+  const style = useStyle('tree');
 
   function handleExpand(node: TreeNode, isExpand: boolean) {
     node.isExpand = !isExpand;
@@ -48,12 +60,12 @@ export default function Tree(props: TreeProps) {
     return (
       <div
         key={node?.key}
-        className={classNames(styles['tree-line'], !isExpand && styles['tree-line-hide-children'])}
+        className={classNames(style.treeLine(), !isExpand && style.treeLineHide())}
       >
-        <div className={styles['tree-line-head']}>
-          <div className={styles['tree-line-head-arrow']}>
+        <div className={style.treeLineHead()}>
+          <div className={style.treeLineHeadArrow()}>
             <div
-              className={classNames(isLeaf && styles['display-none'])}
+              className={classNames(isLeaf && style.treeDisplayNone())}
               style={{ transform: `rotate(${isExpand ? 90 : 0}deg)` }}
               onClick={() => handleExpand(node, isExpand)}
             >
@@ -61,7 +73,7 @@ export default function Tree(props: TreeProps) {
             </div>
           </div>
           <div
-            className={classNames(styles['tree-line-head-title'])}
+            className={classNames(style.treeLineHeadTitle())}
             onClick={() => props?.onSelect?.(node)}
           >
             {node.title}
@@ -76,9 +88,9 @@ export default function Tree(props: TreeProps) {
     <div
       style={props?.style}
       className={classNames(
-        styles['tree'],
-        styles['tree-line'],
-        props?.bordered && styles['bordered'],
+        style.tree(),
+        style.treeLine(),
+        props?.bordered && style.treeBordered(),
       )}
     >
       {data?.map(renderTreeLine)}
