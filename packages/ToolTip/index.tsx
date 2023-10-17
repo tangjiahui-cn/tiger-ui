@@ -6,8 +6,6 @@ import ToolTipPopup from './ToolTipPopup';
 export interface ToolTipProps {
   // 浮层内容
   title?: React.ReactNode;
-  // 默认展示
-  defaultVisible?: boolean;
   // 浮层样式
   overlayStyle?: React.CSSProperties;
   // 占位子元素
@@ -16,7 +14,7 @@ export interface ToolTipProps {
 
 export default function ToolTip(props: ToolTipProps) {
   const ref = useRef();
-  const [visible, setVisible] = useState<boolean>(!!props?.defaultVisible);
+  const [visible, setVisible] = useState<boolean>(false);
 
   function handleOpen() {
     setVisible(true);
