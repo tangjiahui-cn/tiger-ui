@@ -1,4 +1,4 @@
-import createEmotion from '@emotion/css/create-instance';
+import useEmotion from '../../_utils/hooks/useEmotion';
 import usePrefix from '../../_utils/hooks/usePrefix';
 import useToken from '../../_utils/hooks/useToken';
 import childrenSelector from '@/_utils/style/childrenSelector';
@@ -24,7 +24,7 @@ export function useStyle(componentName: string): {
 } {
   const token = useToken();
   const prefix = usePrefix(componentName);
-  const { css, keyframes } = createEmotion({ key: prefix });
+  const { css, keyframes } = useEmotion({ key: prefix });
 
   const drawerMask = () => `${prefix}-mask`;
   const drawerMaskAppear = (isAppear: boolean) =>

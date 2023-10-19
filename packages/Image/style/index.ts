@@ -1,4 +1,4 @@
-import createEmotion from '@emotion/css/create-instance';
+import useEmotion from '../../_utils/hooks/useEmotion';
 import usePrefix from '../../_utils/hooks/usePrefix';
 import useToken from '../../_utils/hooks/useToken';
 
@@ -13,8 +13,8 @@ export function useStyle(componentName: string): {
 } {
   const token = useToken();
   const prefix = usePrefix(componentName);
-  const { css, keyframes } = createEmotion({ key: prefix });
-  const { css: cssPreview } = createEmotion({ key: `${prefix}-window` });
+  const { css } = useEmotion({ key: prefix });
+  const { css: cssPreview } = useEmotion({ key: `${prefix}-window` });
 
   const imagePreviewButton = () => `${prefix}-preview-button`;
   const imagePreviewWindow = () =>

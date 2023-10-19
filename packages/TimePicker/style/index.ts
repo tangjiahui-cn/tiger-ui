@@ -1,4 +1,4 @@
-import createEmotion from '@emotion/css/create-instance';
+import useEmotion from '../../_utils/hooks/useEmotion';
 import usePrefix from '../../_utils/hooks/usePrefix';
 import useToken from '../../_utils/hooks/useToken';
 
@@ -22,8 +22,8 @@ export function useStyle(componentName: string): {
 } {
   const token = useToken();
   const prefix = usePrefix(componentName);
-  const { css } = createEmotion({ key: prefix });
-  const { css: cssPanel } = createEmotion({ key: prefix + '-panel' });
+  const { css } = useEmotion({ key: prefix });
+  const { css: cssPanel } = useEmotion({ key: prefix + '-panel' });
 
   const hideScrollBar = (): StyleObject => {
     return {

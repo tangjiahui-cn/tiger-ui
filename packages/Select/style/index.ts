@@ -1,4 +1,4 @@
-import createEmotion from '@emotion/css/create-instance';
+import useEmotion from '../../_utils/hooks/useEmotion';
 import usePrefix from '../../_utils/hooks/usePrefix';
 import useToken from '../../_utils/hooks/useToken';
 import childrenSelector from '../../_utils/style/childrenSelector';
@@ -16,8 +16,8 @@ export function useStyle(componentName: string): {
 } {
   const token = useToken();
   const prefix = usePrefix(componentName);
-  const { css } = createEmotion({ key: prefix });
-  const { css: cssPopup } = createEmotion({ key: prefix + 'popup' });
+  const { css } = useEmotion({ key: prefix });
+  const { css: cssPopup } = useEmotion({ key: prefix + 'popup' });
 
   const selectOption = () => `${prefix}-option`;
   const selectOptionChoose = () => `${prefix}-option-choose`;

@@ -1,4 +1,4 @@
-import createEmotion from '@emotion/css/create-instance';
+import useEmotion from '../../_utils/hooks/useEmotion';
 import usePrefix from '../../_utils/hooks/usePrefix';
 import useToken from '../../_utils/hooks/useToken';
 import brotherSelector from '../../_utils/style/brotherSelector';
@@ -11,7 +11,7 @@ export function useStyle(componentName: string): {
 } {
   const token = useToken();
   const prefix = usePrefix(componentName);
-  const { css, keyframes } = createEmotion({ key: prefix });
+  const { css, keyframes } = useEmotion({ key: prefix });
 
   const appearKeyframes = keyframes({
     from: {

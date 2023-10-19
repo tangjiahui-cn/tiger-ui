@@ -1,8 +1,8 @@
-import createEmotion from '@emotion/css/create-instance';
 import usePrefix from '../../_utils/hooks/usePrefix';
 import useToken from '../../_utils/hooks/useToken';
 import brotherSelector from '../../_utils/style/brotherSelector';
 import type { ButtonType, ButtonSize } from '..';
+import useEmotion from '../../_utils/hooks/useEmotion';
 
 type StyleObject = {
   [k: string]: any | StyleObject;
@@ -20,7 +20,7 @@ export function useStyle(componentName: string): {
 } {
   const token = useToken();
   const prefix = usePrefix(componentName);
-  const { css } = createEmotion({ key: prefix });
+  const { css } = useEmotion({ key: prefix });
 
   const danger = () => `${prefix}-danger`;
   const disabled = () => `${prefix}-disabled`;
