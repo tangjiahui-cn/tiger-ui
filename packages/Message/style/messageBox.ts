@@ -1,4 +1,4 @@
-import useEmotion from '../../_utils/hooks/useEmotion';
+import useCssInJs from '../../_utils/hooks/useCssInJs';
 import usePrefix from '../../_utils/hooks/usePrefix';
 import useToken from '../../_utils/hooks/useToken';
 import brotherSelector from '../../_utils/style/brotherSelector';
@@ -11,7 +11,7 @@ export function useStyle(componentName: string): {
 } {
   const token = useToken();
   const prefix = usePrefix(componentName);
-  const { css, keyframes } = useEmotion({ key: prefix });
+  const { css, keyframes } = useCssInJs({ key: prefix });
 
   const appearKeyframes = keyframes({
     from: {

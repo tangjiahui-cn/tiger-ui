@@ -2,7 +2,7 @@ import usePrefix from '../../_utils/hooks/usePrefix';
 import useToken from '../../_utils/hooks/useToken';
 import brotherSelector from '../../_utils/style/brotherSelector';
 import type { ButtonType, ButtonSize } from '..';
-import useEmotion from '../../_utils/hooks/useEmotion';
+import useCssInJs from '../../_utils/hooks/useCssInJs';
 
 type StyleObject = {
   [k: string]: any | StyleObject;
@@ -20,7 +20,7 @@ export function useStyle(componentName: string): {
 } {
   const token = useToken();
   const prefix = usePrefix(componentName);
-  const { css } = useEmotion({ key: prefix });
+  const { css } = useCssInJs({ key: prefix });
 
   const danger = () => `${prefix}-danger`;
   const disabled = () => `${prefix}-disabled`;

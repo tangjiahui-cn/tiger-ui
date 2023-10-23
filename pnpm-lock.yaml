@@ -8,7 +8,6 @@ specifiers:
   '@commitlint/cli': ^17.6.1
   '@commitlint/config-conventional': ^17.6.1
   '@commitlint/cz-commitlint': ^17.5.0
-  '@emotion/css': ^11.11.2
   '@testing-library/jest-dom': ^5.16.5
   '@testing-library/react': ^14.0.0
   '@types/jest': ^29.5.1
@@ -22,7 +21,7 @@ specifiers:
   autoprefixer: ^10.4.14
   babel-jest: ^29.5.0
   babel-loader: ^9.1.2
-  class-css: ^1.0.6
+  class-css: ^1.0.13
   classnames: ^2.3.2
   commitizen: ^4.3.0
   conventional-changelog-cli: ^2.2.2
@@ -68,9 +67,8 @@ specifiers:
   webpackbar: ^5.0.2
 
 dependencies:
-  '@emotion/css': 11.11.2
   '@types/lodash': registry.npmmirror.com/@types/lodash/4.14.195
-  class-css: 1.0.6_gf7jbi7zxosvtgeqtoqbwcca3a
+  class-css: 1.0.13_gf7jbi7zxosvtgeqtoqbwcca3a
   classnames: 2.3.2
   dumi: 2.2.12_t6c3fpy3nuj4hbdy7klujng5tu
   dumi-theme-lobehub: 1.7.3_vd76ive7pxr4tonkaab67nnj3i
@@ -6632,16 +6630,16 @@ packages:
   /cjs-module-lexer/1.2.2:
     resolution: {integrity: sha512-cOU9usZw8/dXIXKtwa8pM0OTJQuJkxMN6w30csNRUerHfeQ5R6U3kkU/FtJeIf3M202OHfY2U8ccInBG7/xogA==}
 
-  /class-css-cache/1.0.6:
-    resolution: {integrity: sha512-MOW8vRc9CFFyVJV0T7zp7i4XKUzbcMbYe0XAaHib22/F749MLhqTu2vTV/vYPpvMFM6x2OAmvaFs4/XGC79DBA==}
+  /class-css-cache/1.0.13:
+    resolution: {integrity: sha512-Zoah1+t4O8eVwFWWdLTwT0+F0WE9MWe9YZz+gHdbT2CVmeYF6fn/duvnkF96ZdDkHCp2EZUSCOhIEDAtFwDYCw==}
     dev: false
 
-  /class-css-hash/1.0.5:
-    resolution: {integrity: sha512-U6DnTbNXVqsdhGyWQcXyNEJN3v5lDPSxtPXw/YQR7LmxgyEqosf4cnIvKNE32U+F4bBsdyU+d3Zkyfvhjt1VaQ==}
+  /class-css-hash/1.0.12:
+    resolution: {integrity: sha512-2oP66LJKefFTLbyyCME6+5dcORYZ7PXzDVEtFU4uOCO3QNyd7ghJ43xSV3Yj9aJ0HbJtDprvfKxF0GgP1nj9uQ==}
     dev: false
 
-  /class-css-stringify/1.0.6_gf7jbi7zxosvtgeqtoqbwcca3a:
-    resolution: {integrity: sha512-Bh07BmRVXV8BGtljjEClLLc7F6xgPHBc0M/nuAg+C4aBg82tKUeCFqGW2XGmM0wM+Ipam5v8hEpRfJ2FMBOHag==}
+  /class-css-stringify/1.0.10_gf7jbi7zxosvtgeqtoqbwcca3a:
+    resolution: {integrity: sha512-e1wpbQB4vJcCWDvtEX3Z5rBWjmpppcvHdHSSARIj2UPdNn9gJFIGUiPjGaYG5W6EEtSmEivdEZi3poabv2Wnrg==}
     dependencies:
       g: 2.0.1
       ts-node: 10.9.1_gf7jbi7zxosvtgeqtoqbwcca3a
@@ -6652,12 +6650,12 @@ packages:
       - typescript
     dev: false
 
-  /class-css/1.0.6_gf7jbi7zxosvtgeqtoqbwcca3a:
-    resolution: {integrity: sha512-usyjwm6LiuaXGWpeqELUbuQt6kvBnNiLto860tDdJCkBrSCK+rSMDy9VIOHG8rD9QDZY+q/U7l2dord7vvUdeQ==}
+  /class-css/1.0.13_gf7jbi7zxosvtgeqtoqbwcca3a:
+    resolution: {integrity: sha512-SoX6b1xrYWm+OVF/v8qbYfzTlLlCTOFDR4/BQuMpAuKh1V6mnnYTcT1ZGDIU417jg2aq1gcZ+/szFLTYcUxEqg==}
     dependencies:
-      class-css-cache: 1.0.6
-      class-css-hash: 1.0.5
-      class-css-stringify: 1.0.6_gf7jbi7zxosvtgeqtoqbwcca3a
+      class-css-cache: 1.0.13
+      class-css-hash: 1.0.12
+      class-css-stringify: 1.0.10_gf7jbi7zxosvtgeqtoqbwcca3a
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'

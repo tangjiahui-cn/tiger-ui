@@ -1,11 +1,11 @@
-import useEmotion from '../../_utils/hooks/useEmotion';
+import useCssInJs from '../../_utils/hooks/useCssInJs';
 import usePrefix from '../../_utils/hooks/usePrefix';
 
 export function useStyle(componentName: string): {
   counter: () => string;
 } {
   const prefix = usePrefix(componentName);
-  const { css } = useEmotion({ key: prefix });
+  const { css } = useCssInJs({ key: prefix });
 
   return {
     counter: () =>

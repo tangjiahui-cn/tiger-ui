@@ -1,4 +1,4 @@
-import { css } from '@emotion/css';
+import { css } from 'class-css';
 
 const wrapper = css({
   '& .message-container': {

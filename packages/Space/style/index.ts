@@ -1,5 +1,5 @@
 import usePrefix from '../../_utils/hooks/usePrefix';
-import useEmotion from '../../_utils/hooks/useEmotion';
+import useCssInJs from '../../_utils/hooks/useCssInJs';
 import brotherSelector from '../../_utils/style/brotherSelector';
 import type { SpaceDirection } from '..';
 
@@ -14,7 +14,7 @@ export function useStyle(componentName: string): {
   direction: (direction: SpaceDirection) => string;
 } {
   const prefix = usePrefix(componentName);
-  const { css } = useEmotion({ key: prefix });
+  const { css } = useCssInJs({ key: prefix });
 
   const wrap = () => `${prefix}-wrap`;
   const block = () => `${prefix}-block`;

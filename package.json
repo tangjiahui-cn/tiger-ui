@@ -121,9 +121,8 @@
     }
   },
   "dependencies": {
-    "@emotion/css": "^11.11.2",
     "@types/lodash": "^4.14.195",
-    "class-css": "^1.0.6",
+    "class-css": "^1.0.13",
     "classnames": "^2.3.2",
     "dumi": "^2.2.12",
     "dumi-theme-lobehub": "^1.7.3",

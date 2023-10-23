@@ -1,8 +1,8 @@
-import createEmotion from '@emotion/css/create-instance';
 import usePrefix from '../../../_utils/hooks/usePrefix';
 import useToken from '../../../_utils/hooks/useToken';
 import brotherSelector from '../../../_utils/style/brotherSelector';
 import childrenSelector from '@/_utils/style/childrenSelector';
+import useCssInJs from '@/_utils/hooks/useCssInJs';
 
 type StyleObject = {
   [k: string]: any | StyleObject;
@@ -16,7 +16,7 @@ export function useStyle(componentName: string): {
 } {
   const token = useToken();
   const prefix = usePrefix(componentName);
-  const { css, keyframes } = createEmotion({ key: prefix });
+  const { css, keyframes } = useCssInJs({ key: prefix });
 
   const spinKeyframes = keyframes({
     '100%': {

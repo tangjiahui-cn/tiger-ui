@@ -1,4 +1,4 @@
-import useEmotion from '../../_utils/hooks/useEmotion';
+import useCssInJs from '../../_utils/hooks/useCssInJs';
 import usePrefix from '../../_utils/hooks/usePrefix';
 import useToken from '../../_utils/hooks/useToken';
 import brotherSelector from '../../_utils/style/brotherSelector';
@@ -22,8 +22,8 @@ export function useStyle(componentName: string): {
 } {
   const token = useToken();
   const prefix = usePrefix(componentName);
-  const { css } = useEmotion({ key: prefix });
-  const { css: cssWrapper } = useEmotion({ key: `${prefix}-wrapper` });
+  const { css } = useCssInJs({ key: prefix });
+  const { css: cssWrapper } = useCssInJs({ key: `${prefix}-wrapper` });
   const pure = () => `${prefix}-pure`;
 
   const textEllipsis = {
