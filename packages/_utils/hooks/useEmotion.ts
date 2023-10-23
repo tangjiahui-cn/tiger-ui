@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
-import createEmotion from '@emotion/css/create-instance';
+// import createEmotion from '@emotion/css/create-instance';
+import { createClassCss } from 'class-css';
 
 export default function useEmotion(options: { key: string }) {
   return useMemo(() => {
-    return createEmotion(options);
+    return createClassCss(options);
   }, [options.key]);
 }
