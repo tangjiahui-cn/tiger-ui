@@ -21,7 +21,7 @@ specifiers:
   autoprefixer: ^10.4.14
   babel-jest: ^29.5.0
   babel-loader: ^9.1.2
-  class-css: ^1.0.13
+  class-css: ^1.0.24
   classnames: ^2.3.2
   commitizen: ^4.3.0
   conventional-changelog-cli: ^2.2.2
@@ -68,7 +68,7 @@ specifiers:
 
 dependencies:
   '@types/lodash': registry.npmmirror.com/@types/lodash/4.14.195
-  class-css: 1.0.13_gf7jbi7zxosvtgeqtoqbwcca3a
+  class-css: 1.0.24_gf7jbi7zxosvtgeqtoqbwcca3a
   classnames: 2.3.2
   dumi: 2.2.12_t6c3fpy3nuj4hbdy7klujng5tu
   dumi-theme-lobehub: 1.7.3_vd76ive7pxr4tonkaab67nnj3i
@@ -3058,8 +3058,8 @@ packages:
       react-is: 16.13.1
     dev: false
 
-  /@lobehub/chat-plugin-sdk/1.17.8_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-okKzOT7qD5n4tc7/YJZAKHvwCEK8Hks1Lwq9w2QG1mU3KvjbO57k/jXeo2nj0V5mVL5nhpemjpeIZL7sqIdRaA==}
+  /@lobehub/chat-plugin-sdk/1.20.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-6khUoRSiVMnajWRnjbvP8MJDgbIrVy6f4VhMzI0vAAQkKDiJDmKO/hI0ecTbNtHyeAzSSCMDGeE1dhKY4qA38g==}
     peerDependencies:
       react: '>=18'
       react-dom: '>=18'
@@ -3087,7 +3087,7 @@ packages:
       '@babel/runtime': 7.23.1
       '@floating-ui/react': 0.26.0_biqbaboplfbrettd7655fr4n2y
       '@giscus/react': 2.3.0_biqbaboplfbrettd7655fr4n2y
-      '@lobehub/chat-plugin-sdk': 1.17.8_biqbaboplfbrettd7655fr4n2y
+      '@lobehub/chat-plugin-sdk': 1.20.1_biqbaboplfbrettd7655fr4n2y
       '@lobehub/emojilib': 1.0.0
       '@react-spring/three': 9.7.3_ore6vpudexdjvrdgl7j5vgbqii
       '@react-spring/web': 9.7.3_biqbaboplfbrettd7655fr4n2y
@@ -4333,7 +4333,7 @@ packages:
   /@types/hoist-non-react-statics/3.3.2:
     resolution: {integrity: sha512-YIQtIg4PKr7ZyqNPZObpxfHsHEmuB8dXCxd6qVcGuQVDK2bpsF7bYNnBJ4Nn7giuACZg+WewExgrtAJ3XnA4Xw==}
     dependencies:
-      '@types/react': 18.0.35
+      '@types/react': 18.2.31
       hoist-non-react-statics: 3.3.2
     dev: false
 
@@ -4491,13 +4491,13 @@ packages:
   /@types/react-reconciler/0.26.7:
     resolution: {integrity: sha512-mBDYl8x+oyPX/VBb3E638N0B7xG+SPk/EAMcVPeexqus/5aTpTphQi0curhhshOqRrc9t6OPoJfEUkbymse/lQ==}
     dependencies:
-      '@types/react': 18.0.35
+      '@types/react': 18.2.31
     dev: false
 
   /@types/react-reconciler/0.28.5:
     resolution: {integrity: sha512-Qrwgl4NxNYH1oAJSJtlMGu95uaeMqrGiKzxwI90VvofBkJAj4GxcCAsJMZkwdR/qAxlm84YEXa8Fqu2xXk0arw==}
     dependencies:
-      '@types/react': 18.0.35
+      '@types/react': 18.2.31
     dev: false
 
   /@types/react-test-renderer/18.0.0:
@@ -4512,6 +4512,14 @@ packages:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.3
       csstype: 3.1.2
+
+  /@types/react/18.2.31:
+    resolution: {integrity: sha512-c2UnPv548q+5DFh03y8lEDeMfDwBn9G3dRwfkrxQMo/dOtRHUUO57k6pHvBIfH/VF4Nh+98mZ5aaSe+2echD5g==}
+    dependencies:
+      '@types/prop-types': 15.7.5
+      '@types/scheduler': 0.16.3
+      csstype: 3.1.2
+    dev: false
 
   /@types/responselike/1.0.1:
     resolution: {integrity: sha512-TiGnitEDxj2X0j+98Eqk5lv/Cij8oHd32bU4D/Yw6AOq7vvTk0gSD2GPj0G/HkvhMoVsdlhYF4yqqlyPBTM6Sg==}
@@ -6630,18 +6638,19 @@ packages:
   /cjs-module-lexer/1.2.2:
     resolution: {integrity: sha512-cOU9usZw8/dXIXKtwa8pM0OTJQuJkxMN6w30csNRUerHfeQ5R6U3kkU/FtJeIf3M202OHfY2U8ccInBG7/xogA==}
 
-  /class-css-cache/1.0.13:
-    resolution: {integrity: sha512-Zoah1+t4O8eVwFWWdLTwT0+F0WE9MWe9YZz+gHdbT2CVmeYF6fn/duvnkF96ZdDkHCp2EZUSCOhIEDAtFwDYCw==}
+  /class-css-cache/1.0.24:
+    resolution: {integrity: sha512-Rw7S88Bs78/SxwDAi+vDM/HJlA2Mr8bdiVnagqgTTX4qr9U+aHEekrg5qijHGcSkalBouTtooehQZeEuSvr87Q==}
     dev: false
 
-  /class-css-hash/1.0.12:
-    resolution: {integrity: sha512-2oP66LJKefFTLbyyCME6+5dcORYZ7PXzDVEtFU4uOCO3QNyd7ghJ43xSV3Yj9aJ0HbJtDprvfKxF0GgP1nj9uQ==}
+  /class-css-hash/1.0.16:
+    resolution: {integrity: sha512-yWOKkZNm6R7/Ab8+IuKEDlRLfKCo17NgPwG1laadJL1H7UtREucfdu9xwtMbBWd8P9sLBl6bJB87uJiI2plhJg==}
     dev: false
 
-  /class-css-stringify/1.0.10_gf7jbi7zxosvtgeqtoqbwcca3a:
-    resolution: {integrity: sha512-e1wpbQB4vJcCWDvtEX3Z5rBWjmpppcvHdHSSARIj2UPdNn9gJFIGUiPjGaYG5W6EEtSmEivdEZi3poabv2Wnrg==}
+  /class-css-stringify/1.0.24_gf7jbi7zxosvtgeqtoqbwcca3a:
+    resolution: {integrity: sha512-80rl3gid4hX7nd2UeGLbOQN7J/OMkyvKKCeh3khtRcHZZ9QQnfyNsC3W+bgmgVp5A9nDEk2ghrsXv79FWB4Ujg==}
     dependencies:
-      g: 2.0.1
+      '@types/react': 18.2.31
+      class-css: 1.0.24_gf7jbi7zxosvtgeqtoqbwcca3a
       ts-node: 10.9.1_gf7jbi7zxosvtgeqtoqbwcca3a
     transitivePeerDependencies:
       - '@swc/core'
@@ -6650,12 +6659,12 @@ packages:
       - typescript
     dev: false
 
-  /class-css/1.0.13_gf7jbi7zxosvtgeqtoqbwcca3a:
-    resolution: {integrity: sha512-SoX6b1xrYWm+OVF/v8qbYfzTlLlCTOFDR4/BQuMpAuKh1V6mnnYTcT1ZGDIU417jg2aq1gcZ+/szFLTYcUxEqg==}
+  /class-css/1.0.24_gf7jbi7zxosvtgeqtoqbwcca3a:
+    resolution: {integrity: sha512-yHuQRg8fKOcKk2CQSIXHwp95KB1ph18t2RRLyzmuzhXiqMkaZx/neatSNTACnKh+Ad1VxaA23kQ94bGJpB04Zw==}
     dependencies:
-      class-css-cache: 1.0.13
-      class-css-hash: 1.0.12
-      class-css-stringify: 1.0.10_gf7jbi7zxosvtgeqtoqbwcca3a
+      class-css-cache: 1.0.24
+      class-css-hash: 1.0.16
+      class-css-stringify: 1.0.24_gf7jbi7zxosvtgeqtoqbwcca3a
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -9608,10 +9617,6 @@ packages:
 
   /functions-have-names/1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
-
-  /g/2.0.1:
-    resolution: {integrity: sha512-Fi6Ng5fZ/ANLQ15H11hCe+09sgUoNvDEBevVgx3KoYOhsH5iLNPn54hx0jPZ+3oSWr+xajnp2Qau9VmPsc7hTA==}
-    dev: false
 
   /generic-names/4.0.0:
     resolution: {integrity: sha512-ySFolZQfw9FoDb3ed9d80Cm9f0+r7qj+HJkWjeD9RBfpxEVTlVhol+gvaQB/78WbwYfbnNh8nWHHBSlg072y6A==}

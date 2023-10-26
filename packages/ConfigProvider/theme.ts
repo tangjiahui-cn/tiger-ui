@@ -122,14 +122,14 @@ export const INIT_THEME: Theme = {
   token: INIT_TOKEN,
 };
 
-export function mergeTheme(value?: Theme) {
+export function mergeTheme(value?: Theme): Theme {
   return {
     token: mergeToken(value?.token),
   };
 }
 
-export function mergeToken(value?: Token) {
-  if (!value) return INIT_THEME;
+export function mergeToken(value?: Token): Token {
+  if (!value) return INIT_TOKEN;
   return {
     ...INIT_TOKEN,
     ...pickTruthyValue(value),
