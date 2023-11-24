@@ -28,7 +28,7 @@ export { default as Tag } from './Tag';
 export type { TagProps } from './Tag';
 export { default as Radio } from './Radio';
 export type { RadioProps } from './Radio';
-export { default as Upload } from './Upload';
+export { default as Upload, ACCEPT } from './Upload';
 export type { UploadProps } from './Upload';
 export { default as Switch } from './Switch';
 export type { SwitchProps } from './Switch';

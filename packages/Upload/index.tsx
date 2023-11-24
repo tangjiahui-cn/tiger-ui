@@ -3,6 +3,9 @@ import { Button, message, Space } from '..';
 import { isString, isBoolean } from '../_utils';
 import { useGetConfig } from '../ConfigProvider';
 import { useStyle } from './style';
+import { ACCEPT } from './ACCEPT';
+
+export { ACCEPT } from './ACCEPT';
 
 type OperateType = {
   preview?: boolean;
@@ -17,7 +20,7 @@ export interface UploadProps {
   /**
    * @description 允许上传的类型
    */
-  accept?: string;
+  accept?: string | ACCEPT[];
   /**
    * @description 最大上传数量
    * @default 9
@@ -88,6 +91,8 @@ export default function Upload(props: UploadProps) {
     input.type = 'file';
     if (isString(props?.accept)) {
       input.accept = props?.accept;
+    } else if (Array.isArray(props?.accept)) {
+      input.accept = props?.accept?.join(',');
     }
     input.click();
     input.onchange = function (e: any) {
