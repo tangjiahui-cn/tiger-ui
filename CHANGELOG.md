@@ -1,3 +1,18 @@
+## [0.0.5](https://github.com/tangjiahui-cn/tiger-ui/compare/v0.0.4...v0.0.5) (2024-01-19)
+
+
+### Bug Fixes
+
+* **popuppanle:** rewrite logic for popupPanel ([7c402e4](https://github.com/tangjiahui-cn/tiger-ui/commit/7c402e45a73d8f75a3b0a64f4f84028fd3127d1f))
+
+
+### Features
+
+* **css-in-js:** replace @emotion/css with class-css ([fa2e67f](https://github.com/tangjiahui-cn/tiger-ui/commit/fa2e67f93a238acb8aeba078fd68df83ca6c1d80))
+* **upload:** support accept props with pre ACCEPT enum value ([cc748bf](https://github.com/tangjiahui-cn/tiger-ui/commit/cc748bff6a2d5f770f37ce62fbf394265b632e1f))
+
+
+
 ## [0.0.4](https://github.com/tangjiahui-cn/tiger-ui/compare/v0.0.3...v0.0.4) (2023-08-25)
 
 
@@ -52,8 +67,8 @@
 
 * **button:** delete useless code ([71ca1de](https://github.com/tangjiahui-cn/tiger-ui/commit/71ca1defde6f6d90d1bb874099bd5445a8d88e78))
 * **dialogbox:** rename to 'dialog' ([db2f67d](https://github.com/tangjiahui-cn/tiger-ui/commit/db2f67d63f64dceb07687100b0f91c564095e2b3))
-* **getcommonwebpackconfig.js:** 删除 babel-plugin-import 插件 ([801f2b6](https://github.com/tangjiahui-cn/tiger-ui/commit/801f2b6d66807a63641ee278448f0ec194ebfed4))
 * **getcommonwebpackconfig.js:** babelLoaderPresets改为babelLoaderPlugins ([e6a6f3d](https://github.com/tangjiahui-cn/tiger-ui/commit/e6a6f3dd0a22c8673a2376dfe8d2dd7453660213))
+* **getcommonwebpackconfig.js:** 删除 babel-plugin-import 插件 ([801f2b6](https://github.com/tangjiahui-cn/tiger-ui/commit/801f2b6d66807a63641ee278448f0ec194ebfed4))
 * **input:** add ts type to onKeyDown event ([0fbfce5](https://github.com/tangjiahui-cn/tiger-ui/commit/0fbfce5e01b4cba5c6b994976651d0ba494cadcd))
 * **input:** extract common code to 'private openMessage () {}' ([eeae049](https://github.com/tangjiahui-cn/tiger-ui/commit/eeae0492a9bec57c9d96977c429d79643a815555))
 * **input:** fix 'input' style ([0f959ce](https://github.com/tangjiahui-cn/tiger-ui/commit/0f959ce17bbc7c4e08978446343a57a7b4932cf1))
