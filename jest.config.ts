@@ -11,7 +11,7 @@ module.exports = {
     '@/ConfigProvider': '<rootDir>/packages/ConfigProvider',
     '@/': '<rootDir>/packages/',
     // or use 'identity-obj-proxy' to mock css module.
-    // '^.+\\.less$': '<rootDir>/scripts/jest/mockModule.js',
+    // '^.+\\.less$': '<rootDir>/scripts_copy/jest/mockModule.js',
     iconfont: 'identity-obj-proxy',
   },
   transform: {

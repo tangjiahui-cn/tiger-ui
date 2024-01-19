@@ -14,3 +14,9 @@ LICENSE
 docs-dist
 /docs/
 /.dumi/
+
+# build product
+/umd
+/es
+/cjs
+/types

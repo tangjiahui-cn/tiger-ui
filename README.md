@@ -3,7 +3,7 @@
 
 ## 技术栈
 ```text
-React18 + TypeScript + Webpack5 + Less
+React18 + TypeScript + Webpack5 + class-css
 ```
 ## 如何运行
 ``` shell
@@ -24,11 +24,7 @@ pnpm docs
 - 拥有完整的单元测试（3/n）
 - 拥有完整的docs站点
 - 无需引入css文件（使用css-in-js）
-```
-
-## 期待特性
-```text
-- 支持 umd、cjs、esm 格式产物
+- 导出UMD、CJS、ESM包
 ```
 
 ## Done（31 / 31）

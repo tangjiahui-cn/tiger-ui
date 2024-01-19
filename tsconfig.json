@@ -13,7 +13,7 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "ESNext",
+    "module": "CommonJS",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -24,15 +24,10 @@
         "./packages/*"
       ]
     },
-    "baseUrl": ".",
-    "outDir": "./lib",
-    "declaration": true,
-    "declarationDir": "./lib"
   },
   "include": [
-    "packages",
-    "typings.d.ts",
-    ".dumirc.ts"
+    "**/*.ts",
+    "**/*.tsx",
   ],
   "exclude": [
     "**/__tests__"
