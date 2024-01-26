@@ -58,3 +58,5 @@ export { default as Collapse } from './Collapse';
 export type { CollapseProps } from './Collapse';
 export { default as Carousel } from './Carousel';
 export type { CarouselProps } from './Carousel';
+export { default as DropDown } from './DropDown';
+export type { DropDownProps } from './DropDown';

@@ -1,168 +1,175 @@
+/**
+ * Select
+ *
+ * @author tangjiahui
+ * @date 2024/1/25
+ */
 import * as React from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useGetConfig } from '../ConfigProvider';
+import { DropDown } from '..';
+import { Option } from './Option';
+import styles from './index.less';
 import classNames from 'classnames';
-import SelectPanel from './PopupPanel';
-import { useStyle } from './style';
-import useToken from '../_utils/hooks/useToken';
+import { CloseCircleFilled, DownOutlined } from '@ant-design/icons';
+import { Replace } from './components/Replace';
+import { getOptions } from './utils/getOptions';
 
-export type Key = string | number;
-export interface Option {
-  label: string;
-  value: Key;
-}
-
-type OptionMap = {
-  [k: string]: Option;
+export * from './Option';
+export type ValueType = string | undefined | null;
+export type OptionProps = {
+  label?: React.ReactNode;
+  value?: ValueType;
 };
 
-export interface SelectProps {
-  /**
-   * @description 受控值
-   */
-  value?: string;
-  /**
-   * @description 下拉框选项
-   */
-  options?: Option[];
-  /**
-   * @description 是否块级属性
-   */
-  block?: boolean;
-  /**
-   * @description 下拉框占位样式
-   */
-  style?: React.CSSProperties;
-  /**
-   * @description 占位符
-   */
-  placeholder?: string;
-  /**
-   * @description 下拉框选中回调事件
-   */
-  onChange?: (value: Key, label: string, option: Option) => void;
-  /**
-   * @description 子元素
-   */
-  children?: React.ReactNode;
-}
+export type SelectProps = {
+  allowClear?: boolean; // 是否允许清空
+  open?: boolean; // 是否打开
+  value?: ValueType; // 手动指定值
+  placeholder?: string; // 占位符
+  options?: OptionProps[]; // 下拉选项
+  style?: React.CSSProperties; // 下拉框整体样式
+  children?: React.ReactElement[]; // 传入 Option
+  onDropdownVisibleChange?: (visible: boolean) => void;
+  onChange?: (key?: ValueType, option?: OptionProps) => void;
+  sign: string;
+};
 
+Select.Option = Option;
 export default function Select(props: SelectProps) {
-  const { locale } = useGetConfig();
-  const { placeholder = locale.selectPlaceholder } = props;
-  const headDom = useRef(null);
-  const style = useStyle('select');
-  const token = useToken();
+  const { placeholder = '请输入' } = props;
+  const selectRef = useRef<HTMLDivElement>(null);
+  const isOuterRef = useRef(false);
+  const unClickFnRef = useRef<(isEmitVisibleChange?: boolean) => void>();
 
-  const [popupVisible, setPopupVisible] = useState<boolean>(false);
-  const [popupInfo, setPopupInfo] = useState<{
-    top: number;
-    left: number;
-    width: number;
-  }>({
-    top: 0,
-    left: 0,
-    width: 0,
-  });
+  const [visible, setVisible] = useState(false);
+  const [rect, setRect] = useState<DOMRect>();
+  const [current, setCurrent] = useState<OptionProps>();
 
-  const [currentOption, setCurrentOption] = useState<Option | undefined>(undefined);
-  const optionsMap = useRef<OptionMap>({});
-  const options: any[] = useMemo(() => {
-    const listMap: OptionMap = {};
-    const list: Option[] =
-      props?.options?.map((option) => {
-        listMap[option.value] = option;
-        return option;
-      }) || [];
-    optionsMap.current = listMap;
-    return list;
-  }, [props?.options]);
+  // use value front outer.
+  const isForceValueRef = useRef(props?.value !== undefined);
 
-  function initPopupPanelInfo() {
-    const info: DOMRect = (headDom?.current as any)?.getBoundingClientRect();
+  // dropdown is visible or hide at this render.
+  const currentVisible = props?.open || visible;
 
-    setPopupInfo({
-      width: info.width,
-      left: info.x,
-      top: info.bottom,
-    });
-  }
-
-  const selectBody: React.ReactNode = (
-    <div
-      className={style.selectPopup()}
-      style={{
-        left: popupInfo.left,
-        top: popupInfo.top,
-        width: popupInfo.width,
-      }}
-    >
-      {options.map((option: Option) => {
-        const isChoose: boolean = option.value === currentOption?.value;
-        const classes: string = classNames(
-          style.selectOption(),
-          isChoose && style.selectOptionChoose(),
-        );
-        return (
-          <div
-            className={classes}
-            key={option.value}
-            onClick={() => {
-              setPopupVisible(false);
-              props?.onChange?.(option.value, option.label, option);
-            }}
-          >
-            {option.label}
-          </div>
-        );
-      })}
-    </div>
+  const options = useMemo(
+    () => getOptions(props?.options, props?.children),
+    [props?.options, props?.children],
   );
 
-  useEffect(() => {
-    setCurrentOption(optionsMap.current?.[props?.value || '']);
-  }, [props?.value]);
+  function emitDropdownVisibleChange(target?: boolean) {
+    props?.onDropdownVisibleChange?.(
+      target !== undefined ? target : props?.open === undefined ? !visible : !props?.open,
+    );
+  }
+
+  function handleClickOption(option?: OptionProps) {
+    emitDropdownVisibleChange(false);
+    setVisible(false);
+    props?.onChange?.(option?.value, option);
+    if (!isForceValueRef.current) {
+      setCurrent(option);
+    }
+  }
 
   useEffect(() => {
-    initPopupPanelInfo();
+    if (!selectRef.current) return;
+    const rect: DOMRect = selectRef.current?.getBoundingClientRect?.();
+    setRect(rect);
   }, []);
 
+  useEffect(() => {
+    if (isForceValueRef.current) {
+      setCurrent(options.find((option: OptionProps) => props?.value === option.value));
+    }
+  }, [props?.value, options]);
+
   return (
-    <>
-      <div
-        tabIndex={0}
-        ref={headDom}
-        style={{
-          width: props?.block ? '100%' : 100,
-          ...props?.style,
-        }}
-        className={style.select()}
-        onMouseDown={() => {
-          initPopupPanelInfo();
-          setPopupVisible(true);
-        }}
-      >
-        <span className={classNames(!currentOption && style.selectPlaceholder())}>
-          {currentOption?.label || (
-            <span style={{ color: token.placeholderColor }}>{placeholder}</span>
+    <div
+      tabIndex={0}
+      ref={selectRef}
+      style={{
+        ...props?.style,
+      }}
+      className={styles.select}
+      onPointerDown={() => {
+        emitDropdownVisibleChange();
+        if (props?.open !== undefined) return;
+        setVisible(!visible);
+      }}
+      onPointerLeave={() => {
+        isOuterRef.current = true;
+
+        // add click listener.
+        unClickFnRef.current = (() => {
+          function down() {
+            if (isOuterRef.current) {
+              setVisible(false);
+              unClickFnRef.current?.(true);
+            }
+          }
+          window.addEventListener('pointerdown', down);
+          return (isEmitVisibleChange?: boolean) => {
+            window.removeEventListener('pointerdown', down);
+            unClickFnRef.current = undefined;
+            if (isEmitVisibleChange) {
+              emitDropdownVisibleChange(false);
+            }
+          };
+        })();
+      }}
+      onPointerEnter={() => {
+        isOuterRef.current = false;
+        unClickFnRef.current?.();
+      }}
+    >
+      <div className={styles.select_header}>
+        <div className={styles.select_header_text}>
+          {current?.label || current?.value || (
+            <span className={styles.select_placeholder}>{placeholder}</span>
           )}
-        </span>
+        </div>
+        <div className={styles.select_header_icon}>
+          <Replace
+            isReplace={props?.allowClear && !!current}
+            trigger={'hover'}
+            replace={
+              <CloseCircleFilled
+                onPointerDown={(e) => {
+                  handleClickOption(undefined);
+                  e.stopPropagation();
+                }}
+              />
+            }
+          >
+            <DownOutlined />
+          </Replace>
+        </div>
       </div>
 
-      <SelectPanel
-        visible={popupVisible}
-        style={{
-          width: popupInfo.width,
-          left: popupInfo.left,
-          top: popupInfo.top,
-          background: 'white',
+      <DropDown
+        rect={rect}
+        visible={currentVisible}
+        onMouseLeave={() => {
+          isOuterRef.current = true;
         }}
-        onClickOut={() => {
-          setPopupVisible(false);
+        onMouseEnter={() => {
+          isOuterRef.current = false;
         }}
+        innerStyle={{ padding: '4px 0', fontSize: '0.875em' }}
       >
-        {selectBody}
-      </SelectPanel>
-    </>
+        {options?.map((option: OptionProps) => {
+          const isChoose = option.value === current?.value;
+          return (
+            <div
+              key={option?.value}
+              className={classNames(styles.select_option, isChoose && styles.select_option_choose)}
+              onClick={() => handleClickOption(option)}
+            >
+              {option?.label}
+            </div>
+          );
+        })}
+      </DropDown>
+    </div>
   );
 }

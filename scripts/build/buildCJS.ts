@@ -1,24 +1,34 @@
 /**
- * build CommonJs packages.
+ * build CJS packages.
  *
  * @Author TangJiaHui
  * @Date 2024/1/19
- * @Description Use webpack to build CommonJs packages.
+ * @Description Use webpack to build commonjs packages.
  */
-import { Configuration } from 'webpack';
-import { buildWebpack, root } from '../share';
-import { umdConfig } from './buildUMD';
+import {
+  NAME,
+  root,
+  PKG_DIR,
+  buildWebpack,
+  getPackageNamePathMap,
+  getWebpackCommon,
+} from '../share';
 import { merge } from 'webpack-merge';
 
-const cjsConfig: Configuration = merge(umdConfig, {
-  output: {
-    path: root('cjs'),
-    library: {
-      type: 'commonjs',
-    },
-  },
-});
-
 export function buildCJS() {
-  buildWebpack(cjsConfig);
+  buildWebpack(
+    merge(getWebpackCommon(), {
+      entry: {
+        ...getPackageNamePathMap(PKG_DIR),
+        index: root('packages'),
+      },
+      output: {
+        path: root('cjs'),
+        library: {
+          name: NAME,
+          type: 'commonjs',
+        },
+      },
+    }),
+  );
 }

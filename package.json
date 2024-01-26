@@ -10,6 +10,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
+    "dev": "cross-env mode=development esno scripts/server/index.ts",
     "build:types": "tsc -p ./tsconfig.lib.json",
     "build:umd": "cross-env target=umd esno scripts/build/index.ts",
     "build:cjs": "cross-env target=cjs esno scripts/build/index.ts",
@@ -138,6 +139,7 @@
     }
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.6",
     "@types/lodash": "^4.14.195",
     "class-css": "^1.0.24",
     "classnames": "^2.3.2",

@@ -1,0 +1,64 @@
+// translateY -> scaleY
+// -12.5% -> 75%
+// -25% -> 50%
+// -37.5% -> 25%
+@scale100: translate(0, 0) scale(1, 1);
+@scale25: translate(0, -37.5%) scale(1, 25%);
+@scale50: translate(0, -25%) scale(1, 50%);
+@scale75: translate(0, -12.5%) scale(1, 75%);
+
+@keyframes expandDynamic {
+  0% {
+    opacity: 0;
+    transform: @scale75;
+  }
+  85% {
+    opacity: 0.9;
+    transform: @scale100;
+  }
+  to {
+    opacity: 1;
+    transform: @scale100;
+  }
+}
+
+// 先缓，后快
+@keyframes unExpandDynamic {
+  from,
+  15% {
+    opacity: 1;
+    transform: @scale100;
+  }
+  35% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.05;
+    transform: @scale75;
+  }
+  to {
+    opacity: 0;
+    transform: @scale75;
+  }
+}
+
+.popupPanel {
+  opacity: 0;
+  max-height: 256px;
+  overflow-y: auto;
+  min-height: 12px;
+  background: white;
+  box-shadow: 0px 3px 6px -4px rgba(0, 0, 0, 0.12), 0px 6px 16px 0px rgba(0, 0, 0, 0.08),
+    0px 9px 28px 8px rgba(0, 0, 0, 0.05);
+
+  &_expand {
+    opacity: 1;
+    transform: translate(0, 0) scale(1, 1);
+    animation: expandDynamic 0.2s;
+  }
+
+  &_unExpand {
+    opacity: 0;
+    animation: unExpandDynamic 0.2s;
+  }
+}

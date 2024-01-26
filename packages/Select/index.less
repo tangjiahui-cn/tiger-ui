@@ -1,0 +1,56 @@
+.select {
+  display: inline-block;
+  height: 32px;
+  min-width: 100px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid #e8e8e8;
+  overflow: hidden;
+  border-radius: 2px;
+
+  &:focus,
+  &:hover {
+    border: 1px solid #639cee;
+    outline: none;
+  }
+
+  &_header {
+    padding: 0 8px;
+    font-size: 0.875em;
+    display: flex;
+    align-items: center;
+    height: 100%;
+
+    &_text {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      justify-content: space-between;
+    }
+
+    &_icon {
+      color: #bdbdbd;
+      font-size: 0.875em;
+    }
+  }
+
+  &_placeholder {
+    color: #bbbbbb;
+  }
+
+  &_option {
+    padding: 6px 12px;
+    cursor: pointer;
+    &:hover {
+      background-color: whitesmoke;
+    }
+
+    &_choose {
+      background-color: #ddedf3;
+      &:hover {
+        background-color: #ddedf3;
+      }
+    }
+  }
+}

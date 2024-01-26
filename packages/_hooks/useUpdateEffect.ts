@@ -1,7 +1,13 @@
+/**
+ * useUpdateEffect
+ *
+ * @author tangjiahui
+ * @date 2024/1/26
+ */
 import { useEffect, useRef } from 'react';
 
 export type UnMountFn = () => void;
-export default function useUpdateEffect(fn: () => void | UnMountFn, effect: any[]) {
+export function useUpdateEffect(fn: () => void | UnMountFn, effect: any[]) {
   const first = useRef(false);
   useEffect(() => {
     if (!first.current) {
