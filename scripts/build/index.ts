@@ -22,7 +22,8 @@ if (target === 'esm') {
 }
 
 if (target === 'all') {
-  buildUMD();
-  buildCJS();
-  buildESM();
+  throw Error('please change to concurrently build.');
+  // buildUMD();
+  // buildCJS();
+  // buildESM();
 }

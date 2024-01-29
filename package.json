@@ -76,6 +76,7 @@
     "autoprefixer": "^10.4.14",
     "babel-jest": "^29.5.0",
     "babel-loader": "^9.1.2",
+    "class-css-stringify": "^1.0.24",
     "commitizen": "^4.3.0",
     "conventional-changelog-cli": "^2.2.2",
     "cross-env": "^7.0.3",

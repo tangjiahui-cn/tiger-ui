@@ -3,7 +3,7 @@ import { alias, PKG_DIR } from '.';
 import cssMinimizerWebpackPlugin from 'css-minimizer-webpack-plugin';
 import terserWebpackPlugin from 'terser-webpack-plugin';
 import WebpackBar from 'webpackbar';
-import { Configuration } from 'webpack';
+import { Configuration, ProvidePlugin } from 'webpack';
 
 const __DEV__ = process.env.mode === 'development';
 const include = __DEV__ ? undefined : PKG_DIR;
@@ -115,6 +115,9 @@ export function getWebpackCommon(): Configuration {
         color: '#c01bee',
         basic: true,
         profile: true,
+      }),
+      new ProvidePlugin({
+        React: 'react',
       }),
     ].filter(Boolean),
   } as Configuration;

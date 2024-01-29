@@ -93,8 +93,8 @@ export const INIT_TOKEN: Token = {
   maskBg: 'rgba(0, 0, 0, 0.5)',
 
   // Select
-  selectPrimary: '#bae0ff',
-  selectHover: '#e6f4ff',
+  selectPrimary: '#e3f0ff',
+  selectHover: 'whitesmoke',
 
   switchText: '#8c8c8c',
   switchTextDisabled: '#bfbfbf',

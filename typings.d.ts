@@ -6,5 +6,5 @@ declare module '*.less' {
 }
 
 declare interface ObjectLike {
-  [K: string]: any
+  [K: string]: any | ObjectLike;
 }

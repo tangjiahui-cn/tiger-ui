@@ -8,11 +8,11 @@ import * as React from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { DropDown } from '..';
 import { Option } from './Option';
-import styles from './index.less';
 import classNames from 'classnames';
 import { CloseCircleFilled, DownOutlined } from '@ant-design/icons';
 import { Replace } from './components/Replace';
 import { getOptions } from './utils/getOptions';
+import { useStyle } from './style';
 
 export * from './Option';
 export type ValueType = string | undefined | null;
@@ -40,6 +40,7 @@ export default function Select(props: SelectProps) {
   const selectRef = useRef<HTMLDivElement>(null);
   const isOuterRef = useRef(false);
   const unClickFnRef = useRef<(isEmitVisibleChange?: boolean) => void>();
+  const style = useStyle('select');
 
   const [visible, setVisible] = useState(false);
   const [rect, setRect] = useState<DOMRect>();
@@ -72,25 +73,23 @@ export default function Select(props: SelectProps) {
   }
 
   useEffect(() => {
-    if (!selectRef.current) return;
-    const rect: DOMRect = selectRef.current?.getBoundingClientRect?.();
-    setRect(rect);
-  }, []);
-
-  useEffect(() => {
     if (isForceValueRef.current) {
       setCurrent(options.find((option: OptionProps) => props?.value === option.value));
     }
   }, [props?.value, options]);
 
+  useEffect(() => {
+    if (visible) {
+      setRect(selectRef.current?.getBoundingClientRect?.());
+    }
+  }, [visible]);
+
   return (
     <div
       tabIndex={0}
       ref={selectRef}
-      style={{
-        ...props?.style,
-      }}
-      className={styles.select}
+      style={props?.style}
+      className={style.select()}
       onPointerDown={() => {
         emitDropdownVisibleChange();
         if (props?.open !== undefined) return;
@@ -122,13 +121,13 @@ export default function Select(props: SelectProps) {
         unClickFnRef.current?.();
       }}
     >
-      <div className={styles.select_header}>
-        <div className={styles.select_header_text}>
+      <div className={style.selectHeader()}>
+        <div className={style.selectHeaderText()}>
           {current?.label || current?.value || (
-            <span className={styles.select_placeholder}>{placeholder}</span>
+            <span className={style.selectPlaceholder()}>{placeholder}</span>
           )}
         </div>
-        <div className={styles.select_header_icon}>
+        <div className={style.selectHeaderIcon()}>
           <Replace
             isReplace={props?.allowClear && !!current}
             trigger={'hover'}
@@ -162,8 +161,8 @@ export default function Select(props: SelectProps) {
           return (
             <div
               key={option?.value}
-              className={classNames(styles.select_option, isChoose && styles.select_option_choose)}
-              onClick={() => handleClickOption(option)}
+              className={classNames(style.selectOption(), isChoose && style.selectOptionChoose())}
+              onPointerDown={() => handleClickOption(option)}
             >
               {option?.label}
             </div>

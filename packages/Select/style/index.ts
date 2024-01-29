@@ -1,7 +1,6 @@
 import useCssInJs from '../../_utils/hooks/useCssInJs';
 import usePrefix from '../../_utils/hooks/usePrefix';
 import useToken from '../../_utils/hooks/useToken';
-import childrenSelector from '../../_utils/style/childrenSelector';
 
 type StyleObject = {
   [k: string]: any | StyleObject;
@@ -9,72 +8,83 @@ type StyleObject = {
 
 export function useStyle(componentName: string): {
   select: () => string;
-  selectPopup: () => string;
+  selectHeader: () => string;
+  selectHeaderText: () => string;
+  selectHeaderIcon: () => string;
+  selectPlaceholder: () => string;
   selectOption: () => string;
   selectOptionChoose: () => string;
-  selectPlaceholder: () => string;
 } {
   const token = useToken();
   const prefix = usePrefix(componentName);
   const { css } = useCssInJs({ key: prefix });
-  const { css: cssPopup } = useCssInJs({ key: prefix + 'popup' });
 
+  const selectHeader = () => `${prefix}-header`;
+  const selectHeaderText = () => `${prefix}-header-text`;
+  const selectHeaderIcon = () => `${prefix}-header-icon`;
+  const selectPlaceholder = () => `${prefix}-placeholder`;
   const selectOption = () => `${prefix}-option`;
   const selectOptionChoose = () => `${prefix}-option-choose`;
-  const selectPlaceholder = () => `${prefix}-placeholder`;
-
-  const selectOptionStyle = {
-    [selectOption()]: {
-      padding: '8px 14px',
-      cursor: 'pointer',
-      transition: `all ${token.duration}`,
-      margin: 4,
-      borderRadius: token.borderRadius,
-      '&:hover': {
-        color: token.color,
-        backgroundColor: 'whitesmoke',
-      },
-      '&-choose': {
-        backgroundColor: token.selectPrimary,
-        '&:hover': {
-          backgroundColor: `${token.selectPrimary} !important`,
-        },
-      },
-    },
-  };
-
-  const selectPopup = () =>
-    cssPopup({
-      marginTop: 2,
-      ...childrenSelector(selectOptionStyle),
-    });
 
   const select = () =>
     css({
-      fontSize: token.fontSize,
-      border: `1px solid ${token.borderColor}`,
       display: 'inline-block',
-      padding: '8px 14px',
+      height: 32,
+      minWidth: 100,
       cursor: 'pointer',
       transition: `all ${token.duration}`,
-      userSelect: 'none',
-      '&:focus': {
-        borderColor: token.primary,
+      border: `1px solid ${token.borderColor}`,
+      overflow: 'hidden',
+      borderRadius: token.borderRadius,
+
+      '&:focus,&:hover': {
+        border: `1px solid ${token.primaryHover}`,
         outline: 'none',
       },
-      '&:hover': {
-        borderColor: token.primaryHover,
+
+      [`& .${selectHeader()}`]: {
+        padding: '0 8px',
+        fontSize: ' 0.875em',
+        display: 'flex',
+        alignItems: 'center',
+        height: '100%',
+        [`& .${selectHeaderText()}`]: {
+          flex: 1,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          justifyContent: 'space-between',
+        },
+        [`& .${selectHeaderIcon()}`]: {
+          color: token.placeholderColor,
+          fontSize: '0.875em',
+        },
       },
-      '&-placeholder': {
+      [`& .${selectPlaceholder()}`]: {
         color: token.placeholderColor,
+      },
+      [`.${selectOption()}`]: {
+        padding: '6px 12px',
+        cursor: 'pointer',
+        '&:hover': {
+          backgroundColor: token.selectHover,
+        },
+        [`&.${selectOptionChoose()}`]: {
+          backgroundColor: token.selectPrimary,
+          '&:hover': {
+            backgroundColor: token.selectPrimary,
+          },
+        },
       },
     });
 
   return {
     select,
-    selectPopup,
+    selectHeader,
+    selectHeaderText,
+    selectHeaderIcon,
+    selectPlaceholder,
     selectOption,
     selectOptionChoose,
-    selectPlaceholder,
   };
 }

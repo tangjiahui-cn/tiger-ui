@@ -1,0 +1,195 @@
+@import (reference) '../_css/theme';
+.base {
+  color: @color;
+  &:hover {
+    color: @color;
+    border-color: @primaryHover;
+  }
+  &:active {
+    color: @primaryActive;
+    border-color: @primaryActive;
+  }
+  // disabled
+  &.disabled {
+    cursor: not-allowed;
+    color: @colorDisabled;
+    border-color: @colorDisabled;
+    &:hover {
+      color: @colorDisabled;
+      border-color: @colorDisabled;
+    }
+    &:active {
+      color: @colorDisabled;
+      border-color: @colorDisabled;
+    }
+  }
+}
+
+.btn {
+  font-size: @fontSize;
+  cursor: pointer;
+  user-select: none;
+  color: @color;
+  background: white;
+  border: 1px solid @borderColor;
+  transition: all @duration;
+  line-height: 1.125;
+  vertical-align: middle;
+  .base();
+
+  &-stayFocus {
+    border-color: @primary;
+  }
+
+  &-focus {
+    border-color: @primary;
+  }
+
+  &-danger {
+    color: @danger;
+    border-color: @danger;
+    &:hover {
+      color: @dangerHover;
+      border-color: @dangerHover;
+    }
+    &:active {
+      color: @dangerActive;
+      border-color: @dangerActive;
+    }
+    &-disabled {
+      cursor: not-allowed;
+      color: @dangerDisabled;
+      border-color: @dangerDisabled;
+      &:hover {
+        color: @dangerDisabled;
+        border-color: @dangerDisabled;
+      }
+      &:active {
+        color: @dangerDisabled;
+        border-color: @dangerDisabled;
+      }
+    }
+  }
+
+  &-primary {
+    color: white;
+    background-color: @primary;
+    border-color: @primary;
+    &:hover {
+      background: @primaryHover;
+      border-color: @primaryHover;
+    }
+    &:active {
+      background: @primaryActive;
+      border-color: @primaryActive;
+    }
+
+    &-disabled {
+      cursor: not-allowed;
+      background: @primaryDisabled;
+      border-color: @primaryDisabled;
+      &:hover {
+        background: @primaryDisabled;
+        border-color: @primaryDisabled;
+      }
+      &:active {
+        background: @primaryDisabled;
+        border-color: @primaryDisabled;
+      }
+    }
+    // danger
+    &-danger {
+      background: @danger;
+      border-color: @danger;
+      &:hover {
+        background: @dangerHover;
+        border-color: @dangerHover;
+      }
+      &:active {
+        background: @dangerActive;
+        border-color: @dangerActive;
+      }
+      &-disabled {
+        cursor: not-allowed;
+        background: @dangerDisabled;
+        border-color: @dangerDisabled;
+        &:hover {
+          background: @dangerDisabled;
+          border-color: @dangerDisabled;
+        }
+        &:active {
+          background: @dangerDisabled;
+          border-color: @dangerDisabled;
+        }
+      }
+    }
+  }
+
+  &-dashed {
+    .base();
+    border-style: dashed;
+  }
+
+  &-dotted {
+    .base();
+    border-style: dotted;
+  }
+
+  &-text {
+    background: white;
+    border-color: transparent;
+    &:hover {
+      color: @colorHover;
+    }
+    &:active {
+      color: @colorActive;
+    }
+    // disabled
+    &-disabled {
+      cursor: not-allowed;
+      color: @colorDisabled;
+      &:hover {
+        color: @colorDisabled;
+      }
+      &:active {
+        color: @colorDisabled;
+      }
+    }
+    &-danger {
+      color: @danger;
+      &:hover {
+        color: @dangerHover;
+      }
+      &:active {
+        color: @dangerActive;
+      }
+      &-disabled {
+        cursor: not-allowed;
+        color: @dangerDisabled;
+        &:hover {
+          color: @dangerDisabled;
+        }
+        &:active {
+          color: @dangerDisabled;
+        }
+      }
+    }
+  }
+
+  &-large {
+    padding: 12px 16px;
+  }
+
+  &-middle {
+    padding: 8px 14px;
+  }
+
+  &-small {
+    padding: 4px 8px;
+  }
+
+  &-block {
+    width: 100%;
+    display: block;
+  }
+}

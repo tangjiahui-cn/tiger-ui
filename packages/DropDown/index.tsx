@@ -6,10 +6,11 @@
  */
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import styles from './index.less';
+// import styles from './index.less';
 import { DOMAttributes, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { useListenEffect } from '@/_hooks';
+import { useStyle } from './style';
 
 export type DropDownProps = {
   rect?: DOMRect;
@@ -37,6 +38,9 @@ export default function DropDown(props: DropDownProps) {
     () => omit(props, privateKeys),
     [props],
   );
+
+  const style = useStyle('dropDown');
+
   const [animationClass, setAnimationClass] = useState<string>('');
   const [nextVisible, setNextVisible] = useState<boolean>(false);
 
@@ -52,15 +56,17 @@ export default function DropDown(props: DropDownProps) {
           timerId.current = null;
         }
         setNextVisible(true);
-        setAnimationClass(styles.popupPanel_expand);
+        setAnimationClass(style.dropDownExpand());
+        // setAnimationClass(styles.popupPanel_expand);
       } else {
         if (!isFirst) {
-          setAnimationClass(styles.popupPanel_unExpand);
+          // setAnimationClass(styles.popupPanel_unExpand);
+          setAnimationClass(style.dropDownUnExpand());
           // add destroy timer
           timerId.current = setTimeout(() => {
             setNextVisible(false);
             timerId.current = null;
-          }, 150);
+          }, 250);
         }
       }
     },
@@ -81,8 +87,9 @@ export default function DropDown(props: DropDownProps) {
           width: rect?.width,
           ...props?.style,
         }}
+        onPointerDown={(e) => e.stopPropagation()}
       >
-        <div className={classNames(animationClass, styles.popupPanel)} style={props?.innerStyle}>
+        <div className={classNames(animationClass, style.dropDown())} style={props?.innerStyle}>
           {props?.children}
         </div>
       </div>,
