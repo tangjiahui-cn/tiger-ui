@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { Select, Space, Button, DropDown } from '@/.';
+import { Select, Space, Button, DropDown, Pagination } from '@/.';
 
 function App() {
   const [visible, setVisible] = useState(true);
@@ -8,6 +8,7 @@ function App() {
 
   return (
     <Space block direction={'vertical'}>
+      <Pagination total={110} />
       <Space>
         <Select style={{ width: 200 }}>
           <Select.Option key={'1'}>选项一</Select.Option>
@@ -15,7 +16,6 @@ function App() {
           <Select.Option key={'3'}>选项三</Select.Option>
         </Select>
         <DropDown
-          open={visible}
           popupPanel={
             <div>
               <div>1</div>

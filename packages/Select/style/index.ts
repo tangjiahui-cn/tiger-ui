@@ -30,7 +30,7 @@ export function useStyle(componentName: string): {
 
   const select = () =>
     css({
-      display: 'inline-block',
+      display: 'inline-table',
       height: 32,
       minWidth: 100,
       cursor: 'pointer',

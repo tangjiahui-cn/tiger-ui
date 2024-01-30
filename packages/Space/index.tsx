@@ -1,4 +1,4 @@
-import React, { PointerEventHandler } from 'react';
+import React, { PointerEventHandler, useMemo } from 'react';
 import classNames from 'classnames';
 import { useStyle } from './style';
 
@@ -38,7 +38,7 @@ export interface SpaceProps {
    * 内部元素
    * @description 包裹元素
    */
-  children?: React.ReactElement[] | React.ReactElement;
+  children?: React.ReactNode[] | React.ReactNode;
   /**
    * @description 鼠标按下回调
    */
@@ -49,13 +49,35 @@ export interface SpaceProps {
   className?: string;
 }
 
+function isFragment(el: React.ReactNode): boolean {
+  try {
+    return (el as React.ReactElement)?.type?.toString?.() === React.Fragment.toString();
+  } catch (e) {
+    return false;
+  }
+}
+
 export default function Space(props: SpaceProps) {
   const style = useStyle('space');
-  const children: React.ReactElement[] = Array.isArray(props?.children)
-    ? props.children
-    : props?.children
-    ? [props.children]
-    : [];
+  const children = useMemo(() => {
+    let list: React.ReactNode[] = Array.isArray(props?.children)
+      ? props.children
+      : props?.children
+      ? [props.children]
+      : [];
+
+    list = list.reduce((result: React.ReactNode[], x: React.ReactNode) => {
+      if (isFragment(x)) {
+        result.push(...(x as any)?.props?.children);
+      } else if (Array.isArray(x)) {
+        result.push(...x);
+      } else {
+        result.push(x);
+      }
+      return result;
+    }, []);
+    return list;
+  }, [props?.children]);
 
   const classes = classNames(
     style.space(),
@@ -71,13 +93,9 @@ export default function Space(props: SpaceProps) {
       style={{ gap: props?.size, ...(props?.style || {}) }}
       onPointerDown={props?.onPointerDown}
     >
-      {children?.map((x: React.ReactElement, index) => {
-        const key = x?.key || index;
-        return (
-          <div key={key} style={{ display: 'inline-flex' }}>
-            {x}
-          </div>
-        );
+      {children?.map((x: React.ReactNode, index) => {
+        const key = (x as React.ReactElement)?.key || index;
+        return <div key={key}>{x}</div>;
       })}
     </div>
   );
