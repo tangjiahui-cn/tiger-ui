@@ -5,8 +5,8 @@
  * please support:
  * (1) ref            [HTMLElement-ref]
  * (2) onPointerDown  [native Event]
- * (2) onPointerDown  [native Event]
- * (2) onPointerDown  [native Event]
+ * (2) onPointerEnter  [native Event]
+ * (2) onPointerLeave  [native Event]
  *
  * @author tangjiahui
  * @date 2024/1/30
