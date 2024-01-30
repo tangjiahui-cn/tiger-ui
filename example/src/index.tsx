@@ -6,6 +6,7 @@ import MyCom from './MyCom';
 function App() {
   const [visible2, setVisible2] = useState(false);
   const [value, setValue] = useState<string>('1');
+
   return (
     <Space block direction={'vertical'}>
       <Space>
@@ -19,12 +20,11 @@ function App() {
       </Space>
       <Space>
         <Select
-          sign={'1'}
           allowClear
           style={{ width: 200 }}
           value={value}
           options={[
-            { label: '选项一身份及哦啊吗束带结发马季手打批发买哇', value: '1' },
+            { label: '选项一', value: '1' },
             { label: '选项二', value: '2' },
             { label: '选项三', value: '3' },
           ]}
@@ -34,7 +34,6 @@ function App() {
           }}
         />
         <Select
-          sign={'2'}
           open={visible2}
           style={{ width: 200 }}
           options={[
@@ -47,6 +46,15 @@ function App() {
         <Button onClick={() => setVisible2(true)}>打开下拉框</Button>
         <Button onClick={() => setVisible2(false)}>关闭下拉框</Button>
       </Space>
+
+      <Select
+        style={{ width: 200 }}
+        options={[
+          { label: '选项一', value: '1' },
+          { label: '选项二', value: '2' },
+          { label: '选项三', value: '3' },
+        ]}
+      />
       <MyCom />
     </Space>
   );

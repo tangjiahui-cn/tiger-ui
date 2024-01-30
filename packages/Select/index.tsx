@@ -22,16 +22,56 @@ export type OptionProps = {
 };
 
 export type SelectProps = {
-  allowClear?: boolean; // 是否允许清空
-  open?: boolean; // 是否打开
-  value?: ValueType; // 手动指定值
-  placeholder?: string; // 占位符
-  options?: OptionProps[]; // 下拉选项
-  style?: React.CSSProperties; // 下拉框整体样式
-  children?: React.ReactElement[]; // 传入 Option
+  /**
+   * @description 是否块级
+   * @default false
+   */
+  block?: boolean;
+  /**
+   * @description 是否允许清空
+   * @default false
+   */
+  allowClear?: boolean;
+  /**
+   * @description 受控显示下拉
+   * @default undefined
+   */
+  open?: boolean;
+  /**
+   * @description 受控绑定值
+   * @default undefined
+   */
+  value?: ValueType;
+  /**
+   * @description 占位符
+   * @default "请选择"
+   */
+  placeholder?: string;
+  /**
+   * @description 下拉选项
+   * @default undefined
+   */
+  options?: OptionProps[];
+  /**
+   * @description 下拉框样式
+   * @default undefined
+   */
+  style?: React.CSSProperties;
+  /**
+   * @description 支持JSX格式传入选项
+   * @default undefined
+   */
+  children?: React.ReactElement[];
+  /**
+   * @description 下拉visible回调
+   * @default (visible: boolean) => void;
+   */
   onDropdownVisibleChange?: (visible: boolean) => void;
+  /**
+   * @description 选中下拉框回调值
+   * @default (key?: ValueType, option?: OptionProps) => void;
+   */
   onChange?: (key?: ValueType, option?: OptionProps) => void;
-  sign: string;
 };
 
 Select.Option = Option;
@@ -49,18 +89,15 @@ export default function Select(props: SelectProps) {
   // use value front outer.
   const isForceValueRef = useRef(props?.value !== undefined);
 
-  // dropdown is visible or hide at this render.
-  const currentVisible = props?.open || visible;
-
   const options = useMemo(
     () => getOptions(props?.options, props?.children),
     [props?.options, props?.children],
   );
 
   function emitDropdownVisibleChange(target?: boolean) {
-    props?.onDropdownVisibleChange?.(
-      target !== undefined ? target : props?.open === undefined ? !visible : !props?.open,
-    );
+    const nextVisible =
+      target !== undefined ? target : props?.open === undefined ? !visible : !props?.open;
+    props?.onDropdownVisibleChange?.(nextVisible);
   }
 
   function handleClickOption(option?: OptionProps) {
@@ -79,6 +116,12 @@ export default function Select(props: SelectProps) {
   }, [props?.value, options]);
 
   useEffect(() => {
+    if (props?.open !== undefined) {
+      setVisible(props?.open);
+    }
+  }, [props?.open]);
+
+  useEffect(() => {
     if (visible) {
       setRect(selectRef.current?.getBoundingClientRect?.());
     }
@@ -89,7 +132,7 @@ export default function Select(props: SelectProps) {
       tabIndex={0}
       ref={selectRef}
       style={props?.style}
-      className={style.select()}
+      className={classNames(style.select(), props?.block && style.selectBlock())}
       onPointerDown={() => {
         emitDropdownVisibleChange();
         if (props?.open !== undefined) return;
@@ -147,7 +190,7 @@ export default function Select(props: SelectProps) {
 
       <DropDown
         rect={rect}
-        visible={currentVisible}
+        visible={visible}
         onMouseLeave={() => {
           isOuterRef.current = true;
         }}

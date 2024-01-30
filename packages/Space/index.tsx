@@ -1,4 +1,4 @@
-import React, { PointerEventHandler, useMemo } from 'react';
+import React, { PointerEventHandler } from 'react';
 import classNames from 'classnames';
 import { useStyle } from './style';
 
@@ -38,7 +38,7 @@ export interface SpaceProps {
    * 内部元素
    * @description 包裹元素
    */
-  children?: React.ReactNode;
+  children?: React.ReactElement[];
   /**
    * @description 鼠标按下回调
    */
@@ -66,7 +66,14 @@ export default function Space(props: SpaceProps) {
       style={{ gap: props?.size, ...(props?.style || {}) }}
       onPointerDown={props?.onPointerDown}
     >
-      {props?.children}
+      {props?.children?.map((x: React.ReactElement, index) => {
+        const key = x?.key || index;
+        return (
+          <div key={key} style={{ display: 'inline-flex' }}>
+            {x}
+          </div>
+        );
+      })}
     </div>
   );
 }

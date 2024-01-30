@@ -14,6 +14,7 @@ export function useStyle(componentName: string): {
   selectPlaceholder: () => string;
   selectOption: () => string;
   selectOptionChoose: () => string;
+  selectBlock: () => string;
 } {
   const token = useToken();
   const prefix = usePrefix(componentName);
@@ -25,6 +26,7 @@ export function useStyle(componentName: string): {
   const selectPlaceholder = () => `${prefix}-placeholder`;
   const selectOption = () => `${prefix}-option`;
   const selectOptionChoose = () => `${prefix}-option-choose`;
+  const selectBlock = () => `${prefix}-block`;
 
   const select = () =>
     css({
@@ -36,6 +38,10 @@ export function useStyle(componentName: string): {
       border: `1px solid ${token.borderColor}`,
       overflow: 'hidden',
       borderRadius: token.borderRadius,
+
+      [`&.${selectBlock()}`]: {
+        width: '100%',
+      },
 
       '&:focus,&:hover': {
         border: `1px solid ${token.primaryHover}`,
@@ -86,5 +92,6 @@ export function useStyle(componentName: string): {
     selectPlaceholder,
     selectOption,
     selectOptionChoose,
+    selectBlock,
   };
 }

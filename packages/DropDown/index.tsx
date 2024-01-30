@@ -57,10 +57,8 @@ export default function DropDown(props: DropDownProps) {
         }
         setNextVisible(true);
         setAnimationClass(style.dropDownExpand());
-        // setAnimationClass(styles.popupPanel_expand);
       } else {
         if (!isFirst) {
-          // setAnimationClass(styles.popupPanel_unExpand);
           setAnimationClass(style.dropDownUnExpand());
           // add destroy timer
           timerId.current = setTimeout(() => {
