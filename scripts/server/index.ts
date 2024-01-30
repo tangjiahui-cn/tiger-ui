@@ -16,9 +16,9 @@ runWebpackDevServer(
       index: root('./example/src/index.tsx'),
     },
     devServer: {
-      https: true,
       port: 10000,
       hot: true,
+      open: true,
     },
     plugins: [
       new HtmlWebpackPlugin({

@@ -38,7 +38,7 @@ export interface SpaceProps {
    * 内部元素
    * @description 包裹元素
    */
-  children?: React.ReactElement[];
+  children?: React.ReactElement[] | React.ReactElement;
   /**
    * @description 鼠标按下回调
    */
@@ -51,6 +51,11 @@ export interface SpaceProps {
 
 export default function Space(props: SpaceProps) {
   const style = useStyle('space');
+  const children: React.ReactElement[] = Array.isArray(props?.children)
+    ? props.children
+    : props?.children
+    ? [props.children]
+    : [];
 
   const classes = classNames(
     style.space(),
@@ -66,7 +71,7 @@ export default function Space(props: SpaceProps) {
       style={{ gap: props?.size, ...(props?.style || {}) }}
       onPointerDown={props?.onPointerDown}
     >
-      {props?.children?.map((x: React.ReactElement, index) => {
+      {children?.map((x: React.ReactElement, index) => {
         const key = x?.key || index;
         return (
           <div key={key} style={{ display: 'inline-flex' }}>

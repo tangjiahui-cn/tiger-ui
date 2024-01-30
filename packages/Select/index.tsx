@@ -66,7 +66,7 @@ export type SelectProps = {
    * @description 下拉visible回调
    * @default (visible: boolean) => void;
    */
-  onDropdownVisibleChange?: (visible: boolean) => void;
+  onOpenChange?: (visible: boolean) => void;
   /**
    * @description 选中下拉框回调值
    * @default (key?: ValueType, option?: OptionProps) => void;
@@ -78,140 +78,103 @@ Select.Option = Option;
 export default function Select(props: SelectProps) {
   const { placeholder = '请输入' } = props;
   const selectRef = useRef<HTMLDivElement>(null);
-  const isOuterRef = useRef(false);
-  const unClickFnRef = useRef<(isEmitVisibleChange?: boolean) => void>();
   const style = useStyle('select');
 
-  const [visible, setVisible] = useState(false);
-  const [rect, setRect] = useState<DOMRect>();
   const [current, setCurrent] = useState<OptionProps>();
 
-  // use value front outer.
+  const [panelVisible, setPanelVisible] = useState(false);
+
+  // use 'value' from outside.
   const isForceValueRef = useRef(props?.value !== undefined);
+
+  // use 'open' from outside.
+  const isForceOpenRef = useRef(props?.open !== undefined);
 
   const options = useMemo(
     () => getOptions(props?.options, props?.children),
     [props?.options, props?.children],
   );
 
-  function emitDropdownVisibleChange(target?: boolean) {
-    const nextVisible =
-      target !== undefined ? target : props?.open === undefined ? !visible : !props?.open;
-    props?.onDropdownVisibleChange?.(nextVisible);
-  }
-
   function handleClickOption(option?: OptionProps) {
-    emitDropdownVisibleChange(false);
-    setVisible(false);
+    props?.onOpenChange?.(false);
     props?.onChange?.(option?.value, option);
+
+    // if control 'open' from outside, don't change inside attribute.
+    if (!isForceOpenRef.current) {
+      setPanelVisible(false);
+    }
+    // if not control value from outside, change inside immediately.
     if (!isForceValueRef.current) {
       setCurrent(option);
     }
   }
 
-  useEffect(() => {
-    if (isForceValueRef.current) {
-      setCurrent(options.find((option: OptionProps) => props?.value === option.value));
-    }
-  }, [props?.value, options]);
-
-  useEffect(() => {
-    if (props?.open !== undefined) {
-      setVisible(props?.open);
-    }
-  }, [props?.open]);
-
-  useEffect(() => {
-    if (visible) {
-      setRect(selectRef.current?.getBoundingClientRect?.());
-    }
-  }, [visible]);
+  useEffect(
+    () => {
+      if (isForceValueRef.current) {
+        setCurrent(options.find((option: OptionProps) => props?.value === option.value));
+      }
+    },
+    isForceValueRef.current ? [props?.value, options] : [],
+  );
 
   return (
-    <div
-      tabIndex={0}
-      ref={selectRef}
-      style={props?.style}
-      className={classNames(style.select(), props?.block && style.selectBlock())}
-      onPointerDown={() => {
-        emitDropdownVisibleChange();
-        if (props?.open !== undefined) return;
-        setVisible(!visible);
+    <DropDown
+      open={isForceOpenRef.current ? props?.open : panelVisible}
+      onOpenChange={(visible: boolean) => {
+        setPanelVisible(visible);
+        props?.onOpenChange?.(visible);
       }}
-      onPointerLeave={() => {
-        isOuterRef.current = true;
-
-        // add click listener.
-        unClickFnRef.current = (() => {
-          function down() {
-            if (isOuterRef.current) {
-              setVisible(false);
-              unClickFnRef.current?.(true);
-            }
-          }
-          window.addEventListener('pointerdown', down);
-          return (isEmitVisibleChange?: boolean) => {
-            window.removeEventListener('pointerdown', down);
-            unClickFnRef.current = undefined;
-            if (isEmitVisibleChange) {
-              emitDropdownVisibleChange(false);
-            }
-          };
-        })();
-      }}
-      onPointerEnter={() => {
-        isOuterRef.current = false;
-        unClickFnRef.current?.();
-      }}
-    >
-      <div className={style.selectHeader()}>
-        <div className={style.selectHeaderText()}>
-          {current?.label || current?.value || (
-            <span className={style.selectPlaceholder()}>{placeholder}</span>
-          )}
+      popupPanel={
+        <div style={{ padding: '4px 0', fontSize: '0.875em' }}>
+          {options?.map((option: OptionProps) => {
+            const isChoose = option.value === current?.value;
+            return (
+              <div
+                key={option?.value}
+                className={classNames(style.selectOption(), isChoose && style.selectOptionChoose())}
+                onPointerDown={() => handleClickOption(option)}
+              >
+                {option?.label}
+              </div>
+            );
+          })}
         </div>
-        <div className={style.selectHeaderIcon()}>
-          <Replace
-            isReplace={props?.allowClear && !!current}
-            trigger={'hover'}
-            replace={
-              <CloseCircleFilled
-                onPointerDown={(e) => {
-                  handleClickOption(undefined);
-                  e.stopPropagation();
-                }}
-              />
-            }
-          >
-            <DownOutlined />
-          </Replace>
+      }
+    >
+      <div
+        tabIndex={0}
+        ref={selectRef}
+        style={props?.style}
+        className={classNames(style.select(), props?.block && style.selectBlock())}
+        onPointerDown={(e) => {
+          setPanelVisible(true);
+        }}
+      >
+        <div className={style.selectHeader()}>
+          <div className={style.selectHeaderText()}>
+            {current?.label || current?.value || (
+              <span className={style.selectPlaceholder()}>{placeholder}</span>
+            )}
+          </div>
+          <div className={style.selectHeaderIcon()}>
+            <Replace
+              isReplace={props?.allowClear && !!current}
+              trigger={'hover'}
+              replace={
+                <CloseCircleFilled
+                  onPointerDown={(e) => {
+                    handleClickOption(undefined);
+                    e.stopPropagation();
+                  }}
+                />
+              }
+            >
+              <DownOutlined />
+            </Replace>
+          </div>
         </div>
       </div>
-
-      <DropDown
-        rect={rect}
-        visible={visible}
-        onMouseLeave={() => {
-          isOuterRef.current = true;
-        }}
-        onMouseEnter={() => {
-          isOuterRef.current = false;
-        }}
-        innerStyle={{ padding: '4px 0', fontSize: '0.875em' }}
-      >
-        {options?.map((option: OptionProps) => {
-          const isChoose = option.value === current?.value;
-          return (
-            <div
-              key={option?.value}
-              className={classNames(style.selectOption(), isChoose && style.selectOptionChoose())}
-              onPointerDown={() => handleClickOption(option)}
-            >
-              {option?.label}
-            </div>
-          );
-        })}
-      </DropDown>
-    </div>
+    </DropDown>
   );
 }

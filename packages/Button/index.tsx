@@ -1,7 +1,14 @@
-import React, { MouseEventHandler, useRef } from 'react';
+/**
+ * Button
+ *
+ * @author tangjiahui
+ * @date 2023/03/16
+ */
+import React, { DOMAttributes, ForwardedRef } from 'react';
 import classNames from 'classnames';
 import { SizeType as ButtonSize } from '../_types/common';
 import { useStyle } from './style';
+import { omit } from '@/_utils/object';
 
 export type ButtonType = 'primary' | 'dashed' | 'default' | 'text' | 'dotted';
 export type { ButtonSize };
@@ -50,15 +57,19 @@ export interface ButtonProps {
    * @default false
    */
   focus?: boolean;
-  /**
-   * @description 点击按钮回调事件
-   */
-  onClick?: MouseEventHandler<HTMLButtonElement>;
-  /**
-   * @description 子元素
-   */
-  children?: React.ReactNode;
 }
+
+const privateKeys = [
+  'type',
+  'disabled',
+  'block',
+  'danger',
+  'size',
+  'style',
+  'className',
+  'stayFocus',
+  'focus',
+];
 
 /**
  * 按钮
@@ -66,41 +77,35 @@ export interface ButtonProps {
  * At 2023/04/24
  * By TangJiaHui
  */
-export default function Button(props: ButtonProps) {
-  const btnRef = useRef(null);
-  const style = useStyle('button');
+const Button = React.forwardRef(
+  (props: ButtonProps & DOMAttributes<HTMLButtonElement>, ref: ForwardedRef<HTMLButtonElement>) => {
+    const style = useStyle('button');
 
-  const classes = classNames([
-    style.button(props?.danger),
-    style.type(props?.type || 'default'),
-    style.size(props?.size || 'middle'),
-    props?.block && style.block(),
-    props?.danger && style.danger(),
-    props?.disabled && style.disabled(),
-    props?.stayFocus && style.stayFocus(),
-    props?.focus && style.focus(),
-    props?.className,
-  ]);
+    const className = classNames([
+      style.button(props?.danger),
+      style.type(props?.type || 'default'),
+      style.size(props?.size || 'middle'),
+      props?.block && style.block(),
+      props?.danger && style.danger(),
+      props?.disabled && style.disabled(),
+      props?.stayFocus && style.stayFocus(),
+      props?.focus && style.focus(),
+      props?.className,
+    ]);
 
-  return (
-    <button
-      ref={btnRef}
-      className={classes}
-      disabled={props?.disabled}
-      onClick={props?.disabled ? undefined : props?.onClick}
-      style={props?.style}
-    >
-      {props?.children}
-    </button>
-  );
-}
+    return (
+      <button
+        {...omit(props, privateKeys)}
+        ref={ref}
+        className={className}
+        disabled={props?.disabled}
+        onClick={props?.disabled ? undefined : props?.onClick}
+        style={props?.style}
+      >
+        {props?.children}
+      </button>
+    );
+  },
+);
 
-Button.defaultProps = {
-  type: 'default',
-  block: false,
-  disabled: false,
-  danger: false,
-  // loading: false,
-  size: 'middle',
-  stayFocus: false,
-};
+export default Button;
