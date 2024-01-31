@@ -36,7 +36,7 @@ components
 - DataPicker
 - Dialog
 - Drawer
-- Icon
+- Icon (暂用@ant-design/icons代替)
 - Image
 - Input
 - Message
