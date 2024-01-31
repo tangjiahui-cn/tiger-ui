@@ -1,7 +1,6 @@
 import useCssInJs from '../../_utils/hooks/useCssInJs';
 import usePrefix from '../../_utils/hooks/usePrefix';
 import useToken from '../../_utils/hooks/useToken';
-import childrenSelector from '../../_utils/style/childrenSelector';
 
 type StyleObject = {
   [k: string]: any | StyleObject;
@@ -9,128 +8,177 @@ type StyleObject = {
 
 export function useStyle(componentName: string): {
   dialog: () => string;
-  appear: (isAppear: boolean) => string;
-  mask: () => string;
-  content: () => string;
-  contentHead: () => string;
-  contentHeadTitle: () => string;
-  contentHeadClose: () => string;
-  contentBody: () => string;
-  contentFooter: () => string;
+  dialogMask: () => string;
+  dialogContent: () => string;
+  dialogContentHeader: () => string;
+  dialogContentBody: () => string;
+  dialogContentFooter: () => string;
+  closeIcon: () => string;
+
+  contentAppear: (x: number, y: number, delay: number) => string;
+  contentDisAppear: (x: number, y: number, delay: number) => string;
+  backgroundAppear: (delay: number) => string;
+  backgroundDisAppear: (delay: number) => string;
 } {
   const token = useToken();
   const prefix = usePrefix(componentName);
   const { css, keyframes } = useCssInJs({ key: prefix });
 
-  const appearKeyframe = keyframes({
-    '0%': {
-      opacity: 0,
-    },
-    '100%': {
-      opacity: 1,
-    },
-  });
-
-  const disAppearKeyframe = keyframes({
-    '0%': {
-      opacity: 1,
-    },
-    '100%': {
-      opacity: 0,
-    },
-  });
-
-  const appear = (isAppear: boolean) => `${prefix}-${isAppear ? 'appear' : 'disappear'}`;
-  const appearStyle = {
-    [appear(true)]: {
-      opacity: 1,
-      animation: `${appearKeyframe} 500ms`,
-    },
-    [appear(false)]: {
-      opacity: 0,
-      animation: `${disAppearKeyframe} 500ms`,
-    },
-  };
-
-  const mask = () => `${prefix}-mask`;
-  const maskStyle = {
-    [mask()]: {
-      position: 'fixed',
-      width: '100%',
-      height: '100%',
-      backgroundColor: token.maskBg,
-    },
-  };
-
-  const content = () => `${prefix}-content`;
-  const contentHead = () => `${content()}-head`;
-  const contentHeadTitle = () => `${contentHead()}-title`;
-  const contentHeadClose = () => `${contentHead()}-close`;
-  const contentBody = () => `${content()}-body`;
-  const contentFooter = () => `${content()}-footer`;
-
-  const contentStyle = {
-    [content()]: {
-      zIndex: 1,
-      backgroundColor: 'white',
-      boxShadow: token.shadow3,
-      ...childrenSelector({
-        [contentHead()]: {
-          padding: 16,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          ...childrenSelector({
-            [contentHeadTitle()]: {
-              fontSize: 16,
-              fontWeight: 'bold',
-            },
-          }),
-          ...childrenSelector({
-            [contentHeadClose()]: {
-              cursor: 'pointer',
-            },
-          }),
-        },
-      }),
-      ...childrenSelector({
-        [contentBody()]: {
-          padding: '0 16px',
-        },
-      }),
-      ...childrenSelector({
-        [contentFooter()]: {
-          overflow: 'hidden',
-          padding: 16,
-        },
-      }),
-    },
-  };
+  const dialogMask = () => `${prefix}-background`;
+  const dialogContent = () => `${prefix}-content`;
+  const dialogContentHeader = () => `${prefix}-content-header`;
+  const dialogContentBody = () => `${prefix}-content-body`;
+  const dialogContentFooter = () => `${prefix}-content-footer`;
+  const closeIcon = () => `${prefix}-close-icon`;
 
   const dialog = () =>
     css({
-      position: 'fixed',
+      zIndex: 999,
+      position: 'absolute',
       top: 0,
       left: 0,
-      width: '100%',
-      height: '100%',
+      width: '100vw',
+      height: '100vh',
+      overflow: 'auto',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      ...childrenSelector(appearStyle),
-      ...childrenSelector(maskStyle),
-      ...childrenSelector(contentStyle),
+      [`& .${dialogMask()}`]: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+      },
+      [`& .${dialogContent()}`]: {
+        position: 'fixed',
+        background: 'white',
+        boxShadow:
+          '0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05)',
+        [`& .${dialogContentHeader()}`]: {
+          padding: '16px 24px',
+          borderBottom: '1px solid #f0f0f0',
+          fontWeight: 'bold',
+          display: 'flex',
+          alignItems: 'center',
+        },
+        [`& .${dialogContentBody()}`]: {
+          padding: '16px 24px',
+          fontSize: '0.875em',
+          color: 'rgb(43,43,43)',
+          minHeight: 48,
+        },
+        [`& .${dialogContentFooter()}`]: {
+          padding: '10px 16px',
+          borderTop: '1px solid #f0f0f0',
+          overflow: 'hidden',
+        },
+      },
+      [`& .${closeIcon()}`]: {
+        color: 'rgba(151, 151, 151)',
+        cursor: 'pointer',
+        position: 'absolute',
+        top: 20,
+        right: 20,
+      },
     });
+
+  function contentAppear(x: number, y: number, delay: number = 300) {
+    const appearKeyframes = keyframes({
+      from: {
+        opacity: 0,
+        left: x,
+        top: y,
+        transform: 'translate(-50%, -50%) scale(0.1,0.1)',
+      },
+      to: {
+        opacity: 1,
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%) scale(1,1)',
+      },
+    });
+    const appearClass = css({
+      opacity: 1,
+      left: '50%',
+      top: '50%',
+      transform: 'translate(-50%, -50%) scale(1,1)',
+      animation: `${appearKeyframes} ${delay}ms`,
+    });
+    return appearClass;
+  }
+
+  function contentDisAppear(x: number, y: number, delay: number = 300) {
+    const disAppearKeyframes = keyframes({
+      from: {
+        opacity: 1,
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%) scale(1,1)',
+      },
+      to: {
+        opacity: 0,
+        left: x,
+        top: y,
+        transform: 'translate(-50%, -50%) scale(0.1,0.1)',
+      },
+    });
+
+    const disAppearClass = css({
+      pointerEvents: 'none',
+      opacity: 0,
+      top: ' -100%',
+      left: ' -100%',
+      transform: 'scale(0.1, 0.1)',
+      animation: `${disAppearKeyframes} ${delay}ms`,
+    });
+
+    return disAppearClass;
+  }
+
+  function backgroundAppear(delay: number = 350) {
+    const appearBgAnimation = keyframes({
+      from: {
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+      },
+      to: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      },
+    });
+    const appearBg = css({
+      background: 'rgba(0, 0, 0, 0.5)',
+      animation: `${appearBgAnimation} ${delay}ms`,
+    });
+    return appearBg;
+  }
+
+  function backgroundDisAppear(delay: number = 350) {
+    const disAppearBgAnimation = keyframes({
+      from: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      },
+      to: {
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+      },
+    });
+    const disAppearBg = css({
+      background: 'rgba(0, 0, 0, 0)',
+      animation: `${disAppearBgAnimation} ${delay}ms`,
+    });
+    return disAppearBg;
+  }
 
   return {
     dialog,
-    appear,
-    mask,
-    content,
-    contentHead,
-    contentHeadTitle,
-    contentHeadClose,
-    contentBody,
-    contentFooter,
+    dialogMask,
+    dialogContent,
+    dialogContentHeader,
+    dialogContentBody,
+    dialogContentFooter,
+    contentAppear,
+    contentDisAppear,
+    backgroundAppear,
+    backgroundDisAppear,
+    closeIcon,
   };
 }

@@ -15,6 +15,7 @@ runWebpackDevServer(
     entry: {
       index: root('./example/src/index.tsx'),
     },
+    devtool: 'source-map',
     devServer: {
       port: 10000,
       hot: true,
@@ -23,6 +24,7 @@ runWebpackDevServer(
     plugins: [
       new HtmlWebpackPlugin({
         title: 'dev',
+        template: root('./example/public/index.html'),
       }),
     ],
   }),

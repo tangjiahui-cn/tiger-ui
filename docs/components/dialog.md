@@ -9,13 +9,14 @@ import {Button, Dialog, message, Input} from 'tiger-ui';
 import {useState} from 'react';
 
 export default () => {
-  const [visible, setVisible] = useState(false);
+  const [open, setOpen] = useState(false);
   return <>
-    <Button onClick={() => setVisible(true)}>打开弹窗</Button>
+    <Button onClick={() => setOpen(true)}>打开弹窗</Button>
 
     <Dialog
-      visible={visible}
-      onCancel={() => setVisible(false)}
+      title={'标题'}
+      open={open}
+      onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     >
       <Input />
@@ -30,14 +31,14 @@ import {Button, Dialog, message} from 'tiger-ui';
 import {useState} from 'react';
 
 export default () => {
-  const [visible, setVisible] = useState(false);
+  const [open, setOpen] = useState(false);
   return <>
-    <Button onClick={() => setVisible(true)}>打开弹窗</Button>
+    <Button onClick={() => setOpen(true)}>打开弹窗</Button>
 
     <Dialog
       mask={false}
-      visible={visible}
-      onCancel={() => setVisible(false)}
+      open={open}
+      onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     />
   </>;
@@ -50,14 +51,14 @@ import {Button, Dialog, message} from 'tiger-ui';
 import {useState} from 'react';
 
 export default () => {
-  const [visible, setVisible] = useState(false);
+  const [open, setOpen] = useState(false);
   return <>
-    <Button onClick={() => setVisible(true)}>打开弹窗</Button>
+    <Button onClick={() => setOpen(true)}>打开弹窗</Button>
 
     <Dialog
       maskClosable={false}
-      visible={visible}
-      onCancel={() => setVisible(false)}
+      open={open}
+      onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     />
   </>;
@@ -70,14 +71,14 @@ import {Button, Dialog, message} from 'tiger-ui';
 import {useState} from 'react';
 
 export default () => {
-  const [visible, setVisible] = useState(false);
+  const [open, setOpen] = useState(false);
   return <>
-    <Button onClick={() => setVisible(true)}>打开弹窗</Button>
+    <Button onClick={() => setOpen(true)}>打开弹窗</Button>
 
     <Dialog
       closeIcon={'关闭'}
-      visible={visible}
-      onCancel={() => setVisible(false)}
+      open={open}
+      onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     />
   </>;
@@ -89,17 +90,17 @@ import {Button, Dialog, message} from 'tiger-ui';
 import {useState} from 'react';
 
 export default () => {
-  const [visible, setVisible] = useState(false);
+  const [open, setOpen] = useState(false);
   return <>
-    <Button onClick={() => setVisible(true)}>打开弹窗</Button>
+    <Button onClick={() => setOpen(true)}>打开弹窗</Button>
 
     <Dialog
       closeIcon={'关闭'}
-      visible={visible}
-      onCancel={() => setVisible(false)}
+      open={open}
+      onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
-      okText={<Button type={'primary'}>保存</Button>}
-      cancelText={<Button>关闭</Button>}
+      okText={'保存'}
+      cancelText={'关闭'}
     />
   </>;
 }
@@ -110,14 +111,14 @@ import {Button, Dialog, message, Input} from 'tiger-ui';
 import {useState} from 'react';
 
 export default () => {
-  const [visible, setVisible] = useState(false);
+  const [open, setOpen] = useState(false);
   return <>
-    <Button onClick={() => setVisible(true)}>打开弹窗</Button>
+    <Button onClick={() => setOpen(true)}>打开弹窗</Button>
 
     <Dialog
       destroyOnClose
-      visible={visible}
-      onCancel={() => setVisible(false)}
+      open={open}
+      onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     >
       <Input />
@@ -126,5 +127,57 @@ export default () => {
 }
 ```
 
+## 六、手动控制动画延时
+```jsx
+import {Space, Select, Button, Dialog, message, Input} from 'tiger-ui';
+import {useState} from 'react';
+
+export default () => {
+  const DEFAULT = '300';
+  const [delay, setDelay] = useState<string>(DEFAULT);
+  const [open, setOpen] = useState(false);
+  
+  return <>
+    <Space>
+      <Select
+        value={delay}
+        onChange={setDelay}
+        style={{width: 150}}
+      >
+        {
+          [
+            100,
+            200,
+            300,
+            400,
+            500,
+            600,
+            700,
+            800,
+            900
+          ].map(x => {
+            return (
+              <Select.Option key={x}>
+                {x}ms{`${x}` === DEFAULT ? '（默认）' : ''}
+              </Select.Option>
+            )
+          })
+        }
+      </Select>
+      <Button onClick={() => setOpen(true)}>打开弹窗</Button>
+    </Space>
+    
+    <Dialog
+      destroyOnClose
+      open={open}
+      animationDelay={Number(delay)}
+      onCancel={() => setOpen(false)}
+      onOk={() => message.success('请求成功')}
+    >
+      <Input />
+    </Dialog>
+  </>;
+}
+```
 ## API
 <API id="Dialog"></API>

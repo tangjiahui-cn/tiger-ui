@@ -80,6 +80,7 @@ const privateKeys = [
 const Button = React.forwardRef(
   (props: ButtonProps & DOMAttributes<HTMLButtonElement>, ref: ForwardedRef<HTMLButtonElement>) => {
     const style = useStyle('button');
+    const domAttributes: DOMAttributes<HTMLButtonElement> = omit(props, privateKeys);
 
     const className = classNames([
       style.button(props?.danger),
@@ -95,7 +96,7 @@ const Button = React.forwardRef(
 
     return (
       <button
-        {...omit(props, privateKeys)}
+        {...domAttributes}
         ref={ref}
         className={className}
         disabled={props?.disabled}

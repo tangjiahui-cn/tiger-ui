@@ -19,7 +19,7 @@ import { useStyle } from '@/DropDown/style';
 export type DropDownTrigger = 'click'; // TODO: add 'hover'.
 const DEFAULT_TRIGGER: DropDownTrigger[] = ['click'];
 
-interface Props {
+export interface DropDownProps {
   /**
    * @description 手动控制显隐
    * @default undefined
@@ -52,7 +52,7 @@ interface Props {
   children?: React.ReactElement;
 }
 
-export default function (props: Props) {
+export default function (props: DropDownProps) {
   if (Array.isArray(props?.children)) {
     throw new Error('children is only a single React-JSX.');
   }

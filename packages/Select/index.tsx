@@ -13,6 +13,7 @@ import { CloseCircleFilled, DownOutlined } from '@ant-design/icons';
 import { Replace } from './components/Replace';
 import { getOptions } from './utils/getOptions';
 import { useStyle } from './style';
+import { useGetLocaleValues } from '@/ConfigProvider';
 
 export * from './Option';
 export type ValueType = string | undefined | null;
@@ -76,7 +77,8 @@ export type SelectProps = {
 
 Select.Option = Option;
 export default function Select(props: SelectProps) {
-  const { placeholder = '请输入' } = props;
+  const locales = useGetLocaleValues();
+  const { placeholder = locales.selectPlaceholder } = props;
   const selectRef = useRef<HTMLDivElement>(null);
   const style = useStyle('select');
 
