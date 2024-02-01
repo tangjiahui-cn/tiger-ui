@@ -16,6 +16,15 @@ function isHasScrollBar(node: HTMLElement): boolean {
   }
 }
 
+// get target scroll bar width.
+function getScrollBarWidth(node: HTMLElement): number {
+  try {
+    return ((node.parentNode as any)?.clientWidth || 0) - (document.body?.clientWidth || 0);
+  } catch {
+    return 0;
+  }
+}
+
 export function useFreezeHTMLBody(isFreeze: boolean) {
   const isMount = useRef<boolean>(false);
   const styleRef = useRef<any>(null);
@@ -25,7 +34,7 @@ export function useFreezeHTMLBody(isFreeze: boolean) {
       const isScroll = isHasScrollBar(document.body);
       const el: HTMLStyleElement = document.createElement('style');
       el.innerHTML = `html body {height:100vh;width:${
-        isScroll ? 'calc(100vw - 15px)' : '100vw'
+        isScroll ? `calc(100vw - ${getScrollBarWidth(document.body)}px)` : '100vw'
       };overflow:hidden;}`;
       document.head.appendChild((styleRef.current = el));
       isMount.current = true;
