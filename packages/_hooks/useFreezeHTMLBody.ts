@@ -27,11 +27,11 @@ export function useFreezeHTMLBody(isFreeze: boolean) {
       el.innerHTML = `html body {height:100vh;width:${
         isScroll ? 'calc(100vw - 15px)' : '100vw'
       };overflow:hidden;}`;
-      document.body.appendChild((styleRef.current = el));
+      document.head.appendChild((styleRef.current = el));
       isMount.current = true;
     } else {
       if (isMount.current) {
-        document.body.removeChild(styleRef.current);
+        document.head.removeChild(styleRef.current);
         isMount.current = false;
       }
     }

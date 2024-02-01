@@ -17,7 +17,7 @@ function App() {
         justifyContent: 'space-between',
       }}
     >
-      <div style={{ height: 180, width: '80%', display: 'flex' }}>
+      <div style={{ height: 180, width: '80%', display: 'flex', gap: 16 }}>
         <Carousel
           style={{ flex: 1 }}
           autoplay={false}
