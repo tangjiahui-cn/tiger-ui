@@ -1,6 +1,7 @@
-import React, { PointerEventHandler, useMemo } from 'react';
+import React, { DOMAttributes, ForwardedRef, PointerEventHandler, useMemo } from 'react';
 import classNames from 'classnames';
 import { useStyle } from './style';
+import { omit } from '@/_utils/object';
 
 export type SpaceDirection = 'vertical' | 'horizontal';
 
@@ -40,14 +41,12 @@ export interface SpaceProps {
    */
   children?: React.ReactNode[] | React.ReactNode;
   /**
-   * @description 鼠标按下回调
-   */
-  onPointerDown?: PointerEventHandler<any> | undefined;
-  /**
    * @description 类名
    */
   className?: string;
 }
+
+const privateKeys = ['size', 'direction', 'block', 'wrap', 'style', 'className'];
 
 function isFragment(el: React.ReactNode): boolean {
   try {
@@ -57,52 +56,55 @@ function isFragment(el: React.ReactNode): boolean {
   }
 }
 
-export default function Space(props: SpaceProps) {
-  const style = useStyle('space');
-  const children = useMemo(() => {
-    let list: React.ReactNode[] = Array.isArray(props?.children)
-      ? props.children
-      : props?.children
-      ? [props.children]
-      : [];
+const Space = React.forwardRef(
+  (props: SpaceProps & DOMAttributes<HTMLDivElement>, ref: ForwardedRef<HTMLDivElement>) => {
+    const style = useStyle('space');
+    const { size = 8, direction = 'horizontal' } = props;
+    const domAttributes: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
 
-    list = list.reduce((result: React.ReactNode[], x: React.ReactNode) => {
-      if (isFragment(x)) {
-        result.push(...(x as any)?.props?.children);
-      } else if (Array.isArray(x)) {
-        result.push(...x);
-      } else {
-        result.push(x);
-      }
-      return result;
-    }, []);
-    return list;
-  }, [props?.children]);
+    const children = useMemo(() => {
+      let list: React.ReactNode[] = Array.isArray(props?.children)
+        ? props.children
+        : props?.children
+        ? [props.children]
+        : [];
 
-  const classes = classNames(
-    style.space(),
-    props?.wrap && style.wrap(),
-    props?.block && style.block(),
-    style.direction(props?.direction || 'horizontal'),
-    props?.className,
-  );
+      list = list.reduce((result: React.ReactNode[], x: React.ReactNode) => {
+        if (isFragment(x)) {
+          result.push(...(x as any)?.props?.children);
+        } else if (Array.isArray(x)) {
+          result.push(...x);
+        } else {
+          result.push(x);
+        }
+        return result;
+      }, []);
+      return list;
+    }, [props?.children]);
 
-  return (
-    <div
-      className={classes}
-      style={{ gap: props?.size, ...(props?.style || {}) }}
-      onPointerDown={props?.onPointerDown}
-    >
-      {children?.map((x: React.ReactNode, index) => {
-        const key = (x as React.ReactElement)?.key || index;
-        return <div key={key}>{x}</div>;
-      })}
-    </div>
-  );
-}
+    const classes = classNames(
+      style.space(),
+      props?.wrap && style.wrap(),
+      props?.block && style.block(),
+      style.direction(direction),
+      props?.className,
+    );
 
-Space.defaultProps = {
-  size: 8,
-  wrap: false,
-  direction: 'horizontal',
-};
+    return (
+      <div
+        {...domAttributes}
+        ref={ref}
+        className={classes}
+        style={{ gap: size, ...(props?.style || {}) }}
+        onPointerDown={props?.onPointerDown}
+      >
+        {children?.map((x: React.ReactNode, index) => {
+          const key = (x as React.ReactElement)?.key || index;
+          return <div key={key}>{x}</div>;
+        })}
+      </div>
+    );
+  },
+);
+
+export default Space;

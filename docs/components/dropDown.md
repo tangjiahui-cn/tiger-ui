@@ -28,27 +28,26 @@ import { useState } from "react";
 export default () => {
   const [open, setOpen] = useState<boolean>(false);
   return (
-    <Space>
-      <Button type={'primary'} onClick={() => setOpen(true)}>展开</Button>
-      <Button type={'primary'} onClick={() => setOpen(false)}>收起</Button>
-      <DropDown
-        open={open}
-        popupPanel={
-          <>
-            <div style={{ padding: '12px 16px' }}>hello DropDown!</div>
-            <div style={{ padding: '12px 16px' }}>hello DropDown!</div>
-            <div style={{ padding: '12px 16px' }}>hello DropDown!</div>
-            <div style={{ padding: '12px 16px' }}>hello DropDown!</div>
-            <div style={{ padding: '12px 16px' }}>hello DropDown!</div>
-            <div style={{ padding: '12px 16px' }}>hello DropDown!</div>
-            <div style={{ padding: '12px 16px' }}>hello DropDown!</div>
-            <div style={{ padding: '12px 16px' }}>hello DropDown!</div>
-          </>
-        }
-      >
-        <div style={{ cursor: 'pointer', width: 200 }}>点击显示下拉</div>
-      </DropDown>
-    </Space>
+    <DropDown
+      open={open}
+      popupPanel={
+        <>
+          <div style={{ padding: '12px 16px' }}>hello DropDown!</div>
+          <div style={{ padding: '12px 16px' }}>hello DropDown!</div>
+          <div style={{ padding: '12px 16px' }}>hello DropDown!</div>
+          <div style={{ padding: '12px 16px' }}>hello DropDown!</div>
+          <div style={{ padding: '12px 16px' }}>hello DropDown!</div>
+          <div style={{ padding: '12px 16px' }}>hello DropDown!</div>
+          <div style={{ padding: '12px 16px' }}>hello DropDown!</div>
+          <div style={{ padding: '12px 16px' }}>hello DropDown!</div>
+        </>
+      }
+    >
+      <Space block>
+        <Button type={'primary'} onClick={() => setOpen(true)}>展开</Button>
+        <Button type={'primary'} onClick={() => setOpen(false)}>收起</Button>
+      </Space>
+    </DropDown>
   )
 }
 ```
