@@ -32,6 +32,7 @@ export function useStyle(componentName: string): {
       padding: '8px 16px',
       borderRadius: 2,
       display: 'flex',
+      color: token.color,
       [`&.${alertHidden()}`]: {
         display: 'none',
         color: 'red',
@@ -49,6 +50,7 @@ export function useStyle(componentName: string): {
       [`& .${alertDescription()}`]: {
         width: '100%',
         wordBreak: 'break-all',
+        color: 'rgba(0,0,0,0.6)',
       },
       [`& .${alertClose()}`]: {
         cursor: 'pointer',
