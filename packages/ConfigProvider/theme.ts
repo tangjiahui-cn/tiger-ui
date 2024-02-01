@@ -25,6 +25,7 @@ export type Token = {
 
   // 边框
   borderColor: string; // 边框颜色
+  borderLightColor: string; // 边框偏淡颜色
   borderRadius: string | number; // 边框大小
 
   // 动画
@@ -71,7 +72,7 @@ export const INIT_TOKEN: Token = {
 
   fontSize: 14,
   fontSizeLarge: 16,
-  color: 'rgba(0,0,0,0.85)',
+  color: 'rgb(43,43,43)',
   colorHover: '#bfbfbf',
   colorActive: '#262626',
   colorDisabled: '#bfbfbf',
@@ -79,6 +80,7 @@ export const INIT_TOKEN: Token = {
   placeholderColor: '#d9d9d9',
 
   borderColor: '#e8e8e8',
+  borderLightColor: '#f0f0f0',
   borderRadius: 2,
   duration: '.3s',
   shadow1:

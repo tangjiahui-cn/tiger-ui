@@ -53,11 +53,10 @@ export function useStyle(componentName: string): {
       [`& .${dialogContent()}`]: {
         position: 'fixed',
         background: 'white',
-        boxShadow:
-          '0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05)',
+        boxShadow: token.shadow2,
         [`& .${dialogContentHeader()}`]: {
           padding: '16px 24px',
-          borderBottom: '1px solid #f0f0f0',
+          borderBottom: `1px solid ${token.borderLightColor}`,
           fontWeight: 'bold',
           display: 'flex',
           alignItems: 'center',
@@ -65,12 +64,12 @@ export function useStyle(componentName: string): {
         [`& .${dialogContentBody()}`]: {
           padding: '16px 24px',
           fontSize: '0.875em',
-          color: 'rgb(43,43,43)',
+          color: token.color,
           minHeight: 48,
         },
         [`& .${dialogContentFooter()}`]: {
           padding: '10px 16px',
-          borderTop: '1px solid #f0f0f0',
+          borderTop: `1px solid ${token.borderLightColor}`,
           overflow: 'hidden',
         },
       },

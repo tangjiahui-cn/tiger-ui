@@ -19,7 +19,11 @@ function isHasScrollBar(node: HTMLElement): boolean {
 // get target scroll bar width.
 function getScrollBarWidth(node: HTMLElement): number {
   try {
-    return ((node.parentNode as any)?.clientWidth || 0) - (document.body?.clientWidth || 0);
+    const parentWidth =
+      node?.parentNode === document.documentElement
+        ? window.innerWidth
+        : (node?.parentNode as HTMLElement)?.clientWidth || 0;
+    return parentWidth - (document.body?.clientWidth || 0);
   } catch {
     return 0;
   }

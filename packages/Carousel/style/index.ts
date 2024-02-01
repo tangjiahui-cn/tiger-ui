@@ -24,7 +24,7 @@ export function useStyle(componentName: string): {
       [`& .${carouselBody()}`]: {
         display: 'flex',
         height: '100%',
-        transition: 'transform .3s',
+        transition: `transform ${token.duration}`,
       },
     });
 
