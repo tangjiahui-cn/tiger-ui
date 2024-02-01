@@ -1,167 +1,174 @@
-import * as React from 'react';
+/**
+ * Carousel
+ *
+ * @author tangjiahui
+ * @date 2024/01/31
+ */
+import Item from './Item';
 import { useEffect, useRef, useState } from 'react';
 import { SwitchBar, SwitchBarType } from './SwitchBar';
-import { throttle } from 'lodash';
-import { useStateWithRef } from '../_hooks';
+import * as React from 'react';
+import throttle from 'lodash/throttle';
 import { useStyle } from './style';
+import { useStateWithRef } from '@/_hooks';
 
-type DOMRectWrite = {
-  [k in keyof Omit<DOMRect, 'toJSON'>]: number;
-};
-
-const INIT_POSITION: DOMRectWrite = {
-  bottom: 0,
-  height: 0,
-  left: 0,
-  right: 0,
-  top: 0,
-  width: 0,
-  x: 0,
-  y: 0,
-};
-
-type ObjectType = {
-  [k: string]: any;
-};
-
-// 比较对象值是否等于初始值
-function equalPositionInfo(a: ObjectType, b: ObjectType): boolean {
-  const keys = Object.keys(INIT_POSITION);
-  for (let i = 0; i < keys.length; i++) {
-    const k = keys[i];
-    if (a[k] !== b[k]) return false;
-  }
-  return true;
-}
-
-export interface CarouselOption {
+type CarouselItem = {
   key: string;
-  children?: React.ReactNode;
-}
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+};
 
-export interface CarouselProps {
+export type CarouselProps = {
   /**
-   * @description 样式
+   * @description 跑马灯面板 （会忽略 children 属性）
+   */
+  items?: CarouselItem[];
+  /**
+   * @description 跑马灯样式
    */
   style?: React.CSSProperties;
+  /**
+   * @description 当前显示面板（从0开始）
+   */
+  current?: number;
+  /**
+   * @description 是否自动播放
+   */
+  autoplay?: boolean;
+  /**
+   * @description 自动播放间隔（单位ms）
+   * @default: 2000
+   */
+  autoplayDelay?: number;
+  /**
+   * @description 操作栏类型
+   * @default line
+   */
+  type?: SwitchBarType;
   /**
    * @description 操作栏样式
    */
   dotStyle?: React.CSSProperties;
   /**
-   * @description 操作栏类型
-   */
-  type?: SwitchBarType;
-  /**
-   * @description 页面配置
-   */
-  options?: CarouselOption[];
-  /**
-   * @description 当前页（从0开始计数）
-   */
-  current?: number;
-  /**
-   * @description 是否启用轮播图
-   * @default false
-   */
-  autoplay?: boolean;
-  /**
-   * @description 自动播放延时（单位：ms）
-   * @default 2000
-   */
-  delay?: number;
-  /**
-   * @description 切换页面回调
+   * @description 切换回调
    */
   onChange?: (current: number) => void;
-}
+  /**
+   * @description 子元素
+   */
+  children?: React.ReactElement | React.ReactElement[];
+};
 
+Carousel.Item = Item;
 export default function Carousel(props: CarouselProps) {
-  const carouselRef = useRef<any>();
-  const [options, setOptions] = useState<CarouselOption[]>([]);
-  const isOut = typeof props?.current === 'number';
-  const timerIdRef = useRef<any>();
+  const { autoplayDelay = 2000 } = props;
   const style = useStyle('carousel');
 
+  // is use current outside.
+  const isForceCurrentRef = useRef(props?.current !== undefined);
+  // current step (from 0).
   const [current, setCurrent, currentRef] = useStateWithRef<number>(0);
-  const [carouselPosInfo, setCarouselPosInfo] = useState<DOMRectWrite>({ ...INIT_POSITION });
+  // container dom reference.
+  const containerRef = useRef<HTMLDivElement>(null);
+  // container size info.
+  const [containerSize, setContainerSize] = useState<
+    | {
+        width: number;
+        height: number;
+      }
+    | undefined
+  >(undefined);
+
+  const timerIdRef = useRef<any>();
+
+  const children: React.ReactElement[] = props?.items?.length
+    ? props?.items.map((x) => (
+        <Item key={x.key} style={x.style}>
+          {x.children}
+        </Item>
+      ))
+    : Array.isArray(props?.children)
+    ? props?.children
+    : props?.children
+    ? [props?.children]
+    : [];
+
+  function clearTimer() {
+    if (timerIdRef.current) {
+      window.clearInterval(timerIdRef.current);
+      timerIdRef.current = undefined;
+    }
+  }
 
   function handleChange(current: number) {
     props?.onChange?.(current);
-    if (isOut) return;
-    setCurrent(current);
+    if (!isForceCurrentRef.current) {
+      setCurrent(current);
+    }
   }
 
   useEffect(() => {
-    if (Array.isArray(props?.options)) {
-      const options = props?.options.filter(Boolean);
-      setOptions(options);
-      // 解决props?.options 非setState更新导致无法获取高度宽度的问题
-      setCarouselPosInfo((info) => {
-        const targetInfo = carouselRef.current?.getBoundingClientRect?.();
-        if (options?.length && equalPositionInfo(INIT_POSITION, targetInfo)) {
-          return info;
-        }
-        return targetInfo;
+    // listen window resize, and resize carousel.
+    const resize = throttle(() => {
+      setContainerSize({
+        width: containerRef.current?.clientWidth || 0,
+        height: containerRef.current?.clientHeight || 0,
       });
-
-      clearInterval(timerIdRef.current);
-      if (props?.autoplay) {
-        timerIdRef.current = setInterval(() => {
-          const last: number = isOut ? props?.current || 0 : currentRef.current;
-          const target = (last + 1) % options.length;
-          props?.onChange?.(target);
-          if (!isOut) {
-            setCurrent(target);
-          }
-        }, props?.delay || 2000);
-      }
-    }
-
-    return () => clearInterval(timerIdRef.current);
-  }, [props?.options]);
-
-  useEffect(() => {
-    function resize(e: any) {
-      setCarouselPosInfo(carouselRef.current?.getBoundingClientRect?.());
-    }
-    window.addEventListener(
-      'resize',
-      throttle(resize, 100, {
-        trailing: true,
-      }),
-    );
+    }, 10);
+    setTimeout(resize);
+    window.addEventListener('resize', resize);
     return () => {
       window.removeEventListener('resize', resize);
     };
   }, []);
 
-  return (
-    <div className={style.carousel()} style={props?.style} ref={carouselRef}>
-      <div
-        className={style.carouselBody()}
-        style={{
-          width: carouselPosInfo.width * options?.length,
-          transform: `translate3d(-${carouselPosInfo.width * (props?.current || current)}px, 0, 0)`,
-        }}
-      >
-        {options?.map((x) => {
-          return (
-            <div
-              key={x?.key}
-              className={style.carouselBodyOption()}
-              style={{ width: carouselPosInfo.width }}
-            >
-              {x?.children}
-            </div>
-          );
-        })}
-      </div>
+  useEffect(() => {
+    clearTimer();
+    if (props?.autoplay) {
+      // loop.
+      timerIdRef.current = setInterval(() => {
+        const target = (currentRef.current + 1) % children.length;
+        // if control 'current' from outside, don't change ui immediately.
+        if (!isForceCurrentRef.current) {
+          setCurrent(target);
+        }
+        // emit outside.
+        props?.onChange?.(target);
+      }, autoplayDelay);
+    }
+    return clearTimer;
+  }, [props?.autoplay, autoplayDelay]);
 
+  useEffect(() => {
+    // sync current.
+    if (isForceCurrentRef.current) {
+      setCurrent(props?.current || 0);
+    }
+  }, [props?.current]);
+
+  return (
+    <div
+      ref={containerRef}
+      className={style.carousel()}
+      style={{
+        ...props?.style,
+      }}
+    >
+      {containerSize && (
+        <div
+          style={{
+            width: containerSize.width * children.length,
+            transform: `translate3d(-${containerSize.width * current}px, 0, 0)`,
+          }}
+          className={style.carouselBody()}
+        >
+          {children}
+        </div>
+      )}
       <SwitchBar
         type={props?.type}
-        current={props?.current || current}
-        total={options?.length}
+        current={current}
+        total={children?.length}
         onChange={handleChange}
         itemStyle={props?.dotStyle}
         style={{

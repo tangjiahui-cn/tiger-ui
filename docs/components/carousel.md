@@ -7,15 +7,13 @@ nav: 组件
 ```jsx
 import {Carousel} from 'tiger-ui';
 export default () => {
-  return <div style={{height: 180}}>
-    <Carousel
-      options={[
-        {key: '1', children: <div style={{background: 'red', height: '100%'}} />},
-        {key: '2', children: <div style={{background: 'blue', height: '100%'}} />},
-        {key: '2', children: <div style={{background: 'black', height: '100%'}} />},
-      ]}
-    />
-  </div>;
+  return (
+    <Carousel style={{height: 180, width: 700}}>
+      <Carousel.Item style={{background: 'red', height: '100%'}}></Carousel.Item>
+      <Carousel.Item style={{background: 'blue', height: '100%'}}></Carousel.Item>
+      <Carousel.Item style={{background: 'black', height: '100%'}}></Carousel.Item>
+    </Carousel>
+  )
 }
 
 ```
@@ -26,10 +24,10 @@ export default () => {
 ```jsx
 import {Carousel} from 'tiger-ui';
 export default () => {
-  return <div style={{height: 180}}>
+  return <div style={{height: 180, width: 700}}>
     <Carousel
       autoplay
-      options={[
+      items={[
         {key: '1', children: <div style={{background: 'red', height: '100%'}} />},
         {key: '2', children: <div style={{background: 'blue', height: '100%'}} />},
         {key: '2', children: <div style={{background: 'black', height: '100%'}} />},
@@ -59,10 +57,10 @@ export default () => {
       })}
     </Space>
     <Carousel
-      style={{height: 180}}
+      style={{height: 180, width: 700}}
       autoplay
       type={type}
-      options={[
+      items={[
         {key: '1', children: <div style={{background: 'red', height: '100%'}}/>},
         {key: '2', children: <div style={{background: 'blue', height: '100%'}}/>},
         {key: '2', children: <div style={{background: 'black', height: '100%'}}/>},
@@ -104,10 +102,10 @@ export default () => {
       })}
     </Space>
     <Carousel
-      style={{height: 180}}
+      style={{height: 180, width: 700}}
       autoplay
       current={current}
-      options={options}
+      items={options}
       onChange={setCurrent}
     />
   </Space>;
@@ -141,8 +139,8 @@ export default () => {
     </Space>
     <Carousel
       autoplay
-      delay={delay}
-      options={options}
+      autoplayDelay={delay}
+      items={options}
       style={{height: 180}}
     />
   </Space>;

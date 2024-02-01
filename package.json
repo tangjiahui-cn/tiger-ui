@@ -142,6 +142,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@types/lodash": "^4.14.195",
+    "ahooks": "^3.7.9",
     "class-css": "^1.0.24",
     "classnames": "^2.3.2",
     "dumi": "^2.2.16",

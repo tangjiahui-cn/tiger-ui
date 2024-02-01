@@ -9,7 +9,7 @@ import ReactDOM from 'react-dom';
 import { CloseOutlined } from '@ant-design/icons';
 import { Button, Space } from '..';
 import classNames from 'classnames';
-import { useListenEffect, useListenLatestPointerDown } from '@/_hooks';
+import { useListenEffect, useListenLatestPointerDown, useFreezeHTMLBody } from '@/_hooks';
 import { useStyle } from './style';
 
 export interface DialogProps {
@@ -129,6 +129,8 @@ export default function Dialog(props: DialogProps) {
     setAnimationClass(style.contentDisAppear(x, y, animationDelay));
     setBgAnimationClass(style.backgroundDisAppear(animationDelay));
   }
+
+  useFreezeHTMLBody(nextVisible);
 
   useListenEffect(
     (isFirst: boolean) => {
