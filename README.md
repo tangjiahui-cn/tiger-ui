@@ -27,7 +27,7 @@ pnpm docs
 - 导出UMD、CJS、ESM包
 ```
 
-## Done（31 / 31）
+## Done（32 / 32）
 ```text
 components
 - Alert
@@ -36,6 +36,7 @@ components
 - DataPicker
 - Dialog
 - Drawer
+- DropDown
 - Icon (暂用@ant-design/icons代替)
 - Image
 - Input
