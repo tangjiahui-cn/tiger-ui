@@ -9,14 +9,14 @@ import {Button, Drawer, message, Input} from 'tiger-ui';
 import {useState} from 'react';
 
 export default () => {
-  const [visible, setVisible] = useState(false);
+  const [open, setOpen] = useState(false);
   return <>
-    <Button onClick={() => setVisible(true)}>打开弹窗</Button>
+    <Button onClick={() => setOpen(true)}>打开抽屉</Button>
 
     <Drawer
-      direction={'left'}
-      visible={visible}
-      onCancel={() => setVisible(false)}
+      title={'标题'}
+      open={open}
+      onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     >
       <Input />
@@ -31,14 +31,14 @@ import {Button, Drawer, message} from 'tiger-ui';
 import {useState} from 'react';
 
 export default () => {
-  const [visible, setVisible] = useState(false);
+  const [open, setOpen] = useState(false);
   return <>
-    <Button onClick={() => setVisible(true)}>打开弹窗</Button>
+    <Button onClick={() => setOpen(true)}>打开抽屉</Button>
 
     <Drawer
       mask={false}
-      visible={visible}
-      onCancel={() => setVisible(false)}
+      open={open}
+      onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     />
   </>;
@@ -51,14 +51,14 @@ import {Button, Drawer, message} from 'tiger-ui';
 import {useState} from 'react';
 
 export default () => {
-  const [visible, setVisible] = useState(false);
+  const [open, setOpen] = useState(false);
   return <>
-    <Button onClick={() => setVisible(true)}>打开弹窗</Button>
+    <Button onClick={() => setOpen(true)}>打开抽屉</Button>
 
     <Drawer
       maskClosable={false}
-      visible={visible}
-      onCancel={() => setVisible(false)}
+      open={open}
+      onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     />
   </>;
@@ -71,14 +71,14 @@ import {Button, Drawer, message} from 'tiger-ui';
 import {useState} from 'react';
 
 export default () => {
-  const [visible, setVisible] = useState(false);
+  const [open, setOpen] = useState(false);
   return <>
-    <Button onClick={() => setVisible(true)}>打开弹窗</Button>
+    <Button onClick={() => setOpen(true)}>打开抽屉</Button>
 
     <Drawer
       closeIcon={'关闭'}
-      visible={visible}
-      onCancel={() => setVisible(false)}
+      open={open}
+      onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     />
   </>;
@@ -90,67 +90,35 @@ import {Button, Drawer, message} from 'tiger-ui';
 import {useState} from 'react';
 
 export default () => {
-  const [visible, setVisible] = useState(false);
+  const [open, setOpen] = useState(false);
   return <>
-    <Button onClick={() => setVisible(true)}>打开弹窗</Button>
+    <Button onClick={() => setOpen(true)}>打开抽屉</Button>
 
     <Drawer
       closeIcon={'关闭'}
-      visible={visible}
-      onCancel={() => setVisible(false)}
+      open={open}
+      onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
-      okText={<Button type={'primary'}>保存</Button>}
-      cancelText={<Button>关闭</Button>}
+      okText={'保存'}
+      cancelText={'关闭'}
     />
   </>;
 }
 ```
-## 六、弹窗方向
-```jsx
-import {Button, Drawer, message, Input, Space} from 'tiger-ui';
-import {useState} from 'react';
-
-export default () => {
-  const [direction, setDirection] = useState('right');
-  const [visible, setVisible] = useState(false);
-  return <>
-    <Space>
-      {
-        ['left', 'right', 'top', 'bottom'].map(direction => {
-          return <Button key={direction} onClick={() => {
-            setDirection(direction);
-            setVisible(true);
-          }}>{direction}</Button>
-        })
-      }
-    </Space>
-
-    <Drawer
-      destroyOnClose
-      direction={direction}
-      visible={visible}
-      onCancel={() => setVisible(false)}
-      onOk={() => message.success('请求成功')}
-    >
-      <Input />
-    </Drawer>
-  </>;
-}
-```
-## 七、关闭时销毁对话框
+## 六、关闭时销毁对话框
 ```jsx
 import {Button, Drawer, message, Input} from 'tiger-ui';
 import {useState} from 'react';
 
 export default () => {
-  const [visible, setVisible] = useState(false);
+  const [open, setOpen] = useState(false);
   return <>
-    <Button onClick={() => setVisible(true)}>打开弹窗</Button>
+    <Button onClick={() => setOpen(true)}>打开抽屉</Button>
 
     <Drawer
       destroyOnClose
-      visible={visible}
-      onCancel={() => setVisible(false)}
+      open={open}
+      onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     >
       <Input />
@@ -158,6 +126,45 @@ export default () => {
   </>;
 }
 ```
+
+## 七、可以控制打开方向 （共4个）
+```jsx
+import {Button, Drawer, message, Space, Input} from 'tiger-ui';
+import {useState} from 'react';
+
+export default () => {
+  const [open, setOpen] = useState(false);
+  const [direction, setDirection] = useState('right')
+  
+  return <>
+    <Space>
+      {
+        ['right', 'bottom', 'left', 'top'].map(direction => {
+          return (
+            <Button
+              onClick={() => {
+                setDirection(direction);
+                setOpen(true)
+              }}
+            >{direction}</Button>
+          )
+        })
+      }
+    </Space>
+
+    <Drawer
+      title={'Hello Drawer'}
+      direction={direction}
+      open={open}
+      onCancel={() => setOpen(false)}
+      onOk={() => message.success('请求成功')}
+    >
+      <Input />
+    </Drawer>
+  </>;
+}
+```
+
 
 ## API
 <API id="Drawer"></API>

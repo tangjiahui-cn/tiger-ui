@@ -1,35 +1,63 @@
-import * as React from 'react';
-import ReactDom from 'react-dom';
-import { useEffect, useMemo, useState } from 'react';
-import { Button, Space } from '..';
-import { useGetLocaleValues } from '../ConfigProvider';
+/**
+ * Drawer
+ *
+ * @author tangjiahui
+ * @date 2024/02/01
+ */
+import { DialogProps } from '@/Dialog';
+import ReactDOM from 'react-dom';
 import classNames from 'classnames';
-import { CloseOutline } from '../Icon';
+import React, { useRef, useState } from 'react';
+import { CloseOutlined } from '@ant-design/icons';
+import { useFreezeHTMLBody, useListenEffect, useListenLatestPointerDown } from '@/_hooks';
+import { Button, Space } from '@/index';
+import {
+  backgroundAppear,
+  backgroundDisAppear,
+  drawerContentDisAppear,
+  drawerContentAppear,
+  Direction,
+} from './animationClass';
 import { useStyle } from './style';
 
-export type DirectionType = 'top' | 'left' | 'right' | 'bottom';
-
-export interface DrawerProps {
+export type DrawerDirection = Direction;
+export type DrawerProps = {
   /**
-   * @description 是否显示弹窗
+   * @description 抽屉最外层样式
+   * @default 500px
    */
-  visible?: boolean;
+  style?: React.CSSProperties;
   /**
-   * @description 关闭时销毁子元素
+   * @description 抽屉content样式
+   * @default 500px
+   */
+  bodyStyle?: React.CSSProperties;
+  /**
+   * @description 抽屉默认
+   * @default 500px
+   */
+  width?: number | string;
+  /**
+   * @description 是否关闭时销毁
    * @default false
    */
   destroyOnClose?: boolean;
   /**
-   * @description 标题
+   * @description 控制抽屉显隐
+   * @default false
+   */
+  open?: boolean;
+  /**
+   * @description 抽屉标题
+   * @default 标题
    */
   title?: React.ReactNode;
   /**
-   * @description 弹窗出现方向
-   * @default right
+   * @description 抽屉尾部
    */
-  direction?: DirectionType;
+  footer?: null | React.ReactNode;
   /**
-   * @description 是否显示右上角关闭图标
+   * @description 点击右上角是否可以关闭
    * @default true
    */
   closable?: boolean;
@@ -38,12 +66,20 @@ export interface DrawerProps {
    */
   closeIcon?: React.ReactNode;
   /**
+   * @description 确定按钮内容
+   */
+  okText?: React.ReactNode;
+  /**
+   * @description 取消按钮内容
+   */
+  cancelText?: React.ReactNode;
+  /**
    * @description 是否显示遮罩层
    * @default true
    */
   mask?: boolean;
   /**
-   * @description 点击遮罩层是否可以关闭
+   * @description 点击遮罩层是否可以关闭抽屉
    * @default true
    */
   maskClosable?: boolean;
@@ -52,152 +88,143 @@ export interface DrawerProps {
    */
   maskStyle?: React.CSSProperties;
   /**
-   * @description 抽屉内部样式
+   * @description 手动控制动画时长（单位：ms）
+   * @default 400
    */
-  bodyStyle?: React.CSSProperties;
+  animationDelay?: number;
   /**
-   * @description 抽屉头部
-   */
-  header?: null | React.ReactNode;
-  /**
-   * @description 抽屉底部
-   */
-  footer?: null | React.ReactNode;
-  /**
-   * @description 取消按钮文字
-   */
-  cancelText?: React.ReactNode;
-  /**
-   * @description 自定义确定按钮
-   */
-  okText?: React.ReactNode;
-  /**
-   * @description 对话框宽度
-   * @default 350
-   */
-  width?: number | string;
-  /**
-   * @description 点击确定按钮回调事件
-   */
-  onOk?: () => void;
-  /**
-   * @description 点击取消按钮回调事件
+   * @description 取消回调
    */
   onCancel?: () => void;
   /**
-   * @description 子元素
+   * @description 确定回调
+   */
+  onOk?: () => void;
+  /**
+   * @description 抽屉打开方向
+   * @default right
+   */
+  direction?: DrawerDirection;
+  /**
+   * @description 抽屉包裹元素
    */
   children?: React.ReactNode;
-}
-
-Drawer.defaultProps = {
-  direction: 'right',
-  width: 350,
-  destroyOnClose: false,
-  mask: true,
-  maskClosable: true,
-  closable: true,
 };
-
-const animationDuration: number = 500;
-const contentAnimationDuration: number = 500;
-const disappearAnimationDuration: number = 300;
-
 export default function Drawer(props: DrawerProps) {
-  const locales = useGetLocaleValues();
+  const {
+    animationDelay = 300,
+    closable = true,
+    maskClosable = true,
+    mask = true,
+    closeIcon = <CloseOutlined />,
+    cancelText = '取消',
+    okText = '确定',
+    direction = 'right',
+  } = props;
   const style = useStyle('drawer');
 
-  const {
-    title = locales.titleValue,
-    okText = <Button type={'primary'}>{locales.confirmValue}</Button>,
-    cancelText = <Button>{locales.cancelValue}</Button>,
-    closeIcon = <CloseOutline pointer />,
-  } = props;
+  const [animationClass, setAnimationClass] = useState<string>('');
+  const [bgAnimationClass, setBgAnimationClass] = useState<string>('');
+  const [nextVisible, setNextVisible] = useState<boolean>(false);
+  const snapshotRef = useRef<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
 
-  const [isAppear, setIsAppear] = useState<boolean>(false);
-  const [width, height, bodyClasses] = useMemo(() => {
-    const bodyClasses = classNames(
-      style.drawerContent(),
-      style.drawerContentDirection(props?.direction || 'right'),
-      style.drawerContentDirectionAppear(props?.direction || 'right', isAppear),
-    );
+  const timerIdRef = useRef<any>();
+  const listenerRef = useListenLatestPointerDown();
 
-    return ['top', 'bottom'].includes(props?.direction || '')
-      ? ['100%', props.width, bodyClasses]
-      : [props.width, '100%', bodyClasses];
-  }, [props.direction, isAppear]);
-
-  function handleCancel() {
-    if (!isAppear) return;
-    setIsAppear(false);
-    setTimeout(() => {
-      props?.onCancel?.();
-    }, disappearAnimationDuration);
+  function appear() {
+    setAnimationClass(drawerContentAppear(direction, animationDelay));
+    setBgAnimationClass(backgroundAppear(animationDelay));
   }
 
-  const mask = props?.mask && (
-    <div
-      className={classNames(style.drawerMask(), style.drawerMaskAppear(isAppear))}
-      style={{ ...(props?.maskStyle || {}), animationDuration: `${animationDuration}ms` }}
-      onClick={() => props?.maskClosable && handleCancel()}
-    />
+  function disAppear() {
+    setAnimationClass(drawerContentDisAppear(direction, animationDelay));
+    setBgAnimationClass(backgroundDisAppear(animationDelay));
+  }
+
+  useFreezeHTMLBody(nextVisible);
+
+  useListenEffect(
+    (isFirst: boolean) => {
+      if (props?.open) {
+        if (timerIdRef.current) {
+          clearTimeout(timerIdRef.current);
+          timerIdRef.current = undefined;
+        }
+
+        // Record 'rectInfo' while open the drawer.
+        const rectInfo = listenerRef.current?.getLatestRectInfo?.();
+        snapshotRef.current = {
+          x: (rectInfo?.x || 0) + (rectInfo?.width || 0) / 2,
+          y: (rectInfo?.y || 0) + (rectInfo?.height || 0) / 2,
+        };
+
+        // Drawer content appear to screen.
+        appear();
+        setNextVisible(true);
+      } else {
+        // If set 'open' false outside at first time, don't show animation.
+        if (isFirst) {
+          setNextVisible(false);
+          return;
+        }
+
+        // Drawer content start to hide.
+        disAppear();
+
+        // after BG_DELAY, hide the full drawer.
+        timerIdRef.current = setTimeout(() => {
+          timerIdRef.current = undefined;
+          setNextVisible(false);
+        }, animationDelay);
+      }
+    },
+    [props?.open],
   );
 
-  const header =
-    props?.header === undefined ? (
-      <div className={style.drawerContentHead()}>
-        <div className={style.drawerContentHeadTitle()}>{title}</div>
-        {props?.closable && (
-          <div className={style.drawerContentHeadClose()} onClick={() => handleCancel()}>
+  return (
+    (props?.destroyOnClose ? nextVisible : true) &&
+    ReactDOM.createPortal(
+      <div
+        className={style.drawer()}
+        style={{
+          display: props?.destroyOnClose || nextVisible ? 'block' : 'none',
+          ...props?.style,
+        }}
+      >
+        {/* background */}
+        <div
+          style={props?.maskStyle}
+          className={classNames(mask && bgAnimationClass, style.drawerMask())}
+          onClick={maskClosable ? props?.onCancel : undefined}
+        />
+        {/* content */}
+        <div className={classNames(animationClass, style.drawerContent())} style={props?.bodyStyle}>
+          {/* head */}
+          {props?.title && <div className={style.drawerContentHeader()}>{props?.title}</div>}
+          <div className={style.closeIcon()} onClick={closable ? props?.onCancel : undefined}>
             {closeIcon}
           </div>
-        )}
-      </div>
-    ) : (
-      props?.header
-    );
-
-  const footer =
-    props?.footer === undefined ? (
-      <div className={style.drawerContentFooter()}>
-        <Space style={{ float: 'right' }}>
-          {cancelText && <div onClick={() => handleCancel()}>{cancelText}</div>}
-          {okText && <div onClick={() => props?.onOk?.()}>{okText}</div>}
-        </Space>
-      </div>
-    ) : (
-      props?.footer
-    );
-
-  useEffect(() => {
-    if (props?.visible) {
-      setIsAppear(true);
-    }
-  }, [props.visible]);
-
-  return !props.destroyOnClose || props?.visible ? (
-    ReactDom.createPortal(
-      <div className={style.drawer()} style={{ display: props?.visible ? undefined : 'none' }}>
-        {mask}
-        <div
-          style={{
-            width,
-            height,
-            animationDuration: `${contentAnimationDuration}ms`,
-            ...(props?.bodyStyle || {}),
-          }}
-          className={bodyClasses}
-        >
-          {header}
-          <div className={style.drawerContentBody()} style={props?.bodyStyle}>
-            {props?.children}
-          </div>
-          {footer}
+          {/* body */}
+          <div className={style.drawerContentBody()}>{props?.children}</div>
+          {/* footer */}
+          {props?.footer || (
+            <div className={style.drawerContentFooter()}>
+              <Space style={{ float: 'right' }}>
+                {<Button onClick={props?.onCancel}>{cancelText}</Button>}
+                {
+                  <Button type={'primary'} onClick={props?.onOk}>
+                    {okText}
+                  </Button>
+                }
+              </Space>
+            </div>
+          )}
         </div>
       </div>,
       document.body,
     )
-  ) : (
-    <></>
   );
 }
