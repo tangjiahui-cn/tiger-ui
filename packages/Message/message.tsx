@@ -62,7 +62,7 @@ export class Message {
 
   private createContainerDom(): HTMLDivElement {
     const dom = document.createElement('div');
-    document.body.className = style.wrapper;
+    document.body.className = style.wrapper();
     dom.className = 'message-container';
     return dom;
   }

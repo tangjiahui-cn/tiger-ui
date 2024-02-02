@@ -65,7 +65,7 @@ export default () => {
 }
 ```
 
-## 四、自定义右上角关闭按钮
+## 四、自定义左上角关闭按钮
 ```jsx
 import {Button, Drawer, message} from 'tiger-ui';
 import {useState} from 'react';
