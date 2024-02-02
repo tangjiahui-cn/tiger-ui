@@ -203,10 +203,16 @@ export default function Drawer(props: DrawerProps) {
         {/* content */}
         <div className={classNames(animationClass, style.drawerContent())} style={props?.bodyStyle}>
           {/* head */}
-          {props?.title && <div className={style.drawerContentHeader()}>{props?.title}</div>}
-          <div className={style.closeIcon()} onClick={closable ? props?.onCancel : undefined}>
-            {closeIcon}
-          </div>
+          {(props?.title || closable) && (
+            <div className={style.drawerContentHeader()}>
+              {closable && (
+                <div className={style.closeIcon()} onClick={props?.onCancel}>
+                  {closeIcon}
+                </div>
+              )}
+              {props?.title}
+            </div>
+          )}
           {/* body */}
           <div className={style.drawerContentBody()}>{props?.children}</div>
           {/* footer */}

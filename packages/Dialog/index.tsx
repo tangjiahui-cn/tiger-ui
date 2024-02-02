@@ -200,9 +200,11 @@ export default function Dialog(props: DialogProps) {
               <div style={{ flex: 1 }}>{props?.title}</div>
             </div>
           )}
-          <div className={style.closeIcon()} onClick={closable ? props?.onCancel : undefined}>
-            {closeIcon}
-          </div>
+          {closable && (
+            <div className={style.closeIcon()} onClick={props?.onCancel}>
+              {closeIcon}
+            </div>
+          )}
           {/* body */}
           <div className={style.dialogContentBody()}>{props?.children}</div>
           {/* footer */}

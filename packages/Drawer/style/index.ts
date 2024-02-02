@@ -57,6 +57,8 @@ export function useStyle(componentName: string): {
           borderBottom: '1px solid #e8e8e8',
           fontWeight: 'bold',
           alignItems: 'center',
+          display: 'flex',
+          gap: 12,
         },
         [`& .${drawerContentBody()}`]: {
           padding: '16px 24px',
@@ -74,9 +76,6 @@ export function useStyle(componentName: string): {
       [`& .${closeIcon()}`]: {
         color: 'rgba(151, 151, 151)',
         cursor: 'pointer',
-        position: 'absolute',
-        top: 20,
-        right: 20,
       },
     });
 
