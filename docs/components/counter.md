@@ -60,5 +60,30 @@ export default () => {
 }
 ```
 
+## 五、手动重新播放
+```jsx
+import {useRef} from 'react';
+import {Counter, Button, Space} from 'tiger-ui';
+
+export default () => {
+  const ref = useRef(null);
+  return (
+    <Space>
+      <Button
+        onClick={() => {
+          ref.current?.replay?.()
+        }}
+      >重新播放</Button>
+      <Counter
+        ref={ref}
+        start={999}
+        end={100000}
+        timeSplit={10}
+      />
+    </Space>
+  );
+}
+```
+
 ## API
 <API id="Counter"></API>

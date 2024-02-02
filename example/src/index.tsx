@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { Drawer, Button, Dialog, Space } from '@/index';
+import { Drawer, Button, Dialog, Space, Counter } from '@/index';
+import { CounterRef } from '@/Counter';
 
 function App() {
   const [visible, setVisible] = useState(false);
   const [direction, setDirection] = useState<any>('right');
   const [current, setCurrent] = useState<number>(0);
+
+  const ref = useRef<CounterRef>(null);
 
   return (
     <div
@@ -14,31 +17,19 @@ function App() {
         height: '100%',
         flexDirection: 'column',
         justifyContent: 'space-between',
+        padding: 16,
       }}
     >
       <Space>
-        {['right', 'bottom', 'left', 'top'].map((direction) => {
-          return (
-            <Button
-              key={direction}
-              onClick={() => {
-                setDirection(direction);
-                setVisible(true);
-              }}
-            >
-              {direction}
-            </Button>
-          );
-        })}
+        <Button
+          onClick={() => {
+            ref.current?.replay?.();
+          }}
+        >
+          重新播放
+        </Button>
+        <Counter start={0} end={10000} timeSplit={5} ref={ref} />
       </Space>
-      <Drawer
-        direction={direction}
-        title={'标题'}
-        open={visible}
-        onCancel={() => setVisible(false)}
-      >
-        一段文字
-      </Drawer>
     </div>
   );
 }

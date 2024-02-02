@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { ForwardedRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useStyle } from './style';
 
 export interface CounterProps {
@@ -26,16 +26,21 @@ export interface CounterProps {
   style?: React.CSSProperties;
 }
 
-/**
- * 计数器
- */
-export default function Counter(props: CounterProps) {
+export type CounterRef = {
+  replay: () => void;
+};
+
+const Counter = React.forwardRef((props: CounterProps, ref: ForwardedRef<CounterRef>) => {
   const { duration = 2000, timeSplit = 20, start = 0, end = 0 } = props;
   const [value, setValue] = useState<number | null>(null);
   const timeId = useRef<any>();
   const style = useStyle('count');
 
   function startAnimation(startValue: number, endValue: number) {
+    if (timeId.current) {
+      clearTimeout(timeId.current);
+      timeId.current = null;
+    }
     const _timeSplit = Math.min(timeSplit, duration);
     lineAnimation(startValue, endValue, duration, _timeSplit);
   }
@@ -73,6 +78,10 @@ export default function Counter(props: CounterProps) {
     function start(values: number[], timeout: number) {
       if (values.length) {
         timeId.current = setTimeout(() => {
+          if (!values?.length) {
+            timeId.current = null;
+            return;
+          }
           setValue(values.shift() || 0);
           start(values, timeout);
         }, timeout);
@@ -81,6 +90,14 @@ export default function Counter(props: CounterProps) {
 
     start(values, timeSplit);
   }
+
+  useImperativeHandle(ref, () => {
+    return {
+      replay() {
+        startAnimation(start, end);
+      },
+    };
+  });
 
   useEffect(() => {
     startAnimation(start, end);
@@ -95,4 +112,6 @@ export default function Counter(props: CounterProps) {
       {value}
     </div>
   );
-}
+});
+
+export default Counter;
