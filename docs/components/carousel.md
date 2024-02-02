@@ -141,7 +141,7 @@ export default () => {
       autoplay
       autoplayDelay={delay}
       items={options}
-      style={{height: 180}}
+      style={{height: 180, width: 700}}
     />
   </Space>;
 }

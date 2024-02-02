@@ -51,6 +51,7 @@ export function useStyle(componentName: string): {
         width: '100%',
         wordBreak: 'break-all',
         color: 'rgba(0,0,0,0.6)',
+        fontSize: '0.875em',
       },
       [`& .${alertClose()}`]: {
         cursor: 'pointer',
