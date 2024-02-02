@@ -1,35 +1,38 @@
 import React, { useRef, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { Drawer, Button, Dialog, Space, Counter } from '@/index';
-import { CounterRef } from '@/Counter';
+import ToolTip from '@/ToolTip/ToolTip';
+// import {Tooltip as ToolTip} from 'antd';
+import 'antd/dist/antd.min.css';
+import { Button } from '@/index';
 
 function App() {
   const [visible, setVisible] = useState(false);
   const [direction, setDirection] = useState<any>('right');
   const [current, setCurrent] = useState<number>(0);
-
-  const ref = useRef<CounterRef>(null);
+  const [list, setList] = useState<any[]>([]);
 
   return (
     <div
       style={{
-        width: '100%',
-        height: '100%',
         flexDirection: 'column',
         justifyContent: 'space-between',
         padding: 16,
       }}
     >
-      <Space>
-        <Button
-          onClick={() => {
-            ref.current?.replay?.();
-          }}
-        >
-          重新播放
-        </Button>
-        <Counter start={0} end={10000} timeSplit={5} ref={ref} />
-      </Space>
+      {/*{list.map((x) => (*/}
+      {/*  <div key={x}>{x}</div>*/}
+      {/*))}*/}
+      {/*<div>*/}
+      {/*  <Button onClick={() => setList([...list, list.length + 1])}>增加一项</Button>*/}
+      {/*</div>*/}
+      <div>111</div>
+      <div>111</div>
+      <div>111</div>
+      <div>111</div>
+      <div>111</div>
+      <ToolTip title={'你好asdasdas'}>
+        <span style={{ background: 'whitesmoke' }}>鼠标移上去鼠标移上去鼠标移上去鼠标移上去</span>
+      </ToolTip>
     </div>
   );
 }
