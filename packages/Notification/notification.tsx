@@ -35,6 +35,7 @@ export class NotificationGen {
       position: 'fixed',
       right: 16,
       top: 16,
+      zIndex: 999,
     });
     return dom;
   }

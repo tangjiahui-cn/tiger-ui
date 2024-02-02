@@ -1,11 +1,10 @@
 import * as React from 'react';
-import styles from './index.less';
 import { Space } from '..';
 import { IconMap, IconType } from '../Icon/_presets';
 import { useEffect, useRef, useState } from 'react';
-import { CloseOutline } from '../Icon';
 import classNames from 'classnames';
 import { useStyle } from './style';
+import { CloseOutlined } from '@ant-design/icons';
 
 export interface NotificationBoxProps {
   // 图标类型
@@ -31,7 +30,7 @@ export interface NotificationBoxProps {
 const animationDuration: number = 300;
 export default function NotificationBox(props: NotificationBoxProps) {
   const {
-    closeIcon = <CloseOutline pointer fontSize={14} />,
+    closeIcon = <CloseOutlined style={{ cursor: 'pointer', fontSize: 14 }} />,
     closable = true,
     duration = 4500,
   } = props;
@@ -69,7 +68,7 @@ export default function NotificationBox(props: NotificationBoxProps) {
       className={classNames(style.notificationBox(), style.notificationBoxAppear(isAppear))}
       style={{ width: 300, animationDuration: `${animationDuration}ms`, ...props?.style }}
     >
-      <Space style={{ width: '100%' }} size={10}>
+      <div style={{ display: 'flex', gap: 8 }}>
         {icon && (
           <div style={{ alignSelf: 'flex-start' }} className={style.notificationBoxTitle()}>
             {icon}
@@ -79,12 +78,8 @@ export default function NotificationBox(props: NotificationBoxProps) {
           {props?.message && <div className={style.notificationBoxTitle()}>{props?.message}</div>}
           {props?.description && <div>{props?.description}</div>}
         </Space>
-        {closable && (
-          <div style={{ alignSelf: 'flex-start' }} onClick={handleRemove}>
-            {closeIcon}
-          </div>
-        )}
-      </Space>
+        {closable && <div onClick={handleRemove}>{closeIcon}</div>}
+      </div>
     </div>
   );
 }

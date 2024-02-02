@@ -30,6 +30,7 @@ export function useStyle(componentName: string): {
       justifyContent: 'center',
       userSelect: 'none',
       overflow: 'hidden',
+      zIndex: 999,
     });
 
   const image = () =>

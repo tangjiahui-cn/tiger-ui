@@ -74,7 +74,7 @@ const Space = React.forwardRef(
           result.push(...(x as any)?.props?.children);
         } else if (Array.isArray(x)) {
           result.push(...x);
-        } else {
+        } else if (![undefined, null].includes(x as any)) {
           result.push(x);
         }
         return result;

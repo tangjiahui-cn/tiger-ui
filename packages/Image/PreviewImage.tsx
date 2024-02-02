@@ -128,6 +128,7 @@ export default function PreviewImage(props: PreviewImageProps) {
             draggable={false}
             onPointerDown={handleStartMove}
             style={{
+              cursor: 'move',
               transform:
                 `rotate(${info.angle}deg)` +
                 `scale(${info.scale})` +

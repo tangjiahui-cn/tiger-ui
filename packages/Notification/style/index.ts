@@ -46,7 +46,8 @@ export function useStyle(componentName: string): {
       boxShadow: token.shadow3,
       marginBottom: 16,
       [`& .${notificationBoxTitle()}`]: {
-        fontSize: 18,
+        // fontSize: '1.15em'
+        fontSize: '1.1em',
       },
       [`&.${notificationBoxAppear(true)}`]: {
         animationName: appear,
