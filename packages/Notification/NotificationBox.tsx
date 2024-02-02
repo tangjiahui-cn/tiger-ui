@@ -68,7 +68,7 @@ export default function NotificationBox(props: NotificationBoxProps) {
       className={classNames(style.notificationBox(), style.notificationBoxAppear(isAppear))}
       style={{ width: 300, animationDuration: `${animationDuration}ms`, ...props?.style }}
     >
-      <div style={{ display: 'flex', gap: 8 }}>
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
         {icon && (
           <div style={{ alignSelf: 'flex-start' }} className={style.notificationBoxTitle()}>
             {icon}
