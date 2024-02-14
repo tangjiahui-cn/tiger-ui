@@ -118,7 +118,17 @@
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.13.3",
     "webpack-merge": "^5.8.0",
-    "webpackbar": "^5.0.2"
+    "webpackbar": "^5.0.2",
+    "@types/lodash": "^4.14.195",
+    "@ant-design/icons": "^5.2.6",
+    "ahooks": "^3.7.9",
+    "class-css": "^1.0.24",
+    "classnames": "^2.3.2",
+    "dumi": "^2.2.16",
+    "dumi-theme-lobehub": "^1.7.3",
+    "jest-css-modules-transform": "^4.4.2",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4"
   },
   "browserslist": [
     "defaults",
@@ -139,17 +149,5 @@
     "commitizen": {
       "path": "@commitlint/cz-commitlint"
     }
-  },
-  "dependencies": {
-    "@ant-design/icons": "^5.2.6",
-    "@types/lodash": "^4.14.195",
-    "ahooks": "^3.7.9",
-    "class-css": "^1.0.24",
-    "classnames": "^2.3.2",
-    "dumi": "^2.2.16",
-    "dumi-theme-lobehub": "^1.7.3",
-    "jest-css-modules-transform": "^4.4.2",
-    "lodash": "^4.17.21",
-    "moment": "^2.29.4"
   }
 }

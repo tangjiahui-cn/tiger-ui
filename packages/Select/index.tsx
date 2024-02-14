@@ -21,6 +21,7 @@ export type OptionProps = {
   label?: React.ReactNode;
   value?: ValueType;
 };
+export type SelectChildren = React.ReactElement | React.ReactElement[];
 
 export type SelectProps = {
   /**
@@ -62,7 +63,7 @@ export type SelectProps = {
    * @description 支持JSX格式传入选项
    * @default undefined
    */
-  children?: React.ReactElement[];
+  children?: SelectChildren;
   /**
    * @description 下拉visible回调
    * @default (visible: boolean) => void;

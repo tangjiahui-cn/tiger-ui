@@ -4,13 +4,10 @@
  * @author tangjiahui
  * @date 2024/1/26
  */
-import * as React from 'react';
-import { OptionProps } from '@/Select';
+import { OptionProps, SelectChildren } from '@/Select';
 
-export function getOptions(
-  options?: OptionProps[],
-  children?: React.ReactElement[],
-): OptionProps[] {
+export function getOptions(options?: OptionProps[], children?: SelectChildren): OptionProps[] {
+  // use options.
   if (Array.isArray(options)) {
     return options.map((option) => {
       return {
@@ -19,6 +16,7 @@ export function getOptions(
       };
     });
   }
+  // multiple react-element
   if (Array.isArray(children)) {
     return children
       .filter((el) => {
@@ -31,6 +29,15 @@ export function getOptions(
           value: el.key,
         };
       });
+  }
+  // single react-element
+  if (children) {
+    return [
+      {
+        label: children?.props?.children,
+        value: children?.key,
+      },
+    ];
   }
   return [];
 }
