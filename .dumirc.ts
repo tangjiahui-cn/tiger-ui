@@ -1,4 +1,5 @@
 import { defineConfig } from 'dumi';
+// @ts-ignore
 import path from 'path';
 
 export default defineConfig({
@@ -20,9 +21,6 @@ export default defineConfig({
     docDirs: ['docs'],
     entryFile: path.resolve(__dirname, './packages/index.ts'),
   },
-  // alias: {
-  //   '@': path.resolve(__dirname, './packages'),
-  // },
   chainWebpack(memo: any) {
     memo.resolve.alias
       .set('tiger-ui', path.resolve(__dirname, './packages'))

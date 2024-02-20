@@ -4,21 +4,23 @@ nav: 组件
 
 ## 一、基本使用
 ```jsx
-import {Select} from 'tiger-ui';
+import {Select, Space} from 'tiger-ui';
 import {useState} from 'react';
 
 export default () => {
   const [key, setKey] = useState<string | undefined>(undefined);
   return (
-    <Select
-      value={key}
-      onChange={setKey}
-      options={[
-        {label: '选项一', value: '1'},
-        {label: '选项二', value: '2'},
-        {label: '选项三', value: '3'},
-      ]}
-    />
+    <Space>
+      <Select
+        value={key}
+        onChange={setKey}
+        options={[
+          {label: '选项一', value: '1'},
+          {label: '选项二', value: '2'},
+          {label: '选项三', value: '3'},
+        ]}
+      />
+    </Space>
   );
 }
 ```

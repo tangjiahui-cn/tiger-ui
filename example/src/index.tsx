@@ -1,9 +1,7 @@
 import React, { useRef, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { ToolTip, Select } from '../../packages';
-import { Select as SelectAntd } from 'antd';
 // import {Tooltip as ToolTip} from 'antd';
-import 'antd/dist/antd.min.css';
 import { Button } from '@/index';
 
 function App() {
@@ -39,14 +37,14 @@ function App() {
         </Select.Option>
       </Select>
 
-      <SelectAntd style={{ width: 200 }}>
-        <SelectAntd.Option key={'1'}>
-          <span>11</span>
-        </SelectAntd.Option>
-        <SelectAntd.Option key={'2'}>
-          <span>11</span>
-        </SelectAntd.Option>
-      </SelectAntd>
+      {/*<SelectAntd style={{ width: 200 }}>*/}
+      {/*  <SelectAntd.Option key={'1'}>*/}
+      {/*    <span>11</span>*/}
+      {/*  </SelectAntd.Option>*/}
+      {/*  <SelectAntd.Option key={'2'}>*/}
+      {/*    <span>11</span>*/}
+      {/*  </SelectAntd.Option>*/}
+      {/*</SelectAntd>*/}
       <div style={{ height: '150px', overflowY: 'auto', border: '1px solid #e8e8e8' }}>
         {list.map((x) => (
           <div key={x}>
@@ -62,14 +60,14 @@ function App() {
           </Select.Option>
         </Select>
 
-        <SelectAntd style={{ width: 200 }}>
-          <SelectAntd.Option key={'1'}>
-            <span>11</span>
-          </SelectAntd.Option>
-          <SelectAntd.Option key={'2'}>
-            <span>11</span>
-          </SelectAntd.Option>
-        </SelectAntd>
+        {/*<SelectAntd style={{ width: 200 }}>*/}
+        {/*  <SelectAntd.Option key={'1'}>*/}
+        {/*    <span>11</span>*/}
+        {/*  </SelectAntd.Option>*/}
+        {/*  <SelectAntd.Option key={'2'}>*/}
+        {/*    <span>11</span>*/}
+        {/*  </SelectAntd.Option>*/}
+        {/*</SelectAntd>*/}
 
         {list.map((x) => (
           <div key={x}>

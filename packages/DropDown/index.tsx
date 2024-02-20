@@ -11,10 +11,11 @@
  * @author tangjiahui
  * @date 2024/1/30
  */
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import { useStyle } from '@/DropDown/style';
+import { GlobalScroll } from './globalScroll';
 
 // panel position
 interface PanelPosition {
@@ -26,6 +27,7 @@ interface PanelPosition {
 export type DropDownTrigger = 'click'; // TODO: add 'hover'.
 const DEFAULT_TRIGGER: DropDownTrigger[] = ['click'];
 
+const globalScroll = new GlobalScroll();
 export interface DropDownProps {
   /**
    * @description 手动控制显隐
@@ -134,15 +136,22 @@ export default function (props: DropDownProps) {
   function getCurrentPanelPosition(): PanelPosition {
     const rect: DOMRect = (ref.current as HTMLDivElement).getBoundingClientRect();
     return {
-      top: (rect?.bottom || 0) + (document.body.scrollTop || document.documentElement.scrollTop),
+      top: rect?.bottom || 0,
       width: rect.width,
       left: rect.left,
     };
   }
 
-  function changeVisible(open: boolean) {
+  // listen global scroll callback.
+  const scrollCallback = useCallback((e: React.MouseEventHandler) => {
+    setPosition(getCurrentPanelPosition());
+  }, []);
+
+  const changeVisible = useCallback((open: boolean) => {
     setPosition(getCurrentPanelPosition());
     if (open) {
+      // listen scroll
+      globalScroll.listen(scrollCallback);
       if (timerId.current) {
         clearTimeout(timerId.current);
         timerId.current = null;
@@ -150,13 +159,15 @@ export default function (props: DropDownProps) {
       setAnimationClass(style.dropDownExpand());
       setNextVisible(true);
     } else {
+      // unListen scroll
+      globalScroll.unListen(scrollCallback);
       setAnimationClass(style.dropDownUnExpand());
       timerId.current = setTimeout(() => {
         setNextVisible(false);
         timerId.current = null;
       }, 250);
     }
-  }
+  }, []);
 
   // listen 'open' attribute.
   useEffect(
@@ -203,28 +214,26 @@ export default function (props: DropDownProps) {
 
       {nextVisible &&
         ReactDOM.createPortal(
-          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%' }}>
-            <div
-              style={{
-                position: 'absolute',
-                top: position.top,
-                left: position?.left,
-                width: position?.width,
-                ...props?.style,
-              }}
-              className={classNames(animationClass, style.dropDown())}
-              onPointerEnter={() => {
-                isInRange.current = true;
-              }}
-              onPointerLeave={() => {
-                isInRange.current = false;
-              }}
-              onPointerDown={(e: React.PointerEvent<HTMLDivElement>) => {
-                e.stopPropagation();
-              }}
-            >
-              {props?.popupPanel}
-            </div>
+          <div
+            style={{
+              position: 'fixed',
+              top: position.top,
+              left: position?.left,
+              width: position?.width,
+              ...props?.style,
+            }}
+            className={classNames(animationClass, style.dropDown())}
+            onPointerEnter={() => {
+              isInRange.current = true;
+            }}
+            onPointerLeave={() => {
+              isInRange.current = false;
+            }}
+            onPointerDown={(e: React.PointerEvent<HTMLDivElement>) => {
+              e.stopPropagation();
+            }}
+          >
+            {props?.popupPanel}
           </div>,
           document.body,
         )}
