@@ -16,6 +16,13 @@ import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import { useStyle } from '@/DropDown/style';
 
+// panel position
+interface PanelPosition {
+  top: number;
+  left: number;
+  width: number;
+}
+
 export type DropDownTrigger = 'click'; // TODO: add 'hover'.
 const DEFAULT_TRIGGER: DropDownTrigger[] = ['click'];
 
@@ -90,11 +97,15 @@ export default function (props: DropDownProps) {
   // control panel show or not.
   const [nextVisible, setNextVisible] = useState<boolean>(false);
 
-  // children position info.
-  const [rectInfo, setRectInfo] = useState<DOMRect>();
-
   // animation classes.
   const [animationClass, setAnimationClass] = useState<string>('');
+
+  // dropdown panel.
+  const [position, setPosition] = useState<PanelPosition>({
+    top: 0,
+    left: 0,
+    width: 0,
+  });
 
   function globalListenPointerDown() {
     if (unListenPointerDownRef.current) {
@@ -120,14 +131,23 @@ export default function (props: DropDownProps) {
     })();
   }
 
+  function getCurrentPanelPosition(): PanelPosition {
+    const rect: DOMRect = (ref.current as HTMLDivElement).getBoundingClientRect();
+    return {
+      top: (rect?.bottom || 0) + (document.body.scrollTop || document.documentElement.scrollTop),
+      width: rect.width,
+      left: rect.left,
+    };
+  }
+
   function changeVisible(open: boolean) {
+    setPosition(getCurrentPanelPosition());
     if (open) {
       if (timerId.current) {
         clearTimeout(timerId.current);
         timerId.current = null;
       }
       setAnimationClass(style.dropDownExpand());
-      setRectInfo((ref.current as HTMLDivElement).getBoundingClientRect());
       setNextVisible(true);
     } else {
       setAnimationClass(style.dropDownUnExpand());
@@ -182,28 +202,29 @@ export default function (props: DropDownProps) {
         : undefined}
 
       {nextVisible &&
-        rectInfo &&
         ReactDOM.createPortal(
-          <div
-            style={{
-              position: 'fixed',
-              top: rectInfo?.bottom,
-              left: rectInfo?.left,
-              width: rectInfo?.width,
-              ...props?.style,
-            }}
-            className={classNames(animationClass, style.dropDown())}
-            onPointerEnter={() => {
-              isInRange.current = true;
-            }}
-            onPointerLeave={() => {
-              isInRange.current = false;
-            }}
-            onPointerDown={(e: React.PointerEvent<HTMLDivElement>) => {
-              e.stopPropagation();
-            }}
-          >
-            {props?.popupPanel}
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%' }}>
+            <div
+              style={{
+                position: 'absolute',
+                top: position.top,
+                left: position?.left,
+                width: position?.width,
+                ...props?.style,
+              }}
+              className={classNames(animationClass, style.dropDown())}
+              onPointerEnter={() => {
+                isInRange.current = true;
+              }}
+              onPointerLeave={() => {
+                isInRange.current = false;
+              }}
+              onPointerDown={(e: React.PointerEvent<HTMLDivElement>) => {
+                e.stopPropagation();
+              }}
+            >
+              {props?.popupPanel}
+            </div>
           </div>,
           document.body,
         )}
