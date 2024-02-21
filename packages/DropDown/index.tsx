@@ -27,7 +27,11 @@ interface PanelPosition {
 export type DropDownTrigger = 'click'; // TODO: add 'hover'.
 const DEFAULT_TRIGGER: DropDownTrigger[] = ['click'];
 
-const globalScroll = new GlobalScroll();
+// global scroll listener
+const globalScroll = new GlobalScroll({
+  throttle: 10,
+});
+
 export interface DropDownProps {
   /**
    * @description 手动控制显隐
