@@ -15,7 +15,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import { useStyle } from '@/DropDown/style';
-import { GlobalScroll } from './globalScroll';
+import { GlobalScroll } from '@/_model';
 
 // panel position
 interface PanelPosition {

@@ -50,7 +50,7 @@ export default function ToolTip(props: ToolTipProps) {
       return (
         <div
           style={{
-            position: 'absolute',
+            position: 'fixed',
             top: domRect.top,
             left: domRect.left + domRect.width / 2,
           }}
@@ -95,7 +95,9 @@ export default function ToolTip(props: ToolTipProps) {
         </div>
       );
     },
-    200,
+    {
+      delay: 200,
+    },
   );
 
   return React.cloneElement(children, {

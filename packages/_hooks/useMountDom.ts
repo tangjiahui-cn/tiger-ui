@@ -10,14 +10,19 @@ import React, { useCallback, useRef } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import { useEffectOnce } from '.';
 
+type EventType = 'mount' | 'unMount' | 'willUnMount' | 'cancelWillUnMount';
 export function useMountDom<Payload = any>(
   // mount dom node.
   target: HTMLElement,
   // be mounted react-element.
   element: React.ReactNode | ((payload?: Payload) => React.ReactNode),
   // the last time that will unmount react-element.
-  delay: number = 300,
+  option?: Partial<{
+    delay: number;
+    onEvent: (type: EventType) => void;
+  }>,
 ) {
+  const delay = option?.delay || 300;
   const divRef = useRef<HTMLDivElement>();
   const nodeRef = useRef<Root>();
   const ref = useRef<{
@@ -39,6 +44,7 @@ export function useMountDom<Payload = any>(
     nodeRef.current = createRoot(divRef.current);
     nodeRef.current.render(typeof element === 'function' ? element?.(payload) : element);
     document.body.appendChild(divRef.current);
+    option?.onEvent?.('mount');
 
     // bind unmount.
     ref.current.unMount = () => {
@@ -48,8 +54,10 @@ export function useMountDom<Payload = any>(
       nodeRef.current?.unmount?.();
       if (divRef.current) {
         document.body.removeChild(divRef.current);
+        divRef.current = undefined;
       }
       ref.current.unMount = undefined;
+      option?.onEvent?.('unMount');
     };
   }, []);
 
@@ -58,9 +66,11 @@ export function useMountDom<Payload = any>(
       ref.current.unMount?.();
       timerId = undefined;
     }, delay);
+    option?.onEvent?.('willUnMount');
 
     ref.current.cancelWillUnMount = () => {
       ref.current.cancelWillUnMount = undefined;
+      option?.onEvent?.('cancelWillUnMount');
       if (timerId) {
         clearTimeout(timerId);
         timerId = undefined;
