@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import { SizeType as ButtonSize } from '../_types/common';
 import { useStyle } from './style';
 import { omit } from '@/_utils/object';
+import { LoadingOutlined } from '@ant-design/icons';
 
 export type ButtonType = 'primary' | 'dashed' | 'default' | 'text' | 'dotted';
 export type { ButtonSize };
@@ -57,6 +58,11 @@ export interface ButtonProps {
    * @default false
    */
   focus?: boolean;
+  /**
+   * @description 加载中
+   * @default false
+   */
+  loading?: boolean;
 }
 
 const privateKeys = [
@@ -69,6 +75,7 @@ const privateKeys = [
   'className',
   'stayFocus',
   'focus',
+  'loading',
 ];
 
 /**
@@ -104,6 +111,7 @@ const Button = React.forwardRef(
         style={props?.style}
       >
         {props?.children}
+        {props?.loading && <LoadingOutlined style={{ marginLeft: 8 }} />}
       </button>
     );
   },

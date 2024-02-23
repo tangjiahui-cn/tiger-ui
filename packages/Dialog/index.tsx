@@ -92,6 +92,14 @@ export interface DialogProps {
    */
   onOk?: () => void;
   /**
+   * 取消按钮加载中
+   */
+  cancelLoading?: boolean;
+  /**
+   * 确定按钮加载中
+   */
+  confirmLoading?: boolean;
+  /**
    * @description 对话框包裹元素
    */
   children?: React.ReactNode;
@@ -211,9 +219,13 @@ export default function Dialog(props: DialogProps) {
           {props?.footer || (
             <div className={style.dialogContentFooter()}>
               <Space style={{ float: 'right' }}>
-                {<Button onClick={props?.onCancel}>{cancelText}</Button>}
                 {
-                  <Button type={'primary'} onClick={props?.onOk}>
+                  <Button onClick={props?.onCancel} loading={props?.cancelLoading}>
+                    {cancelText}
+                  </Button>
+                }
+                {
+                  <Button type={'primary'} onClick={props?.onOk} loading={props?.confirmLoading}>
                     {okText}
                   </Button>
                 }
