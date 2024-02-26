@@ -1,207 +1,271 @@
-import * as React from 'react';
-import { useEffect, useRef, useState } from 'react';
+/**
+ * TimePicker
+ *
+ * @author tangjiahui
+ * @date 2024/2/23
+ */
+import { Button, DropDown } from '@/index';
+import SelectBar from './components/SelectBar';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import moment, { Moment } from 'moment';
-import { doubleString } from '../_utils';
-import ReactDOM from 'react-dom';
-import SelectPanel from '../Select/PopupPanel';
-import classNames from 'classnames';
-import { useGetConfig } from '../ConfigProvider';
-import { useStyle } from './style';
+import { doubleString, isEmpty } from '@/_utils';
+import cloneDeep from 'lodash/cloneDeep';
+import useToken from '@/_utils/hooks/useToken';
+import { useUpdateEffect } from '@/_hooks';
 
-function genNumberArray(size: number): number[] {
-  return Array(size)
-    .fill(0)
-    .map((x, index) => index);
+function isArrayHasEmpty(arr: number[]) {
+  for (let i = 0; i < arr.length; i++) {
+    if (isEmpty(arr[i])) {
+      return true;
+    }
+  }
+  return false;
 }
 
-const hourArr = genNumberArray(24);
-const minuteArr = genNumberArray(60);
-const secondArr = genNumberArray(60);
+function ArrayToString(arr: number[], split: string = ':') {
+  return arr.reduce((res, cur, index) => {
+    return `${res}${index == 0 ? '' : ':'}${doubleString(cur)}`;
+  }, '');
+}
 
-type ValueType = [number, number, number];
+export type TimeType = 'hour' | 'minute' | 'second';
 
-export type TimePickerType = 'second' | 'minute' | 'hour';
+const FORMAT = {
+  hour: 'HH:mm:ss',
+  minute: 'mm:ss',
+  second: 'ss',
+};
+
+type TimeData = {
+  type: TimeType;
+  value?: number;
+  visible: boolean;
+};
+
+const getHour = (now: Moment) => Number(now.format('HH'));
+const getMinute = (now: Moment) => Number(now.format('mm'));
+const getSecond = (now: Moment) => Number(now.format('ss'));
+const getValue = (now: Moment, type: TimeType) => {
+  switch (type) {
+    case 'hour':
+      return getHour(now);
+    case 'minute':
+      return getMinute(now);
+    case 'second':
+      return getSecond(now);
+  }
+};
 
 export interface TimePickerProps {
-  /**
-   * @description 时间选择器类型
-   * @default second
-   */
-  picker?: TimePickerType;
-  /**
-   * @description 样式
-   */
-  style?: React.CSSProperties;
   /**
    * @description 受控值
    */
   value?: Moment;
   /**
-   * @description 默认值
+   * @description 类型
+   * @default hour
    */
-  defaultValue?: Moment;
+  type?: TimeType;
   /**
    * @description 占位符
+   * @default 请输入
    */
   placeholder?: React.ReactNode;
   /**
-   * @description 值改变回调事件
+   * @description 切换回调
    */
-  onChange?: (time: Moment, str: string) => void;
+  onChange?: (value?: Moment) => void;
 }
 
 export default function TimePicker(props: TimePickerProps) {
-  const { locale } = useGetConfig();
-  const { picker = 'second', placeholder = locale?.timepicker?.placeholder } = props;
-  const headDom = useRef<any>();
-  const style = useStyle('timepicker');
+  const types: TimeType[] = useMemo(() => {
+    switch (props?.type) {
+      case 'second':
+        return ['second'];
+      case 'minute':
+        return ['minute', 'second'];
+      case 'hour':
+      default:
+        return ['hour', 'minute', 'second'];
+    }
+  }, [props?.type]);
 
-  const [popupVisible, setPopupVisible] = useState<boolean>(false);
-  const [popupInfo, setPopupInfo] = useState<{
-    top: number;
-    left: number;
-    width: number;
-  }>({
-    top: 1,
-    left: 2,
-    width: 3,
-  });
+  const token = useToken();
 
-  const [chooseValue, setChooseValue] = useState<ValueType>([0, 0, 0]);
-  const [value, setValue] = useState<ValueType | undefined>(momentToValue(props?.defaultValue));
-  const renderValue =
-    value
-      ?.map((v, index) => {
-        if (
-          picker === 'second' ||
-          (picker === 'minute' && index < 2) ||
-          (picker === 'hour' && index < 1)
-        )
-          return doubleString(v);
-        return false;
-      })
-      .filter(Boolean)
-      .join(' : ') || '';
+  const isOuter = useRef(props?.value !== undefined);
+  const [visible, setVisible] = useState(false);
 
-  function valueToString(v: ValueType) {
-    return v?.map(doubleString).join(':') || '';
+  const [data, setData] = useState<TimeData[]>([]);
+  const [dataCopy, setDataCopy] = useState<TimeData[]>([]);
+  const displayText: string = useMemo(() => {
+    const values: any[] = data?.filter((x) => x?.visible).map((x) => x?.value);
+    const isNull = isArrayHasEmpty(values);
+    return isNull || isNull === undefined ? '' : ArrayToString(values as any);
+  }, [data]);
+
+  function handleNow() {
+    const now = moment();
+    const target: TimeData[] = data.map((x) => {
+      return {
+        ...x,
+        value: getValue(now, x.type),
+      };
+    });
+    emitChangeData(target);
+    if (!isOuter.current) {
+      updateData(target);
+    }
+    setVisible(false);
   }
 
-  function momentToValue(mom?: Moment): ValueType | undefined {
-    if (!mom) return undefined;
-    const str = mom?.format('HH:mm:ss');
-    const value: any = str?.split(':')?.map(Number) || [0, 0, 0];
-    return value;
+  function handleOk() {
+    setDataCopy(cloneDeep(data));
+    setVisible(false);
   }
 
-  function initPopupPanelInfo() {
-    const info: DOMRect = (headDom?.current as any)?.getBoundingClientRect();
-    setPopupInfo({
-      width: info.width,
-      left: info.x,
-      top: info.bottom,
+  function formatData(data: TimeData[]) {
+    return data.map((x) => {
+      return {
+        ...x,
+        value: isEmpty(x?.value) ? 0 : x?.value,
+      };
     });
   }
 
-  function handleChoose(target: ValueType) {
-    setPopupVisible(false);
-    if (props?.onChange || props?.value !== undefined) {
-      const timeStr = valueToString(target);
-      props?.onChange?.(moment(moment().format(`YYYY-MM-DD ${timeStr}`)), timeStr);
-      return;
-    }
-    setValue(target);
+  function emitChangeData(data: TimeData[]) {
+    const type = types?.length === 3 ? 'hour' : types?.length === 2 ? 'minute' : 'second';
+    const result: any[] = data.map((x) => x?.value);
+    const isNull = isArrayHasEmpty(result);
+
+    props?.onChange?.(isNull ? undefined : moment(ArrayToString(result as any, '-'), FORMAT[type]));
   }
 
-  function handleOpen() {
-    initPopupPanelInfo();
-    setChooseValue(value ? [...value] : [0, 0, 0]);
-    setPopupVisible(true);
+  function updateData(data: TimeData[]) {
+    setData(data);
+    setDataCopy(cloneDeep(data));
   }
 
   useEffect(() => {
-    if (props?.value === undefined) return;
-    const str = props?.value?.format('HH:mm:ss');
-    const value: any = str?.split(':')?.map(Number) || [0, 0, 0];
-    setValue(value);
+    if (!isOuter?.current) {
+      updateData(
+        types.map((type) => {
+          return {
+            type,
+            value: undefined,
+            visible: types.includes(type),
+          };
+        }),
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isOuter?.current) {
+      if (props?.value && props?.value instanceof moment) {
+        const data: TimeData[] = types.map((type) => {
+          return {
+            type,
+            visible: types.includes(type),
+            value: getValue(props.value as Moment, type),
+          };
+        });
+        updateData(data);
+      }
+    }
   }, [props?.value]);
 
-  return (
-    <div className={style.timepicker()}>
-      <div className={style.timepickerHeader()} ref={headDom} onMouseDown={handleOpen}>
-        {renderValue || <span className={style.timepickerPlaceholder()}>{placeholder}</span>}
-      </div>
+  useUpdateEffect(() => {
+    updateData(
+      data.map((x) => {
+        return {
+          ...x,
+          visible: types.includes(x?.type),
+        };
+      }),
+    );
+  }, [JSON.stringify(types)]);
 
-      {ReactDOM.createPortal(
-        <SelectPanel
-          visible={popupVisible}
-          style={{
-            left: popupInfo.left,
-            top: popupInfo.top,
-            background: 'white',
-          }}
-          onClickOut={() => {
-            setPopupVisible(false);
-          }}
-        >
-          <div className={style.timePanel()}>
-            <div style={{ height: 256 }} className={style.timePanelPicker()}>
-              {[hourArr, minuteArr, secondArr]
-                .filter((_, index) => {
-                  return (
-                    picker === 'second' ||
-                    (picker === 'minute' && index < 2) ||
-                    (picker === 'hour' && index < 1)
-                  );
-                })
-                .map((arr: number[], index: number) => {
-                  return (
-                    <div key={index} className={style.timePanelPickerColumn()}>
-                      {arr.map((v: number, vIndex: number) => {
-                        const isSelected = chooseValue?.[index] === v;
-                        return (
-                          <div
-                            key={`${index}-${vIndex}`}
-                            className={classNames(
-                              style.timePanelPickerItem(),
-                              isSelected && style.timePanelPickerItemChoose(),
-                            )}
-                            onClick={() => {
-                              setChooseValue((chooseValue) => {
-                                chooseValue[index] = v;
-                                return [...chooseValue];
-                              });
-                            }}
-                          >
-                            {doubleString(v)}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  );
-                })}
-            </div>
-            <div className={style.timePanelBottom()}>
-              <div
-                className={style.timePanelBottomNow()}
-                onClick={() => {
-                  const now = new Date();
-                  handleChoose([now.getHours(), now.getMinutes(), now.getSeconds()]);
-                }}
-              >
-                {locale?.timepicker?.now}
-              </div>
-              <div
-                className={style.timePanelBottomConfirm()}
-                onClick={() => handleChoose(chooseValue)}
-              >
-                {locale?.timepicker?.confirm}
-              </div>
-            </div>
+  return (
+    <DropDown
+      open={visible}
+      onOpenChange={(visible) => {
+        setVisible(visible);
+        if (!visible) {
+          setData(cloneDeep(dataCopy));
+        }
+      }}
+      popupPanel={
+        <div style={{ display: 'flex', flexDirection: 'column', height: 256, overflowY: 'auto' }}>
+          <div style={{ flex: 1, overflowY: 'hidden' }}>
+            {data
+              .filter((x) => {
+                return x?.visible;
+              })
+              .map((x: TimeData, index) => {
+                const isLast = index === data.length - 1;
+                return (
+                  <SelectBar
+                    end={x.type === 'hour' ? 23 : 59}
+                    key={index}
+                    value={x.value}
+                    onChange={(value) => {
+                      x.value = value;
+
+                      const target: TimeData[] = formatData(data);
+                      emitChangeData(target);
+                      if (!isOuter.current) {
+                        setData(target);
+                      }
+                    }}
+                    style={{
+                      display: 'inline-block',
+                      width: 60,
+                      height: '100%',
+                      borderRight: !isLast ? '1px solid #e8e8e8' : 'none',
+                    }}
+                  />
+                );
+              })}
           </div>
-        </SelectPanel>,
-        document.body,
-      )}
-    </div>
+          <div
+            style={{
+              borderTop: '1px solid #e8e8e8',
+              justifyContent: 'space-between',
+              padding: '8px 10px',
+              alignItems: 'center',
+              display: 'flex',
+            }}
+          >
+            <a
+              style={{ fontSize: '0.875em', color: '#4b81e5', cursor: 'pointer' }}
+              onClick={handleNow}
+            >
+              此刻
+            </a>
+            <Button type={'primary'} size={'small'} onClick={handleOk}>
+              确定
+            </Button>
+          </div>
+        </div>
+      }
+    >
+      <div
+        tabIndex={0}
+        style={{
+          width: 100,
+          border: '1px solid #e8e8e8',
+          borderRadius: 4,
+          height: 32,
+          lineHeight: '32px',
+          padding: '0 12px',
+          cursor: 'pointer',
+          fontSize: '0.875em',
+        }}
+      >
+        {displayText || (
+          <span style={{ color: token.placeholderColor }}>{props?.placeholder || '请选择'}</span>
+        )}
+      </div>
+    </DropDown>
   );
 }

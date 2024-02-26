@@ -14,34 +14,46 @@ export default () => {
 ## 二、受控值
 
 ```jsx
-import {TimePicker} from 'tiger-ui';
+import { TimePicker, Space } from 'tiger-ui';
 import moment from 'moment';
+import { useState } from "react";
 
 export default () => {
-  return <TimePicker value={moment()}/>;
-}
-```
-
-## 三、默认值
-```jsx
-import {TimePicker} from 'tiger-ui';
-import moment from 'moment';
-
-export default () => {
-  return <TimePicker defaultValue={moment()}/>;
-}
-```
-
-## 四、选择器类型
-```jsx
-import {TimePicker, Space} from 'tiger-ui';
-import moment from 'moment';
-
-export default () => {
+  const [value, setValue] = useState < any > (moment());
   return <Space direction={'vertical'}>
-    <Space>hour： <TimePicker picker={'hour'}/></Space>
-    <Space>minute： <TimePicker picker={'minute'}/></Space>
-    <Space>second： <TimePicker picker={'second'}/></Space>
+    <Space>
+      可选择：
+      <TimePicker value={value} onChange={setValue} />
+    </Space>
+    <Space>
+      不可选择：
+      <TimePicker value={moment()} />
+    </Space>
+  </Space>;
+}
+```
+
+## 三、选择器类型
+
+```jsx
+import { TimePicker, Space, Select } from 'tiger-ui';
+import moment from 'moment';
+import { useState } from "react";
+
+export default () => {
+  const [type, setType] = useState <string> ('');
+
+  return <Space>
+    <TimePicker type={type} />
+    <Select
+      value={type}
+      onChange={(type) => setType(type)}
+      options={[
+        { label: 'hour', value: 'hour' },
+        { label: 'minute', value: 'minute' },
+        { label: 'second', value: 'second' },
+      ]}
+    />
   </Space>;
 }
 ```
