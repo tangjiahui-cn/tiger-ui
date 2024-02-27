@@ -8,6 +8,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { css } from 'class-css';
 import classNames from 'classnames';
 import useToken from '@/_utils/hooks/useToken';
+import { useUpdateEffect } from '@/_hooks';
 
 const boxClass = css({
   height: 30,
@@ -80,6 +81,7 @@ export default function SelectBar(props: SelectBarProps) {
   function scrollTo(current: number, isSmooth?: boolean) {
     // 滚动到最底部
     if (!containerRef.current) return;
+    console.log('isSmooth: ', isSmooth);
     containerRef.current.scrollTo({
       top: current * boxHeight,
       behavior: isSmooth ? 'smooth' : 'auto',
@@ -91,12 +93,15 @@ export default function SelectBar(props: SelectBarProps) {
     const top = boxHeight + padding * 2;
     paddingBottom = paddingBottom > top ? paddingBottom - top : paddingBottom;
     setPaddingBottom(paddingBottom);
-  }, []);
-
-  useEffect(() => {
-    if (!isOuterValue.current) return;
     if (typeof props?.value === 'number') {
       scrollTo(props?.value);
+    }
+  }, []);
+
+  useUpdateEffect(() => {
+    if (!isOuterValue.current) return;
+    if (typeof props?.value === 'number') {
+      scrollTo(props?.value, true);
     }
   }, [props?.value]);
 
