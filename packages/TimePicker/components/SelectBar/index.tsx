@@ -113,6 +113,7 @@ export default function SelectBar(props: SelectBarProps) {
         height: '100%',
         overflowY: 'auto',
         boxSizing: 'border-box',
+        display: 'inline-block',
         ...props?.style,
       }}
     >

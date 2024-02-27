@@ -12,6 +12,7 @@ import { doubleString, isEmpty } from '@/_utils';
 import cloneDeep from 'lodash/cloneDeep';
 import useToken from '@/_utils/hooks/useToken';
 import { useUpdateEffect } from '@/_hooks';
+import { useStyle } from './style';
 
 function isArrayHasEmpty(arr: number[]) {
   for (let i = 0; i < arr.length; i++) {
@@ -78,6 +79,7 @@ export interface TimePickerProps {
 }
 
 export default function TimePicker(props: TimePickerProps) {
+  const style = useStyle('timepicker');
   const types: TimeType[] = useMemo(() => {
     switch (props?.type) {
       case 'second':
@@ -195,8 +197,8 @@ export default function TimePicker(props: TimePickerProps) {
         }
       }}
       popupPanel={
-        <div style={{ display: 'flex', flexDirection: 'column', height: 256, overflowY: 'auto' }}>
-          <div style={{ flex: 1, overflowY: 'hidden' }}>
+        <div className={style.timepicker()}>
+          <div className={style.timepickerBody()}>
             {data
               .filter((x) => {
                 return x?.visible;
@@ -218,28 +220,15 @@ export default function TimePicker(props: TimePickerProps) {
                       }
                     }}
                     style={{
-                      display: 'inline-block',
                       width: 60,
-                      height: '100%',
                       borderRight: !isLast ? '1px solid #e8e8e8' : 'none',
                     }}
                   />
                 );
               })}
           </div>
-          <div
-            style={{
-              borderTop: '1px solid #e8e8e8',
-              justifyContent: 'space-between',
-              padding: '8px 10px',
-              alignItems: 'center',
-              display: 'flex',
-            }}
-          >
-            <a
-              style={{ fontSize: '0.875em', color: '#4b81e5', cursor: 'pointer' }}
-              onClick={handleNow}
-            >
+          <div className={style.timepickerBottom()}>
+            <a className={style.timepickerBottomNow()} onClick={handleNow}>
               此刻
             </a>
             <Button type={'primary'} size={'small'} onClick={handleOk}>
@@ -249,21 +238,9 @@ export default function TimePicker(props: TimePickerProps) {
         </div>
       }
     >
-      <div
-        tabIndex={0}
-        style={{
-          width: 100,
-          border: '1px solid #e8e8e8',
-          borderRadius: 4,
-          height: 32,
-          lineHeight: '32px',
-          padding: '0 12px',
-          cursor: 'pointer',
-          fontSize: '0.875em',
-        }}
-      >
+      <div tabIndex={0} className={style.timepickerPlaceholder()}>
         {displayText || (
-          <span style={{ color: token.placeholderColor }}>{props?.placeholder || '请选择'}</span>
+          <span className={style.timepickerPlaceholderTip()}>{props?.placeholder || '请选择'}</span>
         )}
       </div>
     </DropDown>
