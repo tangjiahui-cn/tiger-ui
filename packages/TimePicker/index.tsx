@@ -24,7 +24,7 @@ function isArrayHasEmpty(arr: number[]) {
 
 function ArrayToString(arr: number[], split: string = ':') {
   return arr.reduce((res, cur, index) => {
-    return `${res}${index == 0 ? '' : ':'}${doubleString(cur)}`;
+    return `${res}${index == 0 ? '' : split}${doubleString(cur)}`;
   }, '');
 }
 
@@ -137,7 +137,7 @@ export default function TimePicker(props: TimePickerProps) {
     const result: any[] = data.map((x) => x?.value);
     const isNull = isArrayHasEmpty(result);
 
-    props?.onChange?.(isNull ? undefined : moment(ArrayToString(result as any, '-'), FORMAT[type]));
+    props?.onChange?.(isNull ? undefined : moment(ArrayToString(result as any), FORMAT[type]));
   }
 
   function updateData(data: TimeData[]) {

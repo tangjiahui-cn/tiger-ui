@@ -76,11 +76,14 @@ export default function SelectBar(props: SelectBarProps) {
   const boxesRef = useRef<HTMLDivElement>(null);
   const [paddingBottom, setPaddingBottom] = useState<number>(0);
 
-  // scroll to current box. (from 0)
-  function scrollTo(current: number) {
+  // scroll to current index box. (from 0)
+  function scrollTo(current: number, isSmooth?: boolean) {
     // 滚动到最底部
     if (!containerRef.current) return;
-    containerRef.current.scrollTop = current * boxHeight;
+    containerRef.current.scrollTo({
+      top: current * boxHeight,
+      behavior: isSmooth ? 'smooth' : 'auto',
+    });
   }
 
   useEffect(() => {
@@ -92,11 +95,9 @@ export default function SelectBar(props: SelectBarProps) {
 
   useEffect(() => {
     if (!isOuterValue.current) return;
-    setTimeout(() => {
-      if (typeof props?.value === 'number') {
-        scrollTo(props?.value);
-      }
-    }, 50);
+    if (typeof props?.value === 'number') {
+      scrollTo(props?.value);
+    }
   }, [props?.value]);
 
   return (
@@ -107,7 +108,6 @@ export default function SelectBar(props: SelectBarProps) {
         height: '100%',
         overflowY: 'auto',
         boxSizing: 'border-box',
-        scrollBehavior: 'smooth',
         ...props?.style,
       }}
     >
@@ -125,7 +125,7 @@ export default function SelectBar(props: SelectBarProps) {
                   onClick={() => {
                     props?.onChange?.(index);
                     if (!isOuterValue.current) {
-                      scrollTo(index);
+                      scrollTo(index, true);
                     }
                   }}
                 >{`${current < 10 ? '0' : ''}${current}`}</div>
