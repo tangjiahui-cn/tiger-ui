@@ -27,12 +27,12 @@ export interface NotificationBoxProps {
   onRemove?: () => void;
 }
 
-const animationDuration: number = 300;
+const animationDuration: number = 230;
 export default function NotificationBox(props: NotificationBoxProps) {
   const {
     closeIcon = <CloseOutlined style={{ cursor: 'pointer', fontSize: 14 }} />,
     closable = true,
-    duration = 4500,
+    duration = 3000,
   } = props;
   const style = useStyle('notification-box');
 
