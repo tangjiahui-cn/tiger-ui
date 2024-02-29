@@ -72,7 +72,21 @@ export type DateType = {
 };
 
 export interface DatePickerProps {
+  /**
+   * @description 样式
+   */
+  style?: React.CSSProperties;
+  /**
+   * @description 类名
+   */
+  className?: string;
+  /**
+   * @description 受控制
+   */
   value?: Moment | null;
+  /**
+   * @description 值回调
+   */
   onChange?: (value?: Moment | null) => void;
 }
 
@@ -128,7 +142,10 @@ export default function DatePicker(props: DatePickerProps) {
   }, [calendarDate.year, calendarDate.month]);
 
   const renderPopupPanel = (
-    <div style={{ width: 250, background: 'white', fontSize: '0.875em' }}>
+    <div
+      className={props?.className}
+      style={{ width: 250, background: 'white', fontSize: '0.875em', ...props?.style }}
+    >
       <div
         style={{
           borderBottom: '1px solid #e8e8e8',
