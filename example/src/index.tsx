@@ -1,19 +1,16 @@
 import React, { useRef, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { TimePicker, Select } from '../../packages';
-// import {Tooltip as ToolTip} from 'antd';
-import { Button } from '@/index';
-import Dialog from '@/Dialog';
-// import { Modal } from 'antd';
-import message from '@/Message';
-import Input from '@/Input';
-import moment from 'moment';
+import { DatePicker } from '../../packages';
 import Space from '@/Space';
+import TimePicker from '@/TimePicker';
+import moment, { Moment } from 'moment';
 
 function App() {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [type, setType] = useState<any>('');
+
+  const [value, setValue] = useState<Moment | null | undefined>(null);
 
   return (
     <Space
@@ -21,16 +18,29 @@ function App() {
         padding: 16,
       }}
     >
-      <TimePicker type={type} />
-      <Select
-        value={type}
-        onChange={(type) => setType(type)}
-        options={[
-          { label: 'hour', value: 'hour' },
-          { label: 'minute', value: 'minute' },
-          { label: 'second', value: 'second' },
-        ]}
-      />
+      {/*<DatePickerOld />*/}
+      <DatePicker />
+      <DatePicker value={moment()} />
+      <DatePicker value={value} onChange={(value) => setValue(value)} />
+      {/*<Select*/}
+      {/*  options={Array(100).fill(100).map((_, index) => {*/}
+      {/*    return {*/}
+      {/*      label: index,*/}
+      {/*      value: `${index}`*/}
+      {/*    }*/}
+      {/*  })}*/}
+      {/*/>*/}
+      {/*<TimePicker />*/}
+      {/*<TimePicker type={type} />*/}
+      {/*<Select*/}
+      {/*  value={type}*/}
+      {/*  onChange={(type) => setType(type)}*/}
+      {/*  options={[*/}
+      {/*    { label: 'hour', value: 'hour' },*/}
+      {/*    { label: 'minute', value: 'minute' },*/}
+      {/*    { label: 'second', value: 'second' },*/}
+      {/*  ]}*/}
+      {/*/>*/}
     </Space>
   );
 }

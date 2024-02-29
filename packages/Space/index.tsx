@@ -44,6 +44,14 @@ export interface SpaceProps {
    * @description 类名
    */
   className?: string;
+  /**
+   * @description 子元素包裹容器类名
+   */
+  itemClassName?: string;
+  /**
+   * @description 子元素包裹容器样式
+   */
+  itemStyle?: React.CSSProperties;
 }
 
 const privateKeys = ['size', 'direction', 'block', 'wrap', 'style', 'className'];
@@ -100,7 +108,11 @@ const Space = React.forwardRef(
       >
         {children?.map((x: React.ReactNode, index) => {
           const key = (x as React.ReactElement)?.key || index;
-          return <div key={key}>{x}</div>;
+          return (
+            <div key={key} style={props?.itemStyle} className={props?.itemClassName}>
+              {x}
+            </div>
+          );
         })}
       </div>
     );

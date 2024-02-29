@@ -64,8 +64,6 @@ export function useStyle(componentName: string): {
   const dropDown = () =>
     css({
       opacity: 0,
-      maxHeight: 256,
-      overflowY: 'auto',
       minHeight: 12,
       background: 'white',
       boxShadow:

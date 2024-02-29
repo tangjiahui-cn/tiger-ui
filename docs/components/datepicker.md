@@ -37,46 +37,8 @@ export default () => {
   return (
     <DatePicker
       value={value}
-      onChange={(_, value) => setValue(value)}
+      onChange={(value) => setValue(value)}
     />
-  );
-}
-```
-
-## 四、控制时间格式
-```jsx
-import {DatePicker, Space, Button} from 'tiger-ui';
-import moment from 'moment';
-import {useState} from 'react';
-
-export default () => {
-  const [value, setValue] = useState(moment());
-  const [format, setFormat] = useState('YYYY-MM-DD');
-  return (
-    <Space direction={'vertical'}>
-      <Space>
-        {
-          ['YYYY-MM-DD', 'YYYY-MM', 'YYYY'].map(x => {
-            return (
-              <Button
-                key={x}
-                onClick={() => setFormat(x)}
-              >
-                {x}
-              </Button>
-            )
-          })
-        }
-      </Space>
-      <Space>
-        <DatePicker
-          value={value}
-          format={format}
-          onChange={(_, value) => setValue(value)}
-        />
-        ({format})
-      </Space>
-    </Space>
   );
 }
 ```

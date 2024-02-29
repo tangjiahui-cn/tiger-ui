@@ -1,246 +1,219 @@
-import * as React from 'react';
-import type { Moment } from 'moment';
-import { useEffect, useRef, useState } from 'react';
-import SelectPanel from '../Select/PopupPanel';
-import { createDateArrayByMonth, createDateItem, doubleNumStr } from './utils';
-import { useGetConfig } from '../ConfigProvider';
-import moment from 'moment';
-import { useUpdateEffect } from '../_hooks';
-import classNames from 'classnames';
-import { useStyle } from './style';
+/**
+ * DatePicker
+ *
+ * @author tangjiahui
+ * @date 2024/2/28
+ */
+import { DropDown } from '@/index';
+import { css } from 'class-css';
+import {
+  DoubleLeftOutlined,
+  DoubleRightOutlined,
+  LeftOutlined,
+  RightOutlined,
+} from '@ant-design/icons';
+import Space from '@/Space';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import moment, { Moment } from 'moment';
+import Line from './components/Line';
+import { createCalendar } from '@/DatePicker/utils/createCalendar';
+import { useUpdateEffect } from '@/_hooks';
+import { momentToDate, getChangeDate, dateToMoment } from './utils/dateUtils';
 
-export type DateItem = {
+const iconClass = css({
+  fontSize: '0.815em',
+  color: 'gray',
+  cursor: 'pointer',
+  width: 16,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  height: '100%',
+  '&:hover': {
+    color: 'black',
+  },
+});
+
+const clickableClass = css({
+  cursor: 'pointer',
+  padding: '0 4px',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  height: '100%',
+  transition: 'all .3s',
+  '&:hover': {
+    color: '#3e74dc',
+  },
+});
+
+const todayClass = css({
+  color: '#3e74dc',
+  borderTop: '1px solid #e8e8e8',
+  textAlign: 'center',
+  padding: '8px 0',
+  letterSpacing: 1,
+});
+
+const todayTextClass = css({
+  userSelect: 'none',
+  cursor: 'pointer',
+  transition: 'all .3s',
+  '&:hover': {
+    color: '#7fa0de',
+  },
+});
+
+export type DateType = {
   year: number;
   month: number;
   day: number;
-  key: string;
-  moment: Moment;
   dateStr: string;
-  _current?: boolean; // 当前月份
-};
-
-export type PanelDateProps = {
-  year: number;
-  month: number;
-  day: number;
 };
 
 export interface DatePickerProps {
-  /**
-   * @description 受控值
-   */
-  value?: Moment;
-  /**
-   * @description 占位符
-   * @default 请选择
-   */
-  placeholder?: string;
-  /**
-   * @description 是否块级组件
-   * @default false
-   */
-  block?: boolean;
-  /**
-   * @description 头部样式
-   */
-  style?: React.CSSProperties;
-  /**
-   * @description 时间格式
-   * @default YYYY-MM-DD
-   */
-  format?: string; // default: YYYY-MM-DD
-  /**
-   * @description 日期改变回调事件
-   */
-  onChange?: (str?: string, mom?: Moment, item?: DateItem) => void;
+  value?: Moment | null;
+  onChange?: (value?: Moment | null) => void;
 }
 
-const dayList: string[] = ['一', '二', '三', '四', '五', '六', '日'];
 export default function DatePicker(props: DatePickerProps) {
-  const { locale } = useGetConfig();
-  const { placeholder = locale.selectPlaceholder, format = 'YYYY-MM-DD' } = props;
-  const headDom = useRef(null);
-  const style = useStyle('datepicker');
-
-  const [dateArray, setDateArray] = useState<DateItem[][]>([]);
-
-  const [popupVisible, setPopupVisible] = useState<boolean>(false);
-  const [popupInfo, setPopupInfo] = useState<{
-    top: number;
-    left: number;
-    width: number;
-  }>({
-    top: 0,
-    left: 0,
-    width: 0,
+  const [visible, setVisible] = useState(false);
+  // control calendar panel update.
+  const [calendarDate, setCalendarDate] = useState<DateType>({
+    year: 0,
+    month: 0,
+    day: 0,
+    dateStr: '',
   });
 
-  const [panelDate, setPanelDate] = useState<PanelDateProps>({
-    year: 2023,
-    month: 5,
-    day: 15,
+  const [date, setDate] = useState<DateType>({
+    year: 0,
+    month: 0,
+    day: 0,
+    dateStr: '',
   });
 
-  const [current, setCurrent] = useState<DateItem | null>(null);
+  const [calendar, setCalendar] = useState<any[][]>([]);
+  const isOuterRef = useRef(props?.value !== undefined);
 
-  function changeYearMonth(type: 'year' | 'month', value: number) {
-    switch (type) {
-      case 'month':
-        panelDate.month += value;
-        if (panelDate.month > 12) {
-          panelDate.month = 1;
-          panelDate.year++;
-        } else if (panelDate.month < 1) {
-          panelDate.month = 12;
-          panelDate.year--;
-        }
-        break;
-      case 'year':
-        panelDate.year += value;
-        break;
+  function changeYear(type: 'add' | 'dec', count: number = 1) {
+    setCalendarDate(getChangeDate(calendarDate, count, 'year', type));
+  }
+
+  function changeMonth(type: 'add' | 'dec', count: number = 1) {
+    setCalendarDate(getChangeDate(calendarDate, count, 'month', type));
+  }
+
+  function handleChooseDate(date: DateType) {
+    setCalendarDate(date);
+    setVisible(false);
+    if (isOuterRef.current) {
+      props?.onChange?.(dateToMoment(date));
+    } else {
+      setDate(date);
     }
-    setPanelDate({ ...panelDate });
   }
 
-  function initPopupPanelInfo() {
-    const info: DOMRect = (headDom?.current as any)?.getBoundingClientRect();
-    setPopupInfo({
-      width: info.width,
-      left: info.x,
-      top: info.bottom,
-    });
-    setDateArray(createDateArrayByMonth(moment().format('YYYY-MM')));
-  }
+  useEffect(() => {
+    const dateMom = moment(props?.value || undefined);
+    const date = momentToDate(dateMom);
+    if (isOuterRef.current) {
+      setDate(date);
+    }
+    setCalendarDate(date);
+  }, [props?.value]);
 
-  function renderDateLine(lineArr: DateItem[], key: number): React.ReactNode {
-    return (
-      <div className={style.datepickerBodyContentLine()} key={key}>
-        {lineArr.map((dateItem: DateItem) => {
-          const classes = [
-            dateItem?._current
-              ? style.datepickerBodyContentItemCurrent()
-              : style.datepickerBodyContentItem(),
-          ];
-          if (dateItem.key === current?.key && panelDate.month === current.month) {
-            classes.push(style.datepickerBodyContentItemChoose());
-          }
+  useUpdateEffect(() => {
+    setCalendar(createCalendar(calendarDate.year, calendarDate.month));
+  }, [calendarDate.year, calendarDate.month]);
+
+  const renderPopupPanel = (
+    <div style={{ width: 250, background: 'white', fontSize: '0.875em' }}>
+      <div
+        style={{
+          borderBottom: '1px solid #e8e8e8',
+          display: 'flex',
+          justifyContent: 'space-between',
+          height: 32,
+          padding: '4px 12px',
+        }}
+      >
+        <Space size={0} itemClassName={iconClass}>
+          <DoubleLeftOutlined onClick={() => changeYear('dec')} />
+          <LeftOutlined onClick={() => changeMonth('dec')} />
+        </Space>
+
+        <Space size={0} itemClassName={clickableClass}>
+          <a>{calendarDate.year}年</a>
+          <a>{calendarDate.month}月</a>
+        </Space>
+
+        <Space size={0} itemClassName={iconClass}>
+          <RightOutlined onClick={() => changeMonth('add')} />
+          <DoubleRightOutlined onClick={() => changeYear('add')} />
+        </Space>
+      </div>
+      <div style={{ padding: '4px 8px' }}>
+        <Line
+          options={['一', '二', '三', '四', '五', '六', '日'].map((name) => {
+            return {
+              label: name,
+              value: name,
+            };
+          })}
+        />
+        {calendar.map((options, index) => {
           return (
-            <div
-              key={dateItem.key}
-              className={classNames(classes)}
-              onClick={() => {
-                const current = { ...dateItem };
-                current.dateStr = current.moment.format(format);
-                panelDate.year = dateItem.year;
-                panelDate.day = dateItem.day;
-                panelDate.month = dateItem.month;
-                if (!props?.onChange && !props?.value) {
-                  setPanelDate({ ...panelDate });
-                  setCurrent(current);
-                }
-                props?.onChange?.(current.dateStr, current?.moment, current);
-                setPopupVisible(false);
+            <Line
+              selectable
+              key={index}
+              value={date.dateStr}
+              options={options}
+              onSelect={(_, item) => {
+                if (!item?.date) return;
+                handleChooseDate({
+                  year: item.date.year,
+                  month: item.date.month,
+                  day: item.date.day,
+                  dateStr: item.date.dateStr,
+                });
               }}
-            >
-              {dateItem.day}
-            </div>
+            />
           );
         })}
       </div>
-    );
-  }
-
-  useEffect(() => {
-    initPopupPanelInfo();
-  }, []);
-
-  useEffect(() => {
-    if (props?.value) {
-      const current: DateItem = createDateItem(props?.value?.date(), props?.value);
-      current.dateStr = current.moment.format(format);
-      setCurrent(current);
-      setPanelDate({ ...current });
-    } else {
-      !current && setCurrent(null);
-    }
-  }, [props?.value, props.format]);
-
-  useUpdateEffect(() => {
-    setDateArray(createDateArrayByMonth(`${panelDate.year}-${doubleNumStr(panelDate.month)}`));
-  }, [panelDate]);
-
-  return (
-    <>
-      <div
-        tabIndex={0}
-        ref={headDom}
-        style={{
-          width: props?.block ? '100%' : 200,
-          ...props?.style,
-        }}
-        className={style.datepicker()}
-        onMouseDown={() => {
-          initPopupPanelInfo();
-          setPopupVisible(true);
-        }}
-      >
-        <span className={classNames({ [style.datepickerPlaceholder()]: !current?.dateStr })}>
-          {current?.dateStr || placeholder}
+      <div className={todayClass}>
+        <span
+          className={todayTextClass}
+          onClick={() => {
+            handleChooseDate(momentToDate(moment()));
+          }}
+        >
+          今天
         </span>
       </div>
+    </div>
+  );
 
-      <SelectPanel
-        visible={popupVisible}
-        style={{
-          left: popupInfo.left,
-          top: popupInfo.top,
-          background: 'white',
-        }}
-        onClickOut={() => {
-          setPopupVisible(false);
-        }}
+  return (
+    <DropDown
+      open={visible}
+      popupPanel={renderPopupPanel}
+      onOpenChange={(open) => {
+        setVisible(open);
+      }}
+    >
+      <div
+        className={css({
+          fontSize: '0.875em',
+          border: '1px solid #e8e8e8',
+          padding: '6px 12px',
+          cursor: 'pointer',
+          width: 100,
+        })}
       >
-        <div className={style.datepickerPanel()}>
-          <div className={style.datepickerHead()}>
-            <span className={style.datepickerBtn()} onClick={() => changeYearMonth('year', -1)}>
-              {'<<'}
-            </span>
-            <span className={style.datepickerBtn()} onClick={() => changeYearMonth('month', -1)}>
-              {'<'}
-            </span>
-            <div style={{ padding: '0 24px', display: 'inline-block', fontWeight: 'bold' }}>
-              <div style={{ display: 'inline-block', width: 40 }}>{panelDate.year}</div>
-              <span>年</span>
-              <div style={{ display: 'inline-block', width: 20, textAlign: 'right' }}>
-                {panelDate.month}
-              </div>
-              <span>月</span>
-            </div>
-            <span className={style.datepickerBtn()} onClick={() => changeYearMonth('month', 1)}>
-              {'>'}
-            </span>
-            <span className={style.datepickerBtn()} onClick={() => changeYearMonth('year', 1)}>
-              {'>>'}
-            </span>
-          </div>
-          <div className={style.datepickerBody()}>
-            <div className={style.datepickerBodyHead()}>
-              {dayList.map((day) => {
-                return (
-                  <div className={style.datepickerBodyHeadItem()} key={day}>
-                    {day}
-                  </div>
-                );
-              })}
-            </div>
-            <div className={style.datepickerBodyContent()}>
-              {dateArray.map((lineArray: DateItem[], index: number) => {
-                return renderDateLine(lineArray, index);
-              })}
-            </div>
-          </div>
-        </div>
-      </SelectPanel>
-    </>
+        {date.dateStr || <span style={{ color: '#c4c4c4' }}>请选择</span>}
+      </div>
+    </DropDown>
   );
 }

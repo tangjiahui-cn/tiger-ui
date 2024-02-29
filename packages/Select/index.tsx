@@ -123,6 +123,7 @@ export default function Select(props: SelectProps) {
 
   return (
     <DropDown
+      style={{ maxHeight: 256, overflowY: 'auto' }}
       open={isForceOpenRef.current ? props?.open : panelVisible}
       onOpenChange={(visible: boolean) => {
         setPanelVisible(visible);
