@@ -153,6 +153,7 @@ export default function DatePicker(props: DatePickerProps) {
           justifyContent: 'space-between',
           height: 32,
           padding: '4px 12px',
+          userSelect: 'none',
         }}
       >
         <Space size={0} itemStyle={{ height: '100%' }}>
