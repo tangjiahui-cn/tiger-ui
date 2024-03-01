@@ -20,8 +20,8 @@ function App() {
     >
       {/*<DatePickerOld />*/}
       <DatePicker />
-      <DatePicker value={moment()} />
-      <DatePicker value={value} onChange={(value) => setValue(value)} />
+      {/*<DatePicker value={moment()} />*/}
+      {/*<DatePicker value={value} onChange={(value) => setValue(value)} />*/}
       {/*<Select*/}
       {/*  options={Array(100).fill(100).map((_, index) => {*/}
       {/*    return {*/}

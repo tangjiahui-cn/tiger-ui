@@ -155,9 +155,13 @@ export default function DatePicker(props: DatePickerProps) {
           padding: '4px 12px',
         }}
       >
-        <Space size={0} itemClassName={iconClass}>
-          <DoubleLeftOutlined onClick={() => changeYear('dec')} />
-          <LeftOutlined onClick={() => changeMonth('dec')} />
+        <Space size={0} itemStyle={{ height: '100%' }}>
+          <div className={iconClass} onClick={() => changeYear('dec')}>
+            <DoubleLeftOutlined />
+          </div>
+          <div className={iconClass} onClick={() => changeMonth('dec')}>
+            <LeftOutlined />
+          </div>
         </Space>
 
         <Space size={0} itemClassName={clickableClass}>
@@ -165,9 +169,13 @@ export default function DatePicker(props: DatePickerProps) {
           <a>{calendarDate.month}月</a>
         </Space>
 
-        <Space size={0} itemClassName={iconClass}>
-          <RightOutlined onClick={() => changeMonth('add')} />
-          <DoubleRightOutlined onClick={() => changeYear('add')} />
+        <Space size={0} itemStyle={{ height: '100%' }}>
+          <div className={iconClass} onClick={() => changeMonth('add')}>
+            <RightOutlined />
+          </div>
+          <div className={iconClass} onClick={() => changeYear('add')}>
+            <DoubleRightOutlined />
+          </div>
         </Space>
       </div>
       <div style={{ padding: '4px 8px' }}>
