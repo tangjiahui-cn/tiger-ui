@@ -13,12 +13,14 @@ import {
   RightOutlined,
 } from '@ant-design/icons';
 import Space from '@/Space';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import moment, { Moment } from 'moment';
 import Line from './components/Line';
 import { createCalendar } from '@/DatePicker/utils/createCalendar';
 import { useUpdateEffect } from '@/_hooks';
 import { momentToDate, getChangeDate, dateToMoment } from './utils/dateUtils';
+import { useStyle } from './style';
+import classNames from 'classnames';
 
 const iconClass = css({
   fontSize: '0.815em',
@@ -44,23 +46,6 @@ const clickableClass = css({
   transition: 'all .3s',
   '&:hover': {
     color: '#3e74dc',
-  },
-});
-
-const todayClass = css({
-  color: '#3e74dc',
-  borderTop: '1px solid #e8e8e8',
-  textAlign: 'center',
-  padding: '8px 0',
-  letterSpacing: 1,
-});
-
-const todayTextClass = css({
-  userSelect: 'none',
-  cursor: 'pointer',
-  transition: 'all .3s',
-  '&:hover': {
-    color: '#7fa0de',
   },
 });
 
@@ -91,7 +76,9 @@ export interface DatePickerProps {
 }
 
 export default function DatePicker(props: DatePickerProps) {
+  const style = useStyle('datepicker');
   const [visible, setVisible] = useState(false);
+
   // control calendar panel update.
   const [calendarDate, setCalendarDate] = useState<DateType>({
     year: 0,
@@ -143,19 +130,10 @@ export default function DatePicker(props: DatePickerProps) {
 
   const renderPopupPanel = (
     <div
-      className={props?.className}
-      style={{ width: 250, background: 'white', fontSize: '0.875em', ...props?.style }}
+      className={classNames(props?.className, style.datepickerPanel())}
+      style={{ ...props?.style }}
     >
-      <div
-        style={{
-          borderBottom: '1px solid #e8e8e8',
-          display: 'flex',
-          justifyContent: 'space-between',
-          height: 32,
-          padding: '4px 12px',
-          userSelect: 'none',
-        }}
-      >
+      <div className={style.datepickerPanelHead()}>
         <Space size={0} itemStyle={{ height: '100%' }}>
           <div className={iconClass} onClick={() => changeYear('dec')}>
             <DoubleLeftOutlined />
@@ -179,7 +157,7 @@ export default function DatePicker(props: DatePickerProps) {
           </div>
         </Space>
       </div>
-      <div style={{ padding: '4px 8px' }}>
+      <div className={style.datepickerPanelBody()}>
         <Line
           options={['一', '二', '三', '四', '五', '六', '日'].map((name) => {
             return {
@@ -208,15 +186,8 @@ export default function DatePicker(props: DatePickerProps) {
           );
         })}
       </div>
-      <div className={todayClass}>
-        <span
-          className={todayTextClass}
-          onClick={() => {
-            handleChooseDate(momentToDate(moment()));
-          }}
-        >
-          今天
-        </span>
+      <div className={style.datepickerPanelFoot()}>
+        <span onClick={() => handleChooseDate(momentToDate(moment()))}>今天</span>
       </div>
     </div>
   );

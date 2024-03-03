@@ -7,145 +7,56 @@ type StyleObject = {
 };
 
 export function useStyle(componentName: string): {
-  datepicker: () => string;
   datepickerPanel: () => string;
-  datepickerPlaceholder: () => string;
-  datepickerBtn: () => string;
-  datepickerHead: () => string;
-  datepickerBody: () => string;
-  datepickerBodyHead: () => string;
-  datepickerBodyHeadItem: () => string;
-  datepickerBodyContent: () => string;
-  datepickerBodyContentLine: () => string;
-  datepickerBodyContentItem: () => string;
-  datepickerBodyContentItemCurrent: () => string;
-  datepickerBodyContentItemChoose: () => string;
+  datepickerPanelHead: () => string;
+  datepickerPanelBody: () => string;
+  datepickerPanelFoot: () => string;
 } {
   const token = useToken();
   const prefix = usePrefix(componentName);
   const { css } = useCssInJs({ key: prefix });
-  const { css: cssPanel } = useCssInJs({ key: prefix + 'panel' });
 
-  const item = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 24,
-    height: 24,
-    cursor: 'pointer',
-    transition: `all ${token.duration}`,
-    borderRadius: 2,
-    color: token.color,
-    '&:hover': {
-      backgroundColor: 'whitesmoke',
-    },
-  };
-
-  const datepickerPlaceholder = () => `${prefix}-placeholder`;
-  const datepickerBtn = () => `${prefix}-btn`;
-  const datepickerHead = () => `${prefix}-head`;
-  const datepickerBody = () => `${prefix}-body`;
-  const datepickerBodyHead = () => `${prefix}-body-head`;
-  const datepickerBodyHeadItem = () => `${prefix}-body-head-item`;
-  const datepickerBodyContent = () => `${prefix}-body-content`;
-  const datepickerBodyContentLine = () => `${prefix}-body-content-line`;
-  const datepickerBodyContentItem = () => `${prefix}-body-content-item`;
-  const datepickerBodyContentItemCurrent = () => `${prefix}-body-content-item-current`;
-  const datepickerBodyContentItemChoose = () => `${prefix}-body-content-item-choose`;
-
-  const datepicker = () =>
-    css({
-      fontSize: token.fontSize,
-      border: `1px solid ${token.borderColor}`,
-      display: 'inline-block',
-      padding: '8px 14px',
-      cursor: 'pointer',
-      transition: `all ${token.duration}`,
-      userSelect: 'none',
-      '&:focus': {
-        borderColor: token.primary,
-        outline: 'none',
-      },
-      '&:hover': {
-        borderColor: token.primaryHover,
-      },
-      [`& .${datepickerPlaceholder()}`]: {
-        color: token.placeholderColor,
-      },
-    });
+  const datepickerPanelHead = () => `${prefix}-panel-head`;
+  const datepickerPanelBody = () => `${prefix}-panel-body`;
+  const datepickerPanelFoot = () => `${prefix}-panel-foot`;
 
   const datepickerPanel = () =>
-    cssPanel({
-      display: 'inline-block',
-      boxSizing: 'border-box',
-      [`& .${datepickerBtn()}`]: {
-        padding: '0 6px',
-        cursor: 'pointer',
-        transition: `all ${token.duration}`,
-        userSelect: 'none',
-        '&:hover': {
-          color: '#bfbfbf',
-        },
-      },
-      [`& .${datepickerHead()}`]: {
-        height: 32,
+    css({
+      width: 250,
+      background: 'white',
+      fontSize: '0.875em',
+      [`& .${datepickerPanelHead()}`]: {
         borderBottom: `1px solid ${token.borderColor}`,
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '0 16px',
+        height: 32,
+        padding: '4px 12px',
+        userSelect: 'none',
       },
-      [`& .${datepickerBody()}`]: {
-        padding: '8px 16px',
-        [`& .${datepickerBodyHead()}`]: {
-          display: 'flex',
-          justifyContent: 'space-between',
-          [`& .${datepickerBodyHeadItem()}`]: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: 24,
-            height: 24,
-          },
-        },
-
-        [`& .${datepickerBodyContent()}`]: {
-          [`& .${datepickerBodyContentLine()}`]: {
-            display: 'flex',
-            justifyContent: 'space-between',
-            padding: '4px 0',
-            [`& .${datepickerBodyContentItemCurrent()}`]: {
-              ...item,
-              color: token.color,
-            },
-            [`& .${datepickerBodyContentItem()}`]: {
-              ...item,
-            },
-            [`& .${datepickerBodyContentItemChoose()}`]: {
-              color: 'white',
-              backgroundColor: token.primary,
-              '&:hover': {
-                backgroundColor: token.primaryHover,
-              },
-            },
+      [`& .${datepickerPanelBody()}`]: {
+        padding: '4px 8px',
+      },
+      [`& .${datepickerPanelFoot()}`]: {
+        color: token.primary,
+        borderTop: `1px solid ${token.borderColor}`,
+        textAlign: 'center',
+        padding: '8px 0',
+        letterSpacing: 1,
+        ['& > span']: {
+          userSelect: 'none',
+          cursor: 'pointer',
+          transition: 'all .3s',
+          '&:hover': {
+            color: token.primaryHover,
           },
         },
       },
     });
 
   return {
-    datepicker,
     datepickerPanel,
-    datepickerPlaceholder,
-    datepickerBtn,
-    datepickerHead,
-    datepickerBody,
-    datepickerBodyHead,
-    datepickerBodyHeadItem,
-    datepickerBodyContent,
-    datepickerBodyContentLine,
-    datepickerBodyContentItem,
-    datepickerBodyContentItemCurrent,
-    datepickerBodyContentItemChoose,
+    datepickerPanelHead,
+    datepickerPanelBody,
+    datepickerPanelFoot,
   };
 }
