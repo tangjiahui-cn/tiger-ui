@@ -129,7 +129,6 @@ export function useStyle(componentName: string): {
       display: 'inline-flex',
       transition: `all ${token.duration}`,
       alignItems: 'center',
-      border: '1px solid transparent',
       [`& > .${border()}`]: {
         position: 'absolute',
         top: -1,

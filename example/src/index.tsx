@@ -1,46 +1,55 @@
 import React, { useRef, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { DatePicker } from '../../packages';
+import { DatePicker, Input, Switch } from '../../packages';
 import Space from '@/Space';
 import TimePicker from '@/TimePicker';
 import moment, { Moment } from 'moment';
+import Select from '@/Select';
 
 function App() {
-  const [visible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [type, setType] = useState<any>('');
-
-  const [value, setValue] = useState<Moment | null | undefined>(null);
+  const [prefix, setPrefix] = useState<boolean>();
+  const [suffix, setSuffix] = useState<boolean>();
+  const [disabled, setDisabled] = useState<boolean>();
 
   return (
     <Space
+      block
       style={{
         padding: 16,
       }}
+      direction={'vertical'}
     >
-      {/*<DatePickerOld />*/}
-      <DatePicker />
-      {/*<DatePicker value={moment()} />*/}
-      {/*<DatePicker value={value} onChange={(value) => setValue(value)} />*/}
-      {/*<Select*/}
-      {/*  options={Array(100).fill(100).map((_, index) => {*/}
-      {/*    return {*/}
-      {/*      label: index,*/}
-      {/*      value: `${index}`*/}
-      {/*    }*/}
-      {/*  })}*/}
-      {/*/>*/}
-      {/*<TimePicker />*/}
-      {/*<TimePicker type={type} />*/}
-      {/*<Select*/}
-      {/*  value={type}*/}
-      {/*  onChange={(type) => setType(type)}*/}
-      {/*  options={[*/}
-      {/*    { label: 'hour', value: 'hour' },*/}
-      {/*    { label: 'minute', value: 'minute' },*/}
-      {/*    { label: 'second', value: 'second' },*/}
-      {/*  ]}*/}
-      {/*/>*/}
+      <Space>
+        prefix：
+        <Switch checked={prefix} onChange={setPrefix} />
+      </Space>
+      <Space>
+        suffix：
+        <Switch checked={suffix} onChange={setSuffix} />
+      </Space>
+      <Space>
+        disabled：
+        <Switch checked={disabled} onChange={setDisabled} />
+      </Space>
+      <Space block>
+        {['small', 'middle', 'large'].map((size: any) => {
+          return (
+            <Input
+              key={size}
+              size={size}
+              suffix={suffix ? '11' : undefined}
+              prefix={prefix ? '22' : undefined}
+              disabled={disabled}
+            />
+          );
+        })}
+      </Space>
+      <Space>
+        <Input disabled />
+        <Input maxLength={10} prefix={'prefix'} disabled />
+        <Input maxLength={10} suffix={'suffix'} disabled />
+        <Input maxLength={10} prefix={'prefix'} suffix={'suffix'} disabled />
+      </Space>
     </Space>
   );
 }
