@@ -7,6 +7,7 @@
 import { buildUMD } from './buildUMD';
 import { buildCJS } from './buildCJS';
 import { buildESM } from './buildESM';
+import concurrently from 'concurrently';
 const { target } = process.env;
 
 if (target === 'umd') {
@@ -22,8 +23,15 @@ if (target === 'esm') {
 }
 
 if (target === 'all') {
-  throw Error('please change to concurrently build.');
-  // buildUMD();
-  // buildCJS();
-  // buildESM();
+  const targetList = ['umd', 'cjs', 'esm'];
+  concurrently(
+    targetList.map((target) => {
+      return {
+        command: `pnpm build:${target}`,
+        name: target,
+      };
+    }),
+  ).result.then(() => {
+    console.log(`---> BUILD All SUCCESS! (${targetList.join(',')})`);
+  });
 }

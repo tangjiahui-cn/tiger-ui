@@ -12,23 +12,26 @@ import {
   buildWebpack,
   getPackageNamePathMap,
   getWebpackCommon,
+  analysisWebpackBundleTime,
 } from '../share';
 import { merge } from 'webpack-merge';
 
 export function buildUMD() {
   buildWebpack(
-    merge(getWebpackCommon(), {
-      entry: {
-        ...getPackageNamePathMap(PKG_DIR),
-        index: root('packages'),
-      },
-      output: {
-        path: root('umd'),
-        library: {
-          name: NAME,
-          type: 'umd',
+    analysisWebpackBundleTime(
+      merge(getWebpackCommon(), {
+        entry: {
+          ...getPackageNamePathMap(PKG_DIR),
+          index: root('packages'),
         },
-      },
-    }),
+        output: {
+          path: root('umd'),
+          library: {
+            name: NAME,
+            type: 'umd',
+          },
+        },
+      }),
+    ),
   );
 }

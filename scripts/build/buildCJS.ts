@@ -12,23 +12,26 @@ import {
   buildWebpack,
   getPackageNamePathMap,
   getWebpackCommon,
+  analysisWebpackBundleTime,
 } from '../share';
 import { merge } from 'webpack-merge';
 
 export function buildCJS() {
   buildWebpack(
-    merge(getWebpackCommon(), {
-      entry: {
-        ...getPackageNamePathMap(PKG_DIR),
-        index: root('packages'),
-      },
-      output: {
-        path: root('cjs'),
-        library: {
-          name: NAME,
-          type: 'commonjs',
+    analysisWebpackBundleTime(
+      merge(getWebpackCommon(), {
+        entry: {
+          ...getPackageNamePathMap(PKG_DIR),
+          index: root('packages'),
         },
-      },
-    }),
+        output: {
+          path: root('cjs'),
+          library: {
+            name: NAME,
+            type: 'commonjs',
+          },
+        },
+      }),
+    ),
   );
 }
