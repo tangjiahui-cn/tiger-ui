@@ -3,6 +3,10 @@ import { createClassCss } from 'class-css';
 
 export default function useCssInJs(options: { key: string }) {
   return useMemo(() => {
-    return createClassCss(options);
+    const ins = createClassCss(options);
+    return {
+      css: ins.css.bind(ins),
+      keyframes: ins.keyframes.bind(ins),
+    };
   }, [options.key]);
 }
