@@ -93,8 +93,8 @@ devDependencies:
     specifier: ^9.1.2
     version: 9.1.3(@babel/core@7.23.7)(webpack@5.89.0)
   class-css:
-    specifier: ^1.0.27
-    version: 1.0.27(@types/node@20.11.5)(typescript@5.3.3)
+    specifier: ^1.0.28
+    version: 1.0.28(@types/node@20.11.5)(typescript@5.3.3)
   classnames:
     specifier: ^2.3.2
     version: 2.5.1
@@ -7177,11 +7177,11 @@ packages:
     resolution: {integrity: sha512-OnVKO5FWXmz5BWXHykq9VASwKq/Szd8nVIY2cWCwJjpvJbQ2MzQeWULKLL7SUukVYZttX7pwO+NwFPm7IO6hzA==}
     dev: true
 
-  /class-css-stringify@1.0.27(@types/node@20.11.5)(typescript@5.3.3):
-    resolution: {integrity: sha512-l3mMTMQd994b74IEuJL+5z49v2jHkYUu7IxEouoTCVMbrlWtWnPRVu23vqwGlh/OLGtHv7NAn2vp/JsISHNYzg==}
+  /class-css-stringify@1.0.28(@types/node@20.11.5)(typescript@5.3.3):
+    resolution: {integrity: sha512-P1qGIfvT13lEuSL3fuiodLzj+Mq3QSgw7Mrj/JIo6Y4tpOdMFZXpVO87Rhjw0ufSfb7dowVz5jRisWRvhtVGzQ==}
     dependencies:
       '@types/react': 18.2.48
-      class-css: 1.0.27(@types/node@20.11.5)(typescript@5.3.3)
+      class-css: 1.0.28(@types/node@20.11.5)(typescript@5.3.3)
       ts-node: 10.9.2(@types/node@20.11.5)(typescript@5.3.3)
     transitivePeerDependencies:
       - '@swc/core'
@@ -7190,13 +7190,13 @@ packages:
       - typescript
     dev: true
 
-  /class-css@1.0.27(@types/node@20.11.5)(typescript@5.3.3):
-    resolution: {integrity: sha512-+v2741r9Td2qpngmRk7nrWiT8NJIAqk7qoVVK2wFlgd2kXQ16hI1aocxE/fOnUfgXMExiwEJRpLRkFmkH2Cm2Q==}
+  /class-css@1.0.28(@types/node@20.11.5)(typescript@5.3.3):
+    resolution: {integrity: sha512-HEmRM9VyhQvaoAsv/ldmJtz5sXKo/9ALgg2CRe8GaWm2gWKqkWkISLUH23LdRDLcHE2LN3MYQnReRulTkzcHDQ==}
     dependencies:
       class-css-cache: 1.0.24
       class-css-hash: 1.0.16
       class-css-render: 1.0.26
-      class-css-stringify: 1.0.27(@types/node@20.11.5)(typescript@5.3.3)
+      class-css-stringify: 1.0.28(@types/node@20.11.5)(typescript@5.3.3)
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
