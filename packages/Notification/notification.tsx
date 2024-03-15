@@ -25,7 +25,8 @@ function genConfig(config: NotificationConfig): NotificationConfig {
   return Object.assign({}, defaultConfig, config);
 }
 
-const { css } = createClassCss({ key: 'notification' });
+const ins = createClassCss({ key: 'notification' });
+const css = ins.css.bind(ins);
 export class NotificationGen {
   private containerDom?: HTMLDivElement;
 
