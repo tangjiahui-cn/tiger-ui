@@ -14,7 +14,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 export type ButtonType = 'primary' | 'dashed' | 'default' | 'text' | 'dotted';
 export type { ButtonSize };
 
-export interface ButtonProps {
+export interface ButtonProps extends DOMAttributes<HTMLButtonElement> {
   /**
    * @description 按钮类型
    * @default default
@@ -84,37 +84,35 @@ const privateKeys = [
  * At 2023/04/24
  * By TangJiaHui
  */
-const Button = React.forwardRef(
-  (props: ButtonProps & DOMAttributes<HTMLButtonElement>, ref: ForwardedRef<HTMLButtonElement>) => {
-    const style = useStyle('button');
-    const domAttributes: DOMAttributes<HTMLButtonElement> = omit(props, privateKeys);
+const Button = React.forwardRef((props: ButtonProps, ref: ForwardedRef<HTMLButtonElement>) => {
+  const style = useStyle('button');
+  const domAttributes: DOMAttributes<HTMLButtonElement> = omit(props, privateKeys);
 
-    const className = classNames([
-      style.button(props?.danger),
-      style.type(props?.type || 'default'),
-      style.size(props?.size || 'middle'),
-      props?.block && style.block(),
-      props?.danger && style.danger(),
-      props?.disabled && style.disabled(),
-      props?.stayFocus && style.stayFocus(),
-      props?.focus && style.focus(),
-      props?.className,
-    ]);
+  const className = classNames([
+    style.button(props?.danger),
+    style.type(props?.type || 'default'),
+    style.size(props?.size || 'middle'),
+    props?.block && style.block(),
+    props?.danger && style.danger(),
+    props?.disabled && style.disabled(),
+    props?.stayFocus && style.stayFocus(),
+    props?.focus && style.focus(),
+    props?.className,
+  ]);
 
-    return (
-      <button
-        {...domAttributes}
-        ref={ref}
-        className={className}
-        disabled={props?.disabled}
-        onClick={props?.disabled ? undefined : props?.onClick}
-        style={props?.style}
-      >
-        {props?.children}
-        {props?.loading && <LoadingOutlined style={{ marginLeft: 8 }} />}
-      </button>
-    );
-  },
-);
+  return (
+    <button
+      {...domAttributes}
+      ref={ref}
+      className={className}
+      disabled={props?.disabled}
+      onClick={props?.disabled ? undefined : props?.onClick}
+      style={props?.style}
+    >
+      {props?.children}
+      {props?.loading && <LoadingOutlined style={{ marginLeft: 8 }} />}
+    </button>
+  );
+});
 
 export default Button;
