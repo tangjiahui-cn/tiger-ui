@@ -1,56 +1,203 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { DatePicker, Input, Switch } from '../../packages';
 import Space from '@/Space';
-import TimePicker from '@/TimePicker';
-import moment, { Moment } from 'moment';
-import Select from '@/Select';
+import { Button } from '../../packages';
+import ConfigProvider from '@/ConfigProvider/ConfigProvider';
 
 function App() {
-  const [prefix, setPrefix] = useState<boolean>();
-  const [suffix, setSuffix] = useState<boolean>();
-  const [disabled, setDisabled] = useState<boolean>();
+  const [primary, setPrimary] = useState<string>();
+  const [danger, setDanger] = useState<string>();
 
   return (
-    <Space
-      block
-      style={{
-        padding: 16,
+    <ConfigProvider
+      theme={{
+        primary,
+        danger,
       }}
-      direction={'vertical'}
     >
-      <Space>
-        prefix：
-        <Switch checked={prefix} onChange={setPrefix} />
+      <Space
+        block
+        style={{
+          padding: 16,
+        }}
+        direction={'vertical'}
+      >
+        <Button block>block</Button>
+        default + focus
+        <Space>
+          {['large', 'default', 'small'].map((size: any) => {
+            return (
+              <Button focus key={size} size={size}>
+                {size}
+              </Button>
+            );
+          })}
+          {['primary', 'default', 'dashed', 'dotted', 'text'].map((type: any) => {
+            return (
+              <Button focus key={type} type={type}>
+                {type}
+              </Button>
+            );
+          })}
+        </Space>
+        danger + focus
+        <Space>
+          {['large', 'default', 'small'].map((size: any) => {
+            return (
+              <Button focus key={size} size={size} danger>
+                {size}
+              </Button>
+            );
+          })}
+          {['primary', 'default', 'dashed', 'dotted', 'text'].map((type: any) => {
+            return (
+              <Button focus key={type} type={type} danger>
+                {type}
+              </Button>
+            );
+          })}
+        </Space>
+        <div>-----------</div>
+        <Space>
+          全局 primary
+          <input type={'color'} onChange={(e) => setPrimary(e.target.value)} />
+        </Space>
+        <Space>
+          全局 danger
+          <input type={'color'} onChange={(e) => setDanger(e.target.value)} />
+        </Space>
+        <div>-----------</div>
+        stayFocus
+        <Space>
+          {['large', 'default', 'small'].map((size: any) => {
+            return (
+              <Button stayFocus key={size} size={size}>
+                {size}
+              </Button>
+            );
+          })}
+          {['primary', 'default', 'dashed', 'dotted', 'text'].map((type: any) => {
+            return (
+              <Button stayFocus key={type} type={type}>
+                {type}
+              </Button>
+            );
+          })}
+        </Space>
+        default + focus + disabled
+        <Space>
+          {['large', 'default', 'small'].map((size: any) => {
+            return (
+              <Button disabled focus key={size} size={size}>
+                {size}
+              </Button>
+            );
+          })}
+          {['primary', 'default', 'dashed', 'dotted', 'text'].map((type: any) => {
+            return (
+              <Button disabled focus key={type} type={type}>
+                {type}
+              </Button>
+            );
+          })}
+        </Space>
+        danger + focus + disabled
+        <Space>
+          {['large', 'default', 'small'].map((size: any) => {
+            return (
+              <Button disabled focus key={size} size={size} danger>
+                {size}
+              </Button>
+            );
+          })}
+          {['primary', 'default', 'dashed', 'dotted', 'text'].map((type: any) => {
+            return (
+              <Button disabled focus key={type} type={type} danger>
+                {type}
+              </Button>
+            );
+          })}
+        </Space>
+        <div>----------------</div>
+        default
+        <Space>
+          {['large', 'default', 'small'].map((size: any) => {
+            return (
+              <Button key={size} size={size}>
+                {size}
+              </Button>
+            );
+          })}
+          {['primary', 'default', 'dashed', 'dotted', 'text'].map((type: any) => {
+            return (
+              <Button key={type} type={type}>
+                {type}
+              </Button>
+            );
+          })}
+        </Space>
+        danger:
+        <Space>
+          {['large', 'default', 'small'].map((size: any) => {
+            return (
+              <Button key={size} size={size} danger>
+                {size}
+              </Button>
+            );
+          })}
+          {['primary', 'default', 'dashed', 'dotted', 'text'].map((type: any) => {
+            return (
+              <Button key={type} type={type} danger>
+                {type}
+              </Button>
+            );
+          })}
+        </Space>
+        disabled:
+        <Space>
+          {['large', 'default', 'small'].map((size: any) => {
+            return (
+              <Button key={size} size={size} disabled>
+                {size}
+              </Button>
+            );
+          })}
+          {['primary', 'default', 'dashed', 'dotted', 'text'].map((type: any) => {
+            return (
+              <Button key={type} type={type} disabled>
+                {type}
+              </Button>
+            );
+          })}
+        </Space>
+        danger + disabled:
+        <Space>
+          {['large', 'default', 'small'].map((size: any) => {
+            return (
+              <Button key={size} size={size} danger disabled>
+                {size}
+              </Button>
+            );
+          })}
+          {['primary', 'default', 'dashed', 'dotted', 'text'].map((type: any) => {
+            return (
+              <Button key={type} type={type} danger disabled>
+                {type}
+              </Button>
+            );
+          })}
+        </Space>
+        {/*<ConfigProvider theme={{ color }}>*/}
+        {/*  <div>*/}
+        {/*    <Button>局域按钮（字体颜色）</Button>*/}
+        {/*  </div>*/}
+        {/*</ConfigProvider>*/}
+        {/*<ConfigProvider theme={{ color: 'blue' }}>*/}
+        {/*  <Button>局域按钮</Button>*/}
+        {/*</ConfigProvider>*/}
+        {/*<input type='color' onChange={(e) => setColor(e.target.value)} />*/}
       </Space>
-      <Space>
-        suffix：
-        <Switch checked={suffix} onChange={setSuffix} />
-      </Space>
-      <Space>
-        disabled：
-        <Switch checked={disabled} onChange={setDisabled} />
-      </Space>
-      <Space block>
-        {['small', 'middle', 'large'].map((size: any) => {
-          return (
-            <Input
-              key={size}
-              size={size}
-              suffix={suffix ? '11' : undefined}
-              prefix={prefix ? '22' : undefined}
-              disabled={disabled}
-            />
-          );
-        })}
-      </Space>
-      <Space>
-        <Input disabled />
-        <Input maxLength={10} prefix={'prefix'} disabled />
-        <Input maxLength={10} suffix={'suffix'} disabled />
-        <Input maxLength={10} prefix={'prefix'} suffix={'suffix'} disabled />
-      </Space>
-    </Space>
+    </ConfigProvider>
   );
 }
 

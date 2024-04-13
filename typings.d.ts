@@ -5,6 +5,8 @@ declare module '*.less' {
   export default classes;
 }
 
+declare const PACKAGE_NAME: string;
+
 declare interface ObjectLike {
   [K: string]: any | ObjectLike;
 }

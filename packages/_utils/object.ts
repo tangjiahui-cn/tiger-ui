@@ -24,12 +24,13 @@ export function pickTruthyValue(obj: ObjectLike): ObjectLike {
  * (don't pick propKey in prototype chain, return a new object.)
  */
 export function pick(obj: ObjectLike, includeKeys: string[]) {
-  return Object.keys(obj).reduce((result: ObjectLike, key: string) => {
+  const result: any = Object.create(null);
+  for (const key in obj) {
     if (includeKeys.includes(key)) {
       result[key] = obj[key];
     }
-    return result;
-  }, Object.create(null));
+  }
+  return result;
 }
 
 /**
@@ -37,10 +38,11 @@ export function pick(obj: ObjectLike, includeKeys: string[]) {
  * (return a new object)
  */
 export function omit(obj: ObjectLike, excludeKeys: string[]) {
-  return Object.keys(obj).reduce((result: ObjectLike, key: string) => {
+  const result: any = Object.create(null);
+  for (const key in obj) {
     if (!excludeKeys.includes(key)) {
       result[key] = obj[key];
     }
-    return result;
-  }, Object.create(null));
+  }
+  return result;
 }

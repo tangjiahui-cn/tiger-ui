@@ -7,14 +7,14 @@
 import React, { DOMAttributes, ForwardedRef } from 'react';
 import classNames from 'classnames';
 import { SizeType as ButtonSize } from '../_types/common';
-import { useStyle } from './style';
+import { useGlobal } from '@/_hooks';
+import './button.less';
 import { omit } from '@/_utils/object';
-import { LoadingOutlined } from '@ant-design/icons';
 
 export type ButtonType = 'primary' | 'dashed' | 'default' | 'text' | 'dotted';
 export type { ButtonSize };
 
-export interface ButtonProps extends DOMAttributes<HTMLButtonElement> {
+export interface BaseButtonProps {
   /**
    * @description 按钮类型
    * @default default
@@ -65,7 +65,10 @@ export interface ButtonProps extends DOMAttributes<HTMLButtonElement> {
   loading?: boolean;
 }
 
-const privateKeys = [
+export type BaseButtonPropsKeys = keyof BaseButtonProps;
+export type ButtonProps = BaseButtonProps & DOMAttributes<HTMLButtonElement>;
+
+const privateKeys: BaseButtonPropsKeys[] = [
   'type',
   'disabled',
   'block',
@@ -78,39 +81,33 @@ const privateKeys = [
   'loading',
 ];
 
-/**
- * 按钮
- *
- * At 2023/04/24
- * By TangJiaHui
- */
-const Button = React.forwardRef((props: ButtonProps, ref: ForwardedRef<HTMLButtonElement>) => {
-  const style = useStyle('button');
-  const domAttributes: DOMAttributes<HTMLButtonElement> = omit(props, privateKeys);
+const Button: React.ForwardRefExoticComponent<ButtonProps> = React.forwardRef(function (
+  props: ButtonProps,
+  ref: ForwardedRef<HTMLButtonElement>,
+) {
+  const { prefix } = useGlobal('btn');
+  const originProps: DOMAttributes<HTMLButtonElement> = omit(props, privateKeys);
 
-  const className = classNames([
-    style.button(props?.danger),
-    style.type(props?.type || 'default'),
-    style.size(props?.size || 'middle'),
-    props?.block && style.block(),
-    props?.danger && style.danger(),
-    props?.disabled && style.disabled(),
-    props?.stayFocus && style.stayFocus(),
-    props?.focus && style.focus(),
+  const classes = classNames(
     props?.className,
-  ]);
+    `${prefix}`,
+    `${prefix}-${props?.type || 'default'}`,
+    `${prefix}-${props?.size || 'middle'}`,
+    props?.block && `${prefix}-block`,
+    props?.danger && `${prefix}-danger`,
+    props?.focus && `${prefix}-focus`,
+    props?.stayFocus && `${prefix}-stayFocus`,
+  );
 
   return (
     <button
-      {...domAttributes}
+      {...originProps}
+      className={classes}
       ref={ref}
-      className={className}
-      disabled={props?.disabled}
-      onClick={props?.disabled ? undefined : props?.onClick}
       style={props?.style}
+      disabled={props?.disabled}
     >
       {props?.children}
-      {props?.loading && <LoadingOutlined style={{ marginLeft: 8 }} />}
     </button>
   );
 });
