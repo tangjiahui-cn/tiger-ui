@@ -2,7 +2,7 @@
  * Checkbox
  *
  * @author tangjiahui
- * @date 2024/6/21
+ * @date 2023/6/21
  */
 import React, { DOMAttributes, useEffect, useState } from 'react';
 import { isBoolean } from '@/_utils';
