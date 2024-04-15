@@ -2,7 +2,8 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { Empty } from '..';
 import * as React from 'react';
-import { useStyle } from './style';
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import './collapseItem.less';
 
 export interface CollapseItemProps {
   // key 值
@@ -27,10 +28,10 @@ export interface CollapseItemProps {
   onExpand?: (expand: boolean) => void;
 }
 
-export default function Item(props: CollapseItemProps) {
+export default function CollapseItem(props: CollapseItemProps) {
   const childrenRef = useRef<any>();
   const [height, setHeight] = useState<number>(0);
-  const style = useStyle('collapse');
+  const prefix = usePrefix('collapseItem');
 
   function handleClickLabel() {
     props?.onExpand?.(!props?.expand);
@@ -44,17 +45,17 @@ export default function Item(props: CollapseItemProps) {
   }, [props?.expand]);
 
   return (
-    <div className={style.collapseItem()} style={props?.style}>
+    <div className={prefix} style={props?.style}>
       <div
-        className={style.collapseItemLabel()}
+        className={`${prefix}-label`}
         onClick={() => handleClickLabel()}
         style={props?.labelStyle}
       >
         {props?.icon && (
           <div
             className={classNames(
-              style.collapseItemLabelIcon(),
-              props?.expand && style.collapseItemExpand(),
+              `${prefix}-label-icon`,
+              props?.expand && `${prefix}-label-icon-expand`,
             )}
           >
             {props?.icon}
@@ -62,16 +63,9 @@ export default function Item(props: CollapseItemProps) {
         )}
         {props?.label}
       </div>
-      <div
-        style={{ height: props?.expand ? height : 0 }}
-        className={style.collapseItemChildrenWrap()}
-      >
+      <div style={{ height: props?.expand ? height : 0 }} className={`${prefix}-body`}>
         {(!props?.destroy || props?.expand) && (
-          <div
-            className={style.collapseItemChildren()}
-            ref={childrenRef}
-            style={props?.childrenStyle}
-          >
+          <div className={`${prefix}-body-children`} ref={childrenRef} style={props?.childrenStyle}>
             {props?.children || <Empty />}
           </div>
         )}

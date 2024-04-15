@@ -6,6 +6,8 @@ export { default as Carousel } from './Carousel';
 export type * from './Carousel';
 export { default as CheckBox } from './CheckBox';
 export type * from './CheckBox';
+export { default as Collapse } from './Collapse';
+export type * from './Collapse';
 
 export { default as Input } from './Input';
 export type { InputProps } from './Input';
@@ -57,7 +59,5 @@ export { default as Tabs } from './Tabs';
 export type { TabsProps } from './Tabs';
 export { default as InputNumber } from './InputNumber';
 export type { InputNumberProps } from './InputNumber';
-export { default as Collapse } from './Collapse';
-export type { CollapseProps } from './Collapse';
 export { default as DropDown } from './DropDown';
 export type { DropDownProps } from './DropDown';

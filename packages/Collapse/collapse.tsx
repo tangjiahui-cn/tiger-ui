@@ -1,12 +1,19 @@
-import * as React from 'react';
-import { useEffect, useState } from 'react';
-import Item, { CollapseItemProps } from './Item';
-import { ArrowRightOutline } from '../Icon';
-import { useStyle } from './style';
+/**
+ * Collapse
+ *
+ * @author tangjiahui
+ * @date 2024/04/15
+ */
+import React, { DOMAttributes, ForwardedRef, useEffect, useState } from 'react';
+import { ArrowRightOutline } from '@/Icon';
+import Item, { CollapseItemProps } from '@/Collapse/collapseItem';
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import { omit } from '@/_utils/object';
+import classNames from 'classnames';
+import './collapse.less';
 
-type CollapseOption = Omit<CollapseItemProps, 'expand' | 'onExpand'>;
-
-export interface CollapseProps {
+export type CollapseOption = Omit<CollapseItemProps, 'expand' | 'onExpand'>;
+export interface BaseCollapseProps {
   /**
    * @description 自定义图标
    */
@@ -30,20 +37,43 @@ export interface CollapseProps {
    */
   accordion?: boolean;
   /**
-   * @description 样式
-   */
-  style?: React.CSSProperties;
-  /**
    * @description 值改变回调
    */
   onChange?: (value: string[]) => void;
+  /**
+   * @description style
+   */
+  style?: React.CSSProperties;
+  /**
+   * @description className
+   */
+  className?: string;
 }
 
-export default function Collapse(props: CollapseProps) {
+export type BaseCollapsePropsKeys = keyof BaseCollapseProps;
+export type CollapseProps = BaseCollapseProps & DOMAttributes<HTMLDivElement>;
+
+const privateKeys: BaseCollapsePropsKeys[] = [
+  'icon',
+  'destroy',
+  'value',
+  'options',
+  'accordion',
+  'onChange',
+  'style',
+  'className',
+];
+
+export type CollapseFC = React.ForwardRefExoticComponent<CollapseProps>;
+const Collapse: CollapseFC = React.forwardRef(function (
+  props: CollapseProps,
+  ref: ForwardedRef<HTMLDivElement>,
+) {
   const { icon = <ArrowRightOutline fontSize={12} pointer /> } = props;
   const isValue = Array.isArray(props?.value);
   const [options, setOptions] = useState<CollapseItemProps[]>([]);
-  const style = useStyle('collapse');
+  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
+  const prefix = usePrefix('collapse');
 
   function handleExpand(item: CollapseItemProps, expand: boolean) {
     item.expand = expand;
@@ -69,7 +99,12 @@ export default function Collapse(props: CollapseProps) {
   }, [props?.options]);
 
   return (
-    <div className={style.collapse()} style={props?.style}>
+    <div
+      ref={ref}
+      {...originProps}
+      className={classNames(prefix, props?.className)}
+      style={props?.style}
+    >
       {options?.map((item: CollapseItemProps) => {
         const { key = '' } = item;
         return (
@@ -101,4 +136,5 @@ export default function Collapse(props: CollapseProps) {
       })}
     </div>
   );
-}
+});
+export default Collapse;
