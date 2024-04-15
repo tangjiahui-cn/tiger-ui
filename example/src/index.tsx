@@ -4,6 +4,7 @@ import { Button, Alert } from '../../packages';
 import ConfigProvider from '../../packages/ConfigProvider/ConfigProvider';
 import Space from '@/Space';
 import { en_US, zh_CN, Locale } from '@/_locales';
+import CheckBox from '@/CheckBox/checkbox';
 
 function App() {
   const [value, setValue] = useState(0);
@@ -12,6 +13,7 @@ function App() {
   return (
     <div>
       <Space block>
+        <CheckBox>选项一</CheckBox>
         <a onClick={() => setValue(value + 1)}>click me!</a>
         <a onClick={() => setPrefix('tiger-ui')}>前缀：tiger-ui</a>
         <a onClick={() => setPrefix('tiger-ui-2')}>前缀：tiger-ui-2</a>
