@@ -41,14 +41,6 @@ export interface BaseButtonProps {
    */
   size?: ButtonSize;
   /**
-   * @description 按钮内联样式
-   */
-  style?: React.CSSProperties;
-  /**
-   * @description 按钮类class
-   */
-  className?: string;
-  /**
    * @description 保持聚焦（点击后选中样式不会消失，点击其他地方取消选中）
    * @default false
    */
@@ -63,6 +55,14 @@ export interface BaseButtonProps {
    * @default false
    */
   loading?: boolean;
+  /**
+   * @description style
+   */
+  style?: React.CSSProperties;
+  /**
+   * @description className
+   */
+  className?: string;
 }
 
 export type BaseButtonPropsKeys = keyof BaseButtonProps;
@@ -90,7 +90,7 @@ const Button: React.ForwardRefExoticComponent<ButtonProps> = React.forwardRef(fu
 
   const classes = classNames(
     props?.className,
-    `${prefix}`,
+    prefix,
     `${prefix}-${props?.type || 'default'}`,
     `${prefix}-${props?.size || 'middle'}`,
     props?.block && `${prefix}-block`,

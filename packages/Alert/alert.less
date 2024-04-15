@@ -1,23 +1,29 @@
-@import '../_theme/theme';
+@import '../_theme/variable.less';
 
-.alert {
+@prefix: prefix('alert');
+
+@{prefix} {
+  .type();
+
+  color: @color;
   border: 1px solid @borderColor;
   padding: 8px 16px;
-  border-radius: 2px;
+  border-radius: @borderRadius;
   display: flex;
 
   &-hidden {
     display: none;
+    color: red;
   }
 
   &-icon {
     padding-right: 8px;
     align-self: flex-start;
-    font-size: 16px;
+    font-size: 1.125em;
   }
 
   &-message {
-    font-size: 16px;
+    font-size: 1.125em;
     width: 100%;
     word-break: break-all;
   }
@@ -25,19 +31,24 @@
   &-description {
     width: 100%;
     word-break: break-all;
+    color: @colorLight;
+    font-size: 0.875em;
   }
 
   &-close {
+    padding-right: 8px;
+    align-self: flex-start;
+    font-size: 1.125em;
     cursor: pointer;
-    font-size: 12px;
     padding-left: 8px;
-    display: flex;
 
     &:hover {
-      color: @textHover;
+      color: @colorHover;
     }
   }
+}
 
+.type () {
   &-info {
     border-color: @infoBorderColor;
     background-color: @infoBg;
