@@ -1,7 +1,23 @@
-import React, { ForwardedRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { useStyle } from './style';
+/**
+ * Counter
+ *
+ * @author tangjiahui
+ * @date 2023/6/28
+ */
+import React, {
+  DOMAttributes,
+  ForwardedRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
+import { omit } from '@/_utils/object';
+import classNames from 'classnames';
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import './counter.less';
 
-export interface CounterProps {
+export interface BaseCounterProps {
   /**
    * @description 开始值
    */
@@ -21,20 +37,40 @@ export interface CounterProps {
    */
   timeSplit?: number;
   /**
-   * @description 样式
+   * @description style
    */
   style?: React.CSSProperties;
+  /**
+   * @description className
+   */
+  className?: string;
 }
 
-export type CounterRef = {
-  replay: () => void;
-};
+export type BaseCounterPropsKeys = keyof BaseCounterProps;
+export type CounterProps = BaseCounterProps & DOMAttributes<HTMLDivElement>;
 
-const Counter = React.forwardRef((props: CounterProps, ref: ForwardedRef<CounterRef>) => {
+export type CounterRef = ForwardedRef<{
+  dom: HTMLDivElement | null;
+  replay: () => void;
+}>;
+
+const privateKeys: BaseCounterPropsKeys[] = [
+  'start',
+  'end',
+  'duration',
+  'timeSplit',
+  'style',
+  'className',
+];
+
+export type CounterFC = React.ForwardRefExoticComponent<CounterProps>;
+const Counter: CounterFC = React.forwardRef(function (props: CounterProps, ref: CounterRef) {
   const { duration = 2000, timeSplit = 20, start = 0, end = 0 } = props;
   const [value, setValue] = useState<number | null>(null);
   const timeId = useRef<any>();
-  const style = useStyle('count');
+  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
+  const prefix = usePrefix('counter');
+  const domRef = useRef<HTMLDivElement>(null);
 
   function startAnimation(startValue: number, endValue: number) {
     if (timeId.current) {
@@ -46,12 +82,12 @@ const Counter = React.forwardRef((props: CounterProps, ref: ForwardedRef<Counter
   }
 
   /**
-   * 线性动画
+   * line animation
    *
-   * @param min 最小值
-   * @param max 最大值
-   * @param duration 动画总时长
-   * @param timeSplit 间隔变化时间
+   * @param min min-value
+   * @param max max-value
+   * @param duration total animation time
+   * @param timeSplit animation frame per time-split.
    */
   function lineAnimation(min: number, max: number, duration: number, timeSplit: number) {
     // exchange min and max.
@@ -96,6 +132,7 @@ const Counter = React.forwardRef((props: CounterProps, ref: ForwardedRef<Counter
       replay() {
         startAnimation(start, end);
       },
+      dom: domRef.current,
     };
   });
 
@@ -108,10 +145,14 @@ const Counter = React.forwardRef((props: CounterProps, ref: ForwardedRef<Counter
   }, [start, end]);
 
   return (
-    <div className={style.counter()} style={props?.style}>
+    <div
+      {...originProps}
+      className={classNames(prefix, props?.className)}
+      style={props?.style}
+      ref={domRef}
+    >
       {value}
     </div>
   );
 });
-
 export default Counter;
