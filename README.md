@@ -1,9 +1,9 @@
 # tiger-ui
-一个轻量化、简洁的React UI库。(重构中)
+一个 React 组件库，类Ant Design 风格。
 
 ## 技术栈
 ```text
-React18 + TypeScript + Webpack5 + class-css
+React18 + TypeScript + Webpack5 + Less + Jest
 ```
 ## 如何运行
 ``` shell
@@ -17,14 +17,15 @@ pnpm build
 pnpm docs
 ```
 
-## 已支持特性
+## 特性
 ```text
-- 支持国际化
-- 支持全局主题色配置
-- 拥有完整的单元测试（3/n）
-- 拥有完整的docs站点
-- 无需引入css文件（使用css-in-js）
-- 导出UMD、CJS、ESM包
+- 单元测试
+- 文档站点
+- 国际化
+- 全局主题色配置
+- 局域主题色配置
+- 打包UMD、CJS、ESM产物
+- 自动发布 NPM
 ```
 
 ## Done（32 / 32）
