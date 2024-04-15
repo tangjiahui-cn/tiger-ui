@@ -1,7 +1,11 @@
-export * from './Alert';
-export * from './Button';
-export * from './Carousel';
-export * from './CheckBox';
+export { default as Alert } from './Alert';
+export type * from './Alert';
+export { default as Button } from './Button';
+export type * from './Button';
+export { default as Carousel } from './Carousel';
+export type * from './Carousel';
+export { default as CheckBox } from './CheckBox';
+export type * from './CheckBox';
 
 export { default as Input } from './Input';
 export type { InputProps } from './Input';

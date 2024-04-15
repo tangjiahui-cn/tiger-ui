@@ -4,7 +4,9 @@
  * @author tangjiahui
  * @date 2024/4/13
  */
-export { default as CheckBox } from './checkbox';
+import CheckBox from './checkbox';
+
+export default CheckBox;
 export type {
   CheckBoxFC,
   CheckBoxProps,

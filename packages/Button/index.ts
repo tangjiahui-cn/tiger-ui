@@ -4,7 +4,9 @@
  * @author tangjiahui
  * @date 2024/4/13
  */
-export { default as Button } from './button';
+import Button from './button';
+
+export default Button;
 export type {
   ButtonFC,
   ButtonProps,
