@@ -55,3 +55,18 @@
   setVar('warnColor', #ffad14);
   setVar('warnBg', #fffbe6);
 }
+
+// 'a' link style.
+a {
+  color: useVar('primary');
+  cursor: pointer;
+  transition: color useVar('duration');
+
+  &:hover {
+    color: useVar('primaryHover');
+  }
+
+  &:active {
+    color: useVar('primaryActive');
+  }
+}

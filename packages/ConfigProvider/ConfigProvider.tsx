@@ -43,7 +43,7 @@ function ConfigProvider(props: ConfigProviderProps) {
   const prefix = useMemo(() => props?.prefix || PACKAGE_NAME, [props?.prefix]);
 
   // locale
-  const locale = useMemo(() => props?.locale || en_US, [props?.locale]);
+  const locale = useMemo(() => props?.locale || en_US, [stringify(props?.locale)]);
 
   // children (which will inject className)
   const children = useMemo(() => {

@@ -9,4 +9,4 @@ import { en_US } from '@/_locales';
 
 export const localeContext = React.createContext(en_US);
 export const LocaleProvider = localeContext.Provider;
-export const useLocale = (name: string) => React.useContext(localeContext);
+export const useLocale = () => React.useContext(localeContext);
