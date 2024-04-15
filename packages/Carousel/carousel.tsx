@@ -4,29 +4,37 @@
  * @author tangjiahui
  * @date 2024/01/31
  */
-import Item from './Item';
-import { useEffect, useRef, useState } from 'react';
-import { SwitchBar, SwitchBarType } from './SwitchBar';
 import * as React from 'react';
-import throttle from 'lodash/throttle';
-import { useStyle } from './style';
+import { SwitchBarType } from './components/SwitchBar';
+import CarouselItem, { CarouselItemFC } from './carouseltem';
+import {
+  DOMAttributes,
+  ForwardedRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import { useStateWithRef } from '@/_hooks';
+import Item from './carouseltem';
+import throttle from 'lodash/throttle';
+import SwitchBar from './components/SwitchBar';
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import classNames from 'classnames';
+import { omit } from '@/_utils/object';
+import './carousel.less';
 
-type CarouselItem = {
+export type CarouselItem = {
   key: string;
   style?: React.CSSProperties;
   children: React.ReactNode;
 };
 
-export type CarouselProps = {
+export type BaseCarouselProps = {
   /**
    * @description 跑马灯面板 （会忽略 children 属性）
    */
   items?: CarouselItem[];
-  /**
-   * @description 跑马灯样式
-   */
-  style?: React.CSSProperties;
   /**
    * @description 当前显示面板（从0开始）
    */
@@ -57,12 +65,44 @@ export type CarouselProps = {
    * @description 子元素
    */
   children?: React.ReactElement | React.ReactElement[];
+  /**
+   * @description style
+   */
+  style?: React.CSSProperties;
+  /**
+   * @description className
+   */
+  className?: string;
 };
 
-Carousel.Item = Item;
-export default function Carousel(props: CarouselProps) {
+export type BaseCarouselPropsKeys = keyof BaseCarouselProps;
+export type CarouselProps = BaseCarouselProps & DOMAttributes<HTMLDivElement>;
+
+const privateKeys: BaseCarouselPropsKeys[] = [
+  'items',
+  'current',
+  'autoplay',
+  'autoplayDelay',
+  'type',
+  'style',
+  'className',
+  'dotStyle',
+  'onChange',
+  'style',
+  'className',
+];
+
+export type CarouselFC = React.ForwardRefExoticComponent<CarouselProps> & {
+  Item: CarouselItemFC;
+};
+
+const Carousel: CarouselFC = React.forwardRef(function (
+  props: CarouselProps,
+  ref: ForwardedRef<HTMLDivElement>,
+) {
   const { autoplayDelay = 2000 } = props;
-  const style = useStyle('carousel');
+  const prefix = usePrefix('carousel');
+  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
 
   // is use current outside.
   const isForceCurrentRef = useRef(props?.current !== undefined);
@@ -78,6 +118,8 @@ export default function Carousel(props: CarouselProps) {
       }
     | undefined
   >(undefined);
+
+  useImperativeHandle(ref, () => containerRef.current as HTMLDivElement);
 
   const timerIdRef = useRef<any>();
 
@@ -148,11 +190,10 @@ export default function Carousel(props: CarouselProps) {
 
   return (
     <div
+      {...originProps}
       ref={containerRef}
-      className={style.carousel()}
-      style={{
-        ...props?.style,
-      }}
+      style={props?.style}
+      className={classNames(props?.className, prefix)}
     >
       {containerSize && (
         <div
@@ -160,11 +201,12 @@ export default function Carousel(props: CarouselProps) {
             width: containerSize.width * children.length,
             transform: `translate3d(-${containerSize.width * current}px, 0, 0)`,
           }}
-          className={style.carouselBody()}
+          className={`${prefix}-body`}
         >
           {children}
         </div>
       )}
+
       <SwitchBar
         type={props?.type}
         current={current}
@@ -180,4 +222,7 @@ export default function Carousel(props: CarouselProps) {
       />
     </div>
   );
-}
+}) as any;
+
+Carousel.Item = CarouselItem;
+export default Carousel;

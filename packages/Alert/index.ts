@@ -4,6 +4,5 @@
  * @author tangjiahui
  * @date 2024/4/15
  */
-
 export { default as Alert } from './alert';
-export type { AlertProps, BaseAlertProps, AlertType, BaseAlertPropsKeys } from './alert';
+export type { AlertFC, AlertProps, BaseAlertProps, AlertType, BaseAlertPropsKeys } from './alert';

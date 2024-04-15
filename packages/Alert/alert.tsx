@@ -5,12 +5,12 @@
  * By TangJiaHui
  */
 import React, { DOMAttributes, ForwardedRef, useState } from 'react';
-import { useGlobal } from '@/_hooks';
 import { omit } from '@/_utils/object';
 import classNames from 'classnames';
 import { IconMap } from '@/Icon/_presets';
 import { Space } from '@/index';
 import { CloseOutlined } from '@ant-design/icons';
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
 import './alert.less';
 
 export type AlertType = 'info' | 'success' | 'error' | 'warn';
@@ -81,11 +81,12 @@ const privateKeys: BaseAlertPropsKeys[] = [
   'className',
 ];
 
-const Alert: React.ForwardRefExoticComponent<AlertProps> = React.forwardRef(function (
+export type AlertFC = React.ForwardRefExoticComponent<AlertProps>;
+const Alert: AlertFC = React.forwardRef(function (
   props: AlertProps,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
-  const { prefix } = useGlobal('alert');
+  const prefix = usePrefix('alert');
   const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
   const type = props?.type || 'info';
 

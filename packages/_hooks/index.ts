@@ -6,5 +6,4 @@ export * from './useListenLatestPointerDown';
 export * from './useUnmount';
 export * from './useFreezeHTMLBody';
 export * from './useMountDom';
-export * from './useGlobal';
 export * from './useCss';

@@ -1,6 +1,13 @@
-import * as React from 'react';
+/**
+ * SwitchBar
+ *
+ * @author tangjiahui
+ * @date 2024/01/31
+ */
+import React from 'react';
 import classNames from 'classnames';
-import { useStyle } from './style/switchBarStyle';
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import './SwitchBar.less';
 
 export type SwitchBarType = 'rect' | 'dot' | 'line';
 export interface SwitchBarProps {
@@ -12,9 +19,13 @@ export interface SwitchBarProps {
   onChange?: (current: number) => void;
 }
 
-export function SwitchBar(props: SwitchBarProps) {
-  const { type = 'line' } = props;
-  const style = useStyle('carousel-bar');
+export type SwitchBarFC = React.ForwardRefExoticComponent<SwitchBarProps>;
+const SwitchBar: SwitchBarFC = React.forwardRef(function (
+  props: SwitchBarProps,
+  ref: React.ForwardedRef<HTMLDivElement>,
+) {
+  const prefix = usePrefix('switchBar');
+  const type = props.type || 'line';
 
   function renderItem(total: number): React.ReactNode {
     const list: React.ReactNode[] = [];
@@ -25,11 +36,8 @@ export function SwitchBar(props: SwitchBarProps) {
       list.push(
         <div
           key={i}
-          className={classNames(
-            style.carouseBarType(type),
-            isChoose && style.carouseBarTypeChoose(type),
-          )}
           style={props?.itemStyle}
+          className={classNames(`${prefix}-${type}`, isChoose && `${prefix}-choose`)}
           onClick={() => props?.onChange?.(i)}
         >
           {isValue ? i + 1 : undefined}
@@ -41,8 +49,10 @@ export function SwitchBar(props: SwitchBarProps) {
   }
 
   return (
-    <div className={style.carouseBar()} style={props?.style}>
+    <div ref={ref} className={`${prefix}`} style={props?.style}>
       {renderItem(props.total)}
     </div>
   );
-}
+});
+
+export default SwitchBar;

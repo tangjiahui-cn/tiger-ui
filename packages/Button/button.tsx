@@ -7,7 +7,7 @@
 import React, { DOMAttributes, ForwardedRef } from 'react';
 import classNames from 'classnames';
 import { SizeType as ButtonSize } from '../_types/common';
-import { useGlobal } from '@/_hooks';
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
 import './button.less';
 import { omit } from '@/_utils/object';
 
@@ -81,11 +81,12 @@ const privateKeys: BaseButtonPropsKeys[] = [
   'loading',
 ];
 
-const Button: React.ForwardRefExoticComponent<ButtonProps> = React.forwardRef(function (
+export type ButtonFC = React.ForwardRefExoticComponent<ButtonProps>;
+const Button: ButtonFC = React.forwardRef(function (
   props: ButtonProps,
   ref: ForwardedRef<HTMLButtonElement>,
 ) {
-  const { prefix } = useGlobal('btn');
+  const prefix = usePrefix('btn');
   const originProps: DOMAttributes<HTMLButtonElement> = omit(props, privateKeys);
 
   const classes = classNames(

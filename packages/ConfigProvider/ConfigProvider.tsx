@@ -5,19 +5,17 @@
  * @date 2024/4/1
  */
 
-import React, { createContext, useContext, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Theme, toLegalTheme } from '@/_theme';
 import en_US from '../_locales/en_US';
 import type { Locale } from '@/_locales';
 import { useCss } from '@/_hooks';
+import { PrefixProvider } from './context/prefixContext';
+import { LocaleProvider } from './context/localeContext';
+import { stringify } from '@/_utils';
 
-function stringify(o: any): string {
-  try {
-    return JSON.stringify(o);
-  } catch {
-    return '';
-  }
-}
+export { usePrefix } from './context/prefixContext';
+export { useLocale } from './context/localeContext';
 
 interface ContextValue {
   /**
@@ -38,27 +36,18 @@ type ConfigProviderProps = ContextValue & {
   children?: React.ReactNode;
 };
 
-const INIT_CONTEXT: ContextValue = {
-  theme: undefined,
-  locale: en_US,
-  prefix: PACKAGE_NAME,
-};
-
-const context = createContext<ContextValue>(INIT_CONTEXT);
-
 function ConfigProvider(props: ConfigProviderProps) {
   const css = useCss(5);
-  const isInjectClass: boolean = !!props?.theme;
 
-  const value: ContextValue = {
-    theme: props?.theme || INIT_CONTEXT.theme,
-    locale: props?.locale || INIT_CONTEXT.locale,
-    prefix: props?.prefix || INIT_CONTEXT.prefix,
-  };
+  // prefix
+  const prefix = useMemo(() => props?.prefix || PACKAGE_NAME, [props?.prefix]);
 
-  // avoid useless update.
-  const themeToken = stringify(props?.theme);
+  // locale
+  const locale = useMemo(() => props?.locale || en_US, [props?.locale]);
+
+  // children (which will inject className)
   const children = useMemo(() => {
+    const isInjectClass: boolean = !!props?.theme;
     if (!isInjectClass) {
       return props?.children;
     }
@@ -85,10 +74,13 @@ function ConfigProvider(props: ConfigProviderProps) {
       },
       [],
     );
-  }, [themeToken]);
+  }, [stringify(props?.theme)]);
 
-  return <context.Provider value={value}>{children}</context.Provider>;
+  return (
+    <PrefixProvider value={prefix}>
+      <LocaleProvider value={locale}>{children}</LocaleProvider>
+    </PrefixProvider>
+  );
 }
 
-export const useConfig = () => useContext(context);
 export default ConfigProvider;

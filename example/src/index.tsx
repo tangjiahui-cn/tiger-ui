@@ -1,35 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Space from '@/Space';
-import { Alert } from '../../packages';
-import ConfigProvider from '@/ConfigProvider/ConfigProvider';
+import { Carousel } from '../../packages';
 
 function App() {
-  const [primary, setPrimary] = useState<string>();
-  const [danger, setDanger] = useState<string>();
-
   return (
-    <ConfigProvider
-      theme={{
-        primary,
-        danger,
-      }}
-    >
-      <Space>
-        {['info', 'success', 'error', 'info'].map((type: any) => {
-          return (
-            <Alert
-              showIcon
-              closable
-              message='This is a normal alert'
-              type={type}
-              key={type}
-              description={'a description'}
-            />
-          );
-        })}
-      </Space>
-    </ConfigProvider>
+    <Carousel style={{ height: 180, width: 700 }}>
+      <Carousel.Item style={{ background: 'red', height: '100%' }}>1</Carousel.Item>
+      <Carousel.Item style={{ background: 'blue', height: '100%' }}>2</Carousel.Item>
+      <Carousel.Item style={{ background: 'black', height: '100%' }}>3</Carousel.Item>
+    </Carousel>
   );
 }
 
