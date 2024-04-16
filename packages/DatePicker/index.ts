@@ -8,6 +8,7 @@ import DatePicker from './datepicker';
 
 export default DatePicker;
 export type {
+  DateType,
   DatePickerFC,
   DatePickerProps,
   BaseDatePickerProps,

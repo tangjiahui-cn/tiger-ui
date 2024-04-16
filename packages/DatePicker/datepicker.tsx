@@ -19,10 +19,16 @@ import {
 } from '@ant-design/icons';
 import Line from '@/DatePicker/components/Line';
 import { DropDown } from '@/index';
-import { DateType } from '@/DatePicker/index';
 import { omit } from '@/_utils/object';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
 import './datepicker.less';
+
+export interface DateType {
+  year: number;
+  month: number;
+  day: number;
+  dateStr: string;
+}
 
 export interface BaseDatePickerProps {
   /**
