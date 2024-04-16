@@ -44,7 +44,7 @@ export default function (props: MessageBoxProps) {
     <div
       className={classNames(style.messageBox(), style.appear(isAppear))}
       style={{
-        zIndex: 999,
+        zIndex: 1000,
         animationDuration: `${animationDuration}ms`,
       }}
     >

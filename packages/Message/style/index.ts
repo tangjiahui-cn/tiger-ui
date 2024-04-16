@@ -10,7 +10,7 @@ const wrapper = () =>
       height: '100%',
       backgroundColor: 'transparent',
       pointerEvents: 'none',
-      zIndex: 999,
+      zIndex: 1000,
     },
   });
 
