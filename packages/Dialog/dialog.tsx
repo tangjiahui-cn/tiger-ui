@@ -4,20 +4,18 @@
  * @author tangjiahui
  * @date 2024/1/31
  */
-import React, { useRef, useState } from 'react';
-import ReactDOM from 'react-dom';
+import React, { DOMAttributes, ForwardedRef, useRef, useState } from 'react';
 import { CloseOutlined } from '@ant-design/icons';
-import { Button, Space } from '..';
+import { useFreezeHTMLBody, useListenEffect, useListenLatestPointerDown } from '@/_hooks';
+import ReactDOM from 'react-dom';
 import classNames from 'classnames';
-import { useListenEffect, useListenLatestPointerDown, useFreezeHTMLBody } from '@/_hooks';
-import { useStyle } from './style';
+import { Button, Space } from '..';
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import { omit } from '@/_utils/object';
+import './dialog.less';
+import { useDynamicCss } from './hooks/useDynamicCss';
 
-export interface DialogProps {
-  /**
-   * @description 对话框最外层样式
-   * @default 500px
-   */
-  style?: React.CSSProperties;
+export interface BaseDialogProps {
   /**
    * @description 对话框content样式
    * @default 500px
@@ -100,12 +98,46 @@ export interface DialogProps {
    */
   confirmLoading?: boolean;
   /**
-   * @description 对话框包裹元素
+   * @description style
    */
-  children?: React.ReactNode;
+  style?: React.CSSProperties;
+  /**
+   * @description className
+   */
+  className?: string;
 }
 
-export default function Dialog(props: DialogProps) {
+export type BaseDialogPropsKeys = keyof BaseDialogProps;
+export type DialogProps = BaseDialogProps & DOMAttributes<HTMLDivElement>;
+
+const privateKeys: BaseDialogPropsKeys[] = [
+  'bodyStyle',
+  'width',
+  'destroyOnClose',
+  'open',
+  'title',
+  'footer',
+  'closable',
+  'closeIcon',
+  'okText',
+  'cancelText',
+  'mask',
+  'maskClosable',
+  'maskStyle',
+  'animationDelay',
+  'onCancel',
+  'onOk',
+  'cancelLoading',
+  'confirmLoading',
+  'style',
+  'className',
+];
+
+export type DialogFC = React.ForwardRefExoticComponent<DialogProps>;
+const Dialog: DialogFC = React.forwardRef(function (
+  props: DialogProps,
+  ref: ForwardedRef<HTMLDivElement>,
+) {
   const {
     animationDelay = 300,
     closable = true,
@@ -115,6 +147,9 @@ export default function Dialog(props: DialogProps) {
     cancelText = '取消',
     okText = '确定',
   } = props;
+  const prefix = usePrefix('dialog');
+  const dynamicCss = useDynamicCss('dialog');
+  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
 
   const [animationClass, setAnimationClass] = useState<string>('');
   const [bgAnimationClass, setBgAnimationClass] = useState<string>('');
@@ -124,18 +159,17 @@ export default function Dialog(props: DialogProps) {
     y: 0,
   });
 
-  const style = useStyle('dialog');
   const timerIdRef = useRef<any>();
   const listenerRef = useListenLatestPointerDown();
 
   function appear(x: number = 0, y: number = 0) {
-    setAnimationClass(style.contentAppear(x, y, animationDelay));
-    setBgAnimationClass(style.backgroundAppear(animationDelay));
+    setAnimationClass(dynamicCss.current.contentAppear(x, y, animationDelay));
+    setBgAnimationClass(dynamicCss.current.backgroundAppear(animationDelay));
   }
 
   function disAppear(x = 0, y = 0) {
-    setAnimationClass(style.contentDisAppear(x, y, animationDelay));
-    setBgAnimationClass(style.backgroundDisAppear(animationDelay));
+    setAnimationClass(dynamicCss.current.contentDisAppear(x, y, animationDelay));
+    setBgAnimationClass(dynamicCss.current.backgroundDisAppear(animationDelay));
   }
 
   useFreezeHTMLBody(nextVisible);
@@ -182,21 +216,23 @@ export default function Dialog(props: DialogProps) {
     (props?.destroyOnClose ? nextVisible : true) &&
     ReactDOM.createPortal(
       <div
-        className={style.dialog()}
+        {...originProps}
+        className={classNames(props?.className, prefix)}
         style={{
           display: props?.destroyOnClose || nextVisible ? 'flex' : 'none',
           ...props?.style,
         }}
+        ref={ref}
       >
         {/* background */}
         <div
           style={props?.maskStyle}
-          className={classNames(mask && bgAnimationClass, style.dialogMask())}
+          className={classNames(mask && bgAnimationClass, `${prefix}-mask`)}
           onClick={maskClosable ? props?.onCancel : undefined}
         />
         {/* content */}
         <div
-          className={classNames(animationClass, style.dialogContent())}
+          className={classNames(animationClass, `${prefix}-content`)}
           style={{
             width: props?.width || 500,
             ...props?.bodyStyle,
@@ -204,20 +240,20 @@ export default function Dialog(props: DialogProps) {
         >
           {/* head */}
           {props?.title && (
-            <div className={style.dialogContentHeader()}>
+            <div className={`${prefix}-content-header`}>
               <div style={{ flex: 1 }}>{props?.title}</div>
             </div>
           )}
           {closable && (
-            <div className={style.closeIcon()} onClick={props?.onCancel}>
+            <div className={`${prefix}-close`} onClick={props?.onCancel}>
               {closeIcon}
             </div>
           )}
           {/* body */}
-          <div className={style.dialogContentBody()}>{props?.children}</div>
+          <div className={`${prefix}-content-body`}>{props?.children}</div>
           {/* footer */}
           {props?.footer || (
-            <div className={style.dialogContentFooter()}>
+            <div className={`${prefix}-content-footer`}>
               <Space style={{ float: 'right' }}>
                 {
                   <Button onClick={props?.onCancel} loading={props?.cancelLoading}>
@@ -237,4 +273,6 @@ export default function Dialog(props: DialogProps) {
       document.body,
     )
   );
-}
+});
+
+export default Dialog;
