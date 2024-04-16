@@ -7,15 +7,6 @@
 import { useEffect, useRef } from 'react';
 import { useUnmount } from '.';
 
-// judge target is has a scroll bar.
-function isHasScrollBar(node: HTMLElement): boolean {
-  try {
-    return node.scrollHeight > node.clientHeight;
-  } catch {
-    return false;
-  }
-}
-
 // get target scroll bar width.
 function getScrollBarWidth(node: HTMLElement): number {
   try {
@@ -35,10 +26,10 @@ export function useFreezeHTMLBody(isFreeze: boolean) {
 
   useEffect(() => {
     if (isFreeze) {
-      const isScroll = isHasScrollBar(document.body);
+      const scrollBarWidth = getScrollBarWidth(document.body);
       const el: HTMLStyleElement = document.createElement('style');
       el.innerHTML = `html body {height:100vh;width:${
-        isScroll ? `calc(100vw - ${getScrollBarWidth(document.body)}px)` : '100vw'
+        scrollBarWidth ? `calc(100vw - ${getScrollBarWidth(document.body)}px)` : '100vw'
       };overflow:hidden;}`;
       document.head.appendChild((styleRef.current = el));
       isMount.current = true;
