@@ -1,3 +1,5 @@
+import './_theme/default.less';
+
 export { default as Alert } from './Alert';
 export type * from './Alert';
 export { default as Button } from './Button';
