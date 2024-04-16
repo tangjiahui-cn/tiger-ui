@@ -4,24 +4,20 @@
  * @author tangjiahui
  * @date 2024/02/01
  */
-import {
-  backgroundAppear,
-  backgroundDisAppear,
-  Direction,
-  drawerContentAppear,
-  drawerContentDisAppear,
-} from '@/Drawer/animationClass';
 import React, { DOMAttributes, ForwardedRef, useRef, useState } from 'react';
 import { CloseOutlined } from '@ant-design/icons';
 import { useFreezeHTMLBody, useListenEffect, useListenLatestPointerDown } from '@/_hooks';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import { Button, Space } from '..';
-import './drawer.less';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
 import { omit } from '@/_utils/object';
+import { css } from 'class-css';
+import './drawer.less';
+import './styles/animation.less';
+import './styles/keyframes.less';
 
-export type DrawerDirection = Direction;
+export type DrawerDirection = 'left' | 'top' | 'right' | 'bottom';
 export interface BaseDrawerProps {
   /**
    * @description 抽屉content样式
@@ -153,6 +149,7 @@ const Drawer: DrawerFC = React.forwardRef(function (
   } = props;
 
   const prefix = usePrefix('drawer');
+  const animationPrefix = usePrefix('drawerAn');
   const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
 
   const [animationClass, setAnimationClass] = useState<string>('');
@@ -166,14 +163,32 @@ const Drawer: DrawerFC = React.forwardRef(function (
   const timerIdRef = useRef<any>();
   const listenerRef = useListenLatestPointerDown();
 
+  function drawerContentAppear(
+    type: 'appear' | 'disappear',
+    direction: DrawerDirection,
+    delay: number,
+  ): string {
+    const className = `${animationPrefix}-content-${type}-${direction}`;
+    return `${className} ${css({
+      animation: `${className} ${delay}ms`,
+    })}`;
+  }
+
+  function backgroundAppear(type: 'appear' | 'disappear', delay: number): string {
+    const className = `${animationPrefix}-bg-${type}`;
+    return `${className} ${css({
+      animation: `${className} ${delay}ms`,
+    })}`;
+  }
+
   function appear() {
-    setAnimationClass(drawerContentAppear(direction, animationDelay));
-    setBgAnimationClass(backgroundAppear(animationDelay));
+    setAnimationClass(drawerContentAppear('appear', direction, animationDelay));
+    setBgAnimationClass(backgroundAppear('appear', animationDelay));
   }
 
   function disAppear() {
-    setAnimationClass(drawerContentDisAppear(direction, animationDelay));
-    setBgAnimationClass(backgroundDisAppear(animationDelay));
+    setAnimationClass(drawerContentAppear('disappear', direction, animationDelay));
+    setBgAnimationClass(backgroundAppear('disappear', animationDelay));
   }
 
   useFreezeHTMLBody(nextVisible);

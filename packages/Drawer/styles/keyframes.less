@@ -1,0 +1,72 @@
+@import '../../_theme/variable.less';
+
+@prefixNoDot: prefixNotDot('drawerAn');
+
+.bgKeyframes(true);
+.bgKeyframes(false);
+.bgKeyframes(@isAppear) {
+  @status: if(@isAppear, 'appear', 'disappear');
+  @name:~'@{prefixNoDot}-bg-@{status}';
+  @from: if(@isAppear, from, to);
+  @to: if(@isAppear, to, from);
+
+  @keyframes @name {
+    @{from} {
+      background-color: rgba(0, 0, 0, 0);
+    }
+
+    @{to} {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+.contentKeyframes(true);
+.contentKeyframes(false);
+.contentKeyframes (@isAppear) {
+  @status: if(@isAppear, 'appear', 'disappear');
+
+  @top: ~'@{prefixNoDot}-content-@{status}-top';
+  @right: ~'@{prefixNoDot}-content-@{status}-right';
+  @bottom: ~'@{prefixNoDot}-content-@{status}-bottom';
+  @left: ~'@{prefixNoDot}-content-@{status}-left';
+
+  @from: if(@isAppear, from, to);
+  @to: if(@isAppear, to, from);
+
+  @keyframes @top {
+    @{from} {
+      transform: translate(0, -100%);
+    }
+    @{to} {
+      transform: translate(0, 0);
+    }
+  }
+
+  @keyframes @right {
+    @{from} {
+      transform: translate(100%, 0);
+    }
+    @{to} {
+      transform: translate(0, 0);
+    }
+  }
+
+  @keyframes @bottom {
+    @{from} {
+      transform: translate(0, 100%);
+    }
+    @{to} {
+      transform: translate(0, 0);
+    }
+  }
+
+  @keyframes @left {
+    @{from} {
+      transform: translate(-100%, 0);
+    }
+    @{to} {
+      transform: translate(0, 0);
+    }
+  }
+}

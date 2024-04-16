@@ -23,6 +23,9 @@ module.exports = {
     functions.add('prefix', function ({ value: name }) {
       return `.${pkg.name}-${name}`;
     });
+    functions.add('prefixNotDot', function ({ value: name }) {
+      return `${pkg.name}-${name}`;
+    });
   },
 };
 
