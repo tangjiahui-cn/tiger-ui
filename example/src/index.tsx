@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Button, Drawer } from '../../packages';
+import DropDown from '@/DropDown';
+import Space from '@/Space';
 
 function App() {
   const [visible, setVisible] = useState(false);
@@ -8,7 +10,19 @@ function App() {
   return (
     <div>
       <Button onClick={() => setVisible(true)}>打开弹窗</Button>
-      <Button onClick={() => setVisible(true)}>打开弹窗</Button>
+      <DropDown
+        popupPanel={
+          <Space direction={'vertical'}>
+            <div>1</div>
+            <div>1</div>
+            <div>1</div>
+            <div>1</div>
+            <div>1</div>
+          </Space>
+        }
+      >
+        <Button>打开弹窗</Button>
+      </DropDown>
 
       <Drawer open={visible} onCancel={() => setVisible(false)}>
         11

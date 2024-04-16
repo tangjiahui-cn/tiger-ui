@@ -18,6 +18,8 @@ export { default as Dialog } from './Dialog';
 export type * from './Dialog';
 export { default as Drawer } from './Drawer';
 export type * from './Drawer';
+export { default as DropDown } from './DropDown';
+export type * from './DropDown';
 
 export { default as Input } from './Input';
 export type { InputProps } from './Input';
@@ -61,5 +63,3 @@ export { default as Tabs } from './Tabs';
 export type { TabsProps } from './Tabs';
 export { default as InputNumber } from './InputNumber';
 export type { InputNumberProps } from './InputNumber';
-export { default as DropDown } from './DropDown';
-export type { DropDownProps } from './DropDown';

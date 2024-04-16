@@ -1,11 +1,18 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('dropdown');
+@prefixNoDot: prefixNoDot('dropdown');
+
+@expandKeyframes: ~'@{prefixNoDot}-expand';
+@unExpandKeyframes: ~'@{prefixNoDot}-unExpand';
 
 @scale100: translate(0, 0) scale(1, 1);
 @scale25: translate(0, -37.5%) scale(1, 25%);
 @scale50: translate(0, -25%) scale(1, 50%);
 @scale75: translate(0, -12.5%) scale(1, 75%);
 
-@keyframes expandDynamic {
-  0% {
+@keyframes @expandKeyframes {
+  from {
     opacity: 0;
     transform: @scale75;
   }
@@ -19,8 +26,11 @@
   }
 }
 
-@keyframes unExpandDynamic {
-  from,
+@keyframes @unExpandKeyframes {
+  from {
+    opacity: 1;
+    transform: @scale100;
+  }
   15% {
     opacity: 1;
     transform: @scale100;
@@ -33,29 +43,27 @@
     opacity: 0.05;
     transform: @scale75;
   }
-  100% {
+  to {
     opacity: 0;
     transform: @scale50;
   }
 }
 
-.popupPanel {
+@{prefix} {
   opacity: 0;
-  max-height: 256px;
-  overflow-y: auto;
   min-height: 12px;
   background: white;
   box-shadow: 0px 3px 6px -4px rgba(0, 0, 0, 0.12), 0px 6px 16px 0px rgba(0, 0, 0, 0.08),
     0px 9px 28px 8px rgba(0, 0, 0, 0.05);
 
-  &_expand {
+  &-expand {
     opacity: 1;
     transform: translate(0, 0) scale(1, 1);
-    animation: expandDynamic 0.2s;
+    animation: @expandKeyframes @duration;
   }
 
-  &_unExpand {
+  &-unExpand {
     opacity: 0;
-    animation: unExpandDynamic 0.3s;
+    animation: @unExpandKeyframes @duration;
   }
 }
