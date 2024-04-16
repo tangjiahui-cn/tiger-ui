@@ -14,6 +14,8 @@ export { default as DatePicker } from './DatePicker';
 export type * from './DatePicker';
 export { default as Dialog } from './Dialog';
 export type * from './Dialog';
+export { default as Drawer } from './Drawer';
+export type * from './Drawer';
 
 export { default as Input } from './Input';
 export type { InputProps } from './Input';
@@ -21,8 +23,6 @@ export { default as message } from './Message';
 export type { MessageProps } from './Message';
 export { default as Space } from './Space';
 export type { SpaceProps } from './Space';
-export { default as Drawer } from './Drawer';
-export type { DrawerProps } from './Drawer';
 export { default as Pagination } from './Pagination';
 export type { PaginationProps } from './Pagination';
 export { default as ConfigProvider } from './ConfigProvider';

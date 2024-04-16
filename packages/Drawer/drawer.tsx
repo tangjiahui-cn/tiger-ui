@@ -4,29 +4,25 @@
  * @author tangjiahui
  * @date 2024/02/01
  */
-import { DialogProps } from '@/Dialog';
-import ReactDOM from 'react-dom';
-import classNames from 'classnames';
-import React, { useRef, useState } from 'react';
-import { CloseOutlined } from '@ant-design/icons';
-import { useFreezeHTMLBody, useListenEffect, useListenLatestPointerDown } from '@/_hooks';
-import { Button, Space } from '@/index';
 import {
   backgroundAppear,
   backgroundDisAppear,
-  drawerContentDisAppear,
-  drawerContentAppear,
   Direction,
-} from './animationClass';
-import { useStyle } from './style';
+  drawerContentAppear,
+  drawerContentDisAppear,
+} from '@/Drawer/animationClass';
+import React, { DOMAttributes, ForwardedRef, useRef, useState } from 'react';
+import { CloseOutlined } from '@ant-design/icons';
+import { useFreezeHTMLBody, useListenEffect, useListenLatestPointerDown } from '@/_hooks';
+import ReactDOM from 'react-dom';
+import classNames from 'classnames';
+import { Button, Space } from '..';
+import './drawer.less';
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import { omit } from '@/_utils/object';
 
 export type DrawerDirection = Direction;
-export type DrawerProps = {
-  /**
-   * @description 抽屉最外层样式
-   * @default 500px
-   */
-  style?: React.CSSProperties;
+export interface BaseDrawerProps {
   /**
    * @description 抽屉content样式
    * @default 500px
@@ -106,11 +102,45 @@ export type DrawerProps = {
    */
   direction?: DrawerDirection;
   /**
-   * @description 抽屉包裹元素
+   * @description style
    */
-  children?: React.ReactNode;
-};
-export default function Drawer(props: DrawerProps) {
+  style?: React.CSSProperties;
+  /**
+   * @description className
+   */
+  className?: string;
+}
+
+export type BaseDrawerPropsKeys = keyof BaseDrawerProps;
+export type DrawerProps = BaseDrawerProps & DOMAttributes<HTMLDivElement>;
+
+const privateKeys: BaseDrawerPropsKeys[] = [
+  'bodyStyle',
+  'width',
+  'destroyOnClose',
+  'open',
+  'title',
+  'footer',
+  'closable',
+  'closeIcon',
+  'okText',
+  'cancelText',
+  'mask',
+  'maskClosable',
+  'maskStyle',
+  'animationDelay',
+  'onCancel',
+  'onOk',
+  'direction',
+  'style',
+  'className',
+];
+
+export type DrawerFC = React.ForwardRefExoticComponent<DrawerProps>;
+const Drawer: DrawerFC = React.forwardRef(function (
+  props: DrawerProps,
+  ref: ForwardedRef<HTMLDivElement>,
+) {
   const {
     animationDelay = 300,
     closable = true,
@@ -121,7 +151,9 @@ export default function Drawer(props: DrawerProps) {
     okText = '确定',
     direction = 'right',
   } = props;
-  const style = useStyle('drawer');
+
+  const prefix = usePrefix('drawer');
+  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
 
   const [animationClass, setAnimationClass] = useState<string>('');
   const [bgAnimationClass, setBgAnimationClass] = useState<string>('');
@@ -188,25 +220,27 @@ export default function Drawer(props: DrawerProps) {
     (props?.destroyOnClose ? nextVisible : true) &&
     ReactDOM.createPortal(
       <div
-        className={style.drawer()}
+        {...originProps}
+        className={classNames(props?.className, prefix)}
         style={{
           display: props?.destroyOnClose || nextVisible ? 'block' : 'none',
           ...props?.style,
         }}
+        ref={ref}
       >
         {/* background */}
         <div
           style={props?.maskStyle}
-          className={classNames(mask && bgAnimationClass, style.drawerMask())}
+          className={classNames(mask && bgAnimationClass, `${prefix}-mask`)}
           onClick={maskClosable ? props?.onCancel : undefined}
         />
         {/* content */}
-        <div className={classNames(animationClass, style.drawerContent())} style={props?.bodyStyle}>
+        <div className={classNames(animationClass, `${prefix}-content`)} style={props?.bodyStyle}>
           {/* head */}
           {(props?.title || closable) && (
-            <div className={style.drawerContentHeader()}>
+            <div className={`${prefix}-content-header`}>
               {closable && (
-                <div className={style.closeIcon()} onClick={props?.onCancel}>
+                <div className={`${prefix}-close`} onClick={props?.onCancel}>
                   {closeIcon}
                 </div>
               )}
@@ -214,10 +248,10 @@ export default function Drawer(props: DrawerProps) {
             </div>
           )}
           {/* body */}
-          <div className={style.drawerContentBody()}>{props?.children}</div>
+          <div className={`${prefix}-content-body`}>{props?.children}</div>
           {/* footer */}
           {props?.footer || (
-            <div className={style.drawerContentFooter()}>
+            <div className={`${prefix}-content-footer`}>
               <Space style={{ float: 'right' }}>
                 {<Button onClick={props?.onCancel}>{cancelText}</Button>}
                 {
@@ -233,4 +267,6 @@ export default function Drawer(props: DrawerProps) {
       document.body,
     )
   );
-}
+});
+
+export default Drawer;

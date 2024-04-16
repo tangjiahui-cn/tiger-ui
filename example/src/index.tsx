@@ -7,6 +7,7 @@ import { en_US, zh_CN, Locale } from '@/_locales';
 import CheckBox from '@/CheckBox/checkbox';
 import DatePicker from '@/DatePicker';
 import Dialog from '@/Dialog/dialog';
+import Drawer from '@/Drawer/drawer';
 
 function App() {
   const [visible, setVisible] = useState(false);
@@ -17,14 +18,14 @@ function App() {
   return (
     <div>
       <Button onClick={() => setVisible(true)}>打开弹窗</Button>
-      <Dialog
+      <Drawer
         open={visible}
         onCancel={() => {
           setVisible(false);
         }}
       >
         11
-      </Dialog>
+      </Drawer>
     </div>
   );
 }
