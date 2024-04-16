@@ -10,6 +10,8 @@ export { default as Collapse } from './Collapse';
 export type * from './Collapse';
 export { default as Counter } from './Counter';
 export type * from './Counter';
+export { default as DatePicker } from './DatePicker';
+export type * from './DatePicker';
 
 export { default as Input } from './Input';
 export type { InputProps } from './Input';
@@ -27,8 +29,6 @@ export { default as ConfigProvider } from './ConfigProvider';
 export type { ConfigProviderProps } from './ConfigProvider';
 export { default as Select } from './Select';
 export type { SelectProps } from './Select';
-export { default as DatePicker } from './DatePicker';
-export type { DatePickerProps } from './DatePicker';
 export { default as Slider } from './Slider';
 export type { SliderProps } from './Slider';
 export { default as Image } from './Image';

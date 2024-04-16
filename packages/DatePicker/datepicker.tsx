@@ -4,67 +4,27 @@
  * @author tangjiahui
  * @date 2024/2/28
  */
-import { DropDown } from '@/index';
-import { css } from 'class-css';
+import React, { DOMAttributes, ForwardedRef, useEffect, useRef, useState } from 'react';
+import moment, { Moment } from 'moment/moment';
+import { dateToMoment, getChangeDate, momentToDate } from '@/DatePicker/utils/dateUtils';
+import { useUpdateEffect } from '@/_hooks';
+import { createCalendar } from '@/DatePicker/utils/createCalendar';
+import classNames from 'classnames';
+import Space from '@/Space';
 import {
   DoubleLeftOutlined,
   DoubleRightOutlined,
   LeftOutlined,
   RightOutlined,
 } from '@ant-design/icons';
-import Space from '@/Space';
-import React, { useEffect, useRef, useState } from 'react';
-import moment, { Moment } from 'moment';
-import Line from './components/Line';
-import { createCalendar } from '@/DatePicker/utils/createCalendar';
-import { useUpdateEffect } from '@/_hooks';
-import { momentToDate, getChangeDate, dateToMoment } from './utils/dateUtils';
-import { useStyle } from './style';
-import classNames from 'classnames';
+import Line from '@/DatePicker/components/Line';
+import { DropDown } from '@/index';
+import { DateType } from '@/DatePicker/index';
+import { omit } from '@/_utils/object';
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import './datepicker.less';
 
-const iconClass = css({
-  fontSize: '0.815em',
-  color: 'gray',
-  cursor: 'pointer',
-  width: 16,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  height: '100%',
-  '&:hover': {
-    color: 'black',
-  },
-});
-
-const clickableClass = css({
-  cursor: 'pointer',
-  padding: '0 4px',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  height: '100%',
-  transition: 'all .3s',
-  '&:hover': {
-    color: '#3e74dc',
-  },
-});
-
-export type DateType = {
-  year: number;
-  month: number;
-  day: number;
-  dateStr: string;
-};
-
-export interface DatePickerProps {
-  /**
-   * @description 样式
-   */
-  style?: React.CSSProperties;
-  /**
-   * @description 类名
-   */
-  className?: string;
+export interface BaseDatePickerProps {
   /**
    * @description 受控制
    */
@@ -73,11 +33,30 @@ export interface DatePickerProps {
    * @description 值回调
    */
   onChange?: (value?: Moment | null) => void;
+  /**
+   * @description style
+   */
+  style?: React.CSSProperties;
+  /**
+   * @description className
+   */
+  className?: string;
 }
 
-export default function DatePicker(props: DatePickerProps) {
-  const style = useStyle('datepicker');
+export type BaseDatePickerPropsKeys = keyof BaseDatePickerProps;
+export type DatePickerProps = BaseDatePickerProps & DOMAttributes<HTMLDivElement>;
+
+const privateKeys: BaseDatePickerPropsKeys[] = ['value', 'onChange', 'style', 'className'];
+
+export type DatePickerFC = React.ForwardRefExoticComponent<DatePickerProps>;
+const DatePicker: DatePickerFC = React.forwardRef(function (
+  props: DatePickerProps,
+  ref: ForwardedRef<HTMLDivElement>,
+) {
+  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
   const [visible, setVisible] = useState(false);
+  const prefix = usePrefix('datepicker');
+  const panelPrefix = `${prefix}Panel`;
 
   // control calendar panel update.
   const [calendarDate, setCalendarDate] = useState<DateType>({
@@ -130,34 +109,36 @@ export default function DatePicker(props: DatePickerProps) {
 
   const renderPopupPanel = (
     <div
-      className={classNames(props?.className, style.datepickerPanel())}
-      style={{ ...props?.style }}
+      {...originProps}
+      className={classNames(props?.className, panelPrefix)}
+      style={props?.style}
+      ref={ref}
     >
-      <div className={style.datepickerPanelHead()}>
+      <div className={`${panelPrefix}-head`}>
         <Space size={0} itemStyle={{ height: '100%' }}>
-          <div className={iconClass} onClick={() => changeYear('dec')}>
+          <div className={`${panelPrefix}-head-icon`} onClick={() => changeYear('dec')}>
             <DoubleLeftOutlined />
           </div>
-          <div className={iconClass} onClick={() => changeMonth('dec')}>
+          <div className={`${panelPrefix}-head-icon`} onClick={() => changeMonth('dec')}>
             <LeftOutlined />
           </div>
         </Space>
 
-        <Space size={0} itemClassName={clickableClass}>
+        <Space size={0} itemClassName={`${panelPrefix}-clickable`}>
           <a>{calendarDate.year}年</a>
           <a>{calendarDate.month}月</a>
         </Space>
 
         <Space size={0} itemStyle={{ height: '100%' }}>
-          <div className={iconClass} onClick={() => changeMonth('add')}>
+          <div className={`${panelPrefix}-head-icon`} onClick={() => changeMonth('add')}>
             <RightOutlined />
           </div>
-          <div className={iconClass} onClick={() => changeYear('add')}>
+          <div className={`${panelPrefix}-head-icon`} onClick={() => changeYear('add')}>
             <DoubleRightOutlined />
           </div>
         </Space>
       </div>
-      <div className={style.datepickerPanelBody()}>
+      <div className={`${panelPrefix}-body`}>
         <Line
           options={['一', '二', '三', '四', '五', '六', '日'].map((name) => {
             return {
@@ -186,7 +167,7 @@ export default function DatePicker(props: DatePickerProps) {
           );
         })}
       </div>
-      <div className={style.datepickerPanelFoot()}>
+      <div className={`${panelPrefix}-footer`}>
         <span onClick={() => handleChooseDate(momentToDate(moment()))}>今天</span>
       </div>
     </div>
@@ -200,17 +181,11 @@ export default function DatePicker(props: DatePickerProps) {
         setVisible(open);
       }}
     >
-      <div
-        className={css({
-          fontSize: '0.875em',
-          border: '1px solid #e8e8e8',
-          padding: '6px 12px',
-          cursor: 'pointer',
-          width: 100,
-        })}
-      >
-        {date.dateStr || <span style={{ color: '#c4c4c4' }}>请选择</span>}
+      <div className={prefix}>
+        {date.dateStr || <span className={`${prefix}-placeholder`}>请选择</span>}
       </div>
     </DropDown>
   );
-}
+});
+
+export default DatePicker;

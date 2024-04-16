@@ -5,40 +5,9 @@
  * @date 2024/2/29
  */
 import React from 'react';
-import { css } from 'class-css';
 import classNames from 'classnames';
-
-const selectClass = css({
-  background: '#4e92e8',
-  color: 'white',
-});
-
-const itemInnerClass = css({
-  width: '100%',
-  height: '100%',
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  borderRadius: 3,
-});
-
-const itemClass = css({
-  flex: 1,
-  boxSizing: 'border-box',
-  userSelect: 'none',
-  cursor: 'text',
-  padding: 4,
-});
-
-const hoverClass = css({
-  cursor: 'pointer',
-  [`&:hover .${itemInnerClass}`]: {
-    background: 'whitesmoke',
-  },
-  [`&:hover .${selectClass}`]: {
-    background: '#4e92e8',
-  },
-});
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import './item.less';
 
 export type ItemValue = string | number | undefined;
 
@@ -54,10 +23,11 @@ export interface ItemProps {
   onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
 }
 export default function Line(props: ItemProps) {
+  const prefix = usePrefix('datepickerLineItem');
   return (
     <div
       style={props?.style}
-      className={classNames(itemClass, props?.className, props?.selectable && hoverClass)}
+      className={classNames(prefix, props?.className, props?.selectable && `${prefix}-select`)}
       onClick={props?.selectable ? props?.onClick : undefined}
       onMouseEnter={props?.onMouseEnter}
       onMouseLeave={props?.onMouseLeave}
@@ -65,8 +35,8 @@ export default function Line(props: ItemProps) {
       <div
         className={classNames(
           props?.innerClassName,
-          props?.isSelect && selectClass,
-          itemInnerClass,
+          props?.isSelect && `${prefix}-inner-select`,
+          `${prefix}-inner`,
         )}
       >
         {props?.children}

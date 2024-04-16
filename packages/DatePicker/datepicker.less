@@ -1,0 +1,79 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('datepicker');
+@panelClass: ~'@{prefix}Panel';
+
+@{prefix} {
+  font-size: 0.875em;
+  border: 1px solid @borderColor;
+  padding: 6px 12px;
+  cursor: pointer;
+  width: 100px;
+
+  &-placeholder {
+    color: @placeholderColor;
+  }
+}
+
+@{panelClass} {
+  width: 250px;
+  background: white;
+  font-size: 0.875em;
+
+  &-clickable {
+    cursor: pointer;
+    padding: 0 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    transition: all 0.3s;
+    &:hover {
+      color: @primary;
+    }
+  }
+
+  &-head {
+    border-bottom: 1px solid @borderColor;
+    display: flex;
+    justify-content: space-between;
+    height: 32px;
+    padding: 4px 12px;
+    user-select: none;
+
+    &-icon {
+      font-size: 0.815em;
+      color: gray;
+      cursor: pointer;
+      width: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+      &:hover {
+        color: black;
+      }
+    }
+  }
+
+  &-body {
+    padding: 4px 8px;
+  }
+
+  &-footer {
+    color: @primary;
+    border-top: 1px solid @borderColor;
+    text-align: center;
+    padding: 8px 0;
+    letter-spacing: 1px;
+
+    & > span {
+      user-select: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      &:hover {
+        color: @primaryHover;
+      }
+    }
+  }
+}

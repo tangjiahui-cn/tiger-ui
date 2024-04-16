@@ -5,13 +5,11 @@
  * @date 2024/2/29
  */
 import Item, { ItemProps, ItemValue } from './Item';
-import { css } from 'class-css';
 import classNames from 'classnames';
-Line.Item = Item;
+import './index.less';
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
 
-const grayBoxClass = css({
-  color: '#c9c9c9',
-});
+Line.Item = Item;
 
 export interface DatePickerLineOptionProps {
   label: React.ReactNode;
@@ -37,8 +35,10 @@ type Props = {
 
 export default function Line(props: Props) {
   const options = props?.options || [];
+  const prefix = usePrefix('datepickerLine');
+
   return (
-    <div style={{ display: 'flex' }}>
+    <div className={prefix}>
       {options.map((option: DatePickerLineOptionProps) => {
         const isNotCurrentMonth = option.hasOwnProperty('date') && !option?.date?.isCurrentMonth;
         const isSelect = option?.date?.isCurrentMonth && option.value === props?.value;
@@ -48,14 +48,12 @@ export default function Line(props: Props) {
             selectable={props?.selectable}
             innerClassName={
               option?.date?.isCurrentMonth && option?.date?.isToday && !isSelect
-                ? css({
-                    border: '1px solid #4e92e8',
-                  })
+                ? `${prefix}-border`
                 : undefined
             }
             key={option.value}
             style={{ height: 32 }}
-            className={classNames(isNotCurrentMonth && grayBoxClass)}
+            className={classNames(isNotCurrentMonth && `${prefix}-gray`)}
             onClick={() => {
               props?.onSelect?.(option?.value, option);
             }}
