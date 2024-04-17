@@ -20,6 +20,8 @@ export { default as Drawer } from './Drawer';
 export type * from './Drawer';
 export { default as DropDown } from './DropDown';
 export type * from './DropDown';
+export { default as Empty } from './Empty';
+export type * from './Empty';
 
 export { default as Input } from './Input';
 export type { InputProps } from './Input';
@@ -49,8 +51,6 @@ export { default as Table } from './Table';
 export type { TableProps } from './Table';
 export { default as Notification } from './Notification';
 export type { NotificationProps } from './Notification';
-export { default as Empty } from './Empty';
-export type { EmptyProps } from './Empty';
 export { default as Tree } from './Tree';
 export type { TreeProps, TreeNode } from './Tree';
 export { default as ToolTip } from './ToolTip';
