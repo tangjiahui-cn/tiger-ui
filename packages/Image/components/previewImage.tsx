@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Button, Space } from '..';
+import { Button, Space } from '../../index';
 import { useEffect, useRef, useState } from 'react';
-import { getImageResolution, range } from '../_utils';
-import type { Pos } from '../_types';
+import { getImageResolution, range } from '@/_utils';
+import type { Pos } from '@/_types';
 import { createPortal } from 'react-dom';
-import { useStyle } from './style';
+import './previewImage.less';
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
 
 interface PreviewImageProps {
   // 图片源地址
@@ -20,7 +21,7 @@ const SCALE_MIN: number = 0.1;
 const SCALE_MAX: number = 20;
 
 export default function PreviewImage(props: PreviewImageProps) {
-  const style = useStyle('image');
+  const prefix = usePrefix('previewImage');
   const imgDomPos = useRef<Pos>({ x: 0, y: 0 });
   const imgDom = useRef<any>(null);
   const INIT_INFO = {
@@ -120,7 +121,7 @@ export default function PreviewImage(props: PreviewImageProps) {
 
   return createPortal(
     props?.visible && (
-      <div className={style.imagePreviewWindow()} onPointerDown={() => props?.onCancel?.()}>
+      <div className={prefix} onPointerDown={() => props?.onCancel?.()}>
         <div style={{ position: 'relative' }}>
           <img
             ref={imgDom}
