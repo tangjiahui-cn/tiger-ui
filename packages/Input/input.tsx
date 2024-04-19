@@ -1,11 +1,18 @@
-import React from 'react';
+/**
+ * input
+ *
+ * @author tangjiahui
+ * @date 2023/4/17
+ */
+import React, { DOMAttributes } from 'react';
 import { SizeType as InputSize } from '../_types/common';
-import { useGetLocaleValues } from '../ConfigProvider';
 import classNames from 'classnames';
-import { useStyle } from './style';
-export type { InputSize };
+import { omit } from '@/_utils/object';
+import { usePrefix, useLocale } from '@/ConfigProvider/ConfigProvider';
+import './input.less';
 
-export interface InputProps {
+export type { InputSize };
+export interface BaseInputProps {
   /**
    * @description 输入框最大输入长度
    * @default undefined
@@ -40,10 +47,6 @@ export interface InputProps {
    */
   disabled?: boolean;
   /**
-   * @description 输入框样式
-   */
-  style?: React.CSSProperties;
-  /**
    * @description 前缀样式
    */
   prefixStyle?: React.CSSProperties;
@@ -65,29 +68,45 @@ export interface InputProps {
   onBlur?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function Input(props: InputProps) {
-  const locale = useGetLocaleValues();
-  const style = useStyle('input');
+export type BaseInputPropsKeys = keyof BaseInputProps;
+export type InputProps = BaseInputProps & React.HTMLAttributes<HTMLInputElement>;
+
+const privateKeys: BaseInputPropsKeys[] = [
+  'maxLength',
+  'value',
+  'size',
+  'prefix',
+  'suffix',
+  'placeholder',
+  'disabled',
+  'prefixStyle',
+  'suffixStyle',
+  'onChange',
+  'onBlur',
+  'onKeyDown',
+];
+
+export type InputFC = React.ForwardRefExoticComponent<InputProps>;
+const Input: InputFC = React.forwardRef(function (props: InputProps) {
+  const locale = useLocale();
+  const prefix = usePrefix('input');
+  const prefixWrap = `${prefix}-wrap`;
+  const originProps: DOMAttributes<HTMLInputElement> = omit(props, privateKeys);
 
   const isPure = !(props.prefix || props.suffix);
 
-  const wrapperClasses = classNames(
-    style.inputWrapper(),
-    props?.disabled && style.wrapperDisabled(),
-  );
-
-  const classes = classNames(
-    style.input(),
-    style.size(props?.size || 'middle'),
-    isPure && style.pure(),
-  );
-
   const InputEl = (
     <input
+      {...(isPure ? originProps : undefined)}
       maxLength={props?.maxLength}
       style={(isPure && props?.style) || undefined}
       disabled={props.disabled}
-      className={classes}
+      className={classNames(
+        isPure && props?.className,
+        prefix,
+        `${prefix}-${props?.size || 'middle'}`,
+        isPure && `${prefix}-pure`,
+      )}
       placeholder={props?.placeholder || locale.inputPlaceholder}
       value={props?.value}
       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,23 +126,29 @@ export default function Input(props: InputProps) {
   }
 
   return (
-    <span className={wrapperClasses} style={props?.style}>
+    <span
+      {...(!isPure ? originProps : undefined)}
+      className={classNames(
+        !isPure && props?.className,
+        prefixWrap,
+        props?.disabled && `${prefixWrap}-disabled`,
+      )}
+      style={props?.style}
+    >
       {props?.prefix && (
-        <span className={style.prefix()} style={props?.prefixStyle}>
+        <span className={`${prefixWrap}-prefix`} style={props?.prefixStyle}>
           {props?.prefix}
         </span>
       )}
       {InputEl}
       {props.suffix && (
-        <span className={style.suffix()} style={props?.suffixStyle}>
+        <span className={`${prefixWrap}-suffix`} style={props?.suffixStyle}>
           {props?.suffix}
         </span>
       )}
-      <span className={style.border()} />
+      <span className={`${prefixWrap}-border`} />
     </span>
   );
-}
+});
 
-Input.defaultProps = {
-  size: 'middle',
-};
+export default Input;
