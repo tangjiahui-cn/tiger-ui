@@ -1,13 +1,12 @@
 import * as React from 'react';
-import NotificationBox from './NotificationBox';
+import NotificationBox from './notificationBox';
 import ReactDOM from 'react-dom/client';
-import type { NotificationBoxProps } from './NotificationBox';
+import type { NotificationBoxProps } from './notificationBox';
 import { createClassCss } from 'class-css';
 
 export type NotificationConfig = Omit<NotificationBoxProps, 'onRemove'> & {
   onClose?: () => void;
 };
-export type NotificationType = 'success' | 'error' | 'warn' | 'info' | 'none';
 
 export type NotificationReturn = Promise<undefined>;
 export type NotificationStaticFunc = (config: NotificationConfig) => NotificationReturn;
@@ -32,12 +31,10 @@ export class NotificationGen {
 
   private createContainerDom(): HTMLDivElement {
     const dom = document.createElement('div');
-    dom.className = css({
-      position: 'fixed',
-      right: 16,
-      top: 16,
-      zIndex: 999,
-    });
+    dom.style.position = 'fixed';
+    dom.style.right = '16px';
+    dom.style.top = '16px';
+    dom.style.zIndex = '999';
     return dom;
   }
 

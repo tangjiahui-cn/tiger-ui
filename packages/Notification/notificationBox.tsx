@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Space } from '..';
-import { IconMap, IconType } from '../Icon/_presets';
+import { IconMap, IconType } from '@/Icon/_presets';
 import { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import { useStyle } from './style';
 import { CloseOutlined } from '@ant-design/icons';
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import './notificationBox.less';
 
 export interface NotificationBoxProps {
   // 图标类型
@@ -34,7 +35,7 @@ export default function NotificationBox(props: NotificationBoxProps) {
     closable = true,
     duration = 3000,
   } = props;
-  const style = useStyle('notification-box');
+  const prefix = usePrefix('messageBox');
 
   const icon = props?.icon || (props?.type && IconMap?.[props?.type]?.({ fontSize: 18 }));
   const timerId = useRef<any>();
@@ -65,17 +66,17 @@ export default function NotificationBox(props: NotificationBoxProps) {
 
   return (
     <div
-      className={classNames(style.notificationBox(), style.notificationBoxAppear(isAppear))}
+      className={classNames(prefix, `${prefix}-${isAppear ? 'appear' : 'disappear'}`)}
       style={{ width: 300, animationDuration: `${animationDuration}ms`, ...props?.style }}
     >
-      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+      <div style={{ width: '100%', display: 'flex', gap: 8, alignItems: 'center' }}>
         {icon && (
-          <div style={{ alignSelf: 'flex-start' }} className={style.notificationBoxTitle()}>
+          <div style={{ alignSelf: 'flex-start' }} className={`${prefix}-title`}>
             {icon}
           </div>
         )}
         <Space direction={'vertical'} style={{ flex: 1, wordBreak: 'break-all' }}>
-          {props?.message && <div className={style.notificationBoxTitle()}>{props?.message}</div>}
+          {props?.message && <div className={`${prefix}-title`}>{props?.message}</div>}
           {props?.description && <div>{props?.description}</div>}
         </Space>
         {closable && <div onClick={handleRemove}>{closeIcon}</div>}
