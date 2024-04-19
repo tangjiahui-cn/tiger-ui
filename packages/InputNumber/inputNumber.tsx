@@ -1,11 +1,12 @@
-import * as React from 'react';
 import { Input, InputProps, Space } from '..';
-import { ArrowDownOutline, ArrowTopOutline } from '../Icon';
-import { useEffect, useState } from 'react';
-import { isEmpty, isNumber, isNumberString, largeThan, lessThan } from '../_utils';
-import { useStyle } from './style';
+import React, { DOMAttributes, RefAttributes, useEffect, useState } from 'react';
+import { isEmpty, isNumber, isNumberString, largeThan, lessThan } from '@/_utils';
+import { ArrowDownOutline, ArrowTopOutline } from '@/Icon';
+import { omit } from '@/_utils/object';
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import './inputNumber.less';
 
-export type InputNumberProps = Omit<InputProps, 'suffix' | 'value' | 'onChange'> & {
+export interface BaseInputNumberProps extends Omit<InputProps, 'suffix' | 'value' | 'onChange'> {
   /**
    * @description 步进
    * @default 1
@@ -35,14 +36,36 @@ export type InputNumberProps = Omit<InputProps, 'suffix' | 'value' | 'onChange'>
    * @description 原始输入框输入回调
    */
   onInput?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-};
+}
 
-export default function InputNumber(props: InputNumberProps) {
+export type BaseInputNumberPropsKeys = keyof BaseInputNumberProps;
+export type InputNumberProps = BaseInputNumberProps &
+  DOMAttributes<HTMLInputElement> &
+  RefAttributes<HTMLInputElement>;
+
+const privateKeys: BaseInputNumberPropsKeys[] = [
+  'step',
+  'value',
+  'min',
+  'max',
+  'defaultValue',
+  'onChange',
+  'onInput',
+];
+
+export type InputNumberFC = React.ForwardRefExoticComponent<InputNumberProps>;
+const InputNumber: InputNumberFC = React.forwardRef(function InputNumber(
+  props: InputNumberProps,
+  ref: React.ForwardedRef<HTMLInputElement>,
+) {
   const { step = 1, min, max } = props;
-  const style = useStyle('input-number');
+  const prefix = usePrefix('inputNumber');
+
   const [value, setValue] = useState<string>(
     isNumberString(`${props?.defaultValue}`) ? `${props?.defaultValue}` : '',
   );
+
+  const originProps = omit(props, privateKeys);
 
   // 是否受控外界的 value
   const isOutValue = props?.value !== undefined;
@@ -95,21 +118,24 @@ export default function InputNumber(props: InputNumberProps) {
 
   return (
     <Input
-      {...props}
+      {...originProps}
+      ref={ref}
       value={value}
       onChange={handleChange}
       onBlur={handleBlur}
       suffixStyle={{ marginRight: 0 }}
       suffix={
-        <Space direction={'vertical'} size={0} className={style.inputNumber()}>
-          <span className={style.inputNumberBtn()} onClick={handleAdd}>
+        <Space direction={'vertical'} size={0} className={prefix}>
+          <span className={`${prefix}-btn`} onClick={handleAdd}>
             <ArrowTopOutline style={{ pointerEvents: 'none' }} fontSize={12} />
           </span>
-          <span className={style.inputNumberBtn()} onClick={handleDec}>
+          <span className={`${prefix}-btn`} onClick={handleDec}>
             <ArrowDownOutline style={{ pointerEvents: 'none' }} fontSize={12} />
           </span>
         </Space>
       }
     />
   );
-}
+});
+
+export default InputNumber;

@@ -4,7 +4,14 @@
  * @author tangjiahui
  * @date 2024/2/28
  */
-import React, { DOMAttributes, ForwardedRef, useEffect, useRef, useState } from 'react';
+import React, {
+  DOMAttributes,
+  ForwardedRef,
+  RefAttributes,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import moment, { Moment } from 'moment/moment';
 import { dateToMoment, getChangeDate, momentToDate } from '@/DatePicker/utils/dateUtils';
 import { useUpdateEffect } from '@/_hooks';
@@ -50,7 +57,9 @@ export interface BaseDatePickerProps {
 }
 
 export type BaseDatePickerPropsKeys = keyof BaseDatePickerProps;
-export type DatePickerProps = BaseDatePickerProps & DOMAttributes<HTMLDivElement>;
+export type DatePickerProps = BaseDatePickerProps &
+  DOMAttributes<HTMLDivElement> &
+  RefAttributes<HTMLDivElement>;
 
 const privateKeys: BaseDatePickerPropsKeys[] = ['value', 'onChange', 'style', 'className'];
 

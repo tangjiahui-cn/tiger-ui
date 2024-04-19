@@ -4,7 +4,13 @@
  * @author tangjiahui
  * @date 2023/03/16
  */
-import React, { DOMAttributes, ForwardedRef } from 'react';
+import React, {
+  DOMAttributes,
+  ForwardedRef,
+  ForwardRefExoticComponent,
+  PropsWithoutRef,
+  RefAttributes,
+} from 'react';
 import classNames from 'classnames';
 import { SizeType as ButtonSize } from '../_types/common';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
@@ -66,7 +72,9 @@ export interface BaseButtonProps {
 }
 
 export type BaseButtonPropsKeys = keyof BaseButtonProps;
-export type ButtonProps = BaseButtonProps & DOMAttributes<HTMLButtonElement>;
+export type ButtonProps = BaseButtonProps &
+  DOMAttributes<HTMLButtonElement> &
+  RefAttributes<HTMLButtonElement>;
 
 const privateKeys: BaseButtonPropsKeys[] = [
   'type',

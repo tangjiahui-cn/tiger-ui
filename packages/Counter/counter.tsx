@@ -7,6 +7,7 @@
 import React, {
   DOMAttributes,
   ForwardedRef,
+  RefAttributes,
   useEffect,
   useImperativeHandle,
   useRef,
@@ -46,13 +47,15 @@ export interface BaseCounterProps {
   className?: string;
 }
 
-export type BaseCounterPropsKeys = keyof BaseCounterProps;
-export type CounterProps = BaseCounterProps & DOMAttributes<HTMLDivElement>;
-
-export type CounterRef = ForwardedRef<{
+export type CounterRefType = {
   dom: HTMLDivElement | null;
   replay: () => void;
-}>;
+};
+
+export type BaseCounterPropsKeys = keyof BaseCounterProps;
+export type CounterProps = BaseCounterProps &
+  DOMAttributes<HTMLDivElement> &
+  RefAttributes<CounterRefType>;
 
 const privateKeys: BaseCounterPropsKeys[] = [
   'start',
@@ -64,7 +67,10 @@ const privateKeys: BaseCounterPropsKeys[] = [
 ];
 
 export type CounterFC = React.ForwardRefExoticComponent<CounterProps>;
-const Counter: CounterFC = React.forwardRef(function (props: CounterProps, ref: CounterRef) {
+const Counter: CounterFC = React.forwardRef(function (
+  props: CounterProps,
+  ref: React.ForwardedRef<CounterRefType>,
+) {
   const { duration = 2000, timeSplit = 20, start = 0, end = 0 } = props;
   const [value, setValue] = useState<number | null>(null);
   const timeId = useRef<any>();

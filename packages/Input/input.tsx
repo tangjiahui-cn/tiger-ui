@@ -4,7 +4,7 @@
  * @author tangjiahui
  * @date 2023/4/17
  */
-import React, { DOMAttributes } from 'react';
+import React, { DOMAttributes, RefAttributes } from 'react';
 import { SizeType as InputSize } from '../_types/common';
 import classNames from 'classnames';
 import { omit } from '@/_utils/object';
@@ -69,7 +69,9 @@ export interface BaseInputProps {
 }
 
 export type BaseInputPropsKeys = keyof BaseInputProps;
-export type InputProps = BaseInputProps & React.HTMLAttributes<HTMLInputElement>;
+export type InputProps = BaseInputProps &
+  React.HTMLAttributes<HTMLInputElement> &
+  RefAttributes<HTMLInputElement>;
 
 const privateKeys: BaseInputPropsKeys[] = [
   'maxLength',
@@ -87,7 +89,10 @@ const privateKeys: BaseInputPropsKeys[] = [
 ];
 
 export type InputFC = React.ForwardRefExoticComponent<InputProps>;
-const Input: InputFC = React.forwardRef(function (props: InputProps) {
+const Input: InputFC = React.forwardRef(function (
+  props: InputProps,
+  ref: React.ForwardedRef<HTMLInputElement>,
+) {
   const locale = useLocale();
   const prefix = usePrefix('input');
   const prefixWrap = `${prefix}-wrap`;
@@ -98,6 +103,7 @@ const Input: InputFC = React.forwardRef(function (props: InputProps) {
   const InputEl = (
     <input
       {...(isPure ? originProps : undefined)}
+      ref={ref}
       maxLength={props?.maxLength}
       style={(isPure && props?.style) || undefined}
       disabled={props.disabled}

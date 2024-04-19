@@ -4,7 +4,7 @@
  * @author tangjiahui
  * @date 2024/02/01
  */
-import React, { DOMAttributes, ForwardedRef, useRef, useState } from 'react';
+import React, { DOMAttributes, ForwardedRef, RefAttributes, useRef, useState } from 'react';
 import { CloseOutlined } from '@ant-design/icons';
 import { useFreezeHTMLBody, useListenEffect, useListenLatestPointerDown } from '@/_hooks';
 import ReactDOM from 'react-dom';
@@ -108,7 +108,9 @@ export interface BaseDrawerProps {
 }
 
 export type BaseDrawerPropsKeys = keyof BaseDrawerProps;
-export type DrawerProps = BaseDrawerProps & DOMAttributes<HTMLDivElement>;
+export type DrawerProps = BaseDrawerProps &
+  DOMAttributes<HTMLDivElement> &
+  RefAttributes<HTMLDivElement>;
 
 const privateKeys: BaseDrawerPropsKeys[] = [
   'bodyStyle',

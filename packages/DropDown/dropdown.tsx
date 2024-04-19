@@ -14,6 +14,7 @@
 import React, {
   DOMAttributes,
   ForwardedRef,
+  RefAttributes,
   useCallback,
   useEffect,
   useImperativeHandle,
@@ -73,8 +74,15 @@ export interface BaseDropDownProps {
   className?: string;
 }
 
+type RefType = {
+  changeVisible: (visible: boolean) => void;
+  dom: HTMLDivElement;
+};
+
 export type BaseDropDownPropsKeys = keyof BaseDropDownProps;
-export type DropDownProps = BaseDropDownProps & DOMAttributes<HTMLDivElement>;
+export type DropDownProps = BaseDropDownProps &
+  DOMAttributes<HTMLDivElement> &
+  RefAttributes<RefType>;
 
 const privateKeys: BaseDropDownPropsKeys[] = [
   'open',
@@ -88,10 +96,7 @@ const privateKeys: BaseDropDownPropsKeys[] = [
 export type DropDownFC = React.ForwardRefExoticComponent<DropDownProps>;
 const DropDown: DropDownFC = React.forwardRef(function (
   props: DropDownProps,
-  operateRef: ForwardedRef<{
-    changeVisible: (visible: boolean) => void;
-    dom: HTMLDivElement;
-  }>,
+  operateRef: ForwardedRef<RefType>,
 ) {
   if (Array.isArray(props?.children)) {
     throw new Error('children is only a single React-JSX.');

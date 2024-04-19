@@ -10,6 +10,7 @@ import CarouselItem, { CarouselItemFC } from './carouseltem';
 import {
   DOMAttributes,
   ForwardedRef,
+  RefAttributes,
   useEffect,
   useImperativeHandle,
   useRef,
@@ -76,7 +77,9 @@ export type BaseCarouselProps = {
 };
 
 export type BaseCarouselPropsKeys = keyof BaseCarouselProps;
-export type CarouselProps = BaseCarouselProps & DOMAttributes<HTMLDivElement>;
+export type CarouselProps = BaseCarouselProps &
+  DOMAttributes<HTMLDivElement> &
+  RefAttributes<HTMLDivElement>;
 
 const privateKeys: BaseCarouselPropsKeys[] = [
   'items',

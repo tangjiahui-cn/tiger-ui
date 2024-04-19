@@ -4,7 +4,7 @@
  * @author tangjiahui
  * @date 2024/1/31
  */
-import React, { DOMAttributes, ForwardedRef, useRef, useState } from 'react';
+import React, { DOMAttributes, ForwardedRef, RefAttributes, useRef, useState } from 'react';
 import { CloseOutlined } from '@ant-design/icons';
 import { useFreezeHTMLBody, useListenEffect, useListenLatestPointerDown } from '@/_hooks';
 import ReactDOM from 'react-dom';
@@ -108,7 +108,9 @@ export interface BaseDialogProps {
 }
 
 export type BaseDialogPropsKeys = keyof BaseDialogProps;
-export type DialogProps = BaseDialogProps & DOMAttributes<HTMLDivElement>;
+export type DialogProps = BaseDialogProps &
+  DOMAttributes<HTMLDivElement> &
+  RefAttributes<HTMLDivElement>;
 
 const privateKeys: BaseDialogPropsKeys[] = [
   'bodyStyle',

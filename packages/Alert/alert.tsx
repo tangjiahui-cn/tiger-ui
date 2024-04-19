@@ -4,7 +4,7 @@
  * At 2023/06/01
  * By TangJiaHui
  */
-import React, { DOMAttributes, ForwardedRef, useState } from 'react';
+import React, { DOMAttributes, ForwardedRef, RefAttributes, useState } from 'react';
 import { omit } from '@/_utils/object';
 import classNames from 'classnames';
 import { IconMap } from '@/Icon/_presets';
@@ -65,7 +65,9 @@ export interface BaseAlertProps {
 }
 
 export type BaseAlertPropsKeys = keyof BaseAlertProps;
-export type AlertProps = BaseAlertProps & DOMAttributes<HTMLButtonElement>;
+export type AlertProps = BaseAlertProps &
+  DOMAttributes<HTMLDivElement> &
+  RefAttributes<HTMLDivElement>;
 
 const privateKeys: BaseAlertPropsKeys[] = [
   'type',

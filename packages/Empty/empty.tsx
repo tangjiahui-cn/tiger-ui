@@ -4,7 +4,7 @@
  * @author tangjiahui
  * @date 2023/6/28
  */
-import React, { DOMAttributes, ForwardedRef } from 'react';
+import React, { DOMAttributes, ForwardedRef, RefAttributes } from 'react';
 import { useGetConfig } from '@/ConfigProvider';
 import { EmptyFill, EmptyOutline } from '@/Icon';
 import classNames from 'classnames';
@@ -46,7 +46,9 @@ export interface BaseEmptyProps {
   className?: string;
 }
 export type BaseEmptyPropsKeys = keyof BaseEmptyProps;
-export type EmptyProps = BaseEmptyProps & DOMAttributes<HTMLDivElement>;
+export type EmptyProps = BaseEmptyProps &
+  DOMAttributes<HTMLDivElement> &
+  RefAttributes<HTMLDivElement>;
 
 const privateKeys: BaseEmptyPropsKeys[] = [];
 const iconSize = 40;

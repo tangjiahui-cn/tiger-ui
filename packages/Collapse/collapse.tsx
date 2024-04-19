@@ -4,7 +4,7 @@
  * @author tangjiahui
  * @date 2024/04/15
  */
-import React, { DOMAttributes, ForwardedRef, useEffect, useState } from 'react';
+import React, { DOMAttributes, ForwardedRef, RefAttributes, useEffect, useState } from 'react';
 import { ArrowRightOutline } from '@/Icon';
 import Item, { CollapseItemProps } from '@/Collapse/collapseItem';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
@@ -51,7 +51,9 @@ export interface BaseCollapseProps {
 }
 
 export type BaseCollapsePropsKeys = keyof BaseCollapseProps;
-export type CollapseProps = BaseCollapseProps & DOMAttributes<HTMLDivElement>;
+export type CollapseProps = BaseCollapseProps &
+  DOMAttributes<HTMLDivElement> &
+  RefAttributes<HTMLDivElement>;
 
 const privateKeys: BaseCollapsePropsKeys[] = [
   'icon',

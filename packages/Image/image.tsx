@@ -4,7 +4,7 @@
  * @author tangjiahui
  * @date 2023/6/2
  */
-import React, { DOMAttributes, ForwardedRef, useState } from 'react';
+import React, { DOMAttributes, ForwardedRef, RefAttributes, useState } from 'react';
 import classNames from 'classnames';
 import PreviewImage from './components/previewImage';
 import { omit } from '@/_utils/object';
@@ -40,7 +40,9 @@ export interface BaseImageProps {
 }
 
 export type BaseImagePropsKeys = keyof BaseImageProps;
-export type ImageProps = BaseImageProps & DOMAttributes<HTMLDivElement>;
+export type ImageProps = BaseImageProps &
+  DOMAttributes<HTMLDivElement> &
+  RefAttributes<HTMLDivElement>;
 
 const privateKeys: BaseImagePropsKeys[] = [];
 

@@ -4,7 +4,7 @@
  * @author tangjiahui
  * @date 2023/6/21
  */
-import React, { DOMAttributes, useEffect, useState } from 'react';
+import React, { DOMAttributes, RefAttributes, useEffect, useState } from 'react';
 import { isBoolean } from '@/_utils';
 import classNames from 'classnames';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
@@ -39,7 +39,9 @@ export interface BaseCheckBoxProps {
 }
 
 export type BaseCheckBoxPropsKeys = keyof BaseCheckBoxProps;
-export type CheckBoxProps = BaseCheckBoxProps & DOMAttributes<HTMLSpanElement>;
+export type CheckBoxProps = BaseCheckBoxProps &
+  DOMAttributes<HTMLSpanElement> &
+  RefAttributes<HTMLSpanElement>;
 
 const privateKeys: BaseCheckBoxPropsKeys[] = [
   'checked',
