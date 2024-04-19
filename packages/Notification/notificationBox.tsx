@@ -35,7 +35,7 @@ export default function NotificationBox(props: NotificationBoxProps) {
     closable = true,
     duration = 3000,
   } = props;
-  const prefix = usePrefix('messageBox');
+  const prefix = usePrefix('notificationBox');
 
   const icon = props?.icon || (props?.type && IconMap?.[props?.type]?.({ fontSize: 18 }));
   const timerId = useRef<any>();

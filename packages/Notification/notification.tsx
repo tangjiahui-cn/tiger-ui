@@ -2,7 +2,6 @@ import * as React from 'react';
 import NotificationBox from './notificationBox';
 import ReactDOM from 'react-dom/client';
 import type { NotificationBoxProps } from './notificationBox';
-import { createClassCss } from 'class-css';
 
 export type NotificationConfig = Omit<NotificationBoxProps, 'onRemove'> & {
   onClose?: () => void;
@@ -24,8 +23,6 @@ function genConfig(config: NotificationConfig): NotificationConfig {
   return Object.assign({}, defaultConfig, config);
 }
 
-const ins = createClassCss({ key: 'notification' });
-const css = ins.css.bind(ins);
 export class NotificationGen {
   private containerDom?: HTMLDivElement;
 
