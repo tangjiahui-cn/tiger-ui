@@ -5,17 +5,26 @@
  * @date 2024/1/25
  */
 import * as React from 'react';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { DropDown } from '..';
-import { Option } from './Option';
+import {
+  DOMAttributes,
+  ForwardedRef,
+  RefAttributes,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { getOptions } from '@/Select/utils/getOptions';
+import { DropDown } from '@/index';
 import classNames from 'classnames';
+import { Replace } from '@/Select/components/Replace';
 import { CloseCircleFilled, DownOutlined } from '@ant-design/icons';
-import { Replace } from './components/Replace';
-import { getOptions } from './utils/getOptions';
-import { useStyle } from './style';
-import { useGetLocaleValues } from '@/ConfigProvider';
+import { SelectOption, SelectOptionFC } from './selectOption';
+import { useLocale, usePrefix } from '@/ConfigProvider/ConfigProvider';
+import './select.less';
 
-export * from './Option';
+export type * from './selectOption';
 export type ValueType = string | undefined | null;
 export type OptionProps = {
   label?: React.ReactNode;
@@ -23,7 +32,7 @@ export type OptionProps = {
 };
 export type SelectChildren = React.ReactElement | React.ReactElement[];
 
-export type SelectProps = {
+export type BaseSelectProps = {
   /**
    * @description 是否块级
    * @default false
@@ -55,16 +64,6 @@ export type SelectProps = {
    */
   options?: OptionProps[];
   /**
-   * @description 下拉框样式
-   * @default undefined
-   */
-  style?: React.CSSProperties;
-  /**
-   * @description 支持JSX格式传入选项
-   * @default undefined
-   */
-  children?: SelectChildren;
-  /**
    * @description 下拉visible回调
    * @default (visible: boolean) => void;
    */
@@ -74,14 +73,52 @@ export type SelectProps = {
    * @default (key?: ValueType, option?: OptionProps) => void;
    */
   onChange?: (key?: ValueType, option?: OptionProps) => void;
+  /**
+   * @description 下拉框样式
+   * @default undefined
+   */
+  style?: React.CSSProperties;
+  /**
+   * className
+   */
+  className?: string;
+  /**
+   * @description 支持JSX格式传入选项
+   * @default undefined
+   */
+  children?: SelectChildren;
+};
+export type BaseSelectPropsKeys = keyof BaseSelectProps;
+export type SelectProps = BaseSelectProps &
+  DOMAttributes<HTMLDivElement> &
+  RefAttributes<HTMLDivElement>;
+
+const privateKeys: BaseSelectPropsKeys[] = [
+  'block',
+  'allowClear',
+  'open',
+  'value',
+  'placeholder',
+  'options',
+  'onOpenChange',
+  'onChange',
+  'style',
+  'className',
+];
+
+export type SelectFC = React.ForwardRefExoticComponent<SelectProps> & {
+  Option: SelectOptionFC;
 };
 
-Select.Option = Option;
-export default function Select(props: SelectProps) {
-  const locales = useGetLocaleValues();
+const Select: SelectFC = React.forwardRef(function Select(
+  props: SelectProps,
+  ref: ForwardedRef<HTMLDivElement>,
+) {
+  const locales = useLocale();
   const { placeholder = locales.selectPlaceholder } = props;
   const selectRef = useRef<HTMLDivElement>(null);
-  const style = useStyle('select');
+  const prefix = usePrefix('select');
+  const optionPrefix = usePrefix('selectOption');
 
   const [current, setCurrent] = useState<OptionProps>();
 
@@ -112,6 +149,8 @@ export default function Select(props: SelectProps) {
     }
   }
 
+  useImperativeHandle(ref, () => selectRef.current as HTMLDivElement);
+
   useEffect(
     () => {
       if (isForceValueRef.current) {
@@ -136,7 +175,7 @@ export default function Select(props: SelectProps) {
             return (
               <div
                 key={option?.value}
-                className={classNames(style.selectOption(), isChoose && style.selectOptionChoose())}
+                className={classNames(optionPrefix, isChoose && `${optionPrefix}-choose`)}
                 onPointerDown={() => handleClickOption(option)}
               >
                 {option?.label}
@@ -150,18 +189,18 @@ export default function Select(props: SelectProps) {
         tabIndex={0}
         ref={selectRef}
         style={props?.style}
-        className={classNames(style.select(), props?.block && style.selectBlock())}
+        className={classNames(props?.className, props?.block && `${prefix}-block`, prefix)}
         onPointerDown={(e) => {
           setPanelVisible(true);
         }}
       >
-        <div className={style.selectHeader()}>
-          <div className={style.selectHeaderText()}>
+        <div className={`${prefix}-header`}>
+          <div className={`${prefix}-header-text`}>
             {current?.label || current?.value || (
-              <span className={style.selectPlaceholder()}>{placeholder}</span>
+              <span className={`${prefix}-placeholder`}>{placeholder}</span>
             )}
           </div>
-          <div className={style.selectHeaderIcon()}>
+          <div className={`${prefix}-header-icon`}>
             <Replace
               isReplace={props?.allowClear && !!current}
               trigger={'hover'}
@@ -181,4 +220,7 @@ export default function Select(props: SelectProps) {
       </div>
     </DropDown>
   );
-}
+}) as SelectFC;
+
+Select.Option = SelectOption;
+export default Select;

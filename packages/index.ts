@@ -26,6 +26,8 @@ export { default as Image } from './Image';
 export type * from './Image';
 export { default as Radio } from './Radio';
 export type * from './Radio';
+export { default as Select } from './Select';
+export type * from './Select';
 
 export { default as Input } from './Input';
 export type { InputProps } from './Input';
@@ -37,8 +39,6 @@ export { default as Pagination } from './Pagination';
 export type { PaginationProps } from './Pagination';
 export { default as ConfigProvider } from './ConfigProvider';
 export type { ConfigProviderProps } from './ConfigProvider';
-export { default as Select } from './Select';
-export type { SelectProps } from './Select';
 export { default as Slider } from './Slider';
 export type { SliderProps } from './Slider';
 export { default as Tag } from './Tag';
