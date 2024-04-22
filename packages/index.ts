@@ -24,6 +24,8 @@ export { default as Empty } from './Empty';
 export type * from './Empty';
 export { default as Image } from './Image';
 export type * from './Image';
+export { default as Radio } from './Radio';
+export type * from './Radio';
 
 export { default as Input } from './Input';
 export type { InputProps } from './Input';
@@ -41,8 +43,6 @@ export { default as Slider } from './Slider';
 export type { SliderProps } from './Slider';
 export { default as Tag } from './Tag';
 export type { TagProps } from './Tag';
-export { default as Radio } from './Radio';
-export type { RadioProps } from './Radio';
 export { default as Upload, ACCEPT } from './Upload';
 export type { UploadProps } from './Upload';
 export { default as Switch } from './Switch';
