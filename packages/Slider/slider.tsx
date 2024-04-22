@@ -1,10 +1,19 @@
+/**
+ * slider
+ *
+ * @author tangjiahui
+ * @date 2023/6/2
+ */
 import * as React from 'react';
-import { useEffect, useRef, useState } from 'react';
-import { isNumber, range } from '../_utils';
-import { useStyle } from './style';
+import { DOMAttributes, RefAttributes, useEffect, useRef, useState } from 'react';
+import { isNumber, range } from '@/_utils';
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import classNames from 'classnames';
+import { omit } from '@/_utils/object';
+import './slider.less';
 
 export type SliderValue = number;
-export interface SliderProps {
+export interface BaseSliderProps {
   /**
    * @description 受控值(0-100之间)
    */
@@ -20,25 +29,40 @@ export interface SliderProps {
    */
   smooth?: boolean;
   /**
+   * @description 值改变回调
+   */
+  onChange?: (value?: SliderValue, preValue?: SliderValue) => void;
+  /**
    * @description 组件样式
    */
   style?: React.CSSProperties;
   /**
-   * @description 值改变回调
+   * @description className
    */
-  onChange?: (value?: SliderValue, preValue?: SliderValue) => void;
+  className?: string;
 }
+export type BaseSliderPropsKeys = keyof BaseSliderProps;
+export type SliderProps = BaseSliderProps &
+  DOMAttributes<HTMLDivElement> &
+  RefAttributes<HTMLDivElement>;
+export type SliderFC = React.ForwardRefExoticComponent<SliderProps>;
+
+const privateKeys: BaseSliderPropsKeys[] = ['value', 'defaultValue', 'smooth', 'onChange'];
 
 const pointSize = 14;
 const halfPointSize = pointSize / 2;
-
-export default function Slider(props: SliderProps) {
+const Slider: SliderFC = React.forwardRef(function (
+  props: SliderProps,
+  ref: React.ForwardedRef<HTMLDivElement>,
+) {
   const { smooth = false, defaultValue = 0 } = props;
   const [end, setEnd] = useState<number>(defaultValue);
   const trackDomRef = useRef<any>(null);
   const trackThumbDomRef = useRef<any>(null);
   const pointDomRef = useRef<any>(null);
-  const style = useStyle('slider');
+
+  const prefix = usePrefix('slider');
+  const originKeys: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
 
   const isNotControl = props?.value === undefined; // 是否外界受控值
 
@@ -90,9 +114,14 @@ export default function Slider(props: SliderProps) {
   }, [props?.value]);
 
   return (
-    <div className={style.slider()} style={props?.style}>
+    <div
+      {...originKeys}
+      className={classNames(props?.className, prefix)}
+      style={props?.style}
+      ref={ref}
+    >
       <div
-        className={style.sliderTrack()}
+        className={`${prefix}-track`}
         ref={trackDomRef}
         onMouseDown={(e) => {
           const width = trackDomRef.current?.clientWidth || 0;
@@ -105,7 +134,7 @@ export default function Slider(props: SliderProps) {
         }}
       >
         <div
-          className={style.sliderTrackThumb()}
+          className={`${prefix}-track-thumb`}
           ref={trackThumbDomRef}
           style={{ width: `${end}%` }}
         />
@@ -116,10 +145,11 @@ export default function Slider(props: SliderProps) {
             height: pointSize,
             left: `calc(${end}% - ${halfPointSize}px)`,
           }}
-          className={style.sliderPoint()}
+          className={`${prefix}-point`}
           onMouseDown={handleStartMove}
         />
       </div>
     </div>
   );
-}
+});
+export default Slider;

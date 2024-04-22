@@ -20,7 +20,7 @@ import {useState} from 'react';
 export default () => {
   const [value, setValue] = useState(20);
   return <Space block direction={'vertical'}>
-    <Slider value={80}/>
+    <Slider value={value}/>
     <Slider value={value} onChange={setValue} />
   </Space>;
 }

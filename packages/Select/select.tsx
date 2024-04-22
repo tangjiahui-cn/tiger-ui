@@ -23,6 +23,7 @@ import { CloseCircleFilled, DownOutlined } from '@ant-design/icons';
 import { SelectOption, SelectOptionFC } from './selectOption';
 import { useLocale, usePrefix } from '@/ConfigProvider/ConfigProvider';
 import './select.less';
+import { omit } from '@/_utils/object';
 
 export type * from './selectOption';
 export type ValueType = string | undefined | null;
@@ -117,8 +118,10 @@ const Select: SelectFC = React.forwardRef(function Select(
   const locales = useLocale();
   const { placeholder = locales.selectPlaceholder } = props;
   const selectRef = useRef<HTMLDivElement>(null);
+
   const prefix = usePrefix('select');
   const optionPrefix = usePrefix('selectOption');
+  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
 
   const [current, setCurrent] = useState<OptionProps>();
 
@@ -186,6 +189,7 @@ const Select: SelectFC = React.forwardRef(function Select(
       }
     >
       <div
+        {...originProps}
         tabIndex={0}
         ref={selectRef}
         style={props?.style}

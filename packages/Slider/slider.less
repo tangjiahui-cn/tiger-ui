@@ -1,0 +1,42 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('slider');
+
+@{prefix} {
+  height: 16px;
+  position: relative;
+  display: flex;
+  alignitems: center;
+
+  &-track {
+    height: 8px;
+    flex: 1;
+    border: 1px solid @borderColor;
+    background-color: white;
+    position: relative;
+
+    &-thumb {
+      height: 100%;
+      background-color: @primary;
+      &:hover {
+        background-color: @primaryHover;
+      }
+    }
+  }
+
+  &-point {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    border-radius: 50%;
+    top: 50%;
+    transform: translate(0, -50%) scale(1);
+    cursor: pointer;
+    transition: transform @duration;
+    border: 2px solid @primary;
+    background-color: white;
+    &:hover {
+      transform: translate(0, -50%) scale(1.25);
+    }
+  }
+}
