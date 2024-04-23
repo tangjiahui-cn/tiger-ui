@@ -1,0 +1,69 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('table');
+
+@{prefix} {
+  @padding: 14px 16px;
+  @tableHeaderColor: #fafafa;
+
+  border: 0;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: @fontSize;
+  & > thead > tr > th {
+    padding: @padding;
+    background-color: @tableHeaderColor;
+  }
+  & > tbody > tr > td {
+    padding: @padding;
+  }
+  & > tbody {
+    & > tr {
+      background-color: white;
+      transition: all @duration;
+      &:hover {
+        background-color: @tableHeaderColor;
+      }
+    }
+  }
+  &-border {
+    & > thead {
+      border: thin solid @borderLightColor;
+    }
+    & > tbody {
+      border: thin solid @borderLightColor;
+    }
+    & > thead > tr > th {
+      border-left: thin solid @borderLightColor;
+    }
+    & > tbody > tr > td {
+      border-left: thin solid @borderLightColor;
+      border-bottom: thin solid @borderLightColor;
+    }
+  }
+
+  &:not(&-border) {
+    thead {
+      border-bottom: thin solid @borderLightColor;
+    }
+    tbody > tr {
+      border-bottom: thin solid @borderLightColor;
+    }
+    th + th {
+      position: relative;
+      &::before {
+        position: absolute;
+        display: inline-block;
+        inset-inline-end: 0;
+        width: 1px;
+        height: 1.6rem;
+        top: 50%;
+        left: 0;
+        background-color: @borderLightColor;
+        transform: translateY(-50%);
+        transition: background-color 0.2s;
+        content: '';
+      }
+    }
+  }
+}

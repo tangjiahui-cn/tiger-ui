@@ -1,3 +1,9 @@
+/**
+ * Switch
+ *
+ * @author tangjiahui
+ * @date 2024/4/23
+ */
 import * as React from 'react';
 import { DOMAttributes, ForwardedRef, RefAttributes, useEffect, useState } from 'react';
 import classNames from 'classnames';

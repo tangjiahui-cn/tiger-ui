@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { Pagination, PaginationProps } from '..';
 import classNames from 'classnames';
-import { useStyle } from './style';
+import './table.less';
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import { DOMAttributes, ForwardedRef, RefAttributes } from 'react';
+import { omit } from '@/_utils/object';
 
 type SingleArgsRender = (item: any) => React.ReactNode;
 type DoubleArgsRender = (value: any, item: any) => React.ReactNode;
@@ -14,7 +17,7 @@ export interface Column {
   align?: 'left' | 'center' | 'right';
 }
 
-export interface TableProps {
+export interface BaseTableProps {
   /**
    * @description 是否显示边框
    * @default false
@@ -34,18 +37,42 @@ export interface TableProps {
    */
   rowKey?: string;
   /**
+   * @description 分页配置
+   */
+  pagination?: PaginationProps;
+  /**
    * @description 样式
    */
   style?: React.CSSProperties;
   /**
-   * @description 分页配置
+   * className
    */
-  pagination?: PaginationProps;
+  className?: string;
 }
+export type BaseTablePropsKeys = keyof BaseTableProps;
+export type TableProps = BaseTableProps &
+  DOMAttributes<HTMLDivElement> &
+  RefAttributes<HTMLDivElement>;
 
-export default function Table(props: TableProps) {
+const privateKeys: BaseTablePropsKeys[] = [
+  'bordered',
+  'columns',
+  'dataSource',
+  'rowKey',
+  'pagination',
+  'style',
+  'className',
+];
+
+export type TableFC = React.ForwardRefExoticComponent<TableProps>;
+const Table: TableFC = React.forwardRef(function (
+  props: TableProps,
+  ref: ForwardedRef<HTMLDivElement>,
+) {
   const { columns = [], dataSource = [], rowKey = 'key', pagination = {} } = props;
-  const style = useStyle('table');
+
+  const prefix = usePrefix('table');
+  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
 
   function genTableHeader(columns: Column[]): React.ReactNode {
     return (
@@ -91,8 +118,8 @@ export default function Table(props: TableProps) {
   }
 
   return (
-    <div style={props?.style}>
-      <table className={classNames(style.table(), props?.bordered && style.tableBordered())}>
+    <div {...originProps} ref={ref} style={props?.style} className={props?.className}>
+      <table className={classNames(prefix, props?.bordered && `${prefix}-border`)}>
         <thead>{genTableHeader(columns)}</thead>
         <tbody>{genTableBody(columns, dataSource)}</tbody>
       </table>
@@ -103,4 +130,6 @@ export default function Table(props: TableProps) {
       </div>
     </div>
   );
-}
+});
+
+export default Table;
