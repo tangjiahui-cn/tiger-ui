@@ -1,7 +1,14 @@
+/**
+ * Tabs
+ *
+ * @author tangjiahui
+ * @date 2024/7/7
+ */
 import * as React from 'react';
-import { useState } from 'react';
+import { DOMAttributes, ForwardedRef, RefAttributes, useState } from 'react';
 import classNames from 'classnames';
-import { useStyle } from './style';
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import './tabs.less';
 
 export interface TabsOption {
   key: string;
@@ -9,15 +16,11 @@ export interface TabsOption {
   value?: React.ReactNode;
 }
 
-export interface TabsProps {
+export interface BaseTabsProps {
   /**
    * @description tabs的选项配置
    */
   options?: TabsOption[];
-  /**
-   * @description 样式
-   */
-  style?: React.CSSProperties;
   /**
    * @description tabsBar 样式
    */
@@ -43,9 +46,39 @@ export interface TabsProps {
    * @description 切换tab回调
    */
   onChange?: (activeKey: string, node: TabsOption) => void;
+  /**
+   * @description 样式
+   */
+  style?: React.CSSProperties;
+  /**
+   * className
+   */
+  className?: string;
 }
-export default function Tabs(props: TabsProps) {
-  const style = useStyle('tabs');
+export type BaseTabsPropsKeys = keyof BaseTabsProps;
+export type TabsProps = BaseTabsProps &
+  DOMAttributes<HTMLDivElement> &
+  RefAttributes<HTMLDivElement>;
+
+const privateKeys: BaseTabsPropsKeys[] = [
+  'options',
+  'barStyle',
+  'bodyStyle',
+  'destroy',
+  'defaultActiveKey',
+  'activeKey',
+  'onChange',
+  'className',
+  'style',
+];
+
+export type TabsFC = React.ForwardRefExoticComponent<TabsProps>;
+
+const Tabs: TabsFC = React.forwardRef(function Tabs(
+  props: TabsProps,
+  ref: ForwardedRef<HTMLDivElement>,
+) {
+  const prefix = usePrefix('tabs');
   const [activeKey, setActiveKey] = useState<string>(
     props?.activeKey || props?.defaultActiveKey || props?.options?.[0]?.key || '',
   );
@@ -59,15 +92,15 @@ export default function Tabs(props: TabsProps) {
   }
 
   return (
-    <div className={style.tabs()} style={props?.style}>
-      <div className={style.tabsBar()} style={props?.barStyle}>
+    <div ref={ref} className={classNames(props?.className, prefix)} style={props?.style}>
+      <div className={`${prefix}-bar`} style={props?.barStyle}>
         {props?.options?.map((x) => {
           const isChoose = activeKey === x.key;
           return (
             <div
               key={x?.key}
               onClick={() => handleClick(x)}
-              className={classNames(style.tabsBarItem(), isChoose && style.tabsBarItemChoose())}
+              className={classNames(`${prefix}-bar-item`, isChoose && `${prefix}-bar-item-choose`)}
             >
               {x.label}
             </div>
@@ -80,7 +113,7 @@ export default function Tabs(props: TabsProps) {
           (isVisible || !props?.destroy) && (
             <div
               key={x.key}
-              className={style.tabsBody()}
+              className={`${prefix}-body`}
               style={{ display: isVisible ? 'block' : 'none', ...props?.bodyStyle }}
             >
               {x?.value}
@@ -90,4 +123,6 @@ export default function Tabs(props: TabsProps) {
       })}
     </div>
   );
-}
+});
+
+export default Tabs;
