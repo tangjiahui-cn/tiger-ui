@@ -73,6 +73,15 @@ export default () => {
     >
       3s
     </Button>
+    <Button
+      onClick={() => message.open({
+        type: 'success',
+        content: '1000s',
+        duration: 1000 * 1000
+      })}
+    >
+      1000s
+    </Button>
   </Space>;
 }
 ```

@@ -1,0 +1,68 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('checkbox');
+
+.common {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: @primary;
+}
+
+@{prefix} {
+  color: @color;
+  font-size: @fontSize;
+  cursor: pointer;
+
+  & > span {
+    vertical-align: middle;
+  }
+
+  &:hover &-icon {
+    border-color: @primaryHover;
+  }
+
+  &-icon {
+    @size: 16px;
+    width: @size;
+    height: @size;
+    box-sizing: border-box;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    cursor: pointer;
+    border: 1px solid @borderColor;
+    margin-right: 8px;
+    transition: all @duration;
+  }
+
+  &-checked {
+    border-color: @primary;
+
+    &::after {
+      .common();
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      content: '√';
+      font-size: 12px;
+    }
+  }
+
+  &-indeterminate {
+    border-color: @primary;
+
+    &::after {
+      .common();
+      @padding: 2px;
+      top: @padding;
+      left: @padding;
+      width: calc(100% - @padding * 2px);
+      height: calc(100% - @padding * 2px);
+      background: @primary;
+      content: ' ';
+    }
+  }
+}

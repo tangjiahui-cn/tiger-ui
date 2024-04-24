@@ -1,6 +1,8 @@
 import { defineConfig } from 'dumi';
 // @ts-ignore
 import path from 'path';
+import { NAME } from './scripts/share';
+import { DefinePlugin } from 'webpack';
 
 export default defineConfig({
   title: 'tiger-ui',
@@ -25,5 +27,11 @@ export default defineConfig({
     memo.resolve.alias
       .set('tiger-ui', path.resolve(__dirname, './packages'))
       .set('@', path.resolve(__dirname, './packages'));
+
+    memo.plugin('DefinedPlugin').use(DefinePlugin, [
+      {
+        PACKAGE_NAME: JSON.stringify(NAME),
+      },
+    ]);
   },
 });

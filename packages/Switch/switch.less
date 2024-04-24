@@ -1,0 +1,129 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('switch');
+@disabledClass: ~'@{prefix}-disabled';
+@checkedClass: ~'@{prefix}-checked';
+@innerClass: ~'@{prefix}-inner';
+@innerCheckedClass: ~'@{prefix}-inner-checked';
+@innerUnCheckedClass: ~'@{prefix}-inner-unchecked';
+@circleClass: ~'@{prefix}-circle';
+
+.innerColor (@color, @hoverColor) {
+  border: 1px solid @color;
+  background: @color;
+  &:hover {
+    background: @hoverColor;
+    border-color: @hoverColor;
+  }
+}
+
+.innerContent () {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: white;
+  box-sizing: border-box;
+  transition: all @duration ease-in-out;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+
+@{prefix} {
+  @size: 20px;
+  @padding: 2px;
+  @activeAddition: 4px;
+
+  cursor: pointer;
+  position: relative;
+  height: @size + @padding * 2;
+  border-radius: 100px;
+  overflow: hidden;
+  user-select: none;
+
+  &-disabled {
+    cursor: not-allowed;
+  }
+  // 颜色
+  &:not(@{checkedClass})@{disabledClass} {
+    & @{innerClass} {
+      .innerColor(@colorDisabled, @colorDisabled);
+    }
+  }
+  &@{checkedClass}:not(@{disabledClass})  {
+    & @{innerClass} {
+      .innerColor(@primary, @primaryHover)
+    }
+  }
+  &@{checkedClass}@{disabledClass} {
+    & @{innerClass} {
+      .innerColor(@primaryDisabled, @primaryDisabled);
+    }
+  }
+
+  // 内容跟随移动
+  &@{checkedClass} {
+    & @{innerClass} @{innerCheckedClass} {
+      left: 0;
+    }
+    & @{innerClass} @{innerUnCheckedClass} {
+      left: 100%;
+    }
+  }
+  &:not(@{checkedClass}){
+    & @{innerClass} @{innerCheckedClass}  {
+      left: -100%;
+    }
+    & @{innerClass} @{innerUnCheckedClass} {
+      left: 0;
+    }
+  }
+
+  // 修改circle样式
+  &@{checkedClass} @{circleClass}  {
+    left: calc(100% - @size - @padding);
+  }
+  &:active:not(@{disabledClass})  {
+    & @{circleClass} {
+      width: @size + @activeAddition;
+    }
+    &@{checkedClass} @{circleClass}  {
+      left:  calc(100% - @size - @activeAddition - @padding);
+    }
+  }
+
+  @{innerClass} {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    border-radius: 100px;
+    text-align: center;
+    transition: all @duration ease-in-out;
+    border: 1px solid @switchBg;
+    background: @switchBg;
+    .innerColor(@switchBg, @switchBgHover);
+
+    & @{innerCheckedClass} {
+      .innerContent();
+      padding-right: @size + @padding;
+      padding-left: @padding;
+    }
+    & @{innerUnCheckedClass}  {
+      .innerContent();
+      padding-left: @size + @padding;
+      padding-right: @padding;
+    }
+  }
+
+  @{circleClass}  {
+    top: @padding;
+    left: @padding;
+    position: absolute;
+    width: @size;
+    height: @size;
+    border-radius: 100px;
+    background: white;
+    transition: all @duration ease-in-out;
+  }
+}

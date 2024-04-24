@@ -1,0 +1,28 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('inputNumber');
+
+@{prefix} {
+  &-btn {
+    color: @color;
+    font-size: @fontSize;
+    display: inline-block;
+    flex: 1;
+    cursor: pointer;
+    padding: 0 8px;
+    border-left: 1px solid @borderColor;
+    transition: all @duration;
+
+    & a {
+      color: @borderColor;
+    }
+
+    &:hover {
+      background: whitesmoke;
+    }
+
+    &:first-child {
+      border-bottom: 1px solid @borderColor;
+    }
+  }
+}

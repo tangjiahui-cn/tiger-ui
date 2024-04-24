@@ -1,0 +1,75 @@
+@import '../../_theme/variable.less';
+
+@prefix: prefix('switchBar');
+@chooseClass: ~'@{prefix}-choose';
+
+@{prefix} {
+  .type();
+
+  gap: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.type () {
+  .common () {
+    background-color: @backgroundColor;
+    cursor: pointer;
+    user-select: none;
+    transition: all @duration;
+  }
+
+  &-rect {
+    .common();
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: @borderRadius;
+
+    &:hover {
+      background-color: whitesmoke;
+    }
+
+    &:where(@{chooseClass}) {
+      color: white;
+      background-color: @primary;
+      &:hover {
+        background-color: @primaryHover;
+      }
+    }
+  }
+
+  &-dot {
+    .common();
+    width: 10px;
+    height: 10px;
+    border: 1px solid @borderColor;
+    border-radius: 50%;
+    &:hover {
+      background-color: whitesmoke;
+    }
+
+    &:where(@{chooseClass}) {
+      color: white;
+      background-color: @primary;
+      &:hover {
+        background-color: @primaryHover;
+      }
+    }
+  }
+
+  &-line {
+    .common();
+    height: 3px;
+    width: 20px;
+    background-color: rgba(0, 0, 0, 0.4);
+
+    &:where(@{chooseClass}) {
+      width: 25px;
+      height: 4px;
+      background-color: white;
+    }
+  }
+}

@@ -22,10 +22,13 @@ module.exports = {
   plugins: ['react', '@typescript-eslint', 'prettier'],
   // http://eslint.cn/docs/rules/
   rules: {
+    // react
     'react/react-in-jsx-scope': 'off',
+    'react/prop-types': 'off',
+
+    // base
     semi: 'error',
     quotes: ['error', 'single'],
-    // 'no-console': 'error',
     'no-console': 'off',
     'no-debugger': 'error',
     'react/display-name': 'off',

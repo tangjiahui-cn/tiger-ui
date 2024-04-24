@@ -1,0 +1,45 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('notificationBox');
+@prefixNoDot: prefixNoDot('notificationBox');
+
+@appearKeyframes: ~'@{prefixNoDot}-keyframes-appear';
+@disappearKeyframes: ~'@{prefixNoDot}-keyframes-disappear';
+
+@{prefix} {
+  position: relative;
+  padding: 16px;
+  background: white;
+  box-shadow: @shadow3;
+  margin-bottom: 16px;
+
+  &-title {
+    font-size: 1.1em;
+  }
+
+  &-appear {
+    @keyframes @appearKeyframes {
+      from {
+        transform: translate(110%, 0);
+      }
+
+      to {
+        transform: translate(0, 0);
+      }
+    }
+
+    animation: @appearKeyframes 0.2s;
+  }
+
+  &-disappear {
+    @keyframes @disappearKeyframes {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+    animation: @disappearKeyframes 0.2s;
+  }
+}

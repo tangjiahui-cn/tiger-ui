@@ -1,0 +1,37 @@
+@import '../../../_theme/variable.less';
+
+@prefix: prefix('datepickerLineItem');
+@innerClass: ~'@{prefix}-inner';
+@innerSelectClass: ~'@{innerClass}-select';
+
+@{prefix} {
+  flex: 1;
+  box-sizing: border-box;
+  user-select: none;
+  cursor: text;
+  padding: 4px;
+
+  &-select {
+    cursor: pointer;
+    &:hover @{innerClass} {
+      background: whitesmoke;
+    }
+    &:hover @{innerSelectClass} {
+      background: #4e92e8;
+    }
+  }
+
+  @{innerClass} {
+    width: 100%;
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+  }
+
+  @{innerSelectClass} {
+    background: #4e92e8;
+    color: white;
+  }
+}

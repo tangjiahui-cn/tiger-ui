@@ -1,0 +1,15 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('carousel');
+
+@{prefix} {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+
+  &-body {
+    display: flex;
+    height: 100%;
+    transition: transform @duration;
+  }
+}

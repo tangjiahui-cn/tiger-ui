@@ -1,0 +1,67 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('select');
+@optionClass: prefix('selectOption');
+
+@{prefix} {
+  display: inline-table;
+  height: 32px;
+  min-width: 100px;
+  cursor: pointer;
+  transition: all @duration;
+  border: 1px solid @borderColor;
+  overflow: hidden;
+  border-radius: @borderRadius;
+  font-size: @fontSize;
+  color: @color;
+
+  &:focus,
+  &:hover {
+    border: 1px solid @primaryHover;
+    outline: none;
+  }
+
+  &-block {
+    width: 100%;
+  }
+
+  &-header {
+    padding: 0 8px;
+    font-size: 0.875em;
+    display: flex;
+    align-items: center;
+    height: 100%;
+
+    &-text {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      justify-content: space-between;
+    }
+
+    &-icon {
+      color: @placeholderColor;
+      font-size: 0.875em;
+    }
+  }
+
+  &-placeholder {
+    color: @placeholderColor;
+  }
+}
+
+@{optionClass} {
+  padding: 6px 12px;
+  cursor: pointer;
+  &:hover {
+    background-color: @selectPrimaryHover;
+  }
+
+  &-choose {
+    background-color: @selectPrimary;
+    &:hover {
+      background-color: @selectPrimary;
+    }
+  }
+}

@@ -1,9 +1,8 @@
-import { isFunction, isNumber, isObject, isString } from '../_utils/type';
+import { isFunction, isNumber, isObject, isString } from '@/_utils/type';
 import MessageBox from './messageBox';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { RequiredOnly } from '../_types';
-import style from './style';
+import { RequiredOnly } from '@/_types';
 
 export type MessageReturn = Promise<undefined>;
 export type MessageType = 'none' | 'success' | 'error' | 'warn' | 'warning' | 'info' | 'loading';
@@ -62,8 +61,14 @@ export class Message {
 
   private createContainerDom(): HTMLDivElement {
     const dom = document.createElement('div');
-    document.body.className = style.wrapper();
-    dom.className = 'message-container';
+    dom.style.position = 'fixed';
+    dom.style.left = '0px';
+    dom.style.top = '0px';
+    dom.style.width = '100%';
+    dom.style.height = '100%';
+    dom.style.backgroundColor = 'transparent';
+    dom.style.pointerEvents = 'none';
+    dom.style.zIndex = '999';
     return dom;
   }
 

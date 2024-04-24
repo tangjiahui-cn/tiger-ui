@@ -1,0 +1,217 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('btn');
+@dangerClass: ~'@{prefix}-danger';
+@focusClass: ~'@{prefix}-focus';
+@stayFocusClass: ~'@{prefix}-stayFocus';
+
+@{prefix} {
+  .size();
+  .type();
+
+  font-size: @fontSize;
+  color: @color;
+  cursor: pointer;
+  user-select: none;
+  background: @backgroundColor;
+  border: 1px solid @borderColor;
+  transition: all @duration;
+  line-height: 1.125;
+  vertical-align: middle;
+  border-radius: @borderRadius;
+
+  &-block {
+    width: 100%;
+    display: block;
+  }
+}
+
+.size () {
+  &-large {
+    padding: 12px 18px;
+  }
+
+  &-middle {
+    padding: 8px 14px;
+  }
+
+  &-small {
+    padding: 4px 8px;
+  }
+}
+
+.type () {
+  &-primary {
+    color: white;
+    background: @primary;
+    border-color: @primary;
+
+    &:hover {
+      background: @primaryHover;
+      border-color: @primaryHover;
+    }
+
+    &:active {
+      background: @primaryActive;
+      border-color: @primaryActive;
+    }
+
+    &:where(@{stayFocusClass}) {
+      &:focus {
+        background-color: @primaryHover;
+        border-color: @primaryHover;
+      }
+      &:active {
+        background-color: @primaryActive;
+        border-color: @primaryActive;
+      }
+    }
+
+    &:where(@{dangerClass}) {
+      background: @danger;
+      border-color: @danger;
+      &:hover {
+        background: @dangerHover;
+        border-color: @dangerHover;
+      }
+      &:active {
+        background: @dangerActive;
+        border-color: @dangerActive;
+      }
+    }
+
+    &[disabled] {
+      cursor: not-allowed;
+      background: @primaryDisabled;
+      border-color: @primaryDisabled;
+      &:where(@{dangerClass}) {
+        cursor: not-allowed;
+        background: @dangerDisabled;
+        border-color: @dangerDisabled;
+      }
+    }
+  }
+
+  .defaultStyle() {
+    color: @color;
+    &:hover {
+      color: @primaryHover;
+      border-color: @primaryHover;
+    }
+    &:active {
+      color: @primaryActive;
+      border-color: @primaryActive;
+    }
+
+    &:where(@{stayFocusClass}) {
+      &:focus {
+        color: @primaryHover;
+        border-color: @primaryHover;
+      }
+      &:active {
+        color: @primaryActive;
+        border-color: @primaryActive;
+      }
+    }
+
+    &:where(@{focusClass}) {
+      color: @primary;
+      border-color: @primary;
+    }
+
+    &:where(@{dangerClass}) {
+      color: @danger;
+      border-color: @danger;
+
+      &:hover {
+        color: @dangerHover;
+        border-color: @dangerHover;
+      }
+
+      &:active {
+        color: @dangerActive;
+        border-color: @dangerActive;
+      }
+    }
+
+    &[disabled] {
+      cursor: not-allowed;
+      color: @colorDisabled;
+      border-color: @borderColorDisabled;
+
+      &:where(@{dangerClass}) {
+        cursor: not-allowed;
+        color: @dangerDisabled;
+        border-color: @dangerDisabled;
+      }
+
+      &:where(@{focusClass}) {
+        color: @primaryDisabled;
+        border-color: @primaryDisabled;
+      }
+    }
+  }
+
+  &-default {
+    .defaultStyle();
+  }
+
+  &-dashed {
+    .defaultStyle();
+    border-style: dashed;
+  }
+
+  &-dotted {
+    .defaultStyle();
+    border-style: dotted;
+  }
+
+  &-text {
+    border-color: transparent;
+
+    &:hover {
+      color: @colorHover;
+    }
+
+    &:active {
+      color: @colorActive;
+    }
+
+    &:where(@{stayFocusClass}) {
+      &:focus {
+        color: @colorHover;
+      }
+      &:active {
+        color: @colorActive;
+      }
+    }
+
+    &:where(@{focusClass}) {
+      color: @colorHover;
+    }
+
+    &:where(@{dangerClass}) {
+      color: @danger;
+      &:hover {
+        color: @dangerHover;
+      }
+      &:active {
+        color: @dangerActive;
+      }
+    }
+
+    &[disabled] {
+      cursor: not-allowed;
+      color: @colorDisabled;
+
+      &:where(@{dangerClass}) {
+        cursor: not-allowed;
+        color: @dangerDisabled;
+      }
+
+      &:where(@{focusClass}) {
+        color: @colorDisabled;
+      }
+    }
+  }
+}

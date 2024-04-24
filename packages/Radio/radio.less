@@ -1,0 +1,39 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('radio');
+@circleClass: ~'@{prefix}-circle';
+
+@{prefix} {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover @{circleClass} {
+    border-color: @primaryHover;
+  }
+
+  & > input[type='radio'] {
+    display: none;
+    &:checked + @{circleClass} {
+      border: 4px solid @primary;
+    }
+  }
+
+  &-circle {
+    box-sizing: border-box;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 1px solid @primary;
+    transition: border-color @duration;
+  }
+
+  &-content {
+    vertical-align: middle;
+    margin-left: 8px;
+  }
+}

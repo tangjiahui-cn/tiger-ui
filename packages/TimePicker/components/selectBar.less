@@ -1,0 +1,30 @@
+@import '../../_theme/variable.less';
+
+@prefix: prefix('selectBar');
+
+@{prefix} {
+  height: 100%;
+  overflow-y: auto;
+  box-sizing: border-box;
+  display: inline-block;
+
+  &-box {
+    height: 30px;
+    line-height: 30px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 0.875em;
+    transition: all @duration;
+    cursor: pointer;
+    &:hover {
+      background: whitesmoke;
+    }
+
+    &-select {
+      background: @selectPrimary;
+      &:hover {
+        background: @selectPrimaryHover;
+      }
+    }
+  }
+}

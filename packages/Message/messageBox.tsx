@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import styles from './index.less';
-import { MessageOptions } from '../Message/message';
+import { MessageOptions } from '@/Message/message';
 import classNames from 'classnames';
 import { IconPresets } from '../Icon';
-import { useStyle } from './style/messageBox';
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import './messageBox.less';
 
 type MessageBoxProps = Pick<
   MessageOptions,
@@ -12,7 +12,7 @@ type MessageBoxProps = Pick<
 
 export default function (props: MessageBoxProps) {
   const { animationDuration = 0 } = props;
-  const style = useStyle('message-box');
+  const prefix = usePrefix('messageBox');
   const [isAppear, setIsAppear] = useState<boolean>(false);
 
   const icon = useMemo(() => {
@@ -42,13 +42,13 @@ export default function (props: MessageBoxProps) {
 
   return (
     <div
-      className={classNames(style.messageBox(), style.appear(isAppear))}
+      className={classNames(prefix, `${prefix}-${isAppear ? 'appear' : 'disappear'}`)}
       style={{
-        zIndex: 999,
+        zIndex: 1000,
         animationDuration: `${animationDuration}ms`,
       }}
     >
-      <div className={style.body()}>
+      <div className={`${prefix}-body`}>
         {props.icon || icon}
         {props?.content}
       </div>

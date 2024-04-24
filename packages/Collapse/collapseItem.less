@@ -1,0 +1,47 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('collapseItem');
+
+@{prefix} {
+  @padding: 8px 16px;
+  color: @color;
+  font-size: @fontSize;
+  border-radius: @borderRadius;
+  border: 1px solid @borderColor;
+
+  & + & {
+    margin-top: -1px;
+  }
+
+  &-label {
+    padding: @padding;
+    background-color: whitesmoke;
+    border-radius: @borderRadius;
+    cursor: pointer;
+
+    &-icon {
+      display: inline-block;
+      margin-right: 8px;
+      transition: all @duration;
+
+      & a {
+        color: @color;
+      }
+
+      &-expand {
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  &-body {
+    overflow: hidden;
+    transition: all @duration;
+
+    &-children {
+      padding: @padding;
+      border-radius: @borderRadius;
+      border-top: 1px solid @borderColor;
+    }
+  }
+}

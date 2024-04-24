@@ -1,0 +1,43 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('tabs');
+
+@{prefix} {
+  padding: 16px;
+
+  &-bar {
+    padding: 0 8px;
+    border-bottom: 1px solid @borderColor;
+
+    &-item {
+      cursor: pointer;
+      display: inline-block;
+      transition: all @duration;
+      user-select: none;
+      padding: 8px 0;
+      border-bottom: 2px solid transparent;
+
+      &:hover {
+        color: @primary;
+        border-bottom: 2px solid @primary;
+      }
+
+      &:active {
+        color: @primaryActive;
+      }
+
+      & + & {
+        margin-left: 32px;
+      }
+
+      &-choose {
+        color: @primary;
+        border-bottom: 2px solid @primary;
+      }
+    }
+  }
+
+  &-body {
+    padding: 8px;
+  }
+}

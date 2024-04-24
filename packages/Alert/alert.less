@@ -1,0 +1,71 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('alert');
+
+@{prefix} {
+  .type();
+
+  color: @color;
+  border: 1px solid @borderColor;
+  padding: 8px 16px;
+  border-radius: @borderRadius;
+  display: flex;
+
+  &-hidden {
+    display: none;
+    color: red;
+  }
+
+  &-icon {
+    padding-right: 8px;
+    align-self: flex-start;
+    font-size: 1.125em;
+  }
+
+  &-message {
+    font-size: 1.125em;
+    width: 100%;
+    word-break: break-all;
+  }
+
+  &-description {
+    width: 100%;
+    word-break: break-all;
+    color: @colorLight;
+    font-size: 0.875em;
+  }
+
+  &-close {
+    padding-right: 8px;
+    align-self: flex-start;
+    font-size: 1.125em;
+    cursor: pointer;
+    padding-left: 8px;
+
+    &:hover {
+      color: @colorHover;
+    }
+  }
+}
+
+.type () {
+  &-info {
+    border-color: @infoBorderColor;
+    background-color: @infoBg;
+  }
+
+  &-success {
+    border-color: @successBorderColor;
+    background-color: @successBg;
+  }
+
+  &-error {
+    border-color: @errorBorderColor;
+    background-color: @errorBg;
+  }
+
+  &-warn {
+    border-color: @warnBorderColor;
+    background-color: @warnBg;
+  }
+}

@@ -1,0 +1,54 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('messageBox');
+@prefixNoDot: prefixNoDot('messageBox');
+
+@appearKeyframes: ~'@{prefixNoDot}-keyframes-appear';
+@disappearKeyframes: ~'@{prefixNoDot}-keyframes-disappear';
+
+@{prefix} {
+  margin-top: 16px;
+  font-size: @fontSize;
+  color: @color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all @duration;
+
+  @keyframes @appearKeyframes {
+    from {
+      margin-top: 0;
+    }
+    to {
+      margin-top: 16px;
+    }
+  }
+
+  @keyframes @disappearKeyframes {
+    from {
+      margin-top: 16px;
+      opacity: 1;
+    }
+    to {
+      margin-top: 0;
+      opacity: 0;
+    }
+  }
+
+  &-appear {
+    animation: @appearKeyframes 0.2s;
+  }
+
+  &-disappear {
+    animation: @disappearKeyframes 0.2s;
+  }
+
+  &-body {
+    background-color: white;
+    padding: 8px 16px;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: @shadow3;
+    gap: 8px;
+  }
+}
