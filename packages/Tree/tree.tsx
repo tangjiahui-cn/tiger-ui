@@ -88,11 +88,14 @@ const Tree: TreeFC = React.forwardRef(function Tree(
     const isLeaf = node?.children?.length ? false : isBoolean(node?.isLeaf) ? node?.isLeaf : true;
 
     return (
-      <div key={node?.key} className={classNames(`${prefix}-line`, !isExpand && `${prefix}-hide`)}>
+      <div
+        key={node?.key}
+        className={classNames(`${prefix}-line`, !isExpand && `${prefix}-line-hide`)}
+      >
         <div className={`${prefix}-line-head`}>
           <div className={`${prefix}-line-head-arrow`}>
             <div
-              className={classNames(isLeaf && `${prefix}-hide`)}
+              className={classNames(isLeaf && `${prefix}-line-hide`)}
               style={{ transform: `rotate(${isExpand ? 90 : 0}deg)` }}
               onClick={() => handleExpand(node, isExpand)}
             >

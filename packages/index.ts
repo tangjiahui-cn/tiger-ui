@@ -60,3 +60,5 @@ export { default as Tabs } from './Tabs';
 export type * from './Tabs';
 export { default as InputNumber } from './InputNumber';
 export type * from './InputNumber';
+export { default as Table } from './Table';
+export type * from './Table';
