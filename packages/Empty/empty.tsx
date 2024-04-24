@@ -5,12 +5,11 @@
  * @date 2023/6/28
  */
 import React, { DOMAttributes, ForwardedRef, RefAttributes } from 'react';
-import { useGetConfig } from '@/ConfigProvider';
 import { EmptyFill, EmptyOutline } from '@/Icon';
 import classNames from 'classnames';
 import { omit } from '@/_utils/object';
 import './empty.less';
-import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import { useLocale, usePrefix } from '@/ConfigProvider/ConfigProvider';
 
 export interface BaseEmptyProps {
   /**
@@ -58,7 +57,7 @@ const Empty: EmptyFC = React.forwardRef(function (
   props: EmptyProps,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
-  const { locale } = useGetConfig();
+  const locale = useLocale();
   const { type = 'default', message = locale.emptyValue } = props;
 
   const prefix = usePrefix('empty');

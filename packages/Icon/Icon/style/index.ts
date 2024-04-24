@@ -1,8 +1,7 @@
-import usePrefix from '../../../_utils/hooks/usePrefix';
-import useToken from '../../../_utils/hooks/useToken';
 import brotherSelector from '../../../_utils/style/brotherSelector';
 import childrenSelector from '@/_utils/style/childrenSelector';
-import useCssInJs from '@/_utils/hooks/useCssInJs';
+import { css, keyframes } from 'class-css';
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
 
 type StyleObject = {
   [k: string]: any | StyleObject;
@@ -14,10 +13,7 @@ export function useStyle(componentName: string): {
   icon: () => string;
   spin: () => string;
 } {
-  const token = useToken();
   const prefix = usePrefix(componentName);
-  const { css, keyframes } = useCssInJs({ key: prefix });
-
   const spinKeyframes = keyframes({
     '100%': {
       transform: 'rotate(360deg)',
@@ -56,7 +52,7 @@ export function useStyle(componentName: string): {
   const iconWrapper = () =>
     css({
       ...iconHover({
-        color: token.color,
+        color: 'black',
       }),
 
       ...brotherSelector(pointerStyle),
@@ -64,7 +60,7 @@ export function useStyle(componentName: string): {
       ...childrenSelector(spinStyle),
 
       '& a': {
-        color: token.color,
+        color: 'black',
         cursor: 'default',
       },
     });

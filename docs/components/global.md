@@ -13,9 +13,7 @@ export default () => {
 
   return <ConfigProvider
     theme={{
-      token: {
-        primary
-      }
+      primary
     }}
   >
     <Space direction={'vertical'}>

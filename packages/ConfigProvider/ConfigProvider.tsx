@@ -17,7 +17,7 @@ import { stringify } from '@/_utils';
 export { usePrefix } from './context/prefixContext';
 export { useLocale } from './context/localeContext';
 
-interface ContextValue {
+export interface ContextValue {
   /**
    * @description 主题色
    */
@@ -32,7 +32,7 @@ interface ContextValue {
   prefix?: string;
 }
 
-type ConfigProviderProps = ContextValue & {
+export type ConfigProviderProps = ContextValue & {
   children?: React.ReactNode;
 };
 
