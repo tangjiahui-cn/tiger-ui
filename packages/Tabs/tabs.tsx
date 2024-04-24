@@ -9,6 +9,7 @@ import { DOMAttributes, ForwardedRef, RefAttributes, useState } from 'react';
 import classNames from 'classnames';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
 import './tabs.less';
+import { omit } from '@/_utils/object';
 
 export interface TabsOption {
   key: string;
@@ -79,6 +80,8 @@ const Tabs: TabsFC = React.forwardRef(function Tabs(
   ref: ForwardedRef<HTMLDivElement>,
 ) {
   const prefix = usePrefix('tabs');
+  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
+
   const [activeKey, setActiveKey] = useState<string>(
     props?.activeKey || props?.defaultActiveKey || props?.options?.[0]?.key || '',
   );
@@ -92,7 +95,12 @@ const Tabs: TabsFC = React.forwardRef(function Tabs(
   }
 
   return (
-    <div ref={ref} className={classNames(props?.className, prefix)} style={props?.style}>
+    <div
+      {...originProps}
+      className={classNames(props?.className, prefix)}
+      style={props?.style}
+      ref={ref}
+    >
       <div className={`${prefix}-bar`} style={props?.barStyle}>
         {props?.options?.map((x) => {
           const isChoose = activeKey === x.key;
