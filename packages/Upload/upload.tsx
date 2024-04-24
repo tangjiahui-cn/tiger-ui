@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
+import React, { DOMAttributes, ForwardedRef, RefAttributes, useState } from 'react';
 import { Button, message, Space } from '..';
-import { isString, isBoolean } from '../_utils';
-import { useGetConfig } from '../ConfigProvider';
-import { useStyle } from './style';
+import { isString, isBoolean, omit } from '@/_utils';
 import { ACCEPT } from './ACCEPT';
+import { useLocale, usePrefix } from '@/ConfigProvider/ConfigProvider';
+import classNames from 'classnames';
+import './upload.less';
 
-export { ACCEPT } from './ACCEPT';
+type IFile = File & {
+  id: number;
+};
 
 type OperateType = {
   preview?: boolean;
   delete?: boolean;
 };
 
-export interface UploadProps {
-  /**
-   * @description 组件样式
-   */
-  style?: React.CSSProperties;
+export interface BaseUploadProps {
   /**
    * @description 允许上传的类型
    */
@@ -37,10 +36,6 @@ export interface UploadProps {
   //
   maxSizeErrorMsg?: string | ((maxSize: number) => string);
   /**
-   * @description 上传占位符
-   */
-  children?: any;
-  /**
    * @description 上传内容支持操作
    */
   operate?: OperateType;
@@ -52,15 +47,40 @@ export interface UploadProps {
    * @description 文件列表change
    */
   onChange?: (files: File[]) => void;
+  /**
+   * style
+   */
+  style?: React.CSSProperties;
+  /**
+   * className
+   */
+  className?: string;
 }
+export type BaseUploadPropsKeys = keyof BaseUploadProps;
+export type UploadProps = BaseUploadProps &
+  DOMAttributes<HTMLDivElement> &
+  RefAttributes<HTMLDivElement>;
 
-type IFile = File & {
-  id: number;
-};
+const privateKeys: BaseUploadPropsKeys[] = [
+  'accept',
+  'maxCount',
+  'maxSize',
+  'maxSizeErrorMsg',
+  'operate',
+  'onPreview',
+  'onChange',
+  'style',
+  'className',
+];
 
-export default function Upload(props: UploadProps) {
-  const { locale } = useGetConfig();
-  const style = useStyle('upload');
+export type UploadFC = React.ForwardRefExoticComponent<UploadProps>;
+const Upload: UploadFC = React.forwardRef(function Upload(
+  props: UploadProps,
+  ref: ForwardedRef<HTMLDivElement>,
+) {
+  const locale = useLocale();
+  const prefix = usePrefix('upload');
+  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
 
   const {
     maxCount = 9,
@@ -129,12 +149,17 @@ export default function Upload(props: UploadProps) {
   }
 
   return (
-    <div className={style.upload()} style={props?.style}>
+    <div
+      {...originProps}
+      className={classNames(props?.className, prefix)}
+      style={props?.style}
+      ref={ref}
+    >
       {files.length < maxCount && <div onClick={() => openUpload()}>{children}</div>}
       {files.map((file: IFile) => {
         return (
-          <div key={file.id} className={style.uploadItem()}>
-            <div className={style.uploadItemName()} title={file.name}>
+          <div key={file.id} className={`${prefix}-item`}>
+            <div className={`${prefix}-item-name`} title={file.name}>
               {file.name}
             </div>
             <Space>
@@ -154,4 +179,6 @@ export default function Upload(props: UploadProps) {
       })}
     </div>
   );
-}
+});
+
+export default Upload;

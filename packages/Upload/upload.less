@@ -1,0 +1,29 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('upload');
+
+.textEllipsis() {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@{prefix} {
+  &-item {
+    padding: 4px 0;
+    cursor: default;
+    transition: all @duration;
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    &:hover {
+      background-color: #f8f8f8;
+    }
+
+    &-name {
+      .textEllipsis();
+      flex: 1;
+    }
+  }
+}
