@@ -4,24 +4,11 @@
  * @author tangjiahui
  * @date 2024/2/26
  */
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { css } from 'class-css';
+import { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import useToken from '@/_utils/hooks/useToken';
 import { useUpdateEffect } from '@/_hooks';
-
-const boxClass = css({
-  height: 30,
-  lineHeight: '30px',
-  boxSizing: 'border-box',
-  textAlign: 'center',
-  fontSize: '0.875em',
-  transition: 'all .3s',
-  cursor: 'pointer',
-  '&:hover': {
-    background: 'whitesmoke',
-  },
-});
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import './selectBar.less';
 
 const boxHeight = 30;
 const padding = 4;
@@ -59,16 +46,8 @@ export default function SelectBar(props: SelectBarProps) {
   }
 
   const isOuterValue = useRef<boolean>(props?.value !== undefined);
-  const token = useToken();
 
-  const boxSelectClass = useMemo(() => {
-    return css({
-      background: token.selectPrimary,
-      '&:hover': {
-        background: token.selectHover,
-      },
-    });
-  }, [token.selectPrimary, token.selectHover]);
+  const prefix = usePrefix('selectBar');
 
   // range size.
   const total = end - start + 1;
@@ -107,13 +86,10 @@ export default function SelectBar(props: SelectBarProps) {
 
   return (
     <div
+      className={prefix}
       ref={containerRef}
       style={{
         padding,
-        height: '100%',
-        overflowY: 'auto',
-        boxSizing: 'border-box',
-        display: 'inline-block',
         ...props?.style,
       }}
     >
@@ -127,7 +103,7 @@ export default function SelectBar(props: SelectBarProps) {
               return (
                 <div
                   key={current}
-                  className={classNames(boxClass, isSelect && boxSelectClass)}
+                  className={classNames(`${prefix}-box`, isSelect && `${prefix}-box-select`)}
                   onClick={() => {
                     props?.onChange?.(index);
                     if (!isOuterValue.current) {

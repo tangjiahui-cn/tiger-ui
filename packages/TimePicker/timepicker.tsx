@@ -5,14 +5,24 @@
  * @date 2024/2/23
  */
 import { Button, DropDown } from '@/index';
-import SelectBar from './components/SelectBar';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import SelectBar from './components/selectBar';
+import React, {
+  DOMAttributes,
+  ForwardedRef,
+  RefAttributes,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import moment, { Moment } from 'moment';
 import { doubleString, isEmpty } from '@/_utils';
 import cloneDeep from 'lodash/cloneDeep';
-import useToken from '@/_utils/hooks/useToken';
 import { useUpdateEffect } from '@/_hooks';
-import { useStyle } from './style';
+import { omit } from '@/_utils/object';
+import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import classNames from 'classnames';
+import './timepicker.less';
 
 function isArrayHasEmpty(arr: number[]) {
   for (let i = 0; i < arr.length; i++) {
@@ -57,7 +67,7 @@ const getValue = (now: Moment, type: TimeType) => {
   }
 };
 
-export interface TimePickerProps {
+export interface BaseTimePickerProps {
   /**
    * @description 受控值
    */
@@ -76,10 +86,35 @@ export interface TimePickerProps {
    * @description 切换回调
    */
   onChange?: (value?: Moment) => void;
+  /**
+   * style
+   */
+  style?: React.CSSProperties;
+  /**
+   * className
+   */
+  className?: string;
 }
+export type BaseTimePickerKeys = keyof BaseTimePickerProps;
+export type TimePickerProps = BaseTimePickerProps &
+  DOMAttributes<HTMLDivElement> &
+  RefAttributes<HTMLDivElement>;
 
-export default function TimePicker(props: TimePickerProps) {
-  const style = useStyle('timepicker');
+const privateKeys: BaseTimePickerKeys[] = [
+  'value',
+  'type',
+  'placeholder',
+  'onChange',
+  'style',
+  'className',
+];
+
+export type TimePickerFC = React.ForwardRefExoticComponent<TimePickerProps>;
+const TimePicker: TimePickerFC = React.forwardRef(function TimePicker(
+  props: TimePickerProps,
+  ref: ForwardedRef<HTMLDivElement>,
+) {
+  const prefix = usePrefix('timepicker');
   const types: TimeType[] = useMemo(() => {
     switch (props?.type) {
       case 'second':
@@ -92,7 +127,7 @@ export default function TimePicker(props: TimePickerProps) {
     }
   }, [props?.type]);
 
-  const token = useToken();
+  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
 
   const isOuter = useRef(props?.value !== undefined);
   const [visible, setVisible] = useState(false);
@@ -197,8 +232,13 @@ export default function TimePicker(props: TimePickerProps) {
         }
       }}
       popupPanel={
-        <div className={style.timepicker()}>
-          <div className={style.timepickerBody()}>
+        <div
+          {...originProps}
+          className={classNames(props?.className, prefix)}
+          style={props?.style}
+          ref={ref}
+        >
+          <div className={`${prefix}-body`}>
             {data
               .filter((x) => {
                 return x?.visible;
@@ -227,8 +267,8 @@ export default function TimePicker(props: TimePickerProps) {
                 );
               })}
           </div>
-          <div className={style.timepickerBottom()}>
-            <a className={style.timepickerBottomNow()} onClick={handleNow}>
+          <div className={`${prefix}-bottom`}>
+            <a className={`${prefix}-bottom-now`} onClick={handleNow}>
               此刻
             </a>
             <Button type={'primary'} size={'small'} onClick={handleOk}>
@@ -238,11 +278,13 @@ export default function TimePicker(props: TimePickerProps) {
         </div>
       }
     >
-      <div tabIndex={0} className={style.timepickerPlaceholder()}>
+      <div tabIndex={0} className={`${prefix}-placeholder`}>
         {displayText || (
-          <span className={style.timepickerPlaceholderTip()}>{props?.placeholder || '请选择'}</span>
+          <span className={`${prefix}-placeholder-text`}>{props?.placeholder || '请选择'}</span>
         )}
       </div>
     </DropDown>
   );
-}
+});
+
+export default TimePicker;

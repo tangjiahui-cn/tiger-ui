@@ -1,0 +1,45 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('timepicker');
+@placeholderClass: ~'@{prefix}-placeholder';
+
+@{prefix} {
+  display: flex;
+  flex-direction: column;
+  height: 256px;
+  overflow-y: auto;
+
+  &-body {
+    flex: 1;
+    overflow-y: hidden;
+  }
+
+  &-bottom {
+    border-top: 1px solid @borderColor;
+    justify-content: space-between;
+    padding: 8px 10px;
+    align-items: center;
+    display: flex;
+
+    &-now {
+      font-size: 0.875em;
+      color: #4b81e5;
+      cursor: pointer;
+    }
+  }
+}
+
+@{placeholderClass} {
+  width: 100px;
+  border: 1px solid @borderColor;
+  border-radius: 4px;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 12px;
+  cursor: pointer;
+  font-size: 0.875em;
+
+  &-text {
+    color: @placeholderColor;
+  }
+}
