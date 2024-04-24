@@ -70,6 +70,8 @@ const privateKeys: BaseSpacePropsKeys[] = [
   'direction',
   'block',
   'wrap',
+  'itemClassName',
+  'itemStyle',
   'children',
   'style',
   'className',
