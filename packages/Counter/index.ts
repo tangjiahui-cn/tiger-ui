@@ -7,10 +7,4 @@
 import Counter from './counter';
 
 export default Counter;
-export type {
-  CounterProps,
-  CounterFC,
-  CounterRef,
-  BaseCounterProps,
-  BaseCounterPropsKeys,
-} from './counter';
+export type * from './counter';

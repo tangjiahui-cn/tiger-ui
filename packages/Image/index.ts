@@ -7,4 +7,4 @@
 import Image from './image';
 
 export default Image;
-export type { ImageProps, ImageFC, BaseImagePropsKeys, BaseImageProps } from './image';
+export type * from './image';

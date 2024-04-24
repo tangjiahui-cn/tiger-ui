@@ -7,11 +7,4 @@
 import Button from './button';
 
 export default Button;
-export type {
-  ButtonFC,
-  ButtonProps,
-  BaseButtonProps,
-  ButtonType,
-  BaseButtonPropsKeys,
-  ButtonSize,
-} from './button';
+export type * from './button';

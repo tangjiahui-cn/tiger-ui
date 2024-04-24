@@ -7,4 +7,4 @@
 import Empty from './empty';
 
 export default Empty;
-export type { EmptyProps, EmptyFC, BaseEmptyProps, BaseEmptyPropsKeys } from './empty';
+export type * from './empty';

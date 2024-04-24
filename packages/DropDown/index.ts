@@ -7,10 +7,4 @@
 import DropDown from './dropdown';
 
 export default DropDown;
-export type {
-  DropDownFC,
-  DropDownProps,
-  DropDownTrigger,
-  BaseDropDownProps,
-  BaseDropDownPropsKeys,
-} from './dropdown';
+export type * from './dropdown';

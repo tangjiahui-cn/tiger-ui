@@ -7,9 +7,4 @@
 import Carousel from './carousel';
 
 export default Carousel;
-export type {
-  CarouselFC,
-  BaseCarouselProps,
-  BaseCarouselPropsKeys,
-  CarouselProps,
-} from './carousel';
+export type * from './carousel';

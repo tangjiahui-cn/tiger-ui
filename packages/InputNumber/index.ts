@@ -7,9 +7,4 @@
 import InputNumber from './inputNumber';
 
 export default InputNumber;
-export type {
-  InputNumberFC,
-  InputNumberProps,
-  BaseInputNumberProps,
-  BaseInputNumberPropsKeys,
-} from './inputNumber';
+export type * from './inputNumber';

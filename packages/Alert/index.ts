@@ -7,4 +7,4 @@
 import Alert from './alert';
 
 export default Alert;
-export type { AlertFC, AlertProps, BaseAlertProps, AlertType, BaseAlertPropsKeys } from './alert';
+export type * from './alert';
