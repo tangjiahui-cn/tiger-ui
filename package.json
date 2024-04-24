@@ -45,6 +45,18 @@
   "engines": {
     "node": ">= 14.x || 16.x.x"
   },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    }
+  },
   "peerDependencies": {
     "react": ">= 18",
     "react-dom": ">= 18"
@@ -139,17 +151,5 @@
     "> 1%",
     "iOS 7",
     "last 3 iOS versions"
-  ],
-  "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": [
-      "eslint */* --fix",
-      "prettier --write",
-      "git add"
-    ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "@commitlint/cz-commitlint"
-    }
-  }
+  ]
 }
