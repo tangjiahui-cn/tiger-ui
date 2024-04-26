@@ -68,7 +68,7 @@ export class Message {
     dom.style.height = '100%';
     dom.style.backgroundColor = 'transparent';
     dom.style.pointerEvents = 'none';
-    dom.style.zIndex = '999';
+    dom.style.zIndex = '1000';
     return dom;
   }
 
