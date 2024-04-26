@@ -31,7 +31,7 @@ export class NotificationGen {
     dom.style.position = 'fixed';
     dom.style.right = '16px';
     dom.style.top = '16px';
-    dom.style.zIndex = '1000';
+    dom.style.zIndex = '2000';
     return dom;
   }
 
