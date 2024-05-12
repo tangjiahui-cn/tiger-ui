@@ -18,7 +18,6 @@ export default defineConfig({
       switch: false,
     },
   },
-  apiParser: {},
   resolve: {
     docDirs: ['docs'],
     entryFile: path.resolve(__dirname, './packages/index.ts'),
