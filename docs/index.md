@@ -4,9 +4,9 @@ hero:
   description: 一个React组件库，就像Antd那样...
   actions:
     - text: Start
-      link: /components/global
+      link: ./components/global
     - text: Docs
-      link: /components/global
+      link: ./components/global
 features:
   - title: 基础组件
     emoji: 💎
