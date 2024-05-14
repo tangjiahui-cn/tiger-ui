@@ -6,7 +6,7 @@
   "types": "es/index.d.ts",
   "main": "umd/index.js",
   "author": "tangjiahui-cn",
-  "homepage": "https://github.com/tangjiahui-cn/tiger-ui#readme",
+  "homepage": "https://tangjiahui-cn.github.io/tiger-ui",
   "license": "MIT",
   "private": false,
   "scripts": {

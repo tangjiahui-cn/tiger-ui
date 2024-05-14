@@ -1,0 +1,30 @@
+name: build docs
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: copy codes
+        uses: actions/checkout@v4
+
+      - name: use pnpm@7
+        uses: pnpm/action-setup@v4
+        with:
+          version: 7
+
+      - name: run docs build.
+        run:
+          pnpm install
+          pnpm docs:build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs-dist
