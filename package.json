@@ -18,6 +18,7 @@
     "build": "cross-env target=all esno scripts/build/index.ts",
     "docs": "dumi dev",
     "docs:build": "dumi build",
+    "docs:build-github": "cross-env deploy=github dumi build",
     "test": "jest -c jest.config.ts --no-cache",
     "fomat-code-all": "eslint --ext .js,.ts,.jsx,.tsx */* --fix && prettier --write .",
     "prepare": "husky install",

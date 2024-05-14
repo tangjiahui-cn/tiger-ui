@@ -20,7 +20,7 @@ jobs:
           version: 8.15.0
 
       - name: run build.
-        run: pnpm install && pnpm docs:build
+        run: pnpm install && pnpm docs:build-github
 
       - name: Deploy To GitHub Page.🚀
         uses: crazy-max/ghaction-github-pages@v4
