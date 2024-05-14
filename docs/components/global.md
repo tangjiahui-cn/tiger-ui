@@ -9,7 +9,7 @@ import {Space, Button, ConfigProvider} from 'tiger-ui';
 import {useState} from 'react';
 
 export default () => {
-  const [primary, setPrimary] = useState<any>(undefined);
+  const [primary, setPrimary] = useState(undefined);
 
   return <ConfigProvider
     theme={{

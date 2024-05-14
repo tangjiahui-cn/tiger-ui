@@ -19,7 +19,7 @@ import moment from 'moment';
 import { useState } from "react";
 
 export default () => {
-  const [value, setValue] = useState < any > (moment());
+  const [value, setValue] = useState (moment());
   return <Space direction={'vertical'}>
     <Space>
       可选择：
@@ -41,7 +41,7 @@ import moment from 'moment';
 import { useState } from "react";
 
 export default () => {
-  const [type, setType] = useState <string> ('');
+  const [type, setType] = useState  ('');
 
   return <Space>
     <TimePicker type={type} />

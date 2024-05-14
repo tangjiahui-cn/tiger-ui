@@ -8,7 +8,7 @@ import {Select, Space} from 'tiger-ui';
 import {useState} from 'react';
 
 export default () => {
-  const [key, setKey] = useState<string | undefined>(undefined);
+  const [key, setKey] = useState(undefined);
   return (
     <Space>
       <Select
@@ -31,7 +31,7 @@ import {Select} from 'tiger-ui';
 import {useState} from 'react';
 
 export default () => {
-  const [key, setKey] = useState<string | undefined>(undefined);
+  const [key, setKey] = useState(undefined);
   return (
     <Select
       block
@@ -53,7 +53,7 @@ import {Select} from 'tiger-ui';
 import {useState} from 'react';
 
 export default () => {
-  const [key, setKey] = useState<string | undefined>(undefined);
+  const [key, setKey] = useState(undefined);
   return (
     <Select
       block
@@ -78,7 +78,7 @@ import { useState } from 'react';
 
 export default () => {
   const [visible, setVisible] = useState(false);
-  const [key, setKey] = useState < string | undefined > (undefined);
+  const [key, setKey] = useState(undefined);
   return (
     <Space>
       <Select

@@ -26,7 +26,7 @@ import { DropDown, Space, Button } from 'tiger-ui';
 import { useState } from "react";
 
 export default () => {
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
   return (
     <DropDown
       open={open}

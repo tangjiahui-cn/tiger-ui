@@ -8,12 +8,14 @@ const { deploy } = process.env;
 const publicPath = deploy === 'github' ? `/${NAME}/` : '/';
 
 export default defineConfig({
-  title: 'tiger-ui',
+  publicPath,
+  apiParser: {},
+  title: NAME,
   outputPath: 'docs-dist',
   themeConfig: {
     logo: false,
-    title: 'tiger-ui',
-    name: 'tiger-ui',
+    title: NAME,
+    name: NAME,
     footer: false,
     apiHeader: false,
     prefersColor: {
@@ -26,8 +28,6 @@ export default defineConfig({
     entryFile: path.resolve(__dirname, './packages/index.ts'),
   },
   chainWebpack(memo) {
-    memo.output.publicPath(publicPath);
-
     memo.resolve.alias
       .set('tiger-ui', path.resolve(__dirname, './packages'))
       .set('@', path.resolve(__dirname, './packages'));

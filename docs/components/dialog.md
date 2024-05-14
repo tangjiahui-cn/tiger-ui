@@ -134,7 +134,7 @@ import {useState} from 'react';
 
 export default () => {
   const DEFAULT = '300';
-  const [delay, setDelay] = useState<string>(DEFAULT);
+  const [delay, setDelay] = useState(DEFAULT);
   const [open, setOpen] = useState(false);
   
   return <>
