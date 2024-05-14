@@ -28,3 +28,4 @@ jobs:
         with:
           folder: docs-dist
           token: ${{ secrets.ACCESS_TOKEN }}
+
