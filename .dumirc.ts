@@ -8,6 +8,7 @@ const { deploy } = process.env;
 const publicPath = deploy === 'github' ? `/${NAME}/` : '/';
 
 export default defineConfig({
+  base: publicPath,
   title: 'tiger-ui',
   outputPath: 'docs-dist',
   themeConfig: {
