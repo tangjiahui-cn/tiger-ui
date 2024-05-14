@@ -8,7 +8,6 @@ const { deploy } = process.env;
 const publicPath = deploy === 'github' ? `/${NAME}/` : '/';
 
 export default defineConfig({
-  base: publicPath,
   title: 'tiger-ui',
   outputPath: 'docs-dist',
   themeConfig: {
@@ -27,7 +26,7 @@ export default defineConfig({
     entryFile: path.resolve(__dirname, './packages/index.ts'),
   },
   chainWebpack(memo) {
-    memo.output.publicPath('/');
+    memo.output.publicPath(publicPath);
 
     memo.resolve.alias
       .set('tiger-ui', path.resolve(__dirname, './packages'))
