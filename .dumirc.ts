@@ -1,3 +1,9 @@
+/**
+ * dumi
+ *
+ * @author tangjiahui
+ * @date 2024/5/15
+ */
 import { defineConfig } from 'dumi';
 // @ts-ignore
 import path from 'path';
