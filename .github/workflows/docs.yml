@@ -21,8 +21,7 @@ jobs:
 
       - name: run docs build.
         run:
-          pnpm install
-          pnpm docs:build
+          pnpm install && pnpm docs:build
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
