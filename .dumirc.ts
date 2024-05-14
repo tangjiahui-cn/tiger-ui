@@ -10,7 +10,6 @@ const publicPath = deploy === 'github' ? `/${NAME}/` : '/';
 export default defineConfig({
   publicPath,
   base: publicPath,
-  apiParser: {},
   title: NAME,
   outputPath: 'docs-dist',
   themeConfig: {
