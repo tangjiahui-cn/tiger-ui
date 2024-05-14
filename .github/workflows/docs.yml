@@ -26,7 +26,7 @@ jobs:
       - name: Deploy To GitHub Page.🚀
         uses: JamesIves/github-pages-deploy-action@v4
         env:
-          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         with:
           folder: docs-dist
 
