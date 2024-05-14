@@ -14,16 +14,16 @@ jobs:
       - name: copy codes
         uses: actions/checkout@v4
 
-      - name: use pnpm@7
+      - name: install pnpm@8.15.0
         uses: pnpm/action-setup@v4
         with:
-          version: 7
+          version: 8.15.0
 
-      - name: run docs build.
+      - name: run build.
         run:
           pnpm install && pnpm docs:build
 
-      - name: Deploy 🚀
+      - name: Deploy To GitHub Page.🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: docs-dist
