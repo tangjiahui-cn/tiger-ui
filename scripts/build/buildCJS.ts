@@ -18,20 +18,18 @@ import { merge } from 'webpack-merge';
 
 export function buildCJS() {
   buildWebpack(
-    analysisWebpackBundleTime(
-      merge(getWebpackCommon(), {
-        entry: {
-          ...getPackageNamePathMap(PKG_DIR),
-          index: root('packages'),
+    merge(getWebpackCommon(), {
+      entry: {
+        ...getPackageNamePathMap(PKG_DIR),
+        index: root('packages'),
+      },
+      output: {
+        path: root('cjs'),
+        library: {
+          name: NAME,
+          type: 'commonjs',
         },
-        output: {
-          path: root('cjs'),
-          library: {
-            name: NAME,
-            type: 'commonjs',
-          },
-        },
-      }),
-    ),
+      },
+    }),
   );
 }

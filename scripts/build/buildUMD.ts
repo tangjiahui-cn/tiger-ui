@@ -18,20 +18,18 @@ import { merge } from 'webpack-merge';
 
 export function buildUMD() {
   buildWebpack(
-    analysisWebpackBundleTime(
-      merge(getWebpackCommon(), {
-        entry: {
-          ...getPackageNamePathMap(PKG_DIR),
-          index: root('packages'),
+    merge(getWebpackCommon(), {
+      entry: {
+        ...getPackageNamePathMap(PKG_DIR),
+        index: root('packages'),
+      },
+      output: {
+        path: root('umd'),
+        library: {
+          name: NAME,
+          type: 'umd',
         },
-        output: {
-          path: root('umd'),
-          library: {
-            name: NAME,
-            type: 'umd',
-          },
-        },
-      }),
-    ),
+      },
+    }),
   );
 }
