@@ -1,3 +1,59 @@
+## [0.0.6](https://github.com/tangjiahui-cn/tiger-ui/compare/v0.0.5...v0.0.6) (2024-05-19)
+
+
+### Bug Fixes
+
+* **.:** hide apiParser ([e8c4772](https://github.com/tangjiahui-cn/tiger-ui/commit/e8c47721195e51bd3f698219fd76c4eedcbb7357))
+* **checkbox:** fix indeterminate ([33eb30e](https://github.com/tangjiahui-cn/tiger-ui/commit/33eb30e65428a2ec1af7916a6befed438b61fcdf))
+* **configprovider:** use memo for theme, locale, prefix ([6fdc012](https://github.com/tangjiahui-cn/tiger-ui/commit/6fdc0120dfde0e87cefb7d7bd4782ef572851cdd))
+* **datepicker:** add interface 'DateType' ([2876951](https://github.com/tangjiahui-cn/tiger-ui/commit/2876951b1374039ad8e6524f99467a4e4eb93564))
+* **dropdown:** fix sync scrolling ([594a155](https://github.com/tangjiahui-cn/tiger-ui/commit/594a155a24dcf9cb861a2a5ad977249f0cbc1670))
+* **input:** fix UI bugs while 'input' enable disabled ([623347e](https://github.com/tangjiahui-cn/tiger-ui/commit/623347e63cabd71ba545694bc427191679fb7776))
+* **message:** set keyframes prefix with 'messageBox-keyframes-' ([34f01ff](https://github.com/tangjiahui-cn/tiger-ui/commit/34f01ff8a6d6ce0ae11b61d8dc46d29966b9013e))
+* **message:** set z-index with '1000' ([15d7c9e](https://github.com/tangjiahui-cn/tiger-ui/commit/15d7c9e34f9d2d3ae3cbc4182dce464f68d2ee08))
+* **message:** set z-index with 1000 ([f43c1d8](https://github.com/tangjiahui-cn/tiger-ui/commit/f43c1d8d1540913c82ed8f1a8986af722cdb7079))
+* **notification:** fix createClass bug ([510fc3a](https://github.com/tangjiahui-cn/tiger-ui/commit/510fc3ab1d6491e6069b5600ed0b6b76972aa549))
+* **select:** fix error with signle children ([c607e24](https://github.com/tangjiahui-cn/tiger-ui/commit/c607e24d68c061bdd207c6ff83d3b569f503ff97))
+* **select:** fix select can't change show dropdown ([eb89e21](https://github.com/tangjiahui-cn/tiger-ui/commit/eb89e218b585b9893e0851805a467c79020edc1b))
+* **select:** fix select style ([16f6670](https://github.com/tangjiahui-cn/tiger-ui/commit/16f6670ee488bf9b5aa38e41f6a889c09caa27f1))
+* **space:** add 'div' for each child ([41f84c6](https://github.com/tangjiahui-cn/tiger-ui/commit/41f84c6d00c15ad2eb0d9207881559c3357bc50f))
+* **space:** fix 'block' prop not effect ([c63ca04](https://github.com/tangjiahui-cn/tiger-ui/commit/c63ca043bae4d12fed8b4f767dee873a55f8d650))
+* **space:** omit props 'item', 'itemStyle' ([c8c8f46](https://github.com/tangjiahui-cn/tiger-ui/commit/c8c8f46e6627dbbc1c8712d788c6c4c7e6ad77b7))
+* **tooltip:** fix position with 'fixed' ([069c3eb](https://github.com/tangjiahui-cn/tiger-ui/commit/069c3eba69b97c9e343e46a76fb33a4532c5d721))
+* **tree:** fix style bug ([b24229a](https://github.com/tangjiahui-cn/tiger-ui/commit/b24229ab79e24d3047a6e4ba638a3e973a897c27))
+* **usefreezehtmlbody:** fix count scroll bar not correct ([61d65ef](https://github.com/tangjiahui-cn/tiger-ui/commit/61d65ef818d01f6f1a4b5bf5c37b145efe54bf3a))
+* **usefreezehtmlbody:** fix getScrollBarWidth ([ca216a6](https://github.com/tangjiahui-cn/tiger-ui/commit/ca216a69bb36d1a5f0ae9cf6a438d066c9383d1a))
+* **usefreezehtmlbody:** fix mount style tag at document.head ([7968fcf](https://github.com/tangjiahui-cn/tiger-ui/commit/7968fcfed70fa26b5e69f4b8a740c3754f0118e7))
+* **usefreezehtmlbody:** fix scrollbar width ([ddc61e8](https://github.com/tangjiahui-cn/tiger-ui/commit/ddc61e8ebb594183449d940c0cc9cbbd403b6a9d))
+* **usestatewithref.tsx:** fix suffix with '.ts' ([274d328](https://github.com/tangjiahui-cn/tiger-ui/commit/274d32881e6cfaf19a6a0479c73f3219f3fec387))
+
+
+### Features
+
+* **.:** avoid repeat .less ([dc00b05](https://github.com/tangjiahui-cn/tiger-ui/commit/dc00b053191db4c112ad58750aeb96d98d1cb5c7))
+* **.:** update class-css@1.0.27 ([2a4cc32](https://github.com/tangjiahui-cn/tiger-ui/commit/2a4cc32ef35d22c32f044d4a8503701cf33bb8af))
+* **.:** update package 'class-css' ([214b198](https://github.com/tangjiahui-cn/tiger-ui/commit/214b198aceef5b01f1b20caada81ee62ddbd4d12))
+* **alert:** change Alert color ([3cb90c8](https://github.com/tangjiahui-cn/tiger-ui/commit/3cb90c8915004b9c3d05a1f8e7e72d7c56027871))
+* **button:** add prop 'loading' ([6cf3ecc](https://github.com/tangjiahui-cn/tiger-ui/commit/6cf3ecc61541060f11ffeefa06f6f0176aa15874))
+* **button:** defined button props with extends 'DOMAttributes' ([144200a](https://github.com/tangjiahui-cn/tiger-ui/commit/144200a70255ffefcf5e3111b3b9603474a078bd))
+* **counter:** support replay by 'ref', like 'ref.current?.replay?.()' ([b05ca82](https://github.com/tangjiahui-cn/tiger-ui/commit/b05ca8266ae23097f88007aa068142c59449b386))
+* **datepicker:** fix clickable range ([8886df1](https://github.com/tangjiahui-cn/tiger-ui/commit/8886df19a99e63684196f5b4b3f0413c887d625e))
+* **datepicker:** set 'user-select' with 'none' ([372fac9](https://github.com/tangjiahui-cn/tiger-ui/commit/372fac9ed91392ebfd842132d7abfbdb1ec99e85))
+* **dialog/drawer:** fix show close icon while set 'closable' with 'false' ([03b3980](https://github.com/tangjiahui-cn/tiger-ui/commit/03b3980002509a94a0995acca3ac2deecb5cae3f))
+* **drawer:** use .less to replace class-css ([bd7d825](https://github.com/tangjiahui-cn/tiger-ui/commit/bd7d8253f521577c2962eae3cd2e9ce9edd36ebc))
+* **dropdown:** set default scroll throttle delay with 10, more smooth ([481ae51](https://github.com/tangjiahui-cn/tiger-ui/commit/481ae51e8442b15d484a95fdff76255365f77c56))
+* **dropdown:** support synchronized scrolling ([73b664d](https://github.com/tangjiahui-cn/tiger-ui/commit/73b664d908fd36e08d7e507fed88fad7e06d608a))
+* **message:** set message panel 'z-index' with 999 ([1493550](https://github.com/tangjiahui-cn/tiger-ui/commit/1493550118de3111853fa0905a19919b15fdf091))
+* **message:** set zIndex with 2000 ([c42b475](https://github.com/tangjiahui-cn/tiger-ui/commit/c42b4754d7f26dc1d7f51dfbc508dd4c7e3a73da))
+* **notification:** set animationDuration to 230ms ([fd11964](https://github.com/tangjiahui-cn/tiger-ui/commit/fd11964c662d851ae497fb1dd8a7fb1dae4033d9))
+* **notification:** set panel 'align-items' with 'center' ([0ab40b3](https://github.com/tangjiahui-cn/tiger-ui/commit/0ab40b3ae13e555610b9dedc0d2a71712548a5a1))
+* **notification:** set panel z-index with 999 ([7d655ad](https://github.com/tangjiahui-cn/tiger-ui/commit/7d655ad03fbd6dd89583ce54a3cae9d8364c066f))
+* **space:** space support all DOMAttributes ([1551f8d](https://github.com/tangjiahui-cn/tiger-ui/commit/1551f8d44c11b75d78b13598ce074769262f4e7b))
+* **timepicker:** fix scroll smooth after first time ([e75baf6](https://github.com/tangjiahui-cn/tiger-ui/commit/e75baf638962d2f003e6f55d6a5b08856051ccef))
+* **timepicker:** fix smooth behavior ([9295cc9](https://github.com/tangjiahui-cn/tiger-ui/commit/9295cc911d6fd84b1d266bb1e174ca099c153cc1))
+
+
+
 ## [0.0.5](https://github.com/tangjiahui-cn/tiger-ui/compare/v0.0.4...v0.0.5) (2024-01-19)
 
 
