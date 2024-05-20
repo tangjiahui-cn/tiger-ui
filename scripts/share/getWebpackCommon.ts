@@ -1,5 +1,5 @@
 import miniCssExtractPlugin from 'mini-css-extract-plugin';
-import { alias, PKG_DIR, NAME } from '.';
+import { alias, PKG_DIR, NAME, root } from '.';
 import cssMinimizerWebpackPlugin from 'css-minimizer-webpack-plugin';
 import terserWebpackPlugin from 'terser-webpack-plugin';
 import WebpackBar from 'webpackbar';
@@ -10,18 +10,10 @@ const include = __DEV__ ? undefined : PKG_DIR;
 
 export function getWebpackCommon(): Configuration {
   const cssLoaders = [
-    'style-loader',
+    __DEV__ && 'style-loader',
     // extract css into .css file.
     !__DEV__ && miniCssExtractPlugin.loader,
-    {
-      loader: 'css-loader',
-      // options: {
-      //   modules: {
-      //     mode: 'local',
-      //     localIdentName: '[local]',
-      //   },
-      // },
-    },
+    'css-loader',
     {
       loader: 'postcss-loader',
       options: {
@@ -31,7 +23,6 @@ export function getWebpackCommon(): Configuration {
       },
     },
   ].filter(Boolean);
-
   return {
     mode: __DEV__ ? 'development' : 'production',
     output: {
@@ -71,7 +62,7 @@ export function getWebpackCommon(): Configuration {
       rules: [
         {
           include,
-          test: /\.css/,
+          test: /\.css$/,
           use: cssLoaders,
         },
         {
@@ -89,21 +80,28 @@ export function getWebpackCommon(): Configuration {
         },
         {
           include,
-          test: /\.ts/,
+          test: /\.ts$/,
           use: {
             loader: 'babel-loader',
             options: {
-              presets: ['@babel/preset-env', '@babel/preset-typescript'],
+              presets: [
+                // '@babel/preset-env',
+                '@babel/preset-typescript',
+              ],
             },
           },
         },
         {
           include,
-          test: /\.tsx/,
+          test: /\.tsx$/,
           use: {
             loader: 'babel-loader',
             options: {
-              presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
+              presets: [
+                // '@babel/preset-env',
+                '@babel/preset-react',
+                '@babel/preset-typescript',
+              ],
             },
           },
         },

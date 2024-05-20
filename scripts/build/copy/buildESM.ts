@@ -15,12 +15,12 @@ import commonjs from '@rollup/plugin-commonjs';
 import terser from '@rollup/plugin-terser';
 import json from '@rollup/plugin-json';
 import aliasPlugin from '@rollup/plugin-alias';
-import { buildRollup, root, alias } from '../share';
+import { root, alias, buildRollup } from '../../share';
 
 // rollup config.
 const config: RollupOptions = {
   input: 'packages/index.ts',
-  external: ['react', 'react-dom'],
+  external: ['react', 'react-dom', 'nanoid'],
   output: {
     dir: root('es'),
     format: 'esm',
@@ -47,6 +47,4 @@ const config: RollupOptions = {
   ],
 };
 
-export function buildESM() {
-  buildRollup(config);
-}
+buildRollup(config);

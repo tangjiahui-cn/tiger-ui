@@ -1,6 +1,6 @@
 import moment, { Moment } from 'moment/moment';
 import { doubleString } from '@/_utils';
-import { DateType } from '../DatePicker';
+import { DateType } from '..';
 
 export function dateToMoment(date: DateType): Moment {
   return moment(`${date.year}-${doubleString(date.month)}-${doubleString(date.day)}`, 'YYYY-MM-DD');

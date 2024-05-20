@@ -305,7 +305,7 @@ const Pagination: PaginationFC = React.forwardRef(function Pagination(
         style={{ width: 70 }}
         maxLength={100}
         value={jumpPage}
-        onChange={(e) => {
+        onChange={(e: any) => {
           setJumpPage(e.target.value);
         }}
         onKeyDown={(e) => {
