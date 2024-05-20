@@ -16,29 +16,38 @@ import terser from '@rollup/plugin-terser';
 import json from '@rollup/plugin-json';
 import aliasPlugin from '@rollup/plugin-alias';
 import { root, alias, buildRollup } from '../../share';
+import definePlugin from '@rollup/plugin-replace';
+import { rimraf } from 'rimraf';
+
+const dir = root('es');
 
 // rollup config.
 const config: RollupOptions = {
   input: 'packages/index.ts',
   external: ['react', 'react-dom', 'nanoid'],
   output: {
-    dir: root('es'),
-    format: 'esm',
+    dir,
+    format: 'es',
   },
   plugins: [
+    definePlugin({
+      PACKAGE_NAME: '"tiger-ui"',
+    }),
     aliasPlugin({
       entries: alias,
     }),
     resolve(),
-    commonjs(),
+    commonjs({
+      extensions: ['.js', '.cjs'],
+    }),
     typescript({
       tsconfig: root('tsconfig.lib.json'),
       emitDeclarationOnly: true,
-      declarationDir: root('es'),
+      declarationDir: dir,
     }),
     postcss({
+      extensions: ['.css', '.less'],
       plugins: [autoprefixer(), cssnano()],
-      modules: true,
       minimize: true,
       extract: true,
     }) as InputPluginOption,
@@ -47,4 +56,6 @@ const config: RollupOptions = {
   ],
 };
 
-buildRollup(config);
+rimraf('es').then(() => {
+  buildRollup(config);
+});

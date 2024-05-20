@@ -4,9 +4,12 @@
  * @author tangjiahui
  * @date 2024/04/12
  */
-
 import { ThemeCache } from './utils/themeCache';
-const { getVarName } = require('./lessPlugin/var.js');
+
+function getVarName(name: string): any {
+  const varPrefix = `--${PACKAGE_NAME}-var`;
+  return `${varPrefix}-${name}`;
+}
 
 const cache = new ThemeCache({
   id: `${PACKAGE_NAME}-var`,
