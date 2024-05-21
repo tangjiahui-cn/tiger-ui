@@ -197,9 +197,6 @@ devDependencies:
   moment:
     specifier: ^2.30.1
     version: 2.30.1
-  nanoid:
-    specifier: ^5.0.7
-    version: 5.0.7
   postcss:
     specifier: ^8.4.21
     version: 8.4.38
@@ -14786,12 +14783,6 @@ packages:
   /nanoid@4.0.2:
     resolution: {integrity: sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==}
     engines: {node: ^14 || ^16 || >=18}
-    hasBin: true
-    dev: true
-
-  /nanoid@5.0.7:
-    resolution: {integrity: sha512-oLxFY2gd2IqnjcYyOXD8XGCftpGtZP2AbHbOkthDkvRywH5ayNtPVy9YlOPcHckXzbLTCHpkb7FB+yuxKV13pQ==}
-    engines: {node: ^18 || >=20}
     hasBin: true
     dev: true
 

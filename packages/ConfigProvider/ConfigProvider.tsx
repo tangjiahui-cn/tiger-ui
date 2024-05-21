@@ -37,7 +37,7 @@ export type ConfigProviderProps = ContextValue & {
 };
 
 function ConfigProvider(props: ConfigProviderProps) {
-  const css = useCss(5);
+  const css = useCss(8);
 
   // prefix
   const prefix = useMemo(() => props?.prefix || PACKAGE_NAME, [props?.prefix]);
