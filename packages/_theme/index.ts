@@ -6,11 +6,7 @@
  */
 import { ThemeCache } from './utils/themeCache';
 
-function getVarName(name: string): any {
-  const varPrefix = `--${PACKAGE_NAME}-var`;
-  return `${varPrefix}-${name}`;
-}
-
+const { getVarName } = require('./lessPlugin/var.js');
 const cache = new ThemeCache({
   id: `${PACKAGE_NAME}-var`,
   effectDom: document.body,

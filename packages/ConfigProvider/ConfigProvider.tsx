@@ -5,7 +5,7 @@
  * @date 2024/4/1
  */
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Theme, toLegalTheme } from '@/_theme';
 import en_US from '../_locales/en_US';
 import type { Locale } from '@/_locales';
@@ -37,7 +37,8 @@ export type ConfigProviderProps = ContextValue & {
 };
 
 function ConfigProvider(props: ConfigProviderProps) {
-  const css = useCss(8);
+  const cssRef = useCss(8);
+  const [children, setChildren] = useState<React.ReactNode>();
 
   // prefix
   const prefix = useMemo(() => props?.prefix || PACKAGE_NAME, [props?.prefix]);
@@ -45,21 +46,21 @@ function ConfigProvider(props: ConfigProviderProps) {
   // locale
   const locale = useMemo(() => props?.locale || en_US, [stringify(props?.locale)]);
 
-  // children (which will inject className)
-  const children = useMemo(() => {
+  useEffect(() => {
     const isInjectClass: boolean = !!props?.theme;
-    if (!isInjectClass) {
-      return props?.children;
+    if (!isInjectClass && children !== props?.children) {
+      setChildren(props?.children);
+      return;
     }
 
     const childrenList = Array.isArray(props?.children) ? props?.children : [props?.children];
-    return childrenList.reduce(
+    const newChildren = childrenList.reduce(
       (list: React.ReactNode[], current: React.ReactNode, index: number) => {
         let el: React.ReactElement = current as React.ReactElement;
 
         // for use scope theme, the child component must support 'className' prop.
         if (React.isValidElement(el as React.ReactElement)) {
-          const varClassName = isInjectClass ? css(toLegalTheme(props?.theme)) : '';
+          const varClassName = isInjectClass ? cssRef.current?.(toLegalTheme(props?.theme)) : '';
 
           // inject className.
           el = React.cloneElement(el, {
@@ -74,6 +75,7 @@ function ConfigProvider(props: ConfigProviderProps) {
       },
       [],
     );
+    setChildren(newChildren);
   }, [stringify(props?.theme)]);
 
   return (

@@ -24,7 +24,7 @@ const dir = root('es');
 // rollup config.
 const config: RollupOptions = {
   input: 'packages/index.ts',
-  external: ['react', 'react-dom', 'nanoid'],
+  external: ['react', 'react-dom'],
   output: {
     dir,
     format: 'es',
@@ -38,7 +38,8 @@ const config: RollupOptions = {
     }),
     resolve(),
     commonjs({
-      extensions: ['.js', '.cjs'],
+      transformMixedEsModules: true,
+      extensions: ['.js', '.ts', '.tsx'],
     }),
     typescript({
       tsconfig: root('tsconfig.lib.json'),

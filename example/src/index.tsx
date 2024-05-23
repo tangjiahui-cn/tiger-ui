@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { Button, Drawer } from '../../packages';
+import { Button, ConfigProvider, Drawer } from '../../packages';
 import DropDown from '@/DropDown';
 import Space from '@/Space';
 
@@ -10,6 +10,13 @@ function App() {
   return (
     <div>
       <Button onClick={() => setVisible(true)}>打开弹窗</Button>
+      <ConfigProvider
+        theme={{
+          primary: 'red',
+        }}
+      >
+        <Button type={'primary'}>afsdfds</Button>
+      </ConfigProvider>
       <DropDown
         popupPanel={
           <Space direction={'vertical'}>
