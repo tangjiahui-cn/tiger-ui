@@ -1,40 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { Button, ConfigProvider, Drawer } from '../../packages';
-import DropDown from '@/DropDown';
+import { default as Alert } from '@/Alert/component';
+import { ResultType } from '@/_types';
 import Space from '@/Space';
+import '../../packages/_theme/default.less';
+import { useForceUpdate } from '@/_hooks';
+import { Button } from '@/index';
 
+const types: ResultType[] = ['success', 'info', 'warning', 'error'];
 function App() {
-  const [visible, setVisible] = useState(false);
-
+  const update = useForceUpdate();
   return (
-    <div>
-      <Button onClick={() => setVisible(true)}>打开弹窗</Button>
-      <ConfigProvider
-        theme={{
-          primary: 'red',
-        }}
-      >
-        <Button type={'primary'}>afsdfds</Button>
-      </ConfigProvider>
-      <DropDown
-        popupPanel={
-          <Space direction={'vertical'}>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-          </Space>
-        }
-      >
-        <Button>打开弹窗</Button>
-      </DropDown>
-
-      <Drawer open={visible} onCancel={() => setVisible(false)}>
-        11
-      </Drawer>
-    </div>
+    <Space size={16} style={{ padding: 12, boxSizing: 'border-box' }} direction={'vertical'} block>
+      {/*<LoopText pauseOnHover={false}>111sidfpaisd</LoopText>*/}
+      <Button onClick={update}>更新</Button>
+      {types.map((type) => {
+        return (
+          <Alert
+            loop
+            key={type}
+            type={type}
+            description={'asdiasj'}
+            message={`message is: ${type}`}
+            bordered={true}
+            closable
+            onClose={() => {
+              console.log('close');
+            }}
+          />
+        );
+      })}
+    </Space>
   );
 }
 

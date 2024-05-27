@@ -1,3 +1,4 @@
+export type ResultType = 'success' | 'info' | 'warning' | 'error';
 export type SizeType = 'large' | 'middle' | 'small';
 
 export type ImageSize = {

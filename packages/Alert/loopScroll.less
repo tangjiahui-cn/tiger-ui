@@ -1,0 +1,29 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('loopScroll');
+@prefixNoDot: prefixNoDot('loopScroll');
+
+@loopKeyframes: ~'@{prefixNoDot}-keyframes-loop';
+
+@keyframes @loopKeyframes {
+  to {
+    transform: translate(-50%);
+  }
+}
+
+@{prefix} {
+  width: 100%;
+  overflow: hidden;
+
+  &-body {
+    display: inline-block;
+  }
+
+  &-inner {
+    animation: @loopKeyframes 10s linear infinite;
+
+    &-paused {
+      animation-play-state: paused;
+    }
+  }
+}

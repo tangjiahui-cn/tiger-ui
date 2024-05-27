@@ -1,71 +1,64 @@
 @import '../_theme/variable.less';
 
 @prefix: prefix('alert');
+@borderedClass: ~'@{prefix}-bordered';
 
 @{prefix} {
-  .type();
-
   color: @color;
-  border: 1px solid @borderColor;
-  padding: 8px 16px;
-  border-radius: @borderRadius;
+  padding: 12px;
   display: flex;
+  gap: 12px;
+  align-items: center;
+  line-height: 20px;
 
-  &-hidden {
-    display: none;
-    color: red;
+  &-flex-start {
+    align-items: flex-start;
   }
 
-  &-icon {
-    padding-right: 8px;
-    align-self: flex-start;
-    font-size: 1.125em;
+  &-info {
+    .type(@infoBg, @infoBorderColor, @infoColor);
+  }
+
+  &-success {
+    .type(@successBg, @successBorderColor, @successColor);
+  }
+
+  &-warning {
+    .type(@warnBg, @warnBorderColor, @warnColor);
+  }
+
+  &-error {
+    .type(@errorBg, @errorBorderColor, @errorColor);
+  }
+
+  &-body {
+    flex: 1;
+    overflow: hidden;
   }
 
   &-message {
     font-size: 1.125em;
-    width: 100%;
-    word-break: break-all;
   }
 
   &-description {
-    width: 100%;
-    word-break: break-all;
-    color: @colorLight;
-    font-size: 0.875em;
+    padding-top: 12px;
+    word-break: break-word;
   }
 
   &-close {
-    padding-right: 8px;
-    align-self: flex-start;
-    font-size: 1.125em;
+    color: @closeColor;
     cursor: pointer;
-    padding-left: 8px;
-
-    &:hover {
-      color: @colorHover;
-    }
+    font-size: 12px;
   }
 }
 
-.type () {
-  &-info {
-    border-color: @infoBorderColor;
-    background-color: @infoBg;
-  }
+.type (@bg, @borderColor, @color) {
+  background: @bg;
+  border: 1px solid @borderColor;
+  border-radius: @borderRadius;
 
-  &-success {
-    border-color: @successBorderColor;
-    background-color: @successBg;
-  }
-
-  &-error {
-    border-color: @errorBorderColor;
-    background-color: @errorBg;
-  }
-
-  &-warn {
-    border-color: @warnBorderColor;
-    background-color: @warnBg;
+  &-icon {
+    font-size: 20px;
+    color: @color;
   }
 }

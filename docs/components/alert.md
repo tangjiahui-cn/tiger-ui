@@ -25,7 +25,7 @@ export default () => {
         'success',
         'info',
         'error',
-        'warn'
+        'warning'
       ].map(type => {
         return (
           <Alert
@@ -65,7 +65,7 @@ export default () => {
         'success',
         'info',
         'error',
-        'warn'
+        'warning'
       ].map(type => {
         return (
           <Alert
@@ -93,7 +93,7 @@ export default () => {
         'success',
         'info',
         'error',
-        'warn'
+        'warning'
       ].map(type => {
         return (
           <Alert
@@ -110,6 +110,26 @@ export default () => {
   </Space>;
 }
 ```
+
+
+## 六、支持循环滚动
+设置loop属性。
+```jsx
+import {Alert, Space} from 'tiger-ui';
+
+export default () => {
+  return (
+    <Alert
+      loop
+      showIcon
+      type={'success'}
+      message={'恭喜您中奖1块钱！'}
+      description={'中奖者都是天运加身之人。'}
+    />
+  );
+}
+```
+
 
 ## API
 <API id="Alert"></API>

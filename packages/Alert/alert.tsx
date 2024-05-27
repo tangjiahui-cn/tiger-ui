@@ -1,139 +1,151 @@
 /**
  * Alert
  *
- * At 2023/06/01
- * By TangJiaHui
+ * @author tangjiahui
+ * @date 2023/6/23
+ * @modified 2024/5/27
  */
-import React, { DOMAttributes, ForwardedRef, RefAttributes, useState } from 'react';
-import { omit } from '@/_utils/object';
-import classNames from 'classnames';
-import { IconMap } from '@/Icon/_presets';
-import { Space } from '@/index';
-import { CloseOutlined } from '@ant-design/icons';
+import type { ResultType } from '@/_types';
+import React, { ForwardedRef, forwardRef, useCallback, useMemo, useState } from 'react';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import classNames from 'classnames';
+import Icon, {
+  CloseOutlined,
+  InfoCircleFilled,
+  CheckCircleFilled,
+  CloseCircleFilled,
+} from '@ant-design/icons';
+import { isNullable } from '@/_utils';
+import type { LoopScrollProps } from './loopScroll';
+import LoopScroll from './loopScroll';
 import './alert.less';
 
-export type AlertType = 'info' | 'success' | 'error' | 'warn';
-export interface BaseAlertProps {
+export type AlertLoopOptions = LoopScrollProps;
+export interface AlertProps {
   /**
-   * @description 类型
-   * @default info
-   */
-  type?: AlertType;
+   * type of Alert
+   * @default 'info'
+   * */
+  type?: ResultType;
+  /** title of the alert */
+  message?: React.ReactNode;
+  /** subTitle of the alert */
+  description?: React.ReactNode;
+  /** enable text loop scroll */
+  loop?: boolean | AlertLoopOptions;
   /**
-   * @description 主要提示内容
-   */
-  message?: string | React.ReactNode;
-  /**
-   * @description 主要提示内容样式
-   */
-  messageStyle?: React.CSSProperties;
-  /**
-   * @description 描述内容
-   */
-  description?: string | React.ReactNode;
-  /**
-   * @description 描述内容样式
-   */
-  descriptionStyle?: React.CSSProperties;
-  /**
-   * @description 自定义图标
-   */
-  icon?: React.ReactNode;
-  /**
-   * @description 右上角是否显示关闭图标
-   * @default false
-   */
+   * show border or not
+   * @default true
+   * */
+  bordered?: boolean;
+  /** can it be closed */
   closable?: boolean;
-  /**
-   * @description 是否显示图标
-   * @default false
-   */
+  /** close icon */
+  icon?: React.ReactNode;
+  /** close icon's className, if you use icon, this will not take effect. */
+  iconClassName?: string;
+  /** close icon's style, if you use icon, this will not take effect. */
+  iconStyle?: React.CSSProperties;
+  /** show icon or not */
   showIcon?: boolean;
-  /**
-   * @description 关闭元素时回调事件
-   */
-  onClose?: () => void;
-  /**
-   * @description style
-   */
+  /** alert style */
   style?: React.CSSProperties;
-  /**
-   * @description className
-   */
+  /** alert className */
   className?: string;
+  /** close event callback, which must enable the closable props */
+  onClose?: () => void;
 }
 
-export type BaseAlertPropsKeys = keyof BaseAlertProps;
-export type AlertProps = BaseAlertProps &
-  DOMAttributes<HTMLDivElement> &
-  RefAttributes<HTMLDivElement>;
+const AlertIconMap = {
+  info: InfoCircleFilled,
+  success: CheckCircleFilled,
+  warning: InfoCircleFilled,
+  error: CloseCircleFilled,
+};
 
-const privateKeys: BaseAlertPropsKeys[] = [
-  'type',
-  'message',
-  'messageStyle',
-  'description',
-  'descriptionStyle',
-  'icon',
-  'closable',
-  'showIcon',
-  'onClose',
-  'style',
-  'className',
-];
+const AlertIconNode: React.FC<Pick<AlertProps, 'showIcon' | 'type' | 'className' | 'icon'>> = (
+  props,
+) => {
+  if (!props?.showIcon) return null;
+  if (props?.icon) return props.icon;
+  const Icon = AlertIconMap[props?.type || 'info'];
+  return Icon ? <Icon className={props?.className} /> : null;
+};
 
-export type AlertFC = React.ForwardRefExoticComponent<AlertProps>;
-const Alert: AlertFC = React.forwardRef(function (
-  props: AlertProps,
-  ref: ForwardedRef<HTMLDivElement>,
-) {
+const AlertCloseNode: React.FC<
+  Pick<AlertProps, 'closable' | 'className'> & {
+    onClick?: React.MouseEventHandler<HTMLDivElement>;
+  }
+> = (props) => {
+  return props?.closable ? (
+    <CloseOutlined className={props?.className} onClick={props?.onClick} />
+  ) : null;
+};
+
+const Alert = forwardRef((props: AlertProps, ref: ForwardedRef<HTMLDivElement>) => {
+  const {
+    type = 'info',
+    message,
+    loop,
+    bordered = true,
+    closable,
+    icon,
+    iconClassName,
+    iconStyle,
+    showIcon,
+    style,
+    className,
+    description,
+    onClose,
+    ...rest
+  } = props;
+  const [visible, setVisible] = useState(true);
   const prefix = usePrefix('alert');
-  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
-  const type = props?.type || 'info';
-
-  const [visible, setVisible] = useState<boolean>(true);
 
   const classes = classNames(
     props?.className,
     prefix,
+    bordered && `${prefix}-bordered`,
     `${prefix}-${type}`,
-    !visible && `${prefix}-hidden`,
+    description && `${prefix}-flex-start`,
   );
 
-  function handleClose() {
+  const handleClose = useCallback(() => {
     setVisible(false);
-    props?.onClose?.();
-  }
+    onClose?.();
+  }, []);
 
-  return (
-    <div {...originProps} ref={ref} className={classes} style={props?.style}>
-      {props?.showIcon && (
-        <div className={`${prefix}-icon`}>{props?.icon || IconMap[type]?.()}</div>
-      )}
-      <Space direction={'vertical'} style={{ flex: 1, overflow: 'hidden' }}>
-        {props?.message && (
-          <div className={`${prefix}-message`} style={props?.messageStyle}>
-            {props?.message}
-          </div>
-        )}
-        {props?.description && (
-          <div className={`${prefix}-description`} style={props?.descriptionStyle}>
-            {props?.description}
-          </div>
-        )}
-      </Space>
-      {props?.closable && (
-        <div
-          style={{ alignItems: props?.message ? undefined : 'center' }}
-          className={`${prefix}-close`}
-          onClick={() => handleClose()}
-        >
-          <CloseOutlined />
-        </div>
-      )}
-    </div>
+  const messageNode = useMemo(() => {
+    if (isNullable(message)) return null;
+    let body: React.ReactNode = message;
+    if (loop) {
+      const loopScrollProps = typeof loop === 'object' ? loop : {};
+      body = <LoopScroll {...loopScrollProps}>{message}</LoopScroll>;
+    }
+    return <div className={`${prefix}-message`}>{body}</div>;
+  }, [message]);
+
+  const descriptionNode = useMemo(
+    () =>
+      isNullable(description) ? null : <div className={`${prefix}-description`}>{description}</div>,
+    [description],
   );
+
+  return visible ? (
+    <div {...rest} className={classes} ref={ref} style={props?.style}>
+      <AlertIconNode
+        icon={icon}
+        type={type}
+        showIcon={showIcon}
+        className={`${prefix}-${type}-icon`}
+      />
+      <div className={`${prefix}-body`}>
+        {messageNode}
+        {descriptionNode}
+      </div>
+      <AlertCloseNode closable={closable} className={`${prefix}-close`} onClick={handleClose} />
+    </div>
+  ) : null;
 });
 
 export default Alert;
