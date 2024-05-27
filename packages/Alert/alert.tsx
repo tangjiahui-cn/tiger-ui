@@ -102,7 +102,7 @@ const Alert = forwardRef((props: AlertProps, ref: ForwardedRef<HTMLDivElement>) 
   const [visible, setVisible] = useState(true);
   const prefix = usePrefix('alert');
 
-  const classes = classNames(
+  const classes: string = classNames(
     props?.className,
     prefix,
     bordered && `${prefix}-bordered`,
@@ -115,7 +115,7 @@ const Alert = forwardRef((props: AlertProps, ref: ForwardedRef<HTMLDivElement>) 
     onClose?.();
   }, []);
 
-  const messageNode = useMemo(() => {
+  const messageNode: React.ReactNode = useMemo(() => {
     if (isNullable(message)) return null;
     let body: React.ReactNode = message;
     if (loop) {
@@ -125,7 +125,7 @@ const Alert = forwardRef((props: AlertProps, ref: ForwardedRef<HTMLDivElement>) 
     return <div className={`${prefix}-message`}>{body}</div>;
   }, [message]);
 
-  const descriptionNode = useMemo(
+  const descriptionNode: React.ReactNode = useMemo(
     () =>
       isNullable(description) ? null : <div className={`${prefix}-description`}>{description}</div>,
     [description],

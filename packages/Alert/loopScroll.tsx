@@ -56,7 +56,11 @@ export default function LoopScroll(props: LoopScrollProps) {
     [containerRect],
   );
 
-  const classes = classNames(prefix, props?.className);
+  const bodyNode: React.ReactNode = (
+    <div className={`${prefix}-body`} style={{ width: containerRect?.width }}>
+      {props?.children}
+    </div>
+  );
 
   useEffect(() => {
     const resize = throttle(() => {
@@ -71,17 +75,11 @@ export default function LoopScroll(props: LoopScrollProps) {
     };
   }, []);
 
-  const bodyNode = (
-    <div className={`${prefix}-body`} style={{ width: containerRect?.width }}>
-      {props?.children}
-    </div>
-  );
-
   return (
     <div
       {...rest}
       style={props?.style}
-      className={classes}
+      className={classNames(prefix, props?.className)}
       ref={containerRef}
       onMouseEnter={(e) => {
         pauseOnHover && setIsHover(true);
