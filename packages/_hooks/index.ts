@@ -7,3 +7,5 @@ export * from './useUnmount';
 export * from './useFreezeHTMLBody';
 export * from './useMountDom';
 export * from './useCss';
+export * from './useMount';
+export * from './useForceUpdate';

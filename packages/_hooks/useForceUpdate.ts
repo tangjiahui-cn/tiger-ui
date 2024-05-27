@@ -7,7 +7,7 @@
  */
 import { useCallback, useState } from 'react';
 
-export default function useForceUpdate(): () => void {
+export function useForceUpdate(): () => void {
   const [_, setV] = useState<boolean>(false);
   return useCallback(() => setV((v: boolean) => !v), []);
 }

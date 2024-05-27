@@ -8,7 +8,5 @@ import { useEffect } from 'react';
 import { UnMountFn } from './useUpdateEffect';
 
 export function useEffectOnce(fn: () => void | UnMountFn) {
-  useEffect(() => {
-    return fn?.();
-  }, []);
+  useEffect(fn, []);
 }
