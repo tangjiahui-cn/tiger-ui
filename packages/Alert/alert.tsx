@@ -102,10 +102,11 @@ const AlertMessageNode: React.FC<
 
 function memoCompareFunc(prevProps: any, nextProps: any) {
   for (const k in prevProps) {
-    if (
-      (['loop'].includes(k) && !shallowCompare(prevProps[k], nextProps[k])) ||
-      prevProps[k] !== nextProps[k]
-    ) {
+    if (k === 'loop') {
+      if (!shallowCompare(prevProps[k], nextProps[k])) {
+        return false;
+      }
+    } else if (prevProps[k] !== nextProps[k]) {
       return false;
     }
   }
