@@ -5,9 +5,16 @@
  * @date 2024/5/28
  */
 
+// shallowCompare(1,1) === true
+// shallowCompare([],[]) === true
+// shallowCompare({}, {}) === true
+// shallowCompare([1],[1]) === true
+// shallowCompare({a:1},{a:1}) === true
+// shallowCompare(1,2) === false
+// shallowCompare(null,{a:1}) === false
 export function shallowCompare(a: any, b: any) {
   if (typeof a === 'object') {
-    if (a === null) return a === b;
+    if (!a || !b) return a === b;
 
     // compare array (tips: [] === [])
     if (Array.isArray(a)) {
