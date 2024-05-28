@@ -115,7 +115,7 @@ function memoCompareFunc(prevProps: any, nextProps: any) {
 const AlertDescriptionNode: React.FC<
   Pick<AlertProps, 'description' | 'descriptionStyle' | 'descriptionClassName'>
 > = (props) => {
-  return isNullable(props?.description) ? null : (
+  return (
     <div style={props?.descriptionStyle} className={props?.descriptionClassName}>
       {props?.description}
     </div>
