@@ -7,10 +7,7 @@ nav: 组件
 import {Alert} from 'tiger-ui';
 
 export default () => {
-  return <Alert
-    message={'message'}
-    description={'description'}
-  />;
+  return <Alert message={'message'} />;
 }
 ```
 
@@ -32,7 +29,6 @@ export default () => {
             key={type}
             type={type}
             message={'message'}
-            description={'description'}
           />
         )
       })
@@ -70,6 +66,7 @@ export default () => {
         return (
           <Alert
             showIcon
+            closable
             key={type}
             type={type}
             message={'message'}
