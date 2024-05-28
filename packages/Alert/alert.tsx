@@ -6,7 +6,7 @@
  * @modified 2024/5/27
  */
 import type { ResultType } from '@/_types';
-import React, { ForwardedRef, forwardRef, useCallback, useMemo, useState } from 'react';
+import React, { ForwardedRef, forwardRef, memo, useCallback, useState } from 'react';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
 import classNames from 'classnames';
 import Icon, {
@@ -15,7 +15,7 @@ import Icon, {
   CheckCircleFilled,
   CloseCircleFilled,
 } from '@ant-design/icons';
-import { isNullable } from '@/_utils';
+import { isNullable, shallowCompare } from '@/_utils';
 import type { LoopScrollProps } from './loopScroll';
 import LoopScroll from './loopScroll';
 import './alert.less';
@@ -29,8 +29,16 @@ export interface AlertProps {
   type?: ResultType;
   /** title of the alert */
   message?: React.ReactNode;
+  /** message className */
+  messageClassName?: string;
+  /** message style */
+  messageStyle?: React.CSSProperties;
   /** subTitle of the alert */
   description?: React.ReactNode;
+  /** description className */
+  descriptionClassName?: string;
+  /** description style */
+  descriptionStyle?: React.CSSProperties;
   /** enable text loop scroll */
   loop?: boolean | AlertLoopOptions;
   /**
@@ -63,29 +71,66 @@ const AlertIconMap = {
   error: CloseCircleFilled,
 };
 
-const AlertIconNode: React.FC<Pick<AlertProps, 'showIcon' | 'type' | 'className' | 'icon'>> = (
-  props,
-) => {
-  if (!props?.showIcon) return null;
+const AlertIconNode: React.FC<Pick<AlertProps, 'type' | 'className' | 'icon'>> = (props) => {
   if (props?.icon) return props.icon;
   const Icon = AlertIconMap[props?.type || 'info'];
   return Icon ? <Icon className={props?.className} /> : null;
 };
 
 const AlertCloseNode: React.FC<
-  Pick<AlertProps, 'closable' | 'className'> & {
+  Pick<AlertProps, 'className'> & {
     onClick?: React.MouseEventHandler<HTMLDivElement>;
   }
 > = (props) => {
-  return props?.closable ? (
-    <CloseOutlined className={props?.className} onClick={props?.onClick} />
-  ) : null;
+  return <CloseOutlined className={props?.className} onClick={props?.onClick} />;
+};
+
+const AlertMessageNode: React.FC<
+  Pick<AlertProps, 'loop' | 'message' | 'messageStyle' | 'messageClassName'>
+> = memo((props) => {
+  let body: React.ReactNode = props?.message;
+  if (props?.loop) {
+    const loopScrollProps = typeof props?.loop === 'object' ? props?.loop : {};
+    body = <LoopScroll {...loopScrollProps}>{props?.message}</LoopScroll>;
+  }
+  return (
+    <div style={props?.messageStyle} className={props?.messageClassName}>
+      {body}
+    </div>
+  );
+}, memoCompareFunc);
+
+function memoCompareFunc(prevProps: any, nextProps: any) {
+  for (const k in prevProps) {
+    if (
+      (['loop'].includes(k) && !shallowCompare(prevProps[k], nextProps[k])) ||
+      prevProps[k] !== nextProps[k]
+    ) {
+      return false;
+    }
+  }
+  return true;
+}
+
+const AlertDescriptionNode: React.FC<
+  Pick<AlertProps, 'description' | 'descriptionStyle' | 'descriptionClassName'>
+> = (props) => {
+  return isNullable(props?.description) ? null : (
+    <div style={props?.descriptionStyle} className={props?.descriptionClassName}>
+      {props?.description}
+    </div>
+  );
 };
 
 const Alert = forwardRef((props: AlertProps, ref: ForwardedRef<HTMLDivElement>) => {
   const {
     type = 'info',
     message,
+    messageClassName,
+    messageStyle,
+    description,
+    descriptionClassName,
+    descriptionStyle,
     loop,
     bordered = true,
     closable,
@@ -95,7 +140,6 @@ const Alert = forwardRef((props: AlertProps, ref: ForwardedRef<HTMLDivElement>) 
     showIcon,
     style,
     className,
-    description,
     onClose,
     ...rest
   } = props;
@@ -115,35 +159,29 @@ const Alert = forwardRef((props: AlertProps, ref: ForwardedRef<HTMLDivElement>) 
     onClose?.();
   }, []);
 
-  const messageNode: React.ReactNode = useMemo(() => {
-    if (isNullable(message)) return null;
-    let body: React.ReactNode = message;
-    if (loop) {
-      const loopScrollProps = typeof loop === 'object' ? loop : {};
-      body = <LoopScroll {...loopScrollProps}>{message}</LoopScroll>;
-    }
-    return <div className={`${prefix}-message`}>{body}</div>;
-  }, [message]);
-
-  const descriptionNode: React.ReactNode = useMemo(
-    () =>
-      isNullable(description) ? null : <div className={`${prefix}-description`}>{description}</div>,
-    [description],
-  );
-
   return visible ? (
     <div {...rest} className={classes} ref={ref} style={props?.style}>
-      <AlertIconNode
-        icon={icon}
-        type={type}
-        showIcon={showIcon}
-        className={`${prefix}-${type}-icon`}
-      />
+      {showIcon ? (
+        <AlertIconNode icon={icon} type={type} className={`${prefix}-${type}-icon`} />
+      ) : null}
       <div className={`${prefix}-body`}>
-        {messageNode}
-        {descriptionNode}
+        {message ? (
+          <AlertMessageNode
+            loop={loop}
+            message={message}
+            messageStyle={messageStyle}
+            messageClassName={classNames(`${prefix}-message`, messageClassName)}
+          />
+        ) : null}
+        {description ? (
+          <AlertDescriptionNode
+            description={description}
+            descriptionStyle={descriptionStyle}
+            descriptionClassName={classNames(`${prefix}-description`, descriptionClassName)}
+          />
+        ) : null}
       </div>
-      <AlertCloseNode closable={closable} className={`${prefix}-close`} onClick={handleClose} />
+      {closable ? <AlertCloseNode className={`${prefix}-close`} onClick={handleClose} /> : null}
     </div>
   ) : null;
 });

@@ -4,3 +4,4 @@ export * from './image';
 export * from './string';
 export * from './object';
 export * from './throttle';
+export * from './shallowCompare';
