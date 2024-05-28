@@ -15,7 +15,7 @@ import Icon, {
   CheckCircleFilled,
   CloseCircleFilled,
 } from '@ant-design/icons';
-import { isNullable, shallowCompare } from '@/_utils';
+import { shallowCompare } from '@/_utils';
 import type { LoopScrollProps } from './loopScroll';
 import LoopScroll from './loopScroll';
 import './alert.less';
