@@ -6,7 +6,7 @@
  * @modified 2024/5/28
  */
 import { SizeType } from '@/_types';
-import { ForwardedRef, forwardRef, HTMLAttributes, useImperativeHandle, useRef } from 'react';
+import { ForwardedRef, forwardRef, HTMLAttributes } from 'react';
 import { usePrefix } from '@/ConfigProvider';
 import classNames from 'classnames';
 import { LoadingOutlined } from '@ant-design/icons';
@@ -55,9 +55,6 @@ const Button = forwardRef((props: ButtonProps, ref: ForwardedRef<HTMLButtonEleme
     ...rest
   } = props;
   const prefix = usePrefix('btn');
-  const btnRef = useRef<HTMLButtonElement>(null);
-
-  useImperativeHandle(ref, () => btnRef.current as HTMLButtonElement);
 
   const classes = classNames(
     props?.className,
@@ -73,10 +70,8 @@ const Button = forwardRef((props: ButtonProps, ref: ForwardedRef<HTMLButtonEleme
   return (
     <button
       {...rest}
-      ref={btnRef}
-      style={{
-        ...style,
-      }}
+      ref={ref}
+      style={style}
       disabled={disabled}
       className={classes}
       onClick={loading ? undefined : onClick}

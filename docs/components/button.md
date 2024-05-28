@@ -78,18 +78,51 @@ export default () => {
   </Space>;
 }
 ```
-## 六、停留聚焦
+## 六、幽灵按钮（ghost）
 ```jsx
 import {Button, Space} from 'tiger-ui';
 
 export default () => {
-  return <Space>
-    {
-      ['primary', 'dashed', 'default', 'text', 'dotted'].map(type => {
-        return <Button type={type} key={type} stayFocus>{type}</Button>
-      })
-    }
+  return <Space style={{ background: '#c2c2c2', padding: 16 }} block direction={'vertical'}>
+    <Space block>
+      {
+        ['primary', 'dashed', 'default', 'text', 'dotted'].map(type => {
+          return <Button ghost type={type} key={type}>{type}</Button>
+        })
+      }
+    </Space>
+    <Space block>
+      {
+        ['primary', 'dashed', 'default', 'text', 'dotted'].map(type => {
+          return <Button ghost danger type={type} key={type + 'danger'}>{type}</Button>
+        })
+      }
+    </Space>
   </Space>;
+}
+```
+## 七、加载中（loading）
+```jsx
+import {Button, Space} from 'tiger-ui';
+import {useState} from 'react';
+
+export default () => {
+  const [loading, setLoading] = useState(false);
+  
+  function handleClick () {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000)
+  }
+  
+  return (
+    <Space>
+      <Button loading={loading} onClick={handleClick}>
+        {loading ? '加载中' : '点击加载'}
+      </Button>
+    </Space>
+  );
 }
 ```
 
