@@ -8,3 +8,4 @@ import ConfigProvider from './ConfigProvider';
 
 export default ConfigProvider;
 export type * from './ConfigProvider';
+export { usePrefix } from './ConfigProvider';

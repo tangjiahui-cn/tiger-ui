@@ -1,122 +1,86 @@
 /**
- * Button
+ * Alert
  *
  * @author tangjiahui
- * @date 2023/03/16
+ * @date 2023/3/16
+ * @modified 2024/5/28
  */
-import React, {
-  DOMAttributes,
-  ForwardedRef,
-  ForwardRefExoticComponent,
-  PropsWithoutRef,
-  RefAttributes,
-} from 'react';
+import { SizeType } from '@/_types';
+import { ForwardedRef, forwardRef, HTMLAttributes, useRef } from 'react';
+import { usePrefix } from '@/ConfigProvider';
 import classNames from 'classnames';
-import { SizeType as ButtonSize } from '../_types/common';
-import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import { LoadingOutlined } from '@ant-design/icons';
 import './button.less';
-import { omit } from '@/_utils/object';
 
-export type ButtonType = 'primary' | 'dashed' | 'default' | 'text' | 'dotted';
-export type { ButtonSize };
-
-export interface BaseButtonProps {
-  /**
-   * @description 按钮类型
-   * @default default
-   */
-  type?: ButtonType;
-  /**
-   * @description 按钮禁用
-   * @default false
-   */
-  disabled?: boolean;
-  /**
-   * @description 是否块级按钮，即宽度100%。
-   * @default false
-   */
-  block?: boolean;
-  /**
-   * @description 是否危险按钮，危险按钮颜色为醒目色。
-   * @default false
-   */
-  danger?: boolean;
-  /**
-   * @description 按钮大小，有三种默认尺寸。
-   * @default false
-   */
+export type ButtonSize = SizeType;
+export type ButtonType = 'default' | 'primary' | 'dashed' | 'dotted' | 'text';
+export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
+  /** button size */
   size?: ButtonSize;
-  /**
-   * @description 保持聚焦（点击后选中样式不会消失，点击其他地方取消选中）
-   * @default false
-   */
-  stayFocus?: boolean;
-  /**
-   * @description 保持选中（受控状态）
-   * @default false
-   */
-  focus?: boolean;
-  /**
-   * @description 加载中
-   * @default false
-   */
+  /** button type */
+  type?: ButtonType;
+  /** button loading */
   loading?: boolean;
-  /**
-   * @description style
-   */
+  /** if disabled */
+  disabled?: boolean;
+  /** danger style */
+  danger?: boolean;
+  /** block style */
+  block?: boolean;
+  /** ghost style */
+  ghost?: boolean;
+  /** style attribute */
   style?: React.CSSProperties;
-  /**
-   * @description className
-   */
+  /** className attribute */
   className?: string;
+  /** button content */
+  children?: React.ReactNode;
+  /** onClick event */
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-export type BaseButtonPropsKeys = keyof BaseButtonProps;
-export type ButtonProps = BaseButtonProps &
-  DOMAttributes<HTMLButtonElement> &
-  RefAttributes<HTMLButtonElement>;
-
-const privateKeys: BaseButtonPropsKeys[] = [
-  'type',
-  'disabled',
-  'block',
-  'danger',
-  'size',
-  'style',
-  'className',
-  'stayFocus',
-  'focus',
-  'loading',
-];
-
-export type ButtonFC = React.ForwardRefExoticComponent<ButtonProps>;
-const Button: ButtonFC = React.forwardRef(function (
-  props: ButtonProps,
-  ref: ForwardedRef<HTMLButtonElement>,
-) {
+const Button = forwardRef((props: ButtonProps, ref: ForwardedRef<HTMLButtonElement>) => {
+  const {
+    size = 'middle',
+    type = 'default',
+    loading,
+    disabled,
+    danger,
+    block,
+    ghost,
+    style,
+    className,
+    children,
+    onClick,
+    ...rest
+  } = props;
   const prefix = usePrefix('btn');
-  const originProps: DOMAttributes<HTMLButtonElement> = omit(props, privateKeys);
+  const btnRef = useRef<HTMLButtonElement>(null);
 
   const classes = classNames(
     props?.className,
     prefix,
-    `${prefix}-${props?.type || 'default'}`,
-    `${prefix}-${props?.size || 'middle'}`,
-    props?.block && `${prefix}-block`,
-    props?.danger && `${prefix}-danger`,
-    props?.focus && `${prefix}-focus`,
-    props?.stayFocus && `${prefix}-stayFocus`,
+    `${prefix}-${size}`,
+    `${prefix}-${type}`,
+    block && `${prefix}-block`,
+    danger && `${prefix}-danger`,
+    ghost && `${prefix}-ghost`,
+    loading && `${prefix}-loading`,
   );
 
   return (
     <button
-      {...originProps}
+      {...rest}
+      ref={btnRef}
+      style={{
+        ...style,
+      }}
+      disabled={disabled}
       className={classes}
-      ref={ref}
-      style={props?.style}
-      disabled={props?.disabled}
+      onClick={loading ? undefined : onClick}
     >
-      {props?.children}
+      {loading && <LoadingOutlined style={{ marginRight: 12 }} />}
+      {children}
     </button>
   );
 });

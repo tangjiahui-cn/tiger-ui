@@ -1,9 +1,9 @@
 import './_theme/default.less';
 
-export { default as Alert } from './Alert';
-export type * from './Alert';
+export { default as Alert } from './Alert/alert';
+export type { AlertProps } from './Alert';
 export { default as Button } from './Button';
-export type * from './Button';
+export type { ButtonProps } from './Button';
 export { default as Carousel } from './Carousel';
 export type * from './Carousel';
 export { default as CheckBox } from './CheckBox';

@@ -20,13 +20,14 @@ import type { LoopScrollProps } from './loopScroll';
 import LoopScroll from './loopScroll';
 import './alert.less';
 
+export type AlertType = ResultType;
 export type AlertLoopOptions = LoopScrollProps;
 export interface AlertProps {
   /**
    * type of Alert
    * @default 'info'
    * */
-  type?: ResultType;
+  type?: AlertType;
   /** title of the alert */
   message?: React.ReactNode;
   /** message className */

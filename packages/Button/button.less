@@ -2,216 +2,225 @@
 
 @prefix: prefix('btn');
 @dangerClass: ~'@{prefix}-danger';
-@focusClass: ~'@{prefix}-focus';
-@stayFocusClass: ~'@{prefix}-stayFocus';
+@ghostClass: ~'@{prefix}-ghost';
+@loadingClass: ~'@{prefix}-loading';
 
 @{prefix} {
-  .size();
-  .type();
-
+  box-sizing: border-box;
   font-size: @fontSize;
-  color: @color;
-  cursor: pointer;
-  user-select: none;
-  background: @backgroundColor;
-  border: 1px solid @borderColor;
-  transition: all @duration;
-  line-height: 1.125;
-  vertical-align: middle;
+  background-color: white;
   border-radius: @borderRadius;
+  outline: none;
+  border: 1px solid @borderColor;
+  cursor: pointer;
+  transition: all @duration;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 
   &-block {
     width: 100%;
-    display: block;
   }
-}
 
-.size () {
   &-large {
-    padding: 12px 18px;
+    font-size: @fontSizeLarge;
+    height: 40px;
+    padding: 10px 20px;
   }
 
   &-middle {
-    padding: 8px 14px;
+    height: 32px;
+    padding: 8px 16px;
   }
 
   &-small {
+    height: 28px;
     padding: 4px 8px;
   }
-}
 
-.type () {
+  &-loading {
+    cursor: default;
+  }
+
   &-primary {
     color: white;
     background: @primary;
     border-color: @primary;
 
+    &:where(@{loadingClass}),
     &:hover {
       background: @primaryHover;
       border-color: @primaryHover;
     }
-
-    &:active {
+    &:active:not(@{loadingClass}) {
       background: @primaryActive;
       border-color: @primaryActive;
     }
 
-    &:where(@{stayFocusClass}) {
+    &:disabled {
+      cursor: not-allowed;
+      background: #f5f5f5;
+      border-color: #c2c2c2;
+      color: #c2c2c2;
+    }
+
+    &:where(@{ghostClass}) {
+      color: @primary;
+      background: transparent;
+
+      &:hover,
       &:focus {
-        background-color: @primaryHover;
-        border-color: @primaryHover;
-      }
-      &:active {
-        background-color: @primaryActive;
-        border-color: @primaryActive;
+        background: transparent;
       }
     }
 
-    &:where(@{dangerClass}) {
+    &:where(@{dangerClass}):not(:disabled) {
       background: @danger;
       border-color: @danger;
+
+      &:where(@{loadingClass}),
       &:hover {
         background: @dangerHover;
         border-color: @dangerHover;
       }
-      &:active {
+
+      &:active:not(@{loadingClass}) {
         background: @dangerActive;
         border-color: @dangerActive;
       }
-    }
 
-    &[disabled] {
-      cursor: not-allowed;
-      background: @primaryDisabled;
-      border-color: @primaryDisabled;
-      &:where(@{dangerClass}) {
-        cursor: not-allowed;
-        background: @dangerDisabled;
-        border-color: @dangerDisabled;
-      }
-    }
-  }
+      &:where(@{ghostClass}) {
+        color: @danger;
+        background: transparent;
 
-  .defaultStyle() {
-    color: @color;
-    &:hover {
-      color: @primaryHover;
-      border-color: @primaryHover;
-    }
-    &:active {
-      color: @primaryActive;
-      border-color: @primaryActive;
-    }
-
-    &:where(@{stayFocusClass}) {
-      &:focus {
-        color: @primaryHover;
-        border-color: @primaryHover;
-      }
-      &:active {
-        color: @primaryActive;
-        border-color: @primaryActive;
-      }
-    }
-
-    &:where(@{focusClass}) {
-      color: @primary;
-      border-color: @primary;
-    }
-
-    &:where(@{dangerClass}) {
-      color: @danger;
-      border-color: @danger;
-
-      &:hover {
-        color: @dangerHover;
-        border-color: @dangerHover;
-      }
-
-      &:active {
-        color: @dangerActive;
-        border-color: @dangerActive;
-      }
-    }
-
-    &[disabled] {
-      cursor: not-allowed;
-      color: @colorDisabled;
-      border-color: @borderColorDisabled;
-
-      &:where(@{dangerClass}) {
-        cursor: not-allowed;
-        color: @dangerDisabled;
-        border-color: @dangerDisabled;
-      }
-
-      &:where(@{focusClass}) {
-        color: @primaryDisabled;
-        border-color: @primaryDisabled;
+        &:hover,
+        &:focus {
+          background: transparent;
+        }
       }
     }
   }
 
   &-default {
-    .defaultStyle();
+    .lineBtn();
   }
 
   &-dashed {
-    .defaultStyle();
-    border-style: dashed;
+    .lineBtn(dashed);
   }
 
   &-dotted {
-    .defaultStyle();
-    border-style: dotted;
+    .lineBtn(dotted);
   }
 
   &-text {
+    color: @color;
     border-color: transparent;
 
-    &:hover {
-      color: @colorHover;
+    &:where(@{loadingClass}),
+    &:hover:not(:disabled) {
+      background: #ecf5ff;
     }
 
-    &:active {
-      color: @colorActive;
+    &:active:not(:disabled):not(@{loadingClass}) {
+      background: #cce7ff;
     }
 
-    &:where(@{stayFocusClass}) {
-      &:focus {
-        color: @colorHover;
-      }
-      &:active {
-        color: @colorActive;
-      }
-    }
-
-    &:where(@{focusClass}) {
-      color: @colorHover;
-    }
-
-    &:where(@{dangerClass}) {
-      color: @danger;
-      &:hover {
-        color: @dangerHover;
-      }
-      &:active {
-        color: @dangerActive;
-      }
-    }
-
-    &[disabled] {
+    &:disabled {
       cursor: not-allowed;
+      background: transparent;
       color: @colorDisabled;
+    }
 
-      &:where(@{dangerClass}) {
-        cursor: not-allowed;
-        color: @dangerDisabled;
+    &:where(@{ghostClass}):not(:disabled) {
+      background: transparent;
+      color: white;
+
+      &:hover {
+        background: transparent;
+        color: @primaryHover;
+      }
+      &:active {
+        background: transparent;
+        color: @primaryActive;
+      }
+    }
+
+    &:where(@{dangerClass}):not(:disabled) {
+      color: @danger;
+
+      &:where(@{loadingClass}),
+      &:hover {
+        background: #fdf2f2;
       }
 
-      &:where(@{focusClass}) {
-        color: @colorDisabled;
+      &:active:not(@{loadingClass}) {
+        background: #ffdbdb;
       }
+
+      &:where(@{ghostClass}) {
+        background: transparent;
+        color: white;
+        &:hover {
+          background: transparent;
+          color: @dangerHover;
+        }
+        &:active {
+          background: transparent;
+          color: @dangerActive;
+        }
+      }
+    }
+  }
+}
+
+.lineBtn (@borderStyle: solid) {
+  border-style: @borderStyle;
+
+  &:where(@{loadingClass}),
+  &:hover:not(:disabled) {
+    color: @primaryHover;
+    border-color: @primaryHover;
+  }
+
+  &:active:not(:disabled):not(@{loadingClass}) {
+    color: @primaryActive;
+    border-color: @primaryActive;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background: #f5f5f5;
+    border-color: #c2c2c2;
+    color: #c2c2c2;
+  }
+
+  &:where(@{ghostClass}) {
+    color: white;
+    border-color: white;
+    background: transparent;
+  }
+
+  &:where(@{dangerClass}):not(:disabled) {
+    color: @danger;
+    border-color: @danger;
+
+    &:where(@{loadingClass}),
+    &:hover {
+      color: @dangerHover;
+      border-color: @dangerHover;
+    }
+
+    &:active:not(@{loadingClass}) {
+      color: @dangerActive;
+      border-color: @dangerActive;
+    }
+
+    &:where(@{ghostClass}) {
+      color: white;
+      border-color: white;
+      background: transparent;
     }
   }
 }
