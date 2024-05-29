@@ -27,7 +27,7 @@ export default function Wave(props: Props) {
     }
     const style = getComputedStyle(e.target);
     const color = style.borderColor || style.backgroundColor;
-    const animationDuration = 1000; // (unit: ms)
+    const animationDuration = 1500; // (unit: ms)
     let div: HTMLElement = document.createElement('div');
 
     div.style.boxShadow = `0 0 0 2px ${color}`;

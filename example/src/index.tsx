@@ -18,7 +18,7 @@ function App() {
   const [message2, setMessage2] = React.useState('description');
 
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     // console.log('zz -> ', ref.current);
   }, []);
 
@@ -34,49 +34,49 @@ function App() {
       {/*  block*/}
       {/*</Button>}*/}
 
-      <Space size={16} style={{ boxSizing: 'border-box' }} direction={'vertical'} block>
-        {size.map((x) => {
-          return (
-            <Space key={x}>
-              {types.map((type) => {
-                return (
-                  <Button
-                    loading={loading}
-                    disabled={disabled}
-                    ghost={ghost}
-                    key={type}
-                    type={type}
-                    size={x}
-                  >
-                    {x}
-                  </Button>
-                );
-              })}
-            </Space>
-          );
-        })}
-        {size.map((x) => {
-          return (
-            <Space key={x}>
-              {types.map((type) => {
-                return (
-                  <Button
-                    loading={loading}
-                    disabled={disabled}
-                    ghost={ghost}
-                    key={type}
-                    type={type}
-                    size={x}
-                    danger
-                  >
-                    {x}
-                  </Button>
-                );
-              })}
-            </Space>
-          );
-        })}
-      </Space>
+      {/*<Space size={16} style={{ boxSizing: 'border-box' }} direction={'vertical'} block>*/}
+      {/*  {size.map((x) => {*/}
+      {/*    return (*/}
+      {/*      <Space key={x}>*/}
+      {/*        {types.map((type) => {*/}
+      {/*          return (*/}
+      {/*            <Button*/}
+      {/*              loading={loading}*/}
+      {/*              disabled={disabled}*/}
+      {/*              ghost={ghost}*/}
+      {/*              key={type}*/}
+      {/*              type={type}*/}
+      {/*              size={x}*/}
+      {/*            >*/}
+      {/*              {x}*/}
+      {/*            </Button>*/}
+      {/*          );*/}
+      {/*        })}*/}
+      {/*      </Space>*/}
+      {/*    );*/}
+      {/*  })}*/}
+      {/*  {size.map((x) => {*/}
+      {/*    return (*/}
+      {/*      <Space key={x}>*/}
+      {/*        {types.map((type) => {*/}
+      {/*          return (*/}
+      {/*            <Button*/}
+      {/*              loading={loading}*/}
+      {/*              disabled={disabled}*/}
+      {/*              ghost={ghost}*/}
+      {/*              key={type}*/}
+      {/*              type={type}*/}
+      {/*              size={x}*/}
+      {/*              danger*/}
+      {/*            >*/}
+      {/*              {x}*/}
+      {/*            </Button>*/}
+      {/*          );*/}
+      {/*        })}*/}
+      {/*      </Space>*/}
+      {/*    );*/}
+      {/*  })}*/}
+      {/*</Space>*/}
 
       <div
         style={{
