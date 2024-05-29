@@ -13,6 +13,7 @@ interface Props {
   children: React.ReactElement;
 }
 
+const animationDuration = 1200; // (unit: ms)
 export default function Wave(props: Props) {
   const { disabled } = props;
   const innerRef = useRef<HTMLElement>();
@@ -27,7 +28,6 @@ export default function Wave(props: Props) {
     }
     const style = getComputedStyle(e.target);
     const color = style.borderColor || style.backgroundColor;
-    const animationDuration = 1500; // (unit: ms)
     let div: HTMLElement = document.createElement('div');
 
     div.style.boxShadow = `0 0 0 2px ${color}`;
