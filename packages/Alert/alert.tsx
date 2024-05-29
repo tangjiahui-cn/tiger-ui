@@ -151,9 +151,11 @@ const Alert = forwardRef((props: AlertProps, ref: ForwardedRef<HTMLDivElement>) 
   const classes: string = classNames(
     props?.className,
     prefix,
-    bordered && `${prefix}-bordered`,
+    {
+      [`${prefix}-bordered`]: bordered,
+      [`${prefix}-flex-start`]: description,
+    },
     `${prefix}-${type}`,
-    description && `${prefix}-flex-start`,
   );
 
   const handleClose = useCallback(() => {

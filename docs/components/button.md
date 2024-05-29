@@ -7,7 +7,7 @@ nav: 组件
 import {Button} from 'tiger-ui';
 
 export default () => {
-  return <Button>按钮</Button>;
+  return <Button>点我一下</Button>;
 }
 ```
 

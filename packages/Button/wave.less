@@ -1,0 +1,25 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('wave');
+@prefixNoDot: prefixNoDot('wave');
+@keyframesShowWave: ~'@{prefixNoDot}-keyframes-show-wave';
+
+@keyframes @keyframesShowWave {
+  to {
+    box-shadow: 0 0 0 6px transparent;
+  }
+}
+
+@{prefix} {
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  opacity: 0.4;
+  border-radius: inherit;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  pointer-events: none;
+  animation: @keyframesShowWave cubic-bezier(0.08, 0.82, 0.17, 1);
+  animation-fill-mode: forwards;
+}
+

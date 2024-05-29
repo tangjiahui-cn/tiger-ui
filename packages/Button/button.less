@@ -6,6 +6,7 @@
 @loadingClass: ~'@{prefix}-loading';
 
 @{prefix} {
+  position: relative;
   box-sizing: border-box;
   font-size: @fontSize;
   background-color: white;
@@ -18,6 +19,7 @@
   align-items: center;
   justify-content: center;
   line-height: 1;
+  user-select: none;
 
   &-block {
     width: 100%;
@@ -53,7 +55,7 @@
       background: @primaryHover;
       border-color: @primaryHover;
     }
-    &:active:not(@{loadingClass}) {
+    &:active {
       background: @primaryActive;
       border-color: @primaryActive;
     }
@@ -85,7 +87,7 @@
         border-color: @dangerHover;
       }
 
-      &:active:not(@{loadingClass}) {
+      &:active {
         background: @dangerActive;
         border-color: @dangerActive;
       }
@@ -123,7 +125,7 @@
       background: #ecf5ff;
     }
 
-    &:active:not(:disabled):not(@{loadingClass}) {
+    &:active:not(:disabled) {
       background: #cce7ff;
     }
 
@@ -155,7 +157,7 @@
         background: #fdf2f2;
       }
 
-      &:active:not(@{loadingClass}) {
+      &:active {
         background: #ffdbdb;
       }
 
@@ -184,7 +186,7 @@
     border-color: @primaryHover;
   }
 
-  &:active:not(:disabled):not(@{loadingClass}) {
+  &:active:not(:disabled) {
     color: @primaryActive;
     border-color: @primaryActive;
   }
@@ -212,7 +214,7 @@
       border-color: @dangerHover;
     }
 
-    &:active:not(@{loadingClass}) {
+    &:active {
       color: @dangerActive;
       border-color: @dangerActive;
     }

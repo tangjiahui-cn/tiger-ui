@@ -10,6 +10,7 @@ import { ForwardedRef, forwardRef, HTMLAttributes } from 'react';
 import { usePrefix } from '@/ConfigProvider';
 import classNames from 'classnames';
 import { LoadingOutlined } from '@ant-design/icons';
+import Wave from './wave';
 import './button.less';
 
 export type ButtonSize = SizeType;
@@ -59,26 +60,30 @@ const Button = forwardRef((props: ButtonProps, ref: ForwardedRef<HTMLButtonEleme
   const classes = classNames(
     props?.className,
     prefix,
+    {
+      [`${prefix}-block`]: block,
+      [`${prefix}-danger`]: danger,
+      [`${prefix}-ghost`]: ghost,
+      [`${prefix}-loading`]: loading,
+    },
     `${prefix}-${size}`,
     `${prefix}-${type}`,
-    block && `${prefix}-block`,
-    danger && `${prefix}-danger`,
-    ghost && `${prefix}-ghost`,
-    loading && `${prefix}-loading`,
   );
 
   return (
-    <button
-      {...rest}
-      ref={ref}
-      style={style}
-      disabled={disabled}
-      className={classes}
-      onClick={loading ? undefined : onClick}
-    >
-      {loading && <LoadingOutlined style={{ marginRight: 12 }} />}
-      {children}
-    </button>
+    <Wave disabled={loading || disabled}>
+      <button
+        {...rest}
+        ref={ref}
+        style={style}
+        disabled={disabled}
+        className={classes}
+        onClick={loading ? undefined : onClick}
+      >
+        {loading && <LoadingOutlined style={{ marginRight: 12 }} />}
+        {children}
+      </button>
+    </Wave>
   );
 });
 
