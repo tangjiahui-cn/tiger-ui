@@ -1,5 +1,11 @@
 ---
+title: Carousel - 走马灯
+
 nav: 组件
+
+group:
+  title: 展示组件
+  order: 2
 ---
 
 ## 一、基本使用

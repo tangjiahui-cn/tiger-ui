@@ -1,7 +1,11 @@
 ---
-nav: 组件
 title: 全局样式
-order: 0
+
+nav: 组件
+
+group:
+  title: 总览
+  order: 0
 ---
 
 ```jsx

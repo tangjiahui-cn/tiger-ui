@@ -1,5 +1,11 @@
 ---
+title: TimePicker - 时间选择器
+
 nav: 组件
+
+group:
+  title: 交互组件
+  order: 3
 ---
 
 ## 一、基本使用

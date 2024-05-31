@@ -1,5 +1,11 @@
 ---
+title: Message - 消息通知
+
 nav: 组件
+
+group:
+  title: 消息组件
+  order: 4
 ---
 
 ## 一、基本使用

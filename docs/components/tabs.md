@@ -1,5 +1,11 @@
 ---
+title: Tabs - 标签页
+
 nav: 组件
+
+group:
+  title: 布局组件
+  order: 6
 ---
 
 ## 一、基本使用

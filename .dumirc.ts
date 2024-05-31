@@ -28,11 +28,15 @@ export default defineConfig({
       default: 'light',
       switch: false,
     },
+    socialLinks: {
+      github: 'https://github.com/tangjiahui-cn/tiger-ui',
+    },
   },
   resolve: {
     docDirs: ['docs'],
     entryFile: path.resolve(__dirname, './packages/index.ts'),
   },
+  styles: [`[class*='dumi'] p {font-size:0.875em;}`],
   chainWebpack(memo) {
     memo.resolve.alias
       .set('tiger-ui', path.resolve(__dirname, './packages'))

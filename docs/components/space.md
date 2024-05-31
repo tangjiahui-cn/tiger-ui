@@ -1,5 +1,11 @@
 ---
+title: Space - 间距
+
 nav: 组件
+
+group:
+  title: 布局组件
+  order: 6
 ---
 
 ## 一、基本使用

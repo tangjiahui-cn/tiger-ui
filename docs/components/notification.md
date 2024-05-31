@@ -1,5 +1,11 @@
 ---
+title: Notification - 通知提醒框
+
 nav: 组件
+
+group:
+  title: 消息组件
+  order: 4
 ---
 
 ## 一、基本使用

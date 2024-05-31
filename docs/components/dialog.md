@@ -1,5 +1,11 @@
 ---
+title: Dialog - 对话框
+
 nav: 组件
+
+group:
+  title: 弹窗组件
+  order: 5
 ---
 
 ## 一、基本使用
