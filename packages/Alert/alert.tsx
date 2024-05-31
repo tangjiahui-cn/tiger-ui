@@ -19,10 +19,12 @@ import { shallowCompare } from '@/_utils';
 import type { LoopScrollProps } from './loopScroll';
 import LoopScroll from './loopScroll';
 import './alert.less';
+import { DOMAttributesWithoutRefAndChildren } from '@/_types';
 
 export type AlertType = ResultType;
 export type AlertLoopOptions = LoopScrollProps;
-export interface AlertProps {
+
+export interface AlertProps extends DOMAttributesWithoutRefAndChildren<HTMLDivElement> {
   /**
    * type of Alert
    * @default 'info'
