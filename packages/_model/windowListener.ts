@@ -1,5 +1,5 @@
 /**
- * window listener proxy.
+ * window listener replacer.
  *
  * @author tangjiahui
  * @date 2024/6/6
