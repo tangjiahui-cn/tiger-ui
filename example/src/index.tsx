@@ -5,6 +5,7 @@ import '../../packages/_theme/default.less';
 import { useForceUpdate } from '@/_hooks';
 import Button, { ButtonSize, ButtonType } from '@/Button/button';
 import { Switch } from '@/index';
+import { windowListener } from '@/_model';
 
 const size: ButtonSize[] = ['large', 'middle', 'small'];
 const types: ButtonType[] = ['primary', 'default', 'dashed', 'dotted', 'text'];
@@ -20,6 +21,18 @@ function App() {
   useEffect(() => {
     // setLoading(true);
     // console.log('zz -> ', ref.current);
+    function resize() {
+      console.log('11');
+    }
+    function resize2() {
+      console.log('222');
+    }
+    windowListener.addEventListener('resize', resize, {
+      once: true,
+    });
+    windowListener.addEventListener('resize', resize2, {
+      once: true,
+    });
   }, []);
 
   return (

@@ -7,36 +7,90 @@
 
 type Callback = (e: any) => void;
 
-export class WindowListener {
-  _callbacksMap = new Map<string, Array<Callback>>();
-  _listerMap = new Map<string, Callback>();
+interface EventOption {
+  once?: boolean;
+}
 
-  public addEventListener(type: string, callback: Callback) {
-    const callbacks = this._callbacksMap.get(type);
-    if (callbacks?.length) {
-      callbacks.push(callback);
+interface CallbackData {
+  // runtime callback.
+  callback: Callback;
+  // only run one time
+  once?: boolean;
+}
+
+interface MapData {
+  listener: Callback;
+  list: CallbackData[];
+}
+
+export class WindowListener {
+  private _map: Map<string, MapData> = new Map();
+
+  public addEventListener<K extends keyof WindowEventMap>(
+    type: K,
+    callback: Callback,
+    option?: EventOption,
+  ) {
+    let eventData = this._map.get(type);
+
+    // new a callback data.
+    const callbackData: CallbackData = {
+      callback,
+      once: option?.once,
+    };
+
+    // create a new listener.
+    if (!eventData) {
+      const that = this;
+      const listener = (e: any) => {
+        const _eventData = that._map.get(type);
+        if (!_eventData) {
+          return;
+        }
+        const list = _eventData?.list || [];
+        // run all callbacks, and filter the once event.
+        const nextList = list.filter((callbackData: CallbackData) => {
+          callbackData?.callback?.(e);
+          return !callbackData.once;
+        });
+        // clear the window listener.
+        if (!nextList.length) {
+          this.clearOriginListener(type, listener);
+          return;
+        }
+        // update listen callback list.
+        if (list.length !== nextList.length) {
+          _eventData.list = nextList;
+        }
+      };
+
+      this._map.set(type, {
+        list: [callbackData],
+        listener,
+      });
+
+      window.addEventListener(type, listener);
       return;
     }
-    const that: any = this;
-    const listener = function (e: any) {
-      that._callbacksMap.get(type)?.forEach?.((callback: Callback) => callback(e));
-    };
-    this._callbacksMap.set(type, [callback]);
-    this._listerMap.set(type, listener);
-    window.addEventListener(type, listener);
+
+    // window event listener exist already.
+    eventData.list.push(callbackData);
   }
 
-  public removeEventListener(type: string, callback: Callback) {
-    let callbacks = this._callbacksMap.get(type);
-    if (callbacks?.length) {
-      callbacks = callbacks.filter((_callback) => _callback !== callback);
+  public removeEventListener<K extends keyof WindowEventMap>(type: K, callback?: Callback) {
+    const mapData = this._map.get(type);
+    if (!mapData) {
+      return;
     }
-    if (!callbacks?.length) {
-      const listener = this._listerMap.get(type);
-      if (listener) {
-        window.removeEventListener(type, listener);
-      }
+    mapData.list = mapData.list.filter((x: CallbackData) => x.callback !== callback);
+    if (!mapData.list.length) {
+      this.clearOriginListener(type, mapData.listener);
     }
+  }
+
+  private clearOriginListener(type: string, listener: Callback) {
+    window.removeEventListener(type, listener);
+    this._map.delete(type);
   }
 }
 
