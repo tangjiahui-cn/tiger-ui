@@ -125,7 +125,7 @@ export default () => {
   return (
     <Space>
       <Button loading={loading} onClick={handleClick}>
-        {loading ? '加载中' : '点击加载'}
+        点击加载
       </Button>
     </Space>
   );

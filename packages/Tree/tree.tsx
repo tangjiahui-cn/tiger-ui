@@ -2,131 +2,163 @@
  * Tree
  *
  * @author tangjiahui
- * @date 2024/7/1
+ * @date 2023/7/1
+ * @lastModifyTime 2024/6/6
  */
-import React, { DOMAttributes, ForwardedRef, RefAttributes, useEffect, useState } from 'react';
-import classNames from 'classnames';
-import { ArrowRightOutline } from '../Icon';
+import { DOMAttributesWithoutRefAndChildrenAndOnSelect } from '@/_types';
+import { ForwardedRef, forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
+import TreeLine from './treeLine';
+import type { InnerTreeNode, TreeNode } from './types';
+import { useListenValue } from '@/_hooks';
 import { isBoolean } from '@/_utils';
-import { usePrefix } from '@/ConfigProvider/context/prefixContext';
-import { omit } from '@/_utils/object';
-import './tree.less';
 
-export type TreeNode = {
-  key?: string;
-  title?: React.ReactNode;
-  isLeaf?: boolean; // 节点是否叶子节点（叶子节点不能展开，会强制isExpand为false）
-  isExpand?: boolean; // 节点是否展开
-  children?: TreeNode[];
-};
-
-export interface BaseTreeProps {
-  /**
-   * @description 是否显示边框
-   * @default false
-   */
-  bordered?: boolean;
-  /**
-   * @description 树数据
-   */
+export { TreeNode };
+export interface TreeProps extends DOMAttributesWithoutRefAndChildrenAndOnSelect<HTMLDivElement> {
+  // TODO: wait for work.
+  // /** tree height. If you set height, will enable virtual scroll automatic. */
+  // height?: number;
+  /** tree data */
   treeData?: TreeNode[];
-  // todo: 受控的数据
-  // selectedKeys?: string[];
-  /**
-   * @description 选中回调
-   */
-  onSelect?: (node: TreeNode) => void;
-  /**
-   * @description 展开回调
-   */
-  onExpand?: (node: TreeNode) => void;
-  /**
-   * style
-   */
+  /** show leaf icon */
+  showIcon?: boolean;
+  /** custom leaf icon */
+  icon?: React.ReactNode | ((node: TreeNode) => React.ReactNode);
+  /** switch node icon */
+  switcherIcon?: React.ReactNode | ((node: TreeNode) => React.ReactNode);
+  /** if select multiple node */
+  multiple?: boolean;
+  /** if can select */
+  selectable?: boolean;
+  /** selected keys */
+  selectedKeys?: string[];
+  /** default selected keys */
+  defaultSelectedKeys?: string[];
+  /** expanded keys */
+  expandedKeys?: string[];
+  /** default expanded keys */
+  defaultExpandedKeys?: string[];
+  /** disabled status */
+  disabled?: boolean;
+  /** style */
   style?: React.CSSProperties;
-  /**
-   * className
-   */
+  /** className */
   className?: string;
+  /** expand callback */
+  onExpand?: (expandedKeys: string[]) => void;
+  /** select callback */
+  onSelect?: (selectedKeys: string[]) => void;
 }
-export type BaseTreePropsKeys = keyof BaseTreeProps;
-export type TreeProps = BaseTreeProps &
-  DOMAttributes<HTMLDivElement> &
-  RefAttributes<HTMLDivElement>;
 
-const privateKeys: BaseTreePropsKeys[] = [
-  'bordered',
-  'treeData',
-  'onSelect',
-  'onExpand',
-  'style',
-  'className',
-];
+const Tree = forwardRef((props: TreeProps, ref: ForwardedRef<HTMLDivElement>) => {
+  const {
+    treeData = [],
+    multiple,
+    showIcon,
+    icon,
+    switcherIcon,
+    selectable = true,
+    selectedKeys,
+    defaultSelectedKeys,
+    expandedKeys,
+    defaultExpandedKeys,
+    disabled,
+    style,
+    className,
+    onExpand,
+    onSelect,
+    ...rest
+  } = props;
 
-export type TreeFC = React.ForwardRefExoticComponent<TreeProps>;
-const Tree: TreeFC = React.forwardRef(function Tree(
-  props: TreeProps,
-  ref: ForwardedRef<HTMLDivElement>,
-) {
-  const [data, setData] = useState<TreeNode[]>([]);
+  const isControlledExpandedKeys: boolean = useMemo(() => !!expandedKeys, []);
+  const isControlledSelectedKeys: boolean = useMemo(() => !!selectedKeys, []);
 
-  const prefix = usePrefix('tree');
-  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
+  const [flatTreeData, setFlatTreeData] = useState<InnerTreeNode[]>([]);
+  const [currentExpandedKeys, setCurrentExpandedKeys] = useListenValue<string[] | undefined>(
+    expandedKeys || defaultExpandedKeys || [],
+    expandedKeys,
+  );
+  const [currentSelectedKeys, setCurrentSelectedKeys] = useListenValue<string[] | undefined>(
+    selectedKeys || defaultSelectedKeys || [],
+    selectedKeys,
+  );
 
-  function handleExpand(node: TreeNode, isExpand: boolean) {
-    node.isExpand = !isExpand;
-    setData([...data]);
-    props?.onExpand?.(node);
-  }
+  const getFlatTreeData = useCallback(
+    (
+      treeData: TreeNode[],
+      currentExpandedKeys: string[] = [],
+      currentSelectedKeys: string[] = [],
+    ) => {
+      const result: InnerTreeNode[] = [];
+      function DFS(list: TreeNode[], _level: number = 0): InnerTreeNode[] {
+        list.forEach((node: TreeNode) => {
+          const key: any = node?.key;
+          const _node: InnerTreeNode = {
+            ...node,
+            isLeaf: !node?.children,
+            _level,
+            _isExpanded: currentExpandedKeys?.includes(key) || false,
+            _isSelected: currentSelectedKeys?.includes(key) || false,
+          };
+          result.push(_node);
+          if (_node?._isExpanded && node?.children) {
+            DFS(node.children, _level + 1);
+          }
+        });
+        return result;
+      }
+      return DFS(treeData);
+    },
+    [],
+  );
 
   useEffect(() => {
-    setData(props?.treeData || []);
-  }, [props?.treeData]);
-
-  function renderTreeLine(node: TreeNode): React.ReactNode {
-    let isExpand = isBoolean(node?.isExpand) ? node?.isExpand : false;
-    const isLeaf = node?.children?.length ? false : isBoolean(node?.isLeaf) ? node?.isLeaf : true;
-
-    return (
-      <div
-        key={node?.key}
-        className={classNames(`${prefix}-line`, !isExpand && `${prefix}-line-hide`)}
-      >
-        <div className={`${prefix}-line-head`}>
-          <div className={`${prefix}-line-head-arrow`}>
-            <div
-              className={classNames(isLeaf && `${prefix}-line-hide`)}
-              style={{ transform: `rotate(${isExpand ? 90 : 0}deg)` }}
-              onClick={() => handleExpand(node, isExpand)}
-            >
-              <ArrowRightOutline fontSize={12} pointer />
-            </div>
-          </div>
-          <div
-            className={classNames(`${prefix}-line-head-title`)}
-            onClick={() => props?.onSelect?.(node)}
-          >
-            {node.title}
-          </div>
-        </div>
-        {node.children?.map(renderTreeLine)}
-      </div>
-    );
-  }
+    setFlatTreeData(getFlatTreeData(treeData, currentExpandedKeys, currentSelectedKeys));
+  }, [treeData, currentExpandedKeys, currentSelectedKeys]);
 
   return (
-    <div
-      {...originProps}
-      className={classNames(
-        props?.className,
-        prefix,
-        `${prefix}-line`,
-        props?.bordered && `${prefix}-border`,
-      )}
-      style={props?.style}
-      ref={ref}
-    >
-      {data?.map(renderTreeLine)}
+    <div style={style} className={className} {...rest} ref={ref}>
+      {flatTreeData.map((treeData: InnerTreeNode) => {
+        const nodeSwitcherIcon: React.ReactNode =
+          typeof switcherIcon === 'function' ? switcherIcon(treeData) : switcherIcon;
+        const nodeIcon: React.ReactNode = typeof icon === 'function' ? icon(treeData) : icon;
+
+        return (
+          <TreeLine
+            showIcon={showIcon}
+            icon={nodeIcon}
+            switcherIcon={nodeSwitcherIcon}
+            key={treeData.key}
+            title={treeData?.title}
+            level={treeData._level}
+            isExpanded={treeData._isExpanded}
+            isSelected={treeData._isSelected}
+            expandable={!treeData?.isLeaf}
+            selectable={isBoolean(treeData?.selectable) ? treeData?.selectable : selectable}
+            onSelect={() => {
+              const isSelected = !treeData?._isSelected;
+              const targetSelectedKeys: string[] = isSelected
+                ? [...(multiple ? currentSelectedKeys || [] : []), `${treeData.key}`]
+                : currentSelectedKeys?.filter?.((key) => key !== treeData.key) || [];
+              if (isControlledSelectedKeys) {
+                onSelect?.(targetSelectedKeys);
+              } else {
+                setCurrentSelectedKeys(targetSelectedKeys);
+              }
+            }}
+            onExpand={() => {
+              const isExpand = !treeData?._isExpanded;
+              const targetExpandedKeys: string[] = isExpand
+                ? [...(currentExpandedKeys || []), `${treeData.key}`]
+                : currentExpandedKeys?.filter?.((key) => key !== treeData.key) || [];
+              if (isControlledExpandedKeys) {
+                onExpand?.(targetExpandedKeys);
+              } else {
+                setCurrentExpandedKeys(targetExpandedKeys);
+              }
+            }}
+          />
+        );
+      })}
     </div>
   );
 });

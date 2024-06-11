@@ -15,3 +15,7 @@ export type RequiredOnly<T, K extends keyof T> = RequiredPick<T, K> & PartialOmi
 export type DOMAttributesWithoutRef<T> = Omit<DOMAttributes<T>, 'ref'>;
 export type DOMAttributesWithoutChildren<T> = Omit<DOMAttributes<T>, 'children'>;
 export type DOMAttributesWithoutRefAndChildren<T> = Omit<DOMAttributes<T>, 'ref' | 'children'>;
+export type DOMAttributesWithoutRefAndChildrenAndOnSelect<T> = Omit<
+  DOMAttributes<T>,
+  'ref' | 'children' | 'onSelect'
+>;

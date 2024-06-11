@@ -6,12 +6,13 @@
  * @modified 2024/5/28
  */
 import { SizeType } from '@/_types';
-import { ForwardedRef, forwardRef, HTMLAttributes } from 'react';
+import React, { ForwardedRef, forwardRef, HTMLAttributes } from 'react';
 import { usePrefix } from '@/ConfigProvider';
 import classNames from 'classnames';
 import { LoadingOutlined } from '@ant-design/icons';
 import Wave from './wave';
 import './button.less';
+import Loading from './loading';
 
 export type ButtonSize = SizeType;
 export type ButtonType = 'default' | 'primary' | 'dashed' | 'dotted' | 'text';
@@ -80,7 +81,9 @@ const Button = forwardRef((props: ButtonProps, ref: ForwardedRef<HTMLButtonEleme
         className={classes}
         onClick={loading ? undefined : onClick}
       >
-        {loading && <LoadingOutlined style={{ marginRight: 12 }} />}
+        <Loading loading={loading}>
+          <LoadingOutlined />
+        </Loading>
         {children}
       </button>
     </Wave>

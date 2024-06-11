@@ -46,7 +46,7 @@ export default () => {
 }
 ```
 
-## 二、显示边框
+## 二、显示图标
 ```jsx
 import {Tree} from 'tiger-ui';
 
@@ -77,7 +77,85 @@ export default () => {
   
   return (
     <Tree
-      bordered
+      showIcon
+      treeData={treeData}
+    />
+  );
+}
+```
+## 三、默认展开
+```jsx
+import {Tree} from 'tiger-ui';
+
+export default () => {
+  const treeData = [
+    {key: '1', title: '项目一',
+      children: [
+        {key: '1-1', title: '参建单位一'},
+        {key: '1-2', title: '参建单位二'},
+        {key: '1-3', title: '参建单位三'},
+      ]
+    },
+    {key: '2', title: '项目二',
+      children: [
+        {key: '2-1', title: '参建单位一'},
+        {key: '2-2', title: '参建单位二'},
+        {key: '2-3', title: '参建单位三'},
+      ]
+    },
+    {key: '3', title: '项目三',
+      children: [
+        {key: '3-1', title: '参建单位一'},
+        {key: '3-2', title: '参建单位二'},
+        {key: '3-3', title: '参建单位三'},
+      ]
+    },
+  ]
+  
+  return (
+    <Tree
+      showIcon
+      defaultExpandedKeys={['1']}
+      treeData={treeData}
+    />
+  );
+}
+```
+
+## 四、支持多选
+```jsx
+import {Tree} from 'tiger-ui';
+
+export default () => {
+  const treeData = [
+    {key: '1', title: '项目一',
+      children: [
+        {key: '1-1', title: '参建单位一'},
+        {key: '1-2', title: '参建单位二'},
+        {key: '1-3', title: '参建单位三'},
+      ]
+    },
+    {key: '2', title: '项目二',
+      children: [
+        {key: '2-1', title: '参建单位一'},
+        {key: '2-2', title: '参建单位二'},
+        {key: '2-3', title: '参建单位三'},
+      ]
+    },
+    {key: '3', title: '项目三',
+      children: [
+        {key: '3-1', title: '参建单位一'},
+        {key: '3-2', title: '参建单位二'},
+        {key: '3-3', title: '参建单位三'},
+      ]
+    },
+  ]
+  
+  return (
+    <Tree
+      showIcon
+      multiple
+      defaultExpandedKeys={['1', '2']}
       treeData={treeData}
     />
   );

@@ -49,7 +49,7 @@ export type * from './Upload';
 export { default as Notification } from './Notification';
 export type * from './Notification';
 export { default as Tree } from './Tree';
-export type * from './Tree';
+export type { TreeProps, TreeNode } from './Tree';
 export { default as ToolTip } from './ToolTip';
 export type * from './ToolTip';
 export { default as Popover } from './Popover';

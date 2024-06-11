@@ -7,4 +7,4 @@
 import Tree from './tree';
 
 export default Tree;
-export type * from './tree';
+export type { TreeProps, TreeNode } from './tree';
