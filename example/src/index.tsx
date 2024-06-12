@@ -4,7 +4,7 @@ import Space from '@/Space';
 import '../../packages/_theme/default.less';
 import Button, { ButtonSize, ButtonType } from '@/Button/button';
 import { Switch } from '@/index';
-import { Tree, TreeNode } from '@/.';
+import { Tree, TreeNode, Checkbox } from '@/.';
 
 const size: ButtonSize[] = ['large', 'middle', 'small'];
 const types: ButtonType[] = ['primary', 'default', 'dashed', 'dotted', 'text'];
@@ -52,44 +52,49 @@ const treeData: TreeNode[] = [
 
 function App() {
   const [visible, setVisible] = useState<any>(true);
+  const [disabled, setDisabled] = useState<any>(false);
   const [expandedKeys, setExpandedKeys] = useState<string[]>(['1']);
   const [selectedKeys, setSelectedKeys] = useState<string[]>(['1']);
 
   const [loading, setLoading] = useState(false);
 
   return (
-    <div>
+    <div style={{ height: '100%', background: 'whitesmoke' }}>
       <Space size={16} style={{ background: 'white', padding: 12 }} block direction={'vertical'}>
         <Space>
-          <Switch checked={visible} onChange={setVisible} />
-          <Button loading={visible}>按钮</Button>
-          <Button loading={!visible}>按钮</Button>
-          <Button
-            loading={loading}
-            onClick={() => {
-              setLoading((loading) => !loading);
-              !loading &&
-                setTimeout(() => {
-                  setLoading(false);
-                }, 1000);
-            }}
-          >
-            点击加载
-          </Button>
+          <Switch
+            style={{ width: 64 }}
+            checked={disabled}
+            onChange={setDisabled}
+            checkedChildren={'禁用'}
+            unCheckedChildren={'启用'}
+          />
         </Space>
-        <Tree
-          showIcon
-          treeData={treeData}
-          expandedKeys={expandedKeys}
-          onExpand={setExpandedKeys}
-          // selectedKeys={selectedKeys}
-          // onSelect={setSelectedKeys}
-        />
-        <div
-          style={{
-            height: 600,
-          }}
-        />
+        <Space size={16}>
+          <Checkbox disabled={disabled} checked={visible} onChange={setVisible}>
+            选中
+          </Checkbox>
+          <Checkbox disabled={disabled} defaultChecked>
+            默认选中
+          </Checkbox>
+          <Checkbox disabled={disabled}>多选框</Checkbox>
+          <Checkbox disabled={disabled} indeterminate>
+            indeterminate
+          </Checkbox>
+        </Space>
+        {/*<Tree*/}
+        {/*  showIcon*/}
+        {/*  treeData={treeData}*/}
+        {/*  expandedKeys={expandedKeys}*/}
+        {/*  onExpand={setExpandedKeys}*/}
+        {/*  // selectedKeys={selectedKeys}*/}
+        {/*  // onSelect={setSelectedKeys}*/}
+        {/*/>*/}
+        {/*<div*/}
+        {/*  style={{*/}
+        {/*    height: 600,*/}
+        {/*  }}*/}
+        {/*/>*/}
       </Space>
     </div>
   );

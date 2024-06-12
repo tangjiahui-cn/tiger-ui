@@ -69,8 +69,8 @@ const Tree = forwardRef((props: TreeProps, ref: ForwardedRef<HTMLDivElement>) =>
     ...rest
   } = props;
 
-  const isControlledExpandedKeys: boolean = useMemo(() => !!expandedKeys, []);
-  const isControlledSelectedKeys: boolean = useMemo(() => !!selectedKeys, []);
+  const isControlledExpandedKeys: boolean = useMemo(() => expandedKeys !== undefined, []);
+  const isControlledSelectedKeys: boolean = useMemo(() => selectedKeys !== undefined, []);
 
   const [flatTreeData, setFlatTreeData] = useState<InnerTreeNode[]>([]);
   const [currentExpandedKeys, setCurrentExpandedKeys] = useListenValue<string[] | undefined>(
@@ -111,12 +111,36 @@ const Tree = forwardRef((props: TreeProps, ref: ForwardedRef<HTMLDivElement>) =>
     [],
   );
 
+  function handleSelect(treeData: InnerTreeNode) {
+    const isSelected = !treeData?._isSelected;
+    const targetSelectedKeys: string[] = isSelected
+      ? [...(multiple ? currentSelectedKeys || [] : []), `${treeData.key}`]
+      : currentSelectedKeys?.filter?.((key) => key !== treeData.key) || [];
+    if (isControlledSelectedKeys) {
+      onSelect?.(targetSelectedKeys);
+    } else {
+      setCurrentSelectedKeys(targetSelectedKeys);
+    }
+  }
+
+  function handleExpand(treeData: InnerTreeNode) {
+    const isExpand = !treeData?._isExpanded;
+    const targetExpandedKeys: string[] = isExpand
+      ? [...(currentExpandedKeys || []), `${treeData.key}`]
+      : currentExpandedKeys?.filter?.((key) => key !== treeData.key) || [];
+    if (isControlledExpandedKeys) {
+      onExpand?.(targetExpandedKeys);
+    } else {
+      setCurrentExpandedKeys(targetExpandedKeys);
+    }
+  }
+
   useEffect(() => {
     setFlatTreeData(getFlatTreeData(treeData, currentExpandedKeys, currentSelectedKeys));
   }, [treeData, currentExpandedKeys, currentSelectedKeys]);
 
   return (
-    <div style={style} className={className} {...rest} ref={ref}>
+    <div {...rest} style={style} className={className} ref={ref}>
       {flatTreeData.map((treeData: InnerTreeNode) => {
         const nodeSwitcherIcon: React.ReactNode =
           typeof switcherIcon === 'function' ? switcherIcon(treeData) : switcherIcon;
@@ -134,28 +158,8 @@ const Tree = forwardRef((props: TreeProps, ref: ForwardedRef<HTMLDivElement>) =>
             isSelected={treeData._isSelected}
             expandable={!treeData?.isLeaf}
             selectable={isBoolean(treeData?.selectable) ? treeData?.selectable : selectable}
-            onSelect={() => {
-              const isSelected = !treeData?._isSelected;
-              const targetSelectedKeys: string[] = isSelected
-                ? [...(multiple ? currentSelectedKeys || [] : []), `${treeData.key}`]
-                : currentSelectedKeys?.filter?.((key) => key !== treeData.key) || [];
-              if (isControlledSelectedKeys) {
-                onSelect?.(targetSelectedKeys);
-              } else {
-                setCurrentSelectedKeys(targetSelectedKeys);
-              }
-            }}
-            onExpand={() => {
-              const isExpand = !treeData?._isExpanded;
-              const targetExpandedKeys: string[] = isExpand
-                ? [...(currentExpandedKeys || []), `${treeData.key}`]
-                : currentExpandedKeys?.filter?.((key) => key !== treeData.key) || [];
-              if (isControlledExpandedKeys) {
-                onExpand?.(targetExpandedKeys);
-              } else {
-                setCurrentExpandedKeys(targetExpandedKeys);
-              }
-            }}
+            onSelect={() => handleSelect(treeData)}
+            onExpand={() => handleExpand(treeData)}
           />
         );
       })}

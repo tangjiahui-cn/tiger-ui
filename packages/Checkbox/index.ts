@@ -7,4 +7,4 @@
 import CheckBox from './checkbox';
 
 export default CheckBox;
-export type * from './checkbox';
+export type { CheckboxProps } from './checkbox';

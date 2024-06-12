@@ -19,3 +19,4 @@ export type DOMAttributesWithoutRefAndChildrenAndOnSelect<T> = Omit<
   DOMAttributes<T>,
   'ref' | 'children' | 'onSelect'
 >;
+export type HTMLAttributesWithoutOnChange<T> = Omit<DOMAttributes<T>, 'onChange'>;

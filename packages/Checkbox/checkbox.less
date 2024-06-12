@@ -1,0 +1,100 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('checkbox');
+@boxClass: ~'@{prefix}-box';
+@checkedClass: ~'@{prefix}-checked';
+@indeterminateClass: ~'@{prefix}-indeterminate';
+@disabledClass: ~'@{prefix}-disabled';
+
+@{prefix} {
+  gap: 8px;
+  position: relative;
+  cursor: pointer;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  font-size: @fontSize;
+
+  &@{disabledClass} {
+    cursor: not-allowed;
+    & @{boxClass}{
+      border-color: @colorDisabled;
+      background: @colorBgDisabled;
+    }
+  }
+
+  &@{indeterminateClass}:hover,
+  &:hover:not(@{checkedClass}) {
+    &:not(@{disabledClass}) @{boxClass} {
+      border: 1px solid @primary;
+    }
+  }
+
+  &@{indeterminateClass} {
+    &@{disabledClass} @{boxClass}{
+      &::after {
+        background: @colorDisabled;
+      }
+    }
+    & @{boxClass}{
+      &::after {
+        top: 50%;
+        left: 50%;
+        width: 8px;
+        height: 8px;
+        border: none;
+        content: ' ';
+        position: absolute;
+        background: @primary;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+
+  & @{boxClass} {
+    border-radius: @borderRadius;
+    position: relative;
+    width: 16px;
+    height: 16px;
+    border: 1px solid @borderColor;
+    transition: all @duration;
+  }
+
+  &:not(@{indeterminateClass}) {
+    &@{disabledClass} @{boxClass} {
+      &::after {
+        border-color: @colorDisabled;
+      }
+    }
+
+    & @{boxClass} {
+      &::after {
+        position: absolute;
+        box-sizing: border-box;
+        content: ' ';
+        top: 47%;
+        left: 21.5%;
+        width: 6px;
+        height: 10px;
+        border: 2px solid white;
+        border-top: none;
+        border-left: none;
+        transition: all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;
+        transform: rotate(45deg) scale(0) translate(-50%, -50%);
+      }
+    }
+
+    &@{checkedClass}{
+      &:not(@{disabledClass}) @{boxClass} {
+        background: @primary;
+        border-color: @primary;
+      }
+
+      & @{boxClass} {
+        &::after {
+          transform: rotate(45deg) scale(1) translate(-50%, -50%);
+        }
+      }
+    }
+  }
+}
