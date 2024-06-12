@@ -15,86 +15,108 @@
   align-items: center;
   font-size: @fontSize;
 
-  &@{disabledClass} {
-    cursor: not-allowed;
-    & @{boxClass}{
-      border-color: @colorDisabled;
-      background: @colorBgDisabled;
+  .setBox (@code) {
+    & @{boxClass} {
+      @code();
     }
   }
 
-  &@{indeterminateClass}:hover,
-  &:hover:not(@{checkedClass}) {
-    &:not(@{disabledClass}) @{boxClass} {
-      border: 1px solid @primary;
-    }
-  }
-
-  &@{indeterminateClass} {
-    &@{disabledClass} @{boxClass}{
-      &::after {
-        background: @colorDisabled;
-      }
-    }
-    & @{boxClass}{
-      &::after {
-        top: 50%;
-        left: 50%;
-        width: 8px;
-        height: 8px;
-        border: none;
-        content: ' ';
-        position: absolute;
-        background: @primary;
-        transform: translate(-50%, -50%);
-      }
-    }
-  }
-
-  & @{boxClass} {
-    border-radius: @borderRadius;
-    position: relative;
+  // checkbox
+  .setBox({
     width: 16px;
     height: 16px;
+    position: relative;
+    border-radius: @borderRadius;
     border: 1px solid @borderColor;
     transition: all @duration;
+
+    &::after {
+      position: absolute;
+      box-sizing: border-box;
+      content: ' ';
+      transition: background-color @duration;
+      transform: rotate(45deg) scale(0) translate(-50%, -50%);
+      top: 47%;
+      left: 21.5%;
+      width: 6px;
+      height: 10px;
+      border: 2px solid white;
+      border-top: none;
+      border-left: none;
+    }
+  });
+
+  // :hover
+  &:hover:not(@{disabledClass}) {
+    &@{indeterminateClass},
+    &:not(@{checkedClass}) {
+      .setBox({
+        border: 1px solid @primary;
+      });
+    }
   }
 
-  &:not(@{indeterminateClass}) {
-    &@{disabledClass} @{boxClass} {
+  // checked
+  &@{checkedClass}:not(@{indeterminateClass}) {
+    .setBox({
+      background-color: @primary;
+      border: 1px solid @primary;
       &::after {
-        border-color: @colorDisabled;
-      }
-    }
-
-    & @{boxClass} {
-      &::after {
-        position: absolute;
-        box-sizing: border-box;
-        content: ' ';
-        top: 47%;
-        left: 21.5%;
-        width: 6px;
-        height: 10px;
-        border: 2px solid white;
-        border-top: none;
-        border-left: none;
+        transform: rotate(45deg) scale(1) translate(-50%, -50%);
         transition: all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;
-        transform: rotate(45deg) scale(0) translate(-50%, -50%);
       }
+    });
+  }
+
+  // indeterminate
+  &@{indeterminateClass} {
+    .setBox({
+      &::after {
+        width: 8px;
+        height: 8px;
+        top: 50%;
+        left: 50%;
+        position: absolute;
+        background: @primary;
+        content: ' ';
+        border: none;
+        transform: scale(1) translate(-50%, -50%);
+        transition: background-color @duration;
+      }
+    });
+  }
+
+  // disabled
+  &@{disabledClass} {
+    cursor: not-allowed;
+
+    &@{checkedClass} {
+      .setBox({
+        background-color: @colorBgDisabled;
+        border-color: @colorDisabled;
+
+        &::after {
+          border-color: @colorDisabled;
+        }
+      });
     }
 
-    &@{checkedClass}{
-      &:not(@{disabledClass}) @{boxClass} {
-        background: @primary;
-        border-color: @primary;
-      }
-
-      & @{boxClass} {
+    // 半选中
+    &@{indeterminateClass} {
+      .setBox({
         &::after {
-          transform: rotate(45deg) scale(1) translate(-50%, -50%);
+          width: 8px;
+          height: 8px;
+          top: 50%;
+          left: 50%;
+          position: absolute;
+          background: @colorDisabled;
+          content: ' ';
+          border: none;
+          transform: scale(1) translate(-50%, -50%);
+          transition: background-color @duration;
         }
-      }
+      });
     }
   }
 }
