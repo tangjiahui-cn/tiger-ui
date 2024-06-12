@@ -22,7 +22,7 @@ import {Checkbox, Space, Button} from 'tiger-ui';
 import {useState} from 'react';
 
 export default () => {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(true);
   const [disabled, setDisabled] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
   
