@@ -22,7 +22,7 @@ import {Checkbox, Space, Button} from 'tiger-ui';
 import {useState} from 'react';
 
 export default () => {
-  const [checked, setChecked] = useState(true);
+  const [checked, setChecked] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
   
@@ -44,14 +44,14 @@ export default () => {
       }
     </Space>
     <Space size={16}>
-      <Button type={'primary'} onClick={() => setDisabled(v => !v)}>
-        toggle {disabled ? 'unDisabled' : 'disabled'}
-      </Button>
       <Button disabled={indeterminate} type={'primary'} onClick={() => setChecked(v => !v)}>
         toggle {checked ? 'unChecked' : 'checked'}
       </Button>
       <Button type={'primary'} onClick={() => setIndeterminate(v => !v)}>
         toggle {indeterminate ? 'unIndeterminate' : 'indeterminate'}
+      </Button>
+      <Button type={'primary'} onClick={() => setDisabled(v => !v)}>
+        toggle {disabled ? 'unDisabled' : 'disabled'}
       </Button>
     </Space>
   </Space>;
@@ -60,14 +60,43 @@ export default () => {
 
 ## 三、半选中值
 半选中是受控属性，仅用于展示状态，优先级高于选中。
-```jsx
-import {Checkbox, Space} from 'tiger-ui';
-import {useState} from 'react';
 
+```jsx
+import { Checkbox, Space } from 'tiger-ui';
+import { useMemo, useState } from 'react';
+
+const list = ['apple', 'orange', 'banana', 'grape']
+const INITIAL = new Set(['banana'])
 export default () => {
-  return <Space size={16}>
-    <Checkbox indeterminate>选项</Checkbox>
-  </Space>;
+  const [types, setTypes] = useState(INITIAL);
+  const indeterminate = types.size && types.size !== list.length;
+  const checked = types.size === list.length
+
+  return (
+    <Space size={16} direction={'vertical'} style={{width: '100%'}}>
+      <Checkbox checked={checked} indeterminate={indeterminate}>水果</Checkbox>
+      <div style={{height: 1, background: '#e8e8e8'}} />
+      <Space size={16}>
+        {
+          list.map(x => {
+            const checked = types.has(x);
+            return (
+              <Checkbox
+                key={x}
+                checked={checked}
+                onChange={() => {
+                  checked ? types.delete(x) : types.add(x)
+                  setTypes(new Set(types))
+                }}
+              >
+                {x}
+              </Checkbox>
+            )
+          })
+        }
+      </Space>
+    </Space>
+  );
 }
 ```
 
