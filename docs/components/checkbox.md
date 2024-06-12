@@ -44,7 +44,7 @@ export default () => {
       }
     </Space>
     <Space size={16}>
-      <Button disabled={indeterminate} type={'primary'} onClick={() => setDisabled(v => !v)}>
+      <Button type={'primary'} onClick={() => setDisabled(v => !v)}>
         toggle {disabled ? 'unDisabled' : 'disabled'}
       </Button>
       <Button disabled={indeterminate} type={'primary'} onClick={() => setChecked(v => !v)}>
