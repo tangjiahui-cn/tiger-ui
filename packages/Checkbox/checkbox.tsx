@@ -66,7 +66,7 @@ const Checkbox = forwardRef((props: CheckboxProps, ref: ForwardedRef<HTMLLabelEl
 
   return (
     <label {...rest} ref={ref} style={style} className={classes} onClick={handleClick}>
-      <LineWave visible={!indeterminate && currentChecked}>
+      <LineWave visible={!disabled && !indeterminate && currentChecked}>
         <span className={`${prefix}-box`} />
       </LineWave>
       {children ? <span>{children}</span> : null}
