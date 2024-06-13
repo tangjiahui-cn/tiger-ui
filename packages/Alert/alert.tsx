@@ -25,10 +25,7 @@ export type AlertType = ResultType;
 export type AlertLoopOptions = LoopScrollProps;
 
 export interface AlertProps extends DOMAttributesWithoutRefAndChildren<HTMLDivElement> {
-  /**
-   * type of Alert
-   * @default 'info'
-   * */
+  /** type of Alert */
   type?: AlertType;
   /** title of the alert */
   message?: React.ReactNode;
@@ -44,10 +41,7 @@ export interface AlertProps extends DOMAttributesWithoutRefAndChildren<HTMLDivEl
   descriptionStyle?: React.CSSProperties;
   /** enable text loop scroll */
   loop?: boolean | AlertLoopOptions;
-  /**
-   * show border or not
-   * @default true
-   * */
+  /** show border or not */
   bordered?: boolean;
   /** can it be closed */
   closable?: boolean;
