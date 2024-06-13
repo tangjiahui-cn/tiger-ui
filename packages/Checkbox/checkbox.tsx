@@ -55,7 +55,10 @@ const Checkbox = forwardRef((props: CheckboxProps, ref: ForwardedRef<HTMLLabelEl
   });
 
   function handleClick(e: MouseEvent<HTMLLabelElement>) {
-    if (disabled) return;
+    props?.onClick?.(e);
+    if (disabled) {
+      return;
+    }
     const targetChecked = !currentChecked;
     if (isControlledChecked) {
       onChange?.(targetChecked, e);

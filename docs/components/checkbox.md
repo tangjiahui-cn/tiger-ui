@@ -71,25 +71,31 @@ export default () => {
   const [types, setTypes] = useState(INITIAL);
   const indeterminate = types.size && types.size !== list.length;
   const checked = types.size === list.length
+  
+  function handleClick () {
+    setTypes(new Set(types.size === list.length ? [] : list));
+  }
 
+  function handleChooseItem (type, checked) {
+    checked ? types.delete(type) : types.add(type);
+    setTypes(new Set(types));
+  }
+  
   return (
     <Space size={16} direction={'vertical'} style={{width: '100%'}}>
-      <Checkbox checked={checked} indeterminate={indeterminate}>水果</Checkbox>
+      <Checkbox checked={checked} indeterminate={indeterminate} onClick={handleClick}>水果</Checkbox>
       <div style={{height: 1, background: '#e8e8e8'}} />
       <Space size={16}>
         {
-          list.map(x => {
-            const checked = types.has(x);
+          list.map(type => {
+            const checked = types.has(type);
             return (
               <Checkbox
-                key={x}
+                key={type}
                 checked={checked}
-                onChange={() => {
-                  checked ? types.delete(x) : types.add(x)
-                  setTypes(new Set(types))
-                }}
+                onChange={() => handleChooseItem(type, checked)}
               >
-                {x}
+                {type}
               </Checkbox>
             )
           })
