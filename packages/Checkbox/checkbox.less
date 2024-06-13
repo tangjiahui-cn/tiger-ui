@@ -16,7 +16,7 @@
   font-size: @fontSize;
 
   &-label {
-    transition: color .1s;
+    transition: color @fasterDuration;
   }
 
   .setBox (@code) {
@@ -97,6 +97,7 @@
 
     .setBox({
       background: @colorBgDisabled;
+      transition: all @fasterDuration;
     });
 
     &@{checkedClass} {
@@ -123,7 +124,7 @@
           content: ' ';
           border: none;
           transform: scale(1) translate(-50%, -50%);
-          transition: background-color @duration;
+          transition: background-color @fasterDuration;
         }
       });
     }
