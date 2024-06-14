@@ -4,8 +4,8 @@ title: Tree - 树
 nav: 组件
 
 group:
-  title: 展示组件
-  order: 2
+title: 展示组件
+order: 2
 ---
 
 ## 一、基本使用
@@ -159,6 +159,59 @@ export default () => {
       treeData={treeData}
     />
   );
+}
+```
+
+## 五、虚拟列表
+设置height属性，自动开启虚拟列表。
+
+```tsx
+import { Tree, Button, Space } from 'tiger-ui';
+import { useState, useMemo, useEffect } from "react";
+
+let keys: string[] = [];
+
+function mockTreeData(count: number, level: number = 2, key = '') {
+  let treeData: TreeNode[] = [];
+  for (let i = 0; i < count; i++) {
+    const nodeKey = `${key ? `${key}-` : ''}${i}`;
+    keys.push(nodeKey);
+    const children = level ? mockTreeData(count, level - 1, nodeKey) : [];
+    treeData.push({
+      key: nodeKey,
+      title: nodeKey,
+      children,
+    });
+  }
+  return treeData;
+}
+
+const treeData = mockTreeData(10);
+export default () => {
+  const [height, setHeight] = useState<number>(350);
+  const color = height ? 'green' : 'red';
+  const name = height ? '开启' : '关闭';
+
+  return (
+    <Space direction={'vertical'} style={{width: '100%'}}>
+      <Space>
+        <Button type={'primary'} onClick={() => setHeight(height ? undefined : 350)}>
+          {height ? '关闭虚拟列表' : '启用虚拟列表'}
+        </Button>
+        <span>
+          当前状态：<span style={{color}}>{name}</span>
+        </span>
+      </Space>
+      <div style={{ height: 350, overflowY: 'auto' }}>
+        <Tree
+          height={height}
+          defaultExpandedKeys={keys}
+          style={{ border: '1px solid #e8e8e8' }}
+          treeData={treeData}
+        />
+      </div>
+    </Space>
+  )
 }
 ```
 

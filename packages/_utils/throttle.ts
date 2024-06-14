@@ -4,12 +4,14 @@
  * @author tangjiahui
  * @date 2024/5/27
  */
-type throttleFnClearTimer = (timerId: any) => void;
-type throttleFn<T = unknown> = (arg?: T, clearTimer?: throttleFnClearTimer) => void;
+export type throttleFnClearTimer = (timerId: any) => void;
+export type throttleFn<T = unknown> = (arg?: T, clearTimer?: throttleFnClearTimer) => void;
 
-interface ThrottleOption {
+export interface ThrottleOption {
   /** run callback immediately while use throttleFn */
   immediately?: boolean;
+  /** run callback immediately while stop throttleFn */
+  runAfterStop?: boolean;
 }
 
 export function throttle<T>(
@@ -18,6 +20,7 @@ export function throttle<T>(
   option?: ThrottleOption,
 ): throttleFn<T> {
   const immediately = option?.immediately ?? true;
+  const runAfterStop = option?.runAfterStop ?? true;
   let timeId: any;
   return function (arg?: T, clearTimer?: throttleFnClearTimer) {
     if (timeId) {
@@ -29,7 +32,7 @@ export function throttle<T>(
       callback.call(that, arg, clearTimer);
     }
     timeId = setTimeout(() => {
-      if (!immediately) {
+      if (runAfterStop) {
         callback.call(that, arg, clearTimer);
       }
       timeId = 0;

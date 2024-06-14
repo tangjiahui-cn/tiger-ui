@@ -11,12 +11,15 @@ import TreeLine from './treeLine';
 import type { InnerTreeNode, TreeNode } from './types';
 import { useListenValue } from '@/_hooks';
 import { isBoolean } from '@/_utils';
+import { FixedVirtualList } from '@/_components';
+import './tree.less';
+import { usePrefix } from '@/ConfigProvider';
+import classNames from 'classnames';
 
 export { TreeNode };
 export interface TreeProps extends DOMAttributesWithoutRefAndChildrenAndOnSelect<HTMLDivElement> {
-  // TODO: wait for work.
-  // /** tree height. If you set height, will enable virtual scroll automatic. */
-  // height?: number;
+  /** tree height. (If you set height, will enable virtual scroll automatic.) */
+  height?: number;
   /** tree data */
   treeData?: TreeNode[];
   /** show leaf icon */
@@ -64,15 +67,20 @@ const Tree = forwardRef((props: TreeProps, ref: ForwardedRef<HTMLDivElement>) =>
     disabled,
     style,
     className,
+    height,
     onExpand,
     onSelect,
     ...rest
   } = props;
 
+  const prefix = usePrefix('tree');
+  const classes = classNames(prefix, className);
+
   const isControlledExpandedKeys: boolean = useMemo(() => expandedKeys !== undefined, []);
   const isControlledSelectedKeys: boolean = useMemo(() => selectedKeys !== undefined, []);
 
   const [flatTreeData, setFlatTreeData] = useState<InnerTreeNode[]>([]);
+
   const [currentExpandedKeys, setCurrentExpandedKeys] = useListenValue<string[] | undefined>(
     expandedKeys || defaultExpandedKeys || [],
     expandedKeys,
@@ -94,13 +102,13 @@ const Tree = forwardRef((props: TreeProps, ref: ForwardedRef<HTMLDivElement>) =>
           const key: any = node?.key;
           const _node: InnerTreeNode = {
             ...node,
-            isLeaf: !node?.children,
+            isLeaf: !node?.children?.length,
             _level,
             _isExpanded: currentExpandedKeys?.includes(key) || false,
             _isSelected: currentSelectedKeys?.includes(key) || false,
           };
           result.push(_node);
-          if (_node?._isExpanded && node?.children) {
+          if (_node?._isExpanded && node?.children?.length) {
             DFS(node.children, _level + 1);
           }
         });
@@ -139,30 +147,62 @@ const Tree = forwardRef((props: TreeProps, ref: ForwardedRef<HTMLDivElement>) =>
     setFlatTreeData(getFlatTreeData(treeData, currentExpandedKeys, currentSelectedKeys));
   }, [treeData, currentExpandedKeys, currentSelectedKeys]);
 
-  return (
-    <div {...rest} style={style} className={className} ref={ref}>
-      {flatTreeData.map((treeData: InnerTreeNode) => {
-        const nodeSwitcherIcon: React.ReactNode =
-          typeof switcherIcon === 'function' ? switcherIcon(treeData) : switcherIcon;
-        const nodeIcon: React.ReactNode = typeof icon === 'function' ? icon(treeData) : icon;
+  function renderer(treeData: InnerTreeNode, style?: React.CSSProperties) {
+    const nodeSwitcherIcon: React.ReactNode =
+      typeof switcherIcon === 'function' ? switcherIcon(treeData) : switcherIcon;
+    const nodeIcon: React.ReactNode = typeof icon === 'function' ? icon(treeData) : icon;
+    return (
+      <TreeLine
+        style={{ ...style, width: '100%' }}
+        showIcon={showIcon}
+        icon={nodeIcon}
+        switcherIcon={nodeSwitcherIcon}
+        key={treeData.key}
+        title={treeData?.title}
+        level={treeData._level}
+        isExpanded={treeData._isExpanded}
+        isSelected={treeData._isSelected}
+        expandable={!treeData?.isLeaf}
+        selectable={isBoolean(treeData?.selectable) ? treeData?.selectable : selectable}
+        onSelect={() => handleSelect(treeData)}
+        onExpand={() => handleExpand(treeData)}
+      />
+    );
+  }
 
-        return (
-          <TreeLine
-            showIcon={showIcon}
-            icon={nodeIcon}
-            switcherIcon={nodeSwitcherIcon}
-            key={treeData.key}
-            title={treeData?.title}
-            level={treeData._level}
-            isExpanded={treeData._isExpanded}
-            isSelected={treeData._isSelected}
-            expandable={!treeData?.isLeaf}
-            selectable={isBoolean(treeData?.selectable) ? treeData?.selectable : selectable}
-            onSelect={() => handleSelect(treeData)}
-            onExpand={() => handleExpand(treeData)}
-          />
-        );
-      })}
+  function renderVirtualList(flatTreeData: InnerTreeNode[]) {
+    return (
+      <FixedVirtualList
+        gap={4}
+        height={height || 0}
+        itemHeight={28}
+        itemCount={flatTreeData.length}
+        list={flatTreeData}
+      >
+        {({ data, style }) => {
+          return renderer(data, style);
+        }}
+      </FixedVirtualList>
+    );
+  }
+
+  function renderTreeNode(flatTreeData: InnerTreeNode[]) {
+    return flatTreeData.map((treeData: InnerTreeNode) => {
+      return renderer(treeData);
+    });
+  }
+
+  return (
+    <div
+      {...rest}
+      style={{
+        ...style,
+        height: height ? height : undefined,
+      }}
+      className={classes}
+      ref={ref}
+    >
+      {height ? renderVirtualList(flatTreeData) : renderTreeNode(flatTreeData)}
     </div>
   );
 });

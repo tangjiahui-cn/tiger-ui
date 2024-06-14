@@ -22,6 +22,7 @@ interface TreeLineProps {
   selectable?: boolean;
   onExpand?: () => void;
   onSelect?: () => void;
+  style?: React.CSSProperties;
 }
 
 export default function TreeLine(props: TreeLineProps) {
@@ -37,13 +38,14 @@ export default function TreeLine(props: TreeLineProps) {
     selectable,
     onExpand,
     onSelect,
+    style,
   } = props;
 
   const isLeaf = !expandable;
   const prefix = usePrefix('tree-line');
 
   return (
-    <div className={prefix} style={{ paddingLeft: level * 24 }}>
+    <div className={prefix} style={{ paddingLeft: level * 24, ...style }}>
       <div className={`${prefix}-switcher`} onClick={() => onExpand?.()}>
         {expandable ? (
           <div className={`${prefix}-switcher-wrap`}>

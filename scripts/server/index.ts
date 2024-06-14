@@ -13,7 +13,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 runWebpackDevServer(
   merge(getWebpackCommon(), {
     entry: {
-      index: root('./example/src/index.tsx'),
+      index: root('./example/main.tsx'),
     },
     devtool: 'source-map',
     devServer: {

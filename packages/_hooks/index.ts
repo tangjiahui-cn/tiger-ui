@@ -10,3 +10,4 @@ export * from './useCss';
 export * from './useMount';
 export * from './useForceUpdate';
 export * from './useListenValue';
+export * from './useThrottleFn';
