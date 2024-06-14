@@ -8,13 +8,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 interface FixedVirtualListProps {
+  /** virtual list height */
   height: number;
+  /** item height */
   itemHeight: number;
+  /** item count */
   itemCount: number;
+  /** item count */
   list?: any[];
+  /** top and bottom cache size. */
   cacheSize?: number;
+  /** item gap */
   gap?: number;
+  /** style */
   style?: React.CSSProperties;
+  /** item renderer */
   children?: (info: { index: number; style: React.CSSProperties; data?: any }) => React.ReactNode;
 }
 
