@@ -1,0 +1,65 @@
+@import '../_theme/variable.less';
+
+@prefix: prefix('tooltip-panel');
+@prefixNoDot: prefixNoDot('tooltip-panel');
+@appearKeyframes: ~'@{prefixNoDot}-appear';
+
+@startTransform: translate(-50%, -90%) scale(0.9);
+@endTransform: translate(-50%, -100%) scale(1);
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: @startTransform;
+  }
+
+  to {
+    opacity: 1;
+    transform: @endTransform;
+  }
+}
+
+@keyframes disappear {
+  from {
+    opacity: 1;
+    transform: @endTransform;
+  }
+
+  to {
+    opacity: 0;
+    transform: @startTransform
+  }
+}
+
+@{prefix} {
+  @panelBg: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: @borderRadius;
+  font-size: @fontSize;
+  position: fixed;
+  background: @panelBg;
+  padding: 10px 8px;
+
+  &-appear {
+    opacity: 1;
+    transform: @endTransform;
+    animation: appear @duration ease-out;
+  }
+
+  &-disappear {
+    opacity: 0;
+    transform: @startTransform;
+    animation: disappear @duration ease-out;
+  }
+
+  &-triangle {
+    position: absolute;
+    height: 0;
+    width: 0;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: @panelBg;
+  }
+}

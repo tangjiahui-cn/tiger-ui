@@ -3,13 +3,28 @@
 @prefix: prefix('popover');
 
 @{prefix} {
-  box-shadow: @shadow3;
-  background: white;
-  position: absolute;
-  padding: 16px;
-  border-radius: @borderRadius;
+  color: black;
+  padding: 16px 12px;
+  background-color: white;
+  box-shadow: @shadow2;
 
-  &-title {
-    font-weight: bolder;
+  &-triangle {
+    border-top-color: white;
+  }
+
+  &-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 200px;
+
+    &-title {
+      font-weight: bold;
+      font-size: @fontSize;
+    }
+
+    &-content {
+      font-size: @fontSize;
+    }
   }
 }

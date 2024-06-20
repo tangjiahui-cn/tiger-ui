@@ -7,4 +7,4 @@
 import ToolTip from './tooltip';
 
 export default ToolTip;
-export type * from './tooltip';
+export type { ToolTipProps, ToolTipTrigger, ToolTipBgColor } from './tooltip';

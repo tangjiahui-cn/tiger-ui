@@ -7,4 +7,4 @@
 import Popover from './popover';
 
 export default Popover;
-export type * from './popover';
+export type { PopoverProps } from './popover';

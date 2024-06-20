@@ -1,141 +1,170 @@
 /**
- * tooltip
+ * ToolTip
  *
  * @author tangjiahui
  * @date 2024/02/02
  */
-import React, { DOMAttributes, ForwardedRef, RefAttributes } from 'react';
-import { useMountDom } from '@/_hooks';
-import { CaretDownOutlined } from '@ant-design/icons';
-import classNames from 'classnames';
-import { usePrefix } from '@/ConfigProvider/ConfigProvider';
-import { omit } from '@/_utils/object';
-import './tooltip.less';
+import React, { MutableRefObject, useRef, useState } from 'react';
+import Trigger, { TriggerType } from '../Trigger';
+import { createPortal } from 'react-dom';
+import Panel from './panel';
 
-export type BaseToolTipProps = {
-  /**
-   * @description 标题
-   */
+export type ToolTipBgColor =
+  | string
+  | 'pink'
+  | 'red'
+  | 'yellow'
+  | 'orange'
+  | 'cyan'
+  | 'green'
+  | 'blue'
+  | 'purple'
+  | 'magenta'
+  | 'gold'
+  | 'lime';
+export type ToolTipTrigger = TriggerType | TriggerType[];
+export interface ToolTipProps {
+  /** popover color. */
+  color?: ToolTipBgColor;
+  /** tooltip title */
   title?: React.ReactNode;
-  /**
-   * style
-   */
-  style?: React.CSSProperties;
-  /**
-   * className
-   */
-  className?: string;
-  /**
-   * @description 包裹子元素
-   */
-  children?: React.ReactElement | string;
-};
+  /** panel style */
+  panelStyle?: React.CSSProperties;
+  /** panel className */
+  panelClassName?: string;
+  /** triangle style */
+  panelTriangleStyle?: React.CSSProperties;
+  /** triangle className */
+  panelTriangleClassName?: string;
+  /** tooltip trigger */
+  trigger?: ToolTipTrigger;
+  /** placeholder */
+  children?: React.ReactNode;
+}
 
-export type BaseToolTipKeys = keyof BaseToolTipProps;
-export type ToolTipProps = BaseToolTipProps &
-  DOMAttributes<HTMLDivElement> &
-  RefAttributes<HTMLDivElement>;
+const animationDuration = 100;
+const visibleDelay = 120;
+const ToolTip = (props: ToolTipProps) => {
+  const {
+    color,
+    title,
+    panelStyle,
+    panelClassName,
+    panelTriangleStyle,
+    panelTriangleClassName,
+    trigger,
+    children,
+  } = props;
+  const innerRef = useRef<HTMLElement>();
 
-const privateKeys: BaseToolTipKeys[] = ['children', 'title', 'style', 'className'];
-export type ToolTipFC = React.ForwardRefExoticComponent<ToolTipProps>;
-const ToolTip: ToolTipFC = React.forwardRef(function ToolTip(
-  props: ToolTipProps,
-  ref: ForwardedRef<HTMLDivElement>,
-) {
-  if (!props?.children) return;
-  if (Array.isArray(props?.children)) {
-    throw new Error('children must be a single react element.');
+  const isILegalChildren = typeof children === 'string';
+  const finalChildren = isILegalChildren ? <span tabIndex={-1}>{children}</span> : children;
+
+  const childrenRef: MutableRefObject<HTMLElement> = isILegalChildren
+    ? innerRef
+    : (children as any)?.ref || innerRef;
+
+  // control animation of panel.
+  const [visible, setVisible] = useState(false);
+  // control the panel destroy or not.
+  const [nextVisible, setNextVisible] = useState(visible);
+
+  const visibleTimerRef = useRef<any>();
+  const nextVisibleTimerRef = useRef<any>();
+
+  function clearVisibleTimer() {
+    if (visibleTimerRef.current) {
+      clearTimeout(visibleTimerRef.current);
+      visibleTimerRef.current = null;
+    }
   }
 
-  const prefix = usePrefix('tooltip');
-  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
+  function clearNextVisibleTimer() {
+    if (nextVisibleTimerRef.current) {
+      clearTimeout(nextVisibleTimerRef.current);
+      nextVisibleTimerRef.current = null;
+    }
+  }
 
-  const children: React.ReactElement =
-    typeof props?.children === 'string' ? <span>{props?.children}</span> : props?.children;
+  function clearAllTimer() {
+    clearVisibleTimer();
+    clearNextVisibleTimer();
+  }
 
-  const operateRef = useMountDom(
-    document.body,
-    (domRect?: DOMRect) => {
-      if (!domRect) return;
+  function startVisibleTimer() {
+    nextVisibleTimerRef.current = setTimeout(() => {
+      nextVisibleTimerRef.current = null;
+      setNextVisible(true);
+    }, visibleDelay);
+  }
 
-      const events: DOMAttributes<unknown> = {
-        onMouseEnter() {
-          operateRef.current.cancelWillUnMount?.();
-        },
-        onMouseLeave() {
-          operateRef.current.willUnMount?.();
-        },
-      };
+  function hideNextVisibleTimer() {
+    nextVisibleTimerRef.current = setTimeout(() => {
+      nextVisibleTimerRef.current = null;
+      setNextVisible(false);
+    }, animationDuration);
+  }
 
-      // TODO: rewrite style.
-      return (
-        <div
-          {...originProps}
-          className={classNames(props?.className, prefix)}
-          ref={ref}
-          style={{
-            top: domRect.top,
-            left: domRect.left + domRect.width / 2,
-            ...props?.style,
+  function hideVisibleTimer() {
+    visibleTimerRef.current = setTimeout(() => {
+      visibleTimerRef.current = null;
+      setVisible(false);
+      hideNextVisibleTimer();
+    }, visibleDelay);
+  }
+
+  function handleTrigger() {
+    clearAllTimer();
+    setVisible(true);
+    startVisibleTimer();
+  }
+
+  function handleUnTrigger() {
+    clearAllTimer();
+    hideVisibleTimer();
+  }
+
+  return (
+    <>
+      {finalChildren ? (
+        <Trigger
+          ref={childrenRef}
+          trigger={trigger}
+          onTrigger={() => {
+            handleTrigger();
           }}
+          onUnTrigger={() => {
+            handleUnTrigger();
+          }}
+          onContextMenu={(e) => e.preventDefault()}
         >
-          <div
-            style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              transform: 'translate(-50%, -100%)',
+          {finalChildren as React.ReactElement}
+        </Trigger>
+      ) : null}
+      {createPortal(
+        nextVisible && (
+          <Panel
+            style={{ backgroundColor: color, ...panelStyle }}
+            className={panelClassName}
+            triangleClassName={panelTriangleClassName}
+            triangleStyle={{ borderTopColor: color, ...panelTriangleStyle }}
+            animationDuration={animationDuration}
+            visible={visible}
+            targetRef={childrenRef}
+            onMouseEnter={() => {
+              handleTrigger();
+            }}
+            onMouseLeave={() => {
+              handleUnTrigger();
             }}
           >
-            <div
-              style={{
-                display: 'inline-flex',
-                whiteSpace: 'nowrap',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}
-            >
-              {/* content */}
-              <div
-                style={{
-                  background: 'rgba(0,0,0,0.8)',
-                  color: 'whitesmoke',
-                  padding: '8px 6px',
-                  ...props?.style,
-                }}
-                {...events}
-              >
-                {props?.title}
-              </div>
-
-              {/* icon */}
-              <CaretDownOutlined
-                style={{
-                  marginTop: -4,
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      );
-    },
-    {
-      delay: 200,
-    },
+            {title}
+          </Panel>
+        ),
+        document.body,
+      )}
+    </>
   );
-
-  return React.cloneElement(children, {
-    onMouseEnter(e: MouseEvent) {
-      const domRect: DOMRect = (e.target as HTMLElement).getBoundingClientRect();
-      operateRef.current.cancelWillUnMount?.();
-      operateRef.current.mount?.(domRect);
-      children?.props?.onMouseEnter?.(e);
-    },
-    onMouseLeave(e: MouseEvent) {
-      operateRef.current?.willUnMount?.();
-      children?.props?.onMouseLeave?.(e);
-    },
-  });
-});
+};
 
 export default ToolTip;
