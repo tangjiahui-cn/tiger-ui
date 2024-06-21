@@ -180,6 +180,8 @@ const Trigger = forwardRef((props: TriggerProps, ref: ForwardedRef<HTMLElement>)
       throw new Error('Trigger: childrenRef is null');
     }
 
+    isTriggerRef.current = !!visible;
+
     /**
      * if enable 'hover', disabled focus.
      * else if enable 'focus', disabled 'contextmenu' and 'click'
