@@ -4,7 +4,7 @@
  * @author tangjiahui
  * @date 2024/02/02
  */
-import React, { MutableRefObject, useRef, useState } from 'react';
+import React, { MutableRefObject, useMemo, useRef, useState } from 'react';
 import Trigger, { TriggerType } from '../Trigger';
 import { createPortal } from 'react-dom';
 import Panel from './panel';
@@ -56,6 +56,10 @@ const ToolTip = (props: ToolTipProps) => {
     children,
   } = props;
   const innerRef = useRef<HTMLElement>();
+
+  const enableFocus = useMemo(() => {
+    return trigger === 'focus' || trigger?.includes?.('focus');
+  }, [trigger]);
 
   const isILegalChildren = typeof children === 'string';
   const finalChildren = isILegalChildren ? <span tabIndex={-1}>{children}</span> : children;
@@ -155,7 +159,9 @@ const ToolTip = (props: ToolTipProps) => {
               handleTrigger();
             }}
             onMouseLeave={() => {
-              handleUnTrigger();
+              if (!enableFocus) {
+                handleUnTrigger();
+              }
             }}
           >
             {title}

@@ -3,31 +3,22 @@
 @prefix: prefix('tooltip-panel');
 @prefixNoDot: prefixNoDot('tooltip-panel');
 @appearKeyframes: ~'@{prefixNoDot}-appear';
+@disappearKeyframes: ~'@{prefixNoDot}-disappear';
 
 @startTransform: translate(-50%, -90%) scale(0.9);
 @endTransform: translate(-50%, -100%) scale(1);
 
-@keyframes appear {
+@keyframes @appearKeyframes {
   from {
     opacity: 0;
     transform: @startTransform;
   }
-
-  to {
-    opacity: 1;
-    transform: @endTransform;
-  }
 }
 
-@keyframes disappear {
+@keyframes @disappearKeyframes {
   from {
     opacity: 1;
     transform: @endTransform;
-  }
-
-  to {
-    opacity: 0;
-    transform: @startTransform
   }
 }
 
@@ -44,13 +35,13 @@
   &-appear {
     opacity: 1;
     transform: @endTransform;
-    animation: appear @duration ease-out;
+    animation: @appearKeyframes @duration ease-out;
   }
 
   &-disappear {
     opacity: 0;
     transform: @startTransform;
-    animation: disappear @duration ease-out;
+    animation: @disappearKeyframes @duration ease-out;
   }
 
   &-triangle {
