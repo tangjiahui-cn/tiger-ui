@@ -55,12 +55,18 @@
 
   &-triangle {
     position: absolute;
-    height: 0;
-    width: 0;
-    left: 50%;
+    width: 100%;
+    left: 0;
     top: 100%;
-    transform: translateX(-50%);
-    border: 6px solid transparent;
-    border-top-color: @panelBg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &-icon {
+      width: 0;
+      height: 0;
+      border: 6px solid transparent;
+      border-top-color: @panelBg;
+    }
   }
 }

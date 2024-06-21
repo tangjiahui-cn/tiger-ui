@@ -1,7 +1,7 @@
 import ToolTip, { ToolTipProps } from '../ToolTip';
 import { usePrefix } from '@/ConfigProvider';
-import './popover.less';
 import classNames from 'classnames';
+import './popover.less';
 
 export interface PopoverProps extends ToolTipProps {
   content?: React.ReactNode;

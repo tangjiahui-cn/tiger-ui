@@ -35,6 +35,9 @@ export default function () {
         >
           <Button>Popover</Button>
         </Popover>
+        <ToolTip title={'promptaaaaaaaaaaa'}>
+          <Button>Hover</Button>
+        </ToolTip>
       </Space>
       <div style={{ height: 200 }}></div>
     </Space>

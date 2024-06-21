@@ -15,6 +15,10 @@ interface PanelProps extends DOMAttributes<HTMLDivElement> {
   style?: React.CSSProperties;
   /** panel className */
   className?: string;
+  /** triangle container style */
+  triangleContainerStyle?: React.CSSProperties;
+  /** triangle container className */
+  triangleContainerClassName?: string;
   /** triangle style */
   triangleStyle?: React.CSSProperties;
   /** triangle className */
@@ -34,6 +38,8 @@ export default function Panel(props: PanelProps) {
     style,
     className,
     triangleStyle,
+    triangleContainerClassName,
+    triangleContainerStyle,
     triangleClassName,
     animationDuration = 100,
     visible,
@@ -77,7 +83,15 @@ export default function Panel(props: PanelProps) {
         ...style,
       }}
     >
-      <div style={triangleStyle} className={classNames(`${prefix}-triangle`, triangleClassName)} />
+      <div
+        style={triangleContainerStyle}
+        className={classNames(`${prefix}-triangle`, triangleContainerClassName)}
+      >
+        <div
+          style={triangleStyle}
+          className={classNames(`${prefix}-triangle-icon`, triangleClassName)}
+        />
+      </div>
       {children}
     </div>
   );
