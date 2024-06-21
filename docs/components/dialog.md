@@ -21,7 +21,7 @@ export default () => {
 
     <Dialog
       title={'标题'}
-      open={open}
+      visible={open}
       onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     >
@@ -42,8 +42,9 @@ export default () => {
     <Button onClick={() => setOpen(true)}>打开弹窗</Button>
 
     <Dialog
+      title={'标题'}
       mask={false}
-      open={open}
+      visible={open}
       onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     />
@@ -62,8 +63,9 @@ export default () => {
     <Button onClick={() => setOpen(true)}>打开弹窗</Button>
 
     <Dialog
+      title={'标题'}
       maskClosable={false}
-      open={open}
+      visible={open}
       onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     />
@@ -82,8 +84,9 @@ export default () => {
     <Button onClick={() => setOpen(true)}>打开弹窗</Button>
 
     <Dialog
+      title={'标题'}
       closeIcon={'关闭'}
-      open={open}
+      visible={open}
       onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     />
@@ -101,8 +104,9 @@ export default () => {
     <Button onClick={() => setOpen(true)}>打开弹窗</Button>
 
     <Dialog
+      title={'标题'}
       closeIcon={'关闭'}
-      open={open}
+      visible={open}
       onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
       okText={'保存'}
@@ -122,8 +126,9 @@ export default () => {
     <Button onClick={() => setOpen(true)}>打开弹窗</Button>
 
     <Dialog
+      title={'标题'}
       destroyOnClose
-      open={open}
+      visible={open}
       onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     >
@@ -133,7 +138,7 @@ export default () => {
 }
 ```
 
-## 六、手动控制动画延时
+## 六、手动控制动画时长
 ```jsx
 import {Space, Select, Button, Dialog, message, Input} from 'tiger-ui';
 import {useState} from 'react';
@@ -174,9 +179,10 @@ export default () => {
     </Space>
     
     <Dialog
+      title={'标题'}
       destroyOnClose
-      open={open}
-      animationDelay={Number(delay)}
+      visible={open}
+      animationDuration={Number(delay)}
       onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     >

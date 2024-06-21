@@ -20,7 +20,7 @@ function getScrollBarWidth(node: HTMLElement): number {
   }
 }
 
-export function useFreezeHTMLBody(isFreeze: boolean) {
+export function useFreezeHTMLBody(isFreeze?: boolean) {
   const isMount = useRef<boolean>(false);
   const styleRef = useRef<any>(null);
 

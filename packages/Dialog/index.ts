@@ -7,4 +7,4 @@
 import Dialog from './dialog';
 
 export default Dialog;
-export type * from './dialog';
+export type { DialogProps } from './dialog';

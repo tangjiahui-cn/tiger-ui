@@ -3,278 +3,194 @@
  *
  * @author tangjiahui
  * @date 2024/1/31
+ * @modifed at 2024/6/21
  */
-import React, { DOMAttributes, ForwardedRef, RefAttributes, useRef, useState } from 'react';
-import { CloseOutlined } from '@ant-design/icons';
-import { useFreezeHTMLBody, useListenEffect, useListenLatestPointerDown } from '@/_hooks';
-import ReactDOM from 'react-dom';
+import { createPortal } from 'react-dom';
+import { usePrefix } from '@/ConfigProvider';
+import Mask from './mask';
+import React, { DOMAttributes, useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { Button, Space } from '..';
-import { usePrefix } from '@/ConfigProvider/ConfigProvider';
-import { omit } from '@/_utils/object';
+import { useFreezeHTMLBody, useListenLatestPointerDown } from '@/_hooks';
+import { CloseOutlined } from '@ant-design/icons';
+import { Button, Space } from '@/index';
 import './dialog.less';
-import { useDynamicCss } from './hooks/useDynamicCss';
 
-export interface BaseDialogProps {
-  /**
-   * @description 对话框content样式
-   * @default 500px
-   */
-  bodyStyle?: React.CSSProperties;
-  /**
-   * @description 对话框默认
-   * @default 500px
-   */
-  width?: number | string;
-  /**
-   * @description 是否关闭时销毁
-   * @default false
-   */
+export interface DialogProps extends DOMAttributes<HTMLDivElement> {
+  /** while visible is false, don't save the components status */
   destroyOnClose?: boolean;
-  /**
-   * @description 控制对话框显隐
-   * @default false
-   */
-  open?: boolean;
-  /**
-   * @description 对话框标题
-   * @default 标题
-   */
+  /** body style */
+  bodyStyle?: React.CSSProperties;
+  /** body width */
+  width?: number | string;
+  /** dialog visible */
+  visible?: boolean;
+  /** dialog title */
   title?: React.ReactNode;
-  /**
-   * @description 对话框尾部
-   */
-  footer?: null | React.ReactNode;
-  /**
-   * @description 点击右上角是否可以关闭
-   * @default true
-   */
+  /** dialog header */
+  header?: React.ReactNode;
+  /** dialog footer */
+  footer?: React.ReactNode;
+  /** if show close icon */
   closable?: boolean;
-  /**
-   * @description 自定义右上角关闭图标
-   */
+  /** custom close icon */
   closeIcon?: React.ReactNode;
-  /**
-   * @description 确定按钮内容
-   */
-  okText?: React.ReactNode;
-  /**
-   * @description 取消按钮内容
-   */
-  cancelText?: React.ReactNode;
-  /**
-   * @description 是否显示遮罩层
-   * @default true
-   */
+  /** dialog animation duration */
+  animationDuration?: number;
+  /** mask visible */
   mask?: boolean;
-  /**
-   * @description 点击遮罩层是否可以关闭对话框
-   * @default true
-   */
+  /** if close while click mask */
   maskClosable?: boolean;
-  /**
-   * @description 遮罩层样式
-   */
+  /** mask style */
   maskStyle?: React.CSSProperties;
-  /**
-   * @description 手动控制动画时长（单位：ms）
-   * @default 400
-   */
-  animationDelay?: number;
-  /**
-   * @description 取消回调
-   */
-  onCancel?: () => void;
-  /**
-   * @description 确定回调
-   */
-  onOk?: () => void;
-  /**
-   * 取消按钮加载中
-   */
-  cancelLoading?: boolean;
-  /**
-   * 确定按钮加载中
-   */
-  confirmLoading?: boolean;
-  /**
-   * @description style
-   */
+  /** mask className */
+  maskClassName?: string;
+  /** dialog children */
+  children?: React.ReactNode;
+  /** dialog style */
   style?: React.CSSProperties;
-  /**
-   * @description className
-   */
+  /** dialog className */
   className?: string;
+  /** dialog cancelLoading */
+  cancelLoading?: boolean;
+  /** dialog confirmLoading */
+  confirmLoading?: boolean;
+  /** dialog cancelText */
+  cancelText?: React.ReactNode;
+  /** dialog confirmText */
+  confirmText?: React.ReactNode;
+  /** onCancel callback */
+  onCancel?: () => void;
+  /** onOk callback */
+  onOk?: () => void;
 }
 
-export type BaseDialogPropsKeys = keyof BaseDialogProps;
-export type DialogProps = BaseDialogProps &
-  DOMAttributes<HTMLDivElement> &
-  RefAttributes<HTMLDivElement>;
-
-const privateKeys: BaseDialogPropsKeys[] = [
-  'bodyStyle',
-  'width',
-  'destroyOnClose',
-  'open',
-  'title',
-  'footer',
-  'closable',
-  'closeIcon',
-  'okText',
-  'cancelText',
-  'mask',
-  'maskClosable',
-  'maskStyle',
-  'animationDelay',
-  'onCancel',
-  'onOk',
-  'cancelLoading',
-  'confirmLoading',
-  'style',
-  'className',
-];
-
-export type DialogFC = React.ForwardRefExoticComponent<DialogProps>;
-const Dialog: DialogFC = React.forwardRef(function (
-  props: DialogProps,
-  ref: ForwardedRef<HTMLDivElement>,
-) {
+const Dialog = (props: DialogProps) => {
   const {
-    animationDelay = 300,
-    closable = true,
-    maskClosable = true,
+    destroyOnClose,
+    bodyStyle,
+    width = 400,
+    children,
+    visible,
     mask = true,
-    closeIcon = <CloseOutlined />,
+    maskClosable = true,
+    maskStyle,
+    maskClassName,
+    title,
+    header,
+    footer,
+    cancelLoading,
+    confirmLoading,
     cancelText = '取消',
-    okText = '确定',
+    confirmText = '确定',
+    closable = true,
+    closeIcon = <CloseOutlined />,
+    animationDuration = 300,
+    style,
+    className,
+    onOk,
+    onCancel,
+    ...rest
   } = props;
-  const prefix = usePrefix('dialog');
-  const dynamicCss = useDynamicCss('dialog');
-  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
 
-  const [animationClass, setAnimationClass] = useState<string>('');
-  const [bgAnimationClass, setBgAnimationClass] = useState<string>('');
-  const [nextVisible, setNextVisible] = useState<boolean>(false);
-  const snapshotRef = useRef<{ x: number; y: number }>({
-    x: 0,
-    y: 0,
+  const listenerRef = useListenLatestPointerDown();
+  const prefix = usePrefix('dialog');
+
+  const [nextVisible, setNextVisible] = useState(visible);
+
+  const [clickPos, setClickPos] = useState<{
+    screenX: number | string;
+    screenY: number | string;
+  }>({
+    screenX: 0,
+    screenY: 0,
   });
 
-  const timerIdRef = useRef<any>();
-  const listenerRef = useListenLatestPointerDown();
+  const footerNode =
+    footer === undefined ? (
+      <Space style={{ float: 'right' }}>
+        <Button loading={cancelLoading} onClick={onCancel}>
+          {cancelText}
+        </Button>
+        <Button loading={confirmLoading} type={'primary'} onClick={onOk}>
+          {confirmText}
+        </Button>
+      </Space>
+    ) : null;
 
-  function appear(x: number = 0, y: number = 0) {
-    setAnimationClass(dynamicCss.current.contentAppear(x, y, animationDelay));
-    setBgAnimationClass(dynamicCss.current.backgroundAppear(animationDelay));
-  }
+  useEffect(() => {
+    let timerId: any;
+    if (visible) {
+      const rectInfo = listenerRef.current.getLatestRectInfo();
+      setClickPos({
+        screenX: rectInfo ? rectInfo.x + rectInfo.width / 2 : '50%',
+        screenY: rectInfo ? rectInfo.y + rectInfo.height / 2 : '50%',
+      });
+      setNextVisible(true);
+    } else {
+      timerId = setTimeout(() => {
+        setNextVisible(false);
+      }, animationDuration);
+    }
 
-  function disAppear(x = 0, y = 0) {
-    setAnimationClass(dynamicCss.current.contentDisAppear(x, y, animationDelay));
-    setBgAnimationClass(dynamicCss.current.backgroundDisAppear(animationDelay));
-  }
+    return () => {
+      if (timerId) {
+        clearTimeout(timerId);
+      }
+    };
+  }, [visible]);
 
   useFreezeHTMLBody(nextVisible);
 
-  useListenEffect(
-    (isFirst: boolean) => {
-      if (props?.open) {
-        if (timerIdRef.current) {
-          clearTimeout(timerIdRef.current);
-          timerIdRef.current = undefined;
-        }
-
-        // Record 'rectInfo' while open the dialog.
-        const rectInfo = listenerRef.current?.getLatestRectInfo?.();
-        snapshotRef.current = {
-          x: (rectInfo?.x || 0) + (rectInfo?.width || 0) / 2,
-          y: (rectInfo?.y || 0) + (rectInfo?.height || 0) / 2,
-        };
-
-        // Dialog content appear to screen.
-        appear(snapshotRef.current.x || 0, snapshotRef.current.y || 0);
-        setNextVisible(true);
-      } else {
-        // If set 'open' false outside at first time, don't show animation.
-        if (isFirst) {
-          setNextVisible(false);
-          return;
-        }
-
-        // Dialog content start to hide.
-        disAppear(snapshotRef.current.x || 0, snapshotRef.current.y || 0);
-
-        // after BG_DELAY, hide the full dialog.
-        timerIdRef.current = setTimeout(() => {
-          timerIdRef.current = undefined;
-          setNextVisible(false);
-        }, animationDelay);
-      }
-    },
-    [props?.open],
-  );
-
-  return (
-    (props?.destroyOnClose ? nextVisible : true) &&
-    ReactDOM.createPortal(
-      <div
-        {...originProps}
-        className={classNames(props?.className, prefix)}
-        style={{
-          display: props?.destroyOnClose || nextVisible ? 'flex' : 'none',
-          ...props?.style,
-        }}
-        ref={ref}
-      >
-        {/* background */}
+  return (destroyOnClose ? nextVisible : true)
+    ? createPortal(
         <div
-          style={props?.maskStyle}
-          className={classNames(mask && bgAnimationClass, `${prefix}-mask`)}
-          onClick={maskClosable ? props?.onCancel : undefined}
-        />
-        {/* content */}
-        <div
-          className={classNames(animationClass, `${prefix}-content`)}
+          {...rest}
+          className={classNames(prefix, className)}
           style={{
-            width: props?.width || 500,
-            ...props?.bodyStyle,
+            display: nextVisible ? 'block' : 'none',
+            ...style,
           }}
         >
-          {/* head */}
-          {props?.title && (
+          <Mask
+            disabledAnimation={!mask}
+            visible={mask && visible}
+            style={maskStyle}
+            className={maskClassName}
+            onClick={maskClosable ? onCancel : undefined}
+          />
+          <div
+            className={classNames(`${prefix}-content`, {
+              [`${prefix}-content-appear`]: visible,
+              [`${prefix}-content-disappear`]: !visible,
+            })}
+            style={{
+              width,
+              animationDuration: animationDuration ? `${animationDuration}ms` : undefined,
+              top: clickPos.screenY,
+              left: clickPos.screenX,
+              ...bodyStyle,
+            }}
+          >
             <div className={`${prefix}-content-header`}>
-              <div style={{ flex: 1 }}>{props?.title}</div>
+              {header}
+              {!header && (
+                <>
+                  {title ? <div>{title}</div> : null}
+                  {closable ? (
+                    <div className={`${prefix}-content-close`} onClick={onCancel}>
+                      {closeIcon}
+                    </div>
+                  ) : null}
+                </>
+              )}
             </div>
-          )}
-          {closable && (
-            <div className={`${prefix}-close`} onClick={props?.onCancel}>
-              {closeIcon}
-            </div>
-          )}
-          {/* body */}
-          <div className={`${prefix}-content-body`}>{props?.children}</div>
-          {/* footer */}
-          {props?.footer || (
-            <div className={`${prefix}-content-footer`}>
-              <Space style={{ float: 'right' }}>
-                {
-                  <Button onClick={props?.onCancel} loading={props?.cancelLoading}>
-                    {cancelText}
-                  </Button>
-                }
-                {
-                  <Button type={'primary'} onClick={props?.onOk} loading={props?.confirmLoading}>
-                    {okText}
-                  </Button>
-                }
-              </Space>
-            </div>
-          )}
-        </div>
-      </div>,
-      document.body,
-    )
-  );
-});
+            {children ? <div className={`${prefix}-content-body`}>{children}</div> : null}
+            {footerNode ? <div>{footerNode}</div> : null}
+          </div>
+        </div>,
+        document.body,
+      )
+    : null;
+};
 
 export default Dialog;

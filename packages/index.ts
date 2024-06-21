@@ -15,7 +15,7 @@ export type * from './Counter';
 export { default as DatePicker } from './DatePicker';
 export type * from './DatePicker';
 export { default as Dialog } from './Dialog';
-export type * from './Dialog';
+export type { DialogProps } from './Dialog';
 export { default as Drawer } from './Drawer';
 export type * from './Drawer';
 export { default as DropDown } from './DropDown';

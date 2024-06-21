@@ -3,43 +3,44 @@
  */
 import { useLogRenderTime } from '../hooks/useLogRenderTime';
 import Button from '@/Button';
-import { Space, Popover, ToolTip, ToolTipTrigger } from '@/index';
-import { useForceUpdate } from '@/_hooks';
-
-const trigger: ToolTipTrigger = ['hover', 'focus', 'click', 'contextMenu'];
+import { Input, Space, Dialog } from '@/index';
+import { useState } from 'react';
 
 export default function () {
   useLogRenderTime();
-  const update = useForceUpdate();
+
+  const [visible, setVisible] = useState(true);
 
   return (
-    <Space style={{ padding: 12, width: '100%' }} direction={'vertical'}>
-      <div style={{ height: 200 }}></div>
-      <Space>
-        <Button onClick={update}>update</Button>
-        <ToolTip color={'red'} trigger={trigger} title={<div style={{ height: 100 }}>WoW!</div>}>
-          <Button>按钮</Button>
-        </ToolTip>
-        <ToolTip trigger={trigger} title={'你好'}>
-          11
-        </ToolTip>
-        <Popover
-          trigger={trigger}
-          title={'title'}
-          content={
-            <Space direction={'vertical'} size={0}>
-              <span>content</span>
-              <span>content</span>
-            </Space>
-          }
-        >
-          <Button>Popover</Button>
-        </Popover>
-        <ToolTip title={'promptaaaaaaaaaaa'}>
-          <Button>Hover</Button>
-        </ToolTip>
-      </Space>
-      <div style={{ height: 200 }}></div>
+    <Space
+      style={{
+        padding: 12,
+        width: '100%',
+        boxSizing: 'border-box',
+      }}
+      direction={'vertical'}
+    >
+      <Button onClick={() => setVisible(true)}>打开弹窗</Button>
+
+      <div style={{ float: 'right' }}>
+        <Button onClick={() => setVisible(true)}>打开弹窗</Button>
+      </div>
+
+      <div>
+        <Button onClick={() => setVisible(true)}>打开弹窗</Button>
+      </div>
+      <Dialog
+        destroyOnClose
+        title={'标题'}
+        visible={visible}
+        onCancel={() => {
+          console.log('zz cancel');
+          setVisible(false);
+        }}
+      >
+        <Input />
+      </Dialog>
+      {/*<div style={{ height: 1920 }}></div>*/}
     </Space>
   );
 }
