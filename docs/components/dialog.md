@@ -138,7 +138,7 @@ export default () => {
 }
 ```
 
-## 六、手动控制动画时长
+## 七、手动控制动画时长
 ```jsx
 import {Space, Select, Button, Dialog, message, Input} from 'tiger-ui';
 import {useState} from 'react';

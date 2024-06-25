@@ -4,7 +4,7 @@ title: Drawer - 抽屉
 nav: 组件
 
 group:
-  title: 弹窗组件
+  title: 抽屉组件
   order: 5
 ---
 
@@ -21,7 +21,7 @@ export default () => {
 
     <Drawer
       title={'标题'}
-      open={open}
+      visible={open}
       onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     >
@@ -42,8 +42,9 @@ export default () => {
     <Button onClick={() => setOpen(true)}>打开抽屉</Button>
 
     <Drawer
+      title={'标题'}
       mask={false}
-      open={open}
+      visible={open}
       onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     />
@@ -62,8 +63,9 @@ export default () => {
     <Button onClick={() => setOpen(true)}>打开抽屉</Button>
 
     <Drawer
+      title={'标题'}
       maskClosable={false}
-      open={open}
+      visible={open}
       onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     />
@@ -71,7 +73,7 @@ export default () => {
 }
 ```
 
-## 四、自定义左上角关闭按钮
+## 四、自定义右上角关闭按钮
 ```jsx
 import {Button, Drawer, message} from 'tiger-ui';
 import {useState} from 'react';
@@ -82,8 +84,9 @@ export default () => {
     <Button onClick={() => setOpen(true)}>打开抽屉</Button>
 
     <Drawer
+      title={'标题'}
       closeIcon={'关闭'}
-      open={open}
+      visible={open}
       onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     />
@@ -101,8 +104,8 @@ export default () => {
     <Button onClick={() => setOpen(true)}>打开抽屉</Button>
 
     <Drawer
-      closeIcon={'关闭'}
-      open={open}
+      title={'标题'}
+      visible={open}
       onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
       okText={'保存'}
@@ -122,8 +125,9 @@ export default () => {
     <Button onClick={() => setOpen(true)}>打开抽屉</Button>
 
     <Drawer
+      title={'标题'}
       destroyOnClose
-      open={open}
+      visible={open}
       onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     >
@@ -133,35 +137,95 @@ export default () => {
 }
 ```
 
-## 七、可以控制打开方向 （共4个）
+## 七、手动控制动画时长
 ```jsx
-import {Button, Drawer, message, Space, Input} from 'tiger-ui';
+import {Space, Select, Button, Drawer, message, Input} from 'tiger-ui';
 import {useState} from 'react';
 
 export default () => {
+  const DEFAULT = '300';
+  const [delay, setDelay] = useState(DEFAULT);
   const [open, setOpen] = useState(false);
-  const [direction, setDirection] = useState('right')
+  
+  return <>
+    <Space>
+      <Select
+        value={delay}
+        onChange={setDelay}
+        style={{width: 150}}
+      >
+        {
+          [
+            100,
+            200,
+            300,
+            400,
+            500,
+            600,
+            700,
+            800,
+            900
+          ].map(x => {
+            return (
+              <Select.Option key={x}>
+                {x}ms{`${x}` === DEFAULT ? '（默认）' : ''}
+              </Select.Option>
+            )
+          })
+        }
+      </Select>
+      <Button onClick={() => setOpen(true)}>打开抽屉</Button>
+    </Space>
+    
+    <Drawer
+      title={'标题'}
+      destroyOnClose
+      visible={open}
+      animationDuration={Number(delay)}
+      onCancel={() => setOpen(false)}
+      onOk={() => message.success('请求成功')}
+    >
+      <Input />
+    </Drawer>
+  </>;
+}
+```
+
+## 八、打开位置
+设置placement属性，可选值为`top`、`right`、`bottom`、`left`。
+```jsx
+import {Space, Select, Button, Drawer, message, Input} from 'tiger-ui';
+import {useState} from 'react';
+
+export default () => {
+  const [placement, setPlacement] = useState('right');
+  const [open, setOpen] = useState(false);
   
   return <>
     <Space>
       {
-        ['right', 'bottom', 'left', 'top'].map(direction => {
+        [
+          'top',
+          'right',
+          'bottom',
+          'left',
+        ].map(x => {
           return (
             <Button
+              key={x}
               onClick={() => {
-                setDirection(direction);
-                setOpen(true)
-              }}
-            >{direction}</Button>
+                setPlacement(x);
+                setOpen(true);
+              }}>{x}</Button>
           )
         })
       }
     </Space>
-
+    
     <Drawer
-      title={'Hello Drawer'}
-      direction={direction}
-      open={open}
+      title={'标题'}
+      visible={open}
+      placement={placement}
       onCancel={() => setOpen(false)}
       onOk={() => message.success('请求成功')}
     >
@@ -170,7 +234,5 @@ export default () => {
   </>;
 }
 ```
-
-
 ## API
 <API id="Drawer"></API>
