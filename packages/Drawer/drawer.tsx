@@ -1,9 +1,9 @@
 /**
- * Dialog
+ * Drawer
  *
  * @author tangjiahui
- * @date 2024/1/31
- * @modifed at 2024/6/21
+ * @date 2024/4/16
+ * @modifed at 2024/6/25
  */
 import { createPortal } from 'react-dom';
 import { usePrefix } from '@/ConfigProvider';
