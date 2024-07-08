@@ -27,7 +27,6 @@ import classNames from 'classnames';
 import { GlobalScroll } from '@/_model';
 import './dropdown.less';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
-import { omit } from '@/_utils/object';
 
 // panel position
 interface PanelPosition {
@@ -36,41 +35,26 @@ interface PanelPosition {
   width: number;
 }
 
-export type DropDownTrigger = 'click'; // TODO: add 'hover'.
+export type DropDownTrigger = 'click';
 const DEFAULT_TRIGGER: DropDownTrigger[] = ['click'];
+
 // global scroll listener
 const globalScroll = new GlobalScroll({
-  throttle: 10,
+  throttle: 5,
 });
 
 export interface BaseDropDownProps {
-  /**
-   * @description 手动控制显隐
-   * @default undefined
-   */
+  /** control open outside */
   open?: boolean;
-  /**
-   * @description 显隐改变回调
-   * @default undefined
-   */
+  /** onchange visible */
   onOpenChange?: (visible: boolean) => void; // 显隐回调
-  /**
-   * @description 触发打开行为
-   * @default ['click']
-   */
+  /** trigger type */
   trigger?: DropDownTrigger | DropDownTrigger[];
-  /**
-   * @description 下拉浮层面板
-   * @default undefined
-   */
+  /** popup panel */
   popupPanel?: React.ReactElement;
-  /**
-   * @description style
-   */
+  /** style */
   style?: React.CSSProperties;
-  /**
-   * @description className
-   */
+  /** className */
   className?: string;
 }
 
@@ -79,19 +63,9 @@ type RefType = {
   dom: HTMLDivElement;
 };
 
-export type BaseDropDownPropsKeys = keyof BaseDropDownProps;
 export type DropDownProps = BaseDropDownProps &
   DOMAttributes<HTMLDivElement> &
   RefAttributes<RefType>;
-
-const privateKeys: BaseDropDownPropsKeys[] = [
-  'open',
-  'onOpenChange',
-  'trigger',
-  'popupPanel',
-  'style',
-  'className',
-];
 
 export type DropDownFC = React.ForwardRefExoticComponent<DropDownProps>;
 const DropDown: DropDownFC = React.forwardRef(function (
@@ -105,20 +79,17 @@ const DropDown: DropDownFC = React.forwardRef(function (
     throw new Error('popupPanel is only a single React-JSX.');
   }
 
+  const { open, onOpenChange, trigger = 'click', popupPanel, style, className, ...rest } = props;
+
   // is Mouse in DropDown Range.
   const isInRange = useRef<boolean>(false);
 
   const unListenPointerDownRef = useRef<() => void>();
 
   // trigger behavior array.
-  const trigger: DropDownTrigger[] = useMemo(
-    () =>
-      Array.isArray(props?.trigger)
-        ? props?.trigger
-        : props?.trigger
-        ? [props?.trigger]
-        : DEFAULT_TRIGGER,
-    [props?.trigger],
+  const triggers: DropDownTrigger[] = useMemo(
+    () => (Array.isArray(trigger) ? trigger : trigger ? [trigger] : DEFAULT_TRIGGER),
+    [trigger],
   );
 
   // children's ref.
@@ -126,10 +97,10 @@ const DropDown: DropDownFC = React.forwardRef(function (
   const domRef = useRef<HTMLDivElement>(null);
 
   const prefix = usePrefix('dropdown');
-  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
+  // const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
 
   // Is that control 'open' attribute from outer.
-  const isForceOpenRef = useRef(props?.open !== undefined);
+  const isForceOpenRef = useRef(open !== undefined);
 
   // A animation timer.
   const timerId = useRef<any>();
@@ -137,8 +108,8 @@ const DropDown: DropDownFC = React.forwardRef(function (
   // control panel show or not.
   const [nextVisible, setNextVisible] = useState<boolean>(false);
 
-  // animation classes.
-  const [animationClass, setAnimationClass] = useState<string>('');
+  // if dropdown visible.
+  const [visible, setVisible] = useState(false);
 
   // dropdown panel.
   const [position, setPosition] = useState<PanelPosition>({
@@ -156,7 +127,7 @@ const DropDown: DropDownFC = React.forwardRef(function (
         if (isInRange.current) {
           return;
         }
-        props?.onOpenChange?.(false);
+        onOpenChange?.(false);
         // control inside.
         if (!isForceOpenRef.current) {
           changeVisible(false);
@@ -194,12 +165,12 @@ const DropDown: DropDownFC = React.forwardRef(function (
         clearTimeout(timerId.current);
         timerId.current = null;
       }
-      setAnimationClass(`${prefix}-expand`);
+      setVisible(true);
       setNextVisible(true);
     } else {
       // unListen scroll
       globalScroll.unListen(scrollCallback);
-      setAnimationClass(`${prefix}-unExpand`);
+      setVisible(false);
       timerId.current = setTimeout(() => {
         setNextVisible(false);
         timerId.current = null;
@@ -221,14 +192,14 @@ const DropDown: DropDownFC = React.forwardRef(function (
         return;
       }
       // control from outside
-      changeVisible(!!props?.open);
-      if (props?.open) {
+      changeVisible(!!open);
+      if (open) {
         globalListenPointerDown();
       } else {
         unListenPointerDownRef.current?.();
       }
     },
-    isForceOpenRef.current ? [props?.open] : [],
+    isForceOpenRef.current ? [open] : [],
   );
 
   return (
@@ -237,15 +208,15 @@ const DropDown: DropDownFC = React.forwardRef(function (
         ? React.cloneElement(props.children as any, {
             ref,
             onPointerDown(e: PointerEvent) {
-              (props?.children as React.ReactElement)?.props?.onPointerDown?.(e);
-              if (trigger?.includes?.('click')) {
-                props?.onOpenChange?.(!nextVisible);
+              (props?.children as React.ReactElement as any)?.onPointerDown?.(e);
+              if (triggers?.includes?.('click')) {
+                onOpenChange?.(!nextVisible);
                 if (!isForceOpenRef.current) {
                   changeVisible(!nextVisible);
                 }
               }
             },
-            onPointerEnter(e: PointerEvent) {
+            onPointerEnter() {
               isInRange.current = true;
             },
             onPointerLeave() {
@@ -260,16 +231,19 @@ const DropDown: DropDownFC = React.forwardRef(function (
       {nextVisible &&
         ReactDOM.createPortal(
           <div
-            {...originProps}
+            {...rest}
             style={{
               position: 'fixed',
               top: position.top,
               left: position?.left,
               minWidth: position?.width,
-              ...props?.style,
+              ...style,
             }}
             ref={domRef}
-            className={classNames(animationClass, prefix, props?.className)}
+            className={classNames(prefix, className, {
+              [`${prefix}-expand`]: visible,
+              [`${prefix}-unExpand`]: !visible,
+            })}
             onPointerEnter={() => {
               isInRange.current = true;
             }}
@@ -280,7 +254,7 @@ const DropDown: DropDownFC = React.forwardRef(function (
               e.stopPropagation();
             }}
           >
-            {props?.popupPanel}
+            {popupPanel}
           </div>,
           document.body,
         )}

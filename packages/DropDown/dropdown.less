@@ -6,46 +6,37 @@
 @expandKeyframes: ~'@{prefixNoDot}-expand';
 @unExpandKeyframes: ~'@{prefixNoDot}-unExpand';
 
-@scale100: translate(0, 0) scale(1, 1);
-@scale25: translate(0, -37.5%) scale(1, 25%);
-@scale50: translate(0, -25%) scale(1, 50%);
-@scale75: translate(0, -12.5%) scale(1, 75%);
-
 @keyframes @expandKeyframes {
   from {
     opacity: 0;
-    transform: @scale75;
+    transform: scaleY(75%);
   }
   85% {
     opacity: 0.9;
-    transform: @scale100;
+    transform: scaleY(1);
   }
   to {
     opacity: 1;
-    transform: @scale100;
+    transform: scaleY(1);
   }
 }
 
 @keyframes @unExpandKeyframes {
   from {
     opacity: 1;
-    transform: @scale100;
-  }
-  15% {
-    opacity: 1;
-    transform: @scale100;
+    transform: scaleY(1);
   }
   35% {
     opacity: 1;
-    transform: @scale100;
+    transform: scaleY(1);
   }
   90% {
     opacity: 0.05;
-    transform: @scale75;
+    transform: scaleY(75%);
   }
   to {
     opacity: 0;
-    transform: @scale50;
+    transform: scaleY(50%);
   }
 }
 
@@ -55,6 +46,7 @@
   background: white;
   box-shadow: 0px 3px 6px -4px rgba(0, 0, 0, 0.12), 0px 6px 16px 0px rgba(0, 0, 0, 0.08),
     0px 9px 28px 8px rgba(0, 0, 0, 0.05);
+  transform-origin: top;
 
   &-expand {
     opacity: 1;
