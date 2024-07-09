@@ -6,25 +6,25 @@ import { usePrefix } from '@/ConfigProvider/ConfigProvider';
 import './collapseItem.less';
 
 export interface CollapseItemProps {
-  // key 值
+  /** key */
   key?: string;
-  // 标题
+  /** label */
   label?: React.ReactNode;
-  // 内容
+  /** item content */
   children?: React.ReactNode;
-  // 是否展开
+  /** if expand */
   expand?: boolean;
-  // 关闭时是否销毁
+  /** if destroy on close */
   destroy?: boolean;
-  // 样式
+  /** style */
   style?: React.CSSProperties;
-  // 标题样式
+  /** label style */
   labelStyle?: React.CSSProperties;
-  // 内容样式
+  /** children style */
   childrenStyle?: React.CSSProperties;
-  // 图标
+  /** custom icon */
   icon?: React.ReactNode;
-  // 展开切换回调
+  /** expand callback */
   onExpand?: (expand: boolean) => void;
 }
 

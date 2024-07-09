@@ -23,7 +23,6 @@ import { CloseCircleFilled, DownOutlined } from '@ant-design/icons';
 import { SelectOption, SelectOptionFC } from './selectOption';
 import { useLocale, usePrefix } from '@/ConfigProvider/ConfigProvider';
 import './select.less';
-import { omit } from '@/_utils/object';
 
 export type * from './selectOption';
 export type ValueType = string | undefined | null;
@@ -34,78 +33,33 @@ export type OptionProps = {
 export type SelectChildren = React.ReactElement | React.ReactElement[];
 
 export type BaseSelectProps = {
-  /**
-   * @description 是否块级
-   * @default false
-   */
+  /** block status */
   block?: boolean;
-  /**
-   * @description 是否允许清空
-   * @default false
-   */
+  /** allow clear */
   allowClear?: boolean;
-  /**
-   * @description 受控显示下拉
-   * @default undefined
-   */
+  /** controlled open from outside */
   open?: boolean;
-  /**
-   * @description 受控绑定值
-   * @default undefined
-   */
+  /** controlled value from outside */
   value?: ValueType;
-  /**
-   * @description 占位符
-   * @default "请选择"
-   */
+  /** select placeholder*/
   placeholder?: string;
-  /**
-   * @description 下拉选项
-   * @default undefined
-   */
+  /** select options */
   options?: OptionProps[];
-  /**
-   * @description 下拉visible回调
-   * @default (visible: boolean) => void;
-   */
+  /** open change callback */
   onOpenChange?: (visible: boolean) => void;
-  /**
-   * @description 选中下拉框回调值
-   * @default (key?: ValueType, option?: OptionProps) => void;
-   */
+  /** change callback */
   onChange?: (key?: ValueType, option?: OptionProps) => void;
-  /**
-   * @description 下拉框样式
-   * @default undefined
-   */
+  /** style */
   style?: React.CSSProperties;
-  /**
-   * className
-   */
+  /** className */
   className?: string;
-  /**
-   * @description 支持JSX格式传入选项
-   * @default undefined
-   */
+  /** children */
   children?: SelectChildren;
 };
-export type BaseSelectPropsKeys = keyof BaseSelectProps;
+
 export type SelectProps = BaseSelectProps &
   DOMAttributes<HTMLDivElement> &
   RefAttributes<HTMLDivElement>;
-
-const privateKeys: BaseSelectPropsKeys[] = [
-  'block',
-  'allowClear',
-  'open',
-  'value',
-  'placeholder',
-  'options',
-  'onOpenChange',
-  'onChange',
-  'style',
-  'className',
-];
 
 export type SelectFC = React.ForwardRefExoticComponent<SelectProps> & {
   Option: SelectOptionFC;
@@ -116,31 +70,39 @@ const Select: SelectFC = React.forwardRef(function Select(
   ref: ForwardedRef<HTMLDivElement>,
 ) {
   const locales = useLocale();
-  const { placeholder = locales.selectPlaceholder } = props;
+  const {
+    placeholder = locales.selectPlaceholder,
+    block,
+    allowClear,
+    open,
+    value,
+    options,
+    onOpenChange,
+    onChange,
+    style,
+    className,
+    children,
+    ...rest
+  } = props;
   const selectRef = useRef<HTMLDivElement>(null);
-
   const prefix = usePrefix('select');
   const optionPrefix = usePrefix('selectOption');
-  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
 
   const [current, setCurrent] = useState<OptionProps>();
 
   const [panelVisible, setPanelVisible] = useState(false);
 
   // use 'value' from outside.
-  const isForceValueRef = useRef(props?.value !== undefined);
+  const isForceValueRef = useRef(value !== undefined);
 
   // use 'open' from outside.
-  const isForceOpenRef = useRef(props?.open !== undefined);
+  const isForceOpenRef = useRef(open !== undefined);
 
-  const options = useMemo(
-    () => getOptions(props?.options, props?.children),
-    [props?.options, props?.children],
-  );
+  const innerOptions = useMemo(() => getOptions(options, children), [options, children]);
 
   function handleClickOption(option?: OptionProps) {
-    props?.onOpenChange?.(false);
-    props?.onChange?.(option?.value, option);
+    onOpenChange?.(false);
+    onChange?.(option?.value, option);
 
     // if control 'open' from outside, don't change inside attribute.
     if (!isForceOpenRef.current) {
@@ -157,23 +119,23 @@ const Select: SelectFC = React.forwardRef(function Select(
   useEffect(
     () => {
       if (isForceValueRef.current) {
-        setCurrent(options.find((option: OptionProps) => props?.value === option.value));
+        setCurrent(innerOptions.find((option: OptionProps) => value === option.value));
       }
     },
-    isForceValueRef.current ? [props?.value, options] : [],
+    isForceValueRef.current ? [value, innerOptions] : [],
   );
 
   return (
     <DropDown
       style={{ maxHeight: 256, overflowY: 'auto' }}
-      open={isForceOpenRef.current ? props?.open : panelVisible}
+      open={isForceOpenRef.current ? open : panelVisible}
       onOpenChange={(visible: boolean) => {
         setPanelVisible(visible);
-        props?.onOpenChange?.(visible);
+        onOpenChange?.(visible);
       }}
       popupPanel={
         <div style={{ padding: '4px 0', fontSize: '0.875em' }}>
-          {options?.map((option: OptionProps) => {
+          {innerOptions?.map((option: OptionProps) => {
             const isChoose = option.value === current?.value;
             return (
               <div
@@ -189,11 +151,11 @@ const Select: SelectFC = React.forwardRef(function Select(
       }
     >
       <div
-        {...originProps}
+        {...rest}
         tabIndex={0}
         ref={selectRef}
-        style={props?.style}
-        className={classNames(props?.className, props?.block && `${prefix}-block`, prefix)}
+        style={style}
+        className={classNames(className, block && `${prefix}-block`, prefix)}
         onPointerDown={(e) => {
           setPanelVisible(true);
         }}
@@ -206,7 +168,7 @@ const Select: SelectFC = React.forwardRef(function Select(
           </div>
           <div className={`${prefix}-header-icon`}>
             <Replace
-              isReplace={props?.allowClear && !!current}
+              isReplace={allowClear && !!current}
               trigger={'hover'}
               replace={
                 <CloseCircleFilled

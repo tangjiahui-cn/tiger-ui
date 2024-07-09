@@ -8,11 +8,11 @@ import './previewImage.less';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
 
 interface PreviewImageProps {
-  // 图片源地址
+  /** image source address */
   src?: string;
-  // 预览是否可见
+  /** if preview visible */
   visible?: boolean;
-  // 关闭预览回调
+  /** close preview callback */
   onCancel?: () => void;
 }
 

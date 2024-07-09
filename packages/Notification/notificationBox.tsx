@@ -8,23 +8,23 @@ import { usePrefix } from '@/ConfigProvider/ConfigProvider';
 import './notificationBox.less';
 
 export interface NotificationBoxProps {
-  // 图标类型
+  /** icon type  */
   type?: IconType;
-  // 标题
+  /** message  */
   message?: React.ReactNode;
-  // 内容
+  /** description  */
   description?: React.ReactNode;
-  // 存活时间（单位:ms）
+  /** alive duration (unit: ms)  */
   duration?: number;
-  // 图标
+  /** custom icon  */
   icon?: React.ReactNode;
-  // 是否显示关闭按钮
+  /** if closable  */
   closable?: boolean;
-  // 自定义关闭按钮
+  /** custom close icon  */
   closeIcon?: React.ReactNode;
-  // 样式
+  /** style */
   style?: React.CSSProperties;
-  // 删除回调
+  /** remove callback */
   onRemove?: () => void;
 }
 

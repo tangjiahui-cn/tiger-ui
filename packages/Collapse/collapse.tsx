@@ -8,81 +8,59 @@ import React, { DOMAttributes, ForwardedRef, RefAttributes, useEffect, useState 
 import { ArrowRightOutline } from '@/Icon';
 import Item, { CollapseItemProps } from '@/Collapse/collapseItem';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
-import { omit } from '@/_utils/object';
 import classNames from 'classnames';
 import './collapse.less';
 
 export type CollapseOption = Omit<CollapseItemProps, 'expand' | 'onExpand'>;
 export interface BaseCollapseProps {
-  /**
-   * @description 自定义图标
-   */
+  /** custom icon */
   icon?: React.ReactNode;
-  /**
-   * @description 关闭时是否销毁
-   * @default false
-   */
+  /** if destroy on close */
   destroy?: boolean;
-  /**
-   * @description 受控属性
-   */
+  /** controlled value from outside */
   value?: string[];
-  /**
-   * @description 选项配置
-   */
+  /** collapse items */
   options?: CollapseOption[];
-  /**
-   * @description 手风琴模式
-   * @default false
-   */
+  /** accordion mode */
   accordion?: boolean;
-  /**
-   * @description 值改变回调
-   */
+  /** change callback */
   onChange?: (value: string[]) => void;
-  /**
-   * @description style
-   */
+  /** style */
   style?: React.CSSProperties;
-  /**
-   * @description className
-   */
+  /** className */
   className?: string;
 }
 
-export type BaseCollapsePropsKeys = keyof BaseCollapseProps;
 export type CollapseProps = BaseCollapseProps &
   DOMAttributes<HTMLDivElement> &
   RefAttributes<HTMLDivElement>;
-
-const privateKeys: BaseCollapsePropsKeys[] = [
-  'icon',
-  'destroy',
-  'value',
-  'options',
-  'accordion',
-  'onChange',
-  'style',
-  'className',
-];
 
 export type CollapseFC = React.ForwardRefExoticComponent<CollapseProps>;
 const Collapse: CollapseFC = React.forwardRef(function (
   props: CollapseProps,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
-  const { icon = <ArrowRightOutline fontSize={12} pointer /> } = props;
-  const isValue = Array.isArray(props?.value);
-  const [options, setOptions] = useState<CollapseItemProps[]>([]);
-  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
+  const {
+    icon = <ArrowRightOutline fontSize={12} pointer />,
+    destroy,
+    value,
+    options,
+    accordion,
+    onChange,
+    style,
+    className,
+    ...rest
+  } = props;
+  const isValue = Array.isArray(value);
+  const [innerOptions, setInnerOptions] = useState<CollapseItemProps[]>([]);
   const prefix = usePrefix('collapse');
 
   function handleExpand(item: CollapseItemProps, expand: boolean) {
     item.expand = expand;
 
-    if (props?.accordion && expand) {
-      setOptions(
-        options.map((x) => {
+    if (accordion && expand) {
+      setInnerOptions(
+        innerOptions.map((x) => {
           return {
             ...x,
             expand: x.key === item.key,
@@ -91,42 +69,37 @@ const Collapse: CollapseFC = React.forwardRef(function (
       );
       return;
     }
-    setOptions([...options]);
+    setInnerOptions([...innerOptions]);
   }
 
   useEffect(() => {
-    if (Array.isArray(props?.options)) {
-      setOptions(props?.options);
+    if (Array.isArray(options)) {
+      setInnerOptions(options);
     }
-  }, [props?.options]);
+  }, [options]);
 
   return (
-    <div
-      ref={ref}
-      {...originProps}
-      className={classNames(prefix, props?.className)}
-      style={props?.style}
-    >
-      {options?.map((item: CollapseItemProps) => {
+    <div ref={ref} {...rest} className={classNames(prefix, className)} style={style}>
+      {innerOptions?.map((item: CollapseItemProps) => {
         const { key = '' } = item;
         return (
           <Item
             key={key}
             icon={icon}
-            destroy={props?.destroy}
-            expand={isValue ? props?.value?.includes(key) : item?.expand}
+            destroy={destroy}
+            expand={isValue ? value?.includes(key) : item?.expand}
             onExpand={(expand) => {
               if (isValue) {
-                let value: string[];
-                if (props?.accordion) {
-                  value = expand ? [key] : [];
+                let values: string[];
+                if (accordion) {
+                  values = expand ? [key] : [];
                 } else {
-                  value = props?.value?.filter((x) => x !== key) || [];
+                  values = value?.filter((x) => x !== key) || [];
                   if (expand) {
-                    value.push(key);
+                    values.push(key);
                   }
                 }
-                props?.onChange?.(value);
+                onChange?.(values);
                 return;
               }
 

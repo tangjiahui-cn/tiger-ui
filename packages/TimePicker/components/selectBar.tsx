@@ -14,25 +14,15 @@ const boxHeight = 30;
 const padding = 4;
 
 interface SelectBarProps {
-  /**
-   * @description 滚动到第几个
-   */
+  /** controlled value from outside */
   value?: number;
-  /**
-   * @description 开始位置
-   */
+  /** start position */
   start?: number;
-  /**
-   * @description 结束位置
-   */
+  /** end position */
   end?: number;
-  /**
-   * @description 样式
-   */
+  /** style */
   style?: React.CSSProperties;
-  /**
-   * @description 点击回调
-   */
+  /** change callback */
   onChange?: (value: number) => void;
 }
 

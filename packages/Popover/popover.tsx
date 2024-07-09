@@ -4,8 +4,11 @@ import classNames from 'classnames';
 import './popover.less';
 
 export interface PopoverProps extends ToolTipProps {
+  /** content */
   content?: React.ReactNode;
+  /** className */
   className?: string;
+  /** style */
   style?: React.CSSProperties;
 }
 

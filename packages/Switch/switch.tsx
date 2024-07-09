@@ -9,102 +9,78 @@ import { DOMAttributes, ForwardedRef, RefAttributes, useEffect, useState } from 
 import classNames from 'classnames';
 import { isBoolean } from '@/_utils';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
-import { omit } from '@/_utils/object';
 import './switch.less';
 
 export interface BaseSwitchProps {
-  /**
-   * @description 选中元素样式
-   */
+  /** checked style */
   checkedStyle?: React.CSSProperties;
-  /**
-   * @description 未选中元素样式
-   */
+  /** unchecked style */
   unCheckedStyle?: React.CSSProperties;
-  /**
-   * @description 是否禁用
-   * @default false
-   */
+  /** disabled status */
   disabled?: boolean;
-  /**
-   * @description 受控选中
-   */
+  /** controlled checked from outside */
   checked?: boolean;
-  /**
-   * @description 默认选中
-   * @default false
-   */
+  /** default checked */
   defaultChecked?: boolean;
-  /**
-   * @description 自定义选中元素
-   */
+  /** checked children */
   checkedChildren?: React.ReactNode;
-  /**
-   * @description 未选中元素
-   */
+  /** unchecked children */
   unCheckedChildren?: React.ReactNode;
-  /**
-   * @description 选中状态回调
-   */
+  /** change callback */
   onChange?: (checked: boolean) => void;
-  /**
-   * @description 样式
-   */
+  /** style */
   style?: React.CSSProperties;
-  /**
-   * className
-   */
+  /** className */
   className?: string;
 }
-export type BaseSwitchPropsKeys = keyof BaseSwitchProps;
+
 export type SwitchProps = BaseSwitchProps &
   DOMAttributes<HTMLDivElement> &
   RefAttributes<HTMLDivElement>;
-
-const privateKeys: BaseSwitchPropsKeys[] = [
-  'checkedStyle',
-  'unCheckedStyle',
-  'disabled',
-  'checked',
-  'defaultChecked',
-  'checkedChildren',
-  'unCheckedChildren',
-  'onChange',
-  'style',
-  'className',
-];
 
 export type SwitchFC = React.ForwardRefExoticComponent<SwitchProps>;
 const Switch: SwitchFC = React.forwardRef(function (
   props: SwitchProps,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
-  const [checked, setChecked] = useState<boolean>(!!props?.defaultChecked);
+  const {
+    checkedStyle,
+    unCheckedStyle,
+    disabled,
+    checked,
+    defaultChecked,
+    checkedChildren,
+    unCheckedChildren,
+    onChange,
+    style,
+    className,
+    ...rest
+  } = props;
+  const [innerChecked, setInnerChecked] = useState<boolean>(!!props?.defaultChecked);
   const prefix = usePrefix('switch');
-  const originKeys: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
 
   function handleChecked() {
-    const targetChecked = !checked;
+    const targetChecked = !innerChecked;
     props?.onChange?.(targetChecked);
     if (!isBoolean(props?.checked)) {
-      setChecked(targetChecked);
+      setInnerChecked(targetChecked);
     }
   }
 
   useEffect(() => {
     if (isBoolean(props?.checked)) {
-      setChecked(props?.checked);
+      setInnerChecked(props?.checked);
     }
   }, [props?.checked]);
 
   return (
     <div
-      {...originKeys}
+      {...rest}
       style={{ width: 48, ...props?.style }}
       className={classNames(
         props?.className,
         prefix,
-        checked && `${prefix}-checked`,
+        innerChecked && `${prefix}-checked`,
         props?.disabled && `${prefix}-disabled`,
       )}
       onMouseUp={(e) => {

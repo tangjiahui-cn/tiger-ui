@@ -6,44 +6,28 @@
  */
 import React, {
   DOMAttributes,
-  ForwardedRef,
   RefAttributes,
   useEffect,
   useImperativeHandle,
   useRef,
   useState,
 } from 'react';
-import { omit } from '@/_utils/object';
 import classNames from 'classnames';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
 import './counter.less';
 
 export interface BaseCounterProps {
-  /**
-   * @description 开始值
-   */
+  /** start count */
   start?: number;
-  /**
-   * @description 结束值
-   */
+  /** end count */
   end?: number;
-  /**
-   * @description 总动画时长（单位: ms）
-   * @default 2000
-   */
+  /** animation total time (unit: ms) */
   duration?: number;
-  /**
-   * @description 数字变化时间间隔（值越小，数值跳动越快）
-   * @default 20
-   */
+  /** count change time interval (unit: ms) */
   timeSplit?: number;
-  /**
-   * @description style
-   */
+  /** style */
   style?: React.CSSProperties;
-  /**
-   * @description className
-   */
+  /** className */
   className?: string;
 }
 
@@ -52,29 +36,18 @@ export type CounterRefType = {
   replay: () => void;
 };
 
-export type BaseCounterPropsKeys = keyof BaseCounterProps;
 export type CounterProps = BaseCounterProps &
   DOMAttributes<HTMLDivElement> &
   RefAttributes<CounterRefType>;
-
-const privateKeys: BaseCounterPropsKeys[] = [
-  'start',
-  'end',
-  'duration',
-  'timeSplit',
-  'style',
-  'className',
-];
 
 export type CounterFC = React.ForwardRefExoticComponent<CounterProps>;
 const Counter: CounterFC = React.forwardRef(function (
   props: CounterProps,
   ref: React.ForwardedRef<CounterRefType>,
 ) {
-  const { duration = 2000, timeSplit = 20, start = 0, end = 0 } = props;
+  const { duration = 2000, timeSplit = 20, start = 0, end = 0, style, className, ...rest } = props;
   const [value, setValue] = useState<number | null>(null);
   const timeId = useRef<any>();
-  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
   const prefix = usePrefix('counter');
   const domRef = useRef<HTMLDivElement>(null);
 
@@ -151,12 +124,7 @@ const Counter: CounterFC = React.forwardRef(function (
   }, [start, end]);
 
   return (
-    <div
-      {...originProps}
-      className={classNames(prefix, props?.className)}
-      style={props?.style}
-      ref={domRef}
-    >
+    <div {...rest} className={classNames(prefix, className)} style={style} ref={domRef}>
       {value}
     </div>
   );

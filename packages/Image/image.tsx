@@ -7,72 +7,50 @@
 import React, { DOMAttributes, ForwardedRef, RefAttributes, useState } from 'react';
 import classNames from 'classnames';
 import PreviewImage from './components/previewImage';
-import { omit } from '@/_utils/object';
-import './image.less';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
+import './image.less';
 
 export interface BaseImageProps {
-  /**
-   * @description 图片源地址
-   */
+  /** source address */
   src?: string;
-  /**
-   * @description 宽度
-   */
+  /** image width */
   width?: number;
-  /**
-   * @description 高度
-   */
+  /**image height */
   height?: number;
-  /**
-   * @description 是否预览
-   * @default false
-   */
+  /** enable preview */
   preview?: boolean;
-  /**
-   * @description style
-   */
+  /** style */
   style?: React.CSSProperties;
-  /**
-   * @description className
-   */
+  /** className */
   className?: string;
 }
 
-export type BaseImagePropsKeys = keyof BaseImageProps;
 export type ImageProps = BaseImageProps &
   DOMAttributes<HTMLDivElement> &
   RefAttributes<HTMLDivElement>;
-
-const privateKeys: BaseImagePropsKeys[] = [];
 
 export type ImageFC = React.ForwardRefExoticComponent<ImageProps>;
 const Image: ImageFC = React.forwardRef(function (
   props: ImageProps,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
+  const { src, width, height, preview, style, className, ...rest } = props;
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
-
   const prefix = usePrefix('image');
-  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
 
   return (
-    <div
-      {...originProps}
-      style={props?.style}
-      className={classNames(props?.className, prefix)}
-      ref={ref}
-    >
-      <img src={props?.src} width={props?.width} height={props?.height} style={props?.style} />
+    <div {...rest} style={style} className={classNames(className, prefix)} ref={ref}>
+      <img src={src} width={width} height={height} style={style} />
 
-      {props?.preview && (
+      {/* preview panel */}
+      {preview && (
         <>
           <div className={`${prefix}-previewBtn`} onClick={() => setPreviewVisible(true)}>
             预 览
           </div>
 
           <PreviewImage
-            src={props?.src}
+            src={src}
             visible={previewVisible}
             onCancel={() => setPreviewVisible(false)}
           />

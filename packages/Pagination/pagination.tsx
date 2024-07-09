@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Button, Input, Space } from '../index';
 import { SizeType } from '@/_types/common';
-import { DOMAttributes, ForwardedRef, RefAttributes, useEffect, useState } from 'react';
-import { ButtonType } from '@/Button';
-import { omit, range } from '@/_utils';
+import { ForwardedRef, RefAttributes, useEffect, useState } from 'react';
+import { ButtonProps as ButtonType } from '@/Button';
+import { range } from '@/_utils';
 import { useUpdateEffect } from '@/_hooks';
 
 interface PaginationData {
@@ -13,110 +13,45 @@ interface PaginationData {
 }
 
 export interface BasePaginationProps {
-  /**
-   * @description 分页大小
-   */
+  /** size type */
   size?: SizeType;
-  /**
-   * @description 是否简洁模式
-   */
+  /** if mini mode */
   mini?: boolean;
-  /**
-   * @description 受控的当前页
-   */
+  /** current page */
   current?: number;
-  /**
-   * @description 受控的分页大小
-   * @default 10
-   */
+  /** page size */
   pageSize?: number;
-  /**
-   * @description 是否禁用
-   * @default false
-   */
+  /** disabled status */
   disabled?: boolean;
-  /**
-   * @description 总数
-   */
+  /** total items */
   total?: number;
-  /**
-   * @description 前一页元素
-   */
+  /** custom previous icon */
   prev?: React.ReactNode;
-  /**
-   * @description 后一页元素
-   */
+  /** custom next icon*/
   next?: React.ReactNode;
-  /**
-   * @description 快速左移元素
-   */
+  /** custom quick previous icon */
   moveLeft?: React.ReactNode;
-  /**
-   * @description 快速右移元素
-   */
+  /** custom quick next icon */
   moveRight?: React.ReactNode;
-  /**
-   * @description 是否显示快速跳转
-   * @default true
-   */
+  /** if show quick jump */
   showQuickJumper?: boolean;
-  /**
-   * @description 显示除第一页、最后一页，剩余的展示分页按钮数目
-   */
+  /** pure show */
   pureSize?: number;
-  /**
-   * @description 快速左移页数
-   * @default 5
-   */
+  /** quick move previous size */
   moveLeftSize?: number;
-  /**
-   * @description 快速右移页数
-   * @default 5
-   */
+  /** quick move next size */
   moveRightSize?: number;
-  // TODO: wait 'Select' component finish, then add this prop.
-  // showSizeChanger?: boolean;
-  /**
-   * @description 显示"全部"的内容
-   */
+  /** custom total render function */
   showTotal?: false | ((total?: number, current?: number) => React.ReactNode);
-  /**
-   * @description 分页修改回调
-   */
+  /** pagination change callback */
   onChange?: (current?: number, pageSize?: number) => void;
-  /**
-   * style
-   */
+  /** style */
   style?: React.CSSProperties;
-  /**
-   * className
-   */
+  /** className */
   className?: string;
 }
 
-export type BasePaginationKeys = keyof BasePaginationProps;
 export type PaginationProps = BasePaginationProps & RefAttributes<HTMLDivElement>;
-
-const privateKeys: BasePaginationKeys[] = [
-  'size',
-  'mini',
-  'current',
-  'pageSize',
-  'disabled',
-  'total',
-  'prev',
-  'next',
-  'moveLeft',
-  'moveRight',
-  'showQuickJumper',
-  'pureSize',
-  'moveLeftSize',
-  'moveRightSize',
-  'showTotal',
-  'onChange',
-  'style',
-  'className',
-];
 
 enum PaginationDataType {
   PREV = '$1',
@@ -135,6 +70,11 @@ const Pagination: PaginationFC = React.forwardRef(function Pagination(
   ref: ForwardedRef<HTMLDivElement>,
 ) {
   const {
+    mini,
+    disabled,
+    onChange,
+    style,
+    className,
     size = DEFAULT_SIZE,
     total = 0,
     current = 1,
@@ -148,11 +88,11 @@ const Pagination: PaginationFC = React.forwardRef(function Pagination(
     moveRight = '>>>',
     showQuickJumper = true,
     showTotal = (total: number) => `总共 ${total} 条记录`,
+    ...rest
   } = props;
 
-  const originKeys: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
-
-  const btnType: ButtonType = props?.mini ? 'text' : 'default';
+  // @ts-ignore
+  const btnType: ButtonType = mini ? 'text' : 'default';
   const [paginationList, setPaginationList] = useState<PaginationData[]>([]);
   const [pagination, setPagination] = useState<{
     current: number;
@@ -228,6 +168,7 @@ const Pagination: PaginationFC = React.forwardRef(function Pagination(
 
       // move left
       if (windowLeftIndex > startIndex + 1) {
+        // @ts-ignore
         list.push({ id: PaginationDataType.MOVE_LEFT, value: moveLeft, type: 'text' });
       }
 
@@ -239,6 +180,7 @@ const Pagination: PaginationFC = React.forwardRef(function Pagination(
 
       // move right
       if (windowRightIndex < endIndex - 1) {
+        // @ts-ignore
         list.push({ id: PaginationDataType.MOVE_RIGHT, value: moveRight, type: 'text' });
       }
 
@@ -288,8 +230,8 @@ const Pagination: PaginationFC = React.forwardRef(function Pagination(
   }
 
   function changeCurrent(current: number) {
-    props?.onChange?.(current, pagination.pageSize);
-    if (!props?.current) {
+    onChange?.(current, pagination.pageSize);
+    if (!current) {
       setPagination({
         ...pagination,
         current,
@@ -301,7 +243,7 @@ const Pagination: PaginationFC = React.forwardRef(function Pagination(
     <Space>
       跳至
       <Input
-        disabled={props?.disabled}
+        disabled={disabled}
         style={{ width: 70 }}
         maxLength={100}
         value={jumpPage}
@@ -342,10 +284,10 @@ const Pagination: PaginationFC = React.forwardRef(function Pagination(
 
   return total ? (
     <Space
-      {...originKeys}
-      size={props?.mini ? 4 : 8}
-      style={{ padding: 16, ...props?.style }}
-      className={props?.className}
+      {...rest}
+      size={mini ? 4 : 8}
+      style={{ padding: 16, ...style }}
+      className={className}
       ref={ref}
       block
     >
@@ -365,9 +307,10 @@ const Pagination: PaginationFC = React.forwardRef(function Pagination(
             return (
               <Button
                 key={x?.id}
-                disabled={disabled || props?.disabled}
+                disabled={disabled || disabled}
                 type={x?.type || btnType}
                 size={size}
+                // @ts-ignore
                 focus={focus}
                 onClick={() => handleClick(x)}
               >

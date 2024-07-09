@@ -13,116 +13,91 @@ import './input.less';
 
 export type { InputSize };
 export interface BaseInputProps {
-  /**
-   * @description 输入框最大输入长度
-   * @default undefined
-   */
+  /** max input length */
   maxLength?: number;
-  /**
-   * @description 输入框受控绑定值
-   * @default undefined
-   */
+  /** controlled value from outside */
   value?: string;
-  /**
-   * @description 输入框大小
-   * @default middle
-   */
+  /** input box size */
   size?: InputSize;
-  /**
-   * @description 输入框前缀
-   */
+  /** input prefix */
   prefix?: React.ReactNode;
-  /**
-   * @description 输入框后缀
-   */
+  /** input suffix */
   suffix?: React.ReactNode;
-  /**
-   * @description 输入框占位符
-   * @default 请输入
-   */
+  /** input placeholder */
   placeholder?: string;
-  /**
-   * @description 是否禁用
-   * @default false
-   */
+  /** if disabled */
   disabled?: boolean;
-  /**
-   * @description 前缀样式
-   */
+  /** prefix style */
   prefixStyle?: React.CSSProperties;
-  /**
-   * @description 后缀样式
-   */
+  /** suffix style */
   suffixStyle?: React.CSSProperties;
-  /**
-   * @description onChange回调事件
-   */
+  /** change callback */
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  /**
-   * @description onKeyDown回调事件
-   */
+  /** onKeydown event callback */
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  /**
-   * @description onBlur回调事件
-   */
+  /** onBlur event callback */
   onBlur?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  /** style */
+  style?: React.CSSProperties;
+  /** className */
+  className?: string;
 }
 
-export type BaseInputPropsKeys = keyof BaseInputProps;
 export type InputProps = BaseInputProps &
   React.HTMLAttributes<HTMLInputElement> &
   RefAttributes<HTMLInputElement>;
-
-const privateKeys: BaseInputPropsKeys[] = [
-  'maxLength',
-  'value',
-  'size',
-  'prefix',
-  'suffix',
-  'placeholder',
-  'disabled',
-  'prefixStyle',
-  'suffixStyle',
-  'onChange',
-  'onBlur',
-  'onKeyDown',
-];
 
 export type InputFC = React.ForwardRefExoticComponent<InputProps>;
 const Input: InputFC = React.forwardRef(function (
   props: InputProps,
   ref: React.ForwardedRef<HTMLInputElement>,
 ) {
+  const {
+    maxLength,
+    value,
+    size,
+    prefix,
+    suffix,
+    placeholder,
+    disabled,
+    prefixStyle,
+    suffixStyle,
+    onChange,
+    onBlur,
+    onKeyDown,
+    style,
+    className,
+    ...rest
+  } = props;
   const locale = useLocale();
-  const prefix = usePrefix('input');
-  const prefixWrap = `${prefix}-wrap`;
-  const originProps: DOMAttributes<HTMLInputElement> = omit(props, privateKeys);
+  const prefixCls = usePrefix('input');
+  const prefixWrapCls = `${prefixCls}-wrap`;
 
-  const isPure = !(props.prefix || props.suffix);
+  const isPure = !(prefix || suffix);
 
   const InputEl = (
     <input
-      {...(isPure ? originProps : undefined)}
+      {...(isPure ? rest : undefined)}
       ref={ref}
-      maxLength={props?.maxLength}
-      style={(isPure && props?.style) || undefined}
-      disabled={props.disabled}
+      maxLength={maxLength}
+      style={(isPure && style) || undefined}
+      disabled={disabled}
       className={classNames(
-        isPure && props?.className,
-        prefix,
-        `${prefix}-${props?.size || 'middle'}`,
-        isPure && `${prefix}-pure`,
+        isPure && className,
+        prefixCls,
+        `${prefixCls}-${size || 'middle'}`,
+        isPure && `${prefixCls}-pure`,
       )}
-      placeholder={props?.placeholder || locale.inputPlaceholder}
-      value={props?.value}
+      placeholder={placeholder || locale.inputPlaceholder}
+      value={value}
       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-        props?.onChange?.(e);
+        onChange?.(e);
       }}
       onBlur={(e: React.ChangeEvent<HTMLInputElement>) => {
-        props?.onBlur?.(e);
+        onBlur?.(e);
       }}
       onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-        props?.onKeyDown?.(e);
+        onKeyDown?.(e);
       }}
     />
   );
@@ -133,26 +108,26 @@ const Input: InputFC = React.forwardRef(function (
 
   return (
     <span
-      {...(!isPure ? originProps : undefined)}
+      {...(!isPure ? rest : undefined)}
       className={classNames(
-        !isPure && props?.className,
-        prefixWrap,
-        props?.disabled && `${prefixWrap}-disabled`,
+        !isPure && className,
+        prefixWrapCls,
+        disabled && `${prefixWrapCls}-disabled`,
       )}
-      style={props?.style}
+      style={style}
     >
-      {props?.prefix && (
-        <span className={`${prefixWrap}-prefix`} style={props?.prefixStyle}>
-          {props?.prefix}
+      {prefix && (
+        <span className={`${prefixWrapCls}-prefix`} style={prefixStyle}>
+          {prefix}
         </span>
       )}
       {InputEl}
-      {props.suffix && (
-        <span className={`${prefixWrap}-suffix`} style={props?.suffixStyle}>
-          {props?.suffix}
+      {suffix && (
+        <span className={`${prefixWrapCls}-suffix`} style={suffixStyle}>
+          {suffix}
         </span>
       )}
-      <span className={`${prefixWrap}-border`} />
+      <span className={`${prefixWrapCls}-border`} />
     </span>
   );
 });

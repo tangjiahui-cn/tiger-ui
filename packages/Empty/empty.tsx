@@ -7,49 +7,30 @@
 import React, { DOMAttributes, ForwardedRef, RefAttributes } from 'react';
 import { EmptyFill, EmptyOutline } from '@/Icon';
 import classNames from 'classnames';
-import { omit } from '@/_utils/object';
 import './empty.less';
 import { useLocale, usePrefix } from '@/ConfigProvider/ConfigProvider';
 
 export interface BaseEmptyProps {
-  /**
-   * @description 自定义空图标
-   */
+  /** custom icon */
   icon?: React.ReactNode;
-  /**
-   * @description 自定义填充类型
-   * @default default
-   */
+  /** fill type */
   type?: 'default' | 'fill';
-  /**
-   * @description 提示内容
-   * @default 暂无数据
-   */
+  /** message */
   message?: React.ReactNode;
-  /**
-   * @description 提示语样式
-   */
+  /** message style */
   messageStyle?: React.CSSProperties;
-  /**
-   * @description 是否显示边框
-   * @default false
-   */
+  /** if show border */
   bordered?: boolean;
-  /**
-   * @description style
-   */
+  /** style */
   style?: React.CSSProperties;
-  /**
-   * @description className
-   */
+  /** className */
   className?: string;
 }
-export type BaseEmptyPropsKeys = keyof BaseEmptyProps;
+
 export type EmptyProps = BaseEmptyProps &
   DOMAttributes<HTMLDivElement> &
   RefAttributes<HTMLDivElement>;
 
-const privateKeys: BaseEmptyPropsKeys[] = [];
 const iconSize = 40;
 
 export type EmptyFC = React.ForwardRefExoticComponent<EmptyProps>;
@@ -58,10 +39,18 @@ const Empty: EmptyFC = React.forwardRef(function (
   ref: ForwardedRef<HTMLDivElement>,
 ) {
   const locale = useLocale();
-  const { type = 'default', message = locale.emptyValue } = props;
+  const {
+    type = 'default',
+    message = locale.emptyValue,
+    icon,
+    messageStyle,
+    bordered,
+    style,
+    className,
+    ...rest
+  } = props;
 
   const prefix = usePrefix('empty');
-  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
 
   function getDefaultIcon() {
     if (type === 'default') return <EmptyOutline fontSize={iconSize} />;
@@ -71,14 +60,14 @@ const Empty: EmptyFC = React.forwardRef(function (
 
   return (
     <div
-      {...originProps}
-      className={classNames(prefix, props?.bordered && `${prefix}-border`, props?.className)}
-      style={props?.style}
+      {...rest}
+      className={classNames(prefix, bordered && `${prefix}-border`, className)}
+      style={style}
       ref={ref}
     >
-      {props?.icon || getDefaultIcon()}
+      {icon || getDefaultIcon()}
       {message && (
-        <div className={`${prefix}-message`} style={props?.messageStyle}>
+        <div className={`${prefix}-message`} style={messageStyle}>
           {message}
         </div>
       )}

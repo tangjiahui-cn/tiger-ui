@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import './table.less';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
 import { DOMAttributes, ForwardedRef, RefAttributes } from 'react';
-import { omit } from '@/_utils/object';
 
 type SingleArgsRender = (item: any) => React.ReactNode;
 type DoubleArgsRender = (value: any, item: any) => React.ReactNode;
@@ -18,61 +17,43 @@ export interface Column {
 }
 
 export interface BaseTableProps {
-  /**
-   * @description 是否显示边框
-   * @default false
-   */
+  /** if show border */
   bordered?: boolean;
-  /**
-   * @description 列表列配置
-   */
+  /** columns */
   columns?: Column[];
-  /**
-   * @description 列表数据项
-   */
+  /** datasource */
   dataSource?: any[];
-  /**
-   * @description 每一列的key
-   * @default key
-   */
+  /** row key */
   rowKey?: string;
-  /**
-   * @description 分页配置
-   */
+  /** pagination */
   pagination?: PaginationProps;
-  /**
-   * @description 样式
-   */
+  /** style */
   style?: React.CSSProperties;
-  /**
-   * className
-   */
+  /** className */
   className?: string;
 }
-export type BaseTablePropsKeys = keyof BaseTableProps;
+
 export type TableProps = BaseTableProps &
   DOMAttributes<HTMLDivElement> &
   RefAttributes<HTMLDivElement>;
-
-const privateKeys: BaseTablePropsKeys[] = [
-  'bordered',
-  'columns',
-  'dataSource',
-  'rowKey',
-  'pagination',
-  'style',
-  'className',
-];
 
 export type TableFC = React.ForwardRefExoticComponent<TableProps>;
 const Table: TableFC = React.forwardRef(function (
   props: TableProps,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
-  const { columns = [], dataSource = [], rowKey = 'key', pagination = {} } = props;
+  const {
+    columns = [],
+    dataSource = [],
+    rowKey = 'key',
+    pagination = {},
+    bordered,
+    style,
+    className,
+    ...rest
+  } = props;
 
   const prefix = usePrefix('table');
-  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
 
   function genTableHeader(columns: Column[]): React.ReactNode {
     return (
@@ -118,8 +99,8 @@ const Table: TableFC = React.forwardRef(function (
   }
 
   return (
-    <div {...originProps} ref={ref} style={props?.style} className={props?.className}>
-      <table className={classNames(prefix, props?.bordered && `${prefix}-border`)}>
+    <div {...rest} ref={ref} style={style} className={className}>
+      <table className={classNames(prefix, bordered && `${prefix}-border`)}>
         <thead>{genTableHeader(columns)}</thead>
         <tbody>{genTableBody(columns, dataSource)}</tbody>
       </table>

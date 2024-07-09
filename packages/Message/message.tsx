@@ -7,17 +7,17 @@ import { RequiredOnly } from '@/_types';
 export type MessageReturn = Promise<undefined>;
 export type MessageType = 'none' | 'success' | 'error' | 'warn' | 'warning' | 'info' | 'loading';
 export type MessageOptions = {
-  // 全局消息图标
+  /** custom icon  */
   icon?: React.ReactNode;
-  // 全局消息内容
+  /** message type */
   type: MessageType;
-  // 全局消息提示内容
+  /** message content */
   content?: string | React.ReactNode;
-  // 全局消息关闭延时
+  /** message close delay */
   duration?: number;
-  // 全局消息出现/消失动画延时（单位: ms）
+  /** message animation duration */
   animationDuration?: number;
-  // 全局消息关闭回调函数
+  /** message close callback */
   onClose?: () => void;
 };
 
@@ -40,19 +40,19 @@ export type MessageFunction = (
 ) => MessageReturn;
 
 export interface MessageProps {
-  // 打开对话框
+  /** open message */
   open: (options: MessageOptions) => void;
-  // 成功提示语
+  /** open success message */
   success: MessageFunction;
-  // 失败提示语
+  /** open error message */
   error: MessageFunction;
-  // 警告提示语
+  /** open warn message */
   warn: MessageFunction;
-  // 警告提示语 (别名)
+  /** open warning message (alias warn) */
   warning: MessageFunction;
-  // 消息提示语
+  /** open info message */
   info: MessageFunction;
-  // 加载中提示语
+  /** open loading message */
   loading: MessageFunction;
 }
 

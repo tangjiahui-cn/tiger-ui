@@ -7,61 +7,32 @@
 import classNames from 'classnames';
 import React, { DOMAttributes, ForwardedRef, RefAttributes } from 'react';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
-import { omit } from '@/_utils/object';
 import './tag.less';
 
 export type TagType = 'success' | 'error' | 'info' | 'warn';
 export interface BaseTagProps {
-  /**
-   * @description 字体颜色
-   */
+  /** font color */
   color?: string;
-  /**
-   * @description 边框颜色
-   */
+  /** border color */
   borderColor?: string;
-  /**
-   * @description 背景颜色
-   */
+  /** background color */
   bgColor?: string;
-  /**
-   * @description 是否有边框
-   * @default true
-   */
+  /** if show bordered */
   bordered?: boolean;
-  /**
-   * @description 标签类型（四种）
-   */
+  /** tag type */
   type?: TagType;
-  /**
-   * @description 样式
-   */
+  /** style */
   style?: React.CSSProperties;
-  /**
-   * className
-   */
+  /** className */
   className?: string;
 }
 
-export type BaseTagPropsKeys = keyof BaseTagProps;
 export type TagProps = BaseTagProps & DOMAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>;
-
-const privateKeys: BaseTagPropsKeys[] = [
-  'color',
-  'borderColor',
-  'bgColor',
-  'bordered',
-  'type',
-  'style',
-  'className',
-];
 
 export type TagFC = React.ForwardRefExoticComponent<TagProps>;
 const Tag: TagFC = React.forwardRef(function (props: TagProps, ref: ForwardedRef<HTMLDivElement>) {
-  const { bordered = true } = props;
-
+  const { bordered = true, color, borderColor, bgColor, type, style, className, ...rest } = props;
   const prefix = usePrefix('tag');
-  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
 
   const classes = classNames(
     props?.className,
@@ -72,7 +43,7 @@ const Tag: TagFC = React.forwardRef(function (props: TagProps, ref: ForwardedRef
 
   return (
     <div
-      {...originProps}
+      {...rest}
       className={classes}
       ref={ref}
       style={{

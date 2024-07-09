@@ -18,17 +18,11 @@ export { usePrefix } from './context/prefixContext';
 export { useLocale } from './context/localeContext';
 
 export interface ContextValue {
-  /**
-   * @description 主题色
-   */
+  /** theme */
   theme?: Theme;
-  /**
-   * @description 语言包
-   */
+  /** language package */
   locale?: Locale;
-  /**
-   * @description 类名前缀
-   */
+  /** class prefix */
   prefix?: string;
 }
 

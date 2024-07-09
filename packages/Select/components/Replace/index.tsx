@@ -10,13 +10,13 @@ import { useState } from 'react';
 type Trigger = 'hover';
 
 export type ReplaceProps = {
-  // judge is need replace or not.
+  /** judge is need replace or not. */
   isReplace?: boolean;
-  // trigger events to replace content.
+  /** trigger events to replace content. */
   trigger?: Trigger | Trigger[];
-  // replace React node.
+  /** replace React node. */
   replace?: React.ReactNode;
-  // default placeholder
+  /** default placeholder */
   children?: React.ReactNode;
 };
 

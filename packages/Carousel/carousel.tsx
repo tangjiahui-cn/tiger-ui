@@ -22,7 +22,6 @@ import throttle from 'lodash/throttle';
 import SwitchBar from './components/SwitchBar';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
 import classNames from 'classnames';
-import { omit } from '@/_utils/object';
 import './carousel.less';
 
 export type CarouselItem = {
@@ -32,68 +31,33 @@ export type CarouselItem = {
 };
 
 export type BaseCarouselProps = {
-  /**
-   * @description 跑马灯面板 （会忽略 children 属性）
-   */
+  /** panel items */
   items?: CarouselItem[];
-  /**
-   * @description 当前显示面板（从0开始）
-   */
+  /** current panel (start from 0) */
   current?: number;
-  /**
-   * @description 是否自动播放
-   */
+  /** if autoplay */
   autoplay?: boolean;
-  /**
-   * @description 自动播放间隔（单位ms）
-   * @default: 2000
-   */
+  /** play delay time */
   autoplayDelay?: number;
-  /**
-   * @description 操作栏类型
-   * @default line
-   */
+  /** operate bar type */
   type?: SwitchBarType;
-  /**
-   * @description 操作栏样式
-   */
+  /** operte bar style */
   dotStyle?: React.CSSProperties;
   /**
    * @description 切换回调
    */
   onChange?: (current: number) => void;
-  /**
-   * @description 子元素
-   */
+  /** children */
   children?: React.ReactElement | React.ReactElement[];
-  /**
-   * @description style
-   */
+  /** style */
   style?: React.CSSProperties;
-  /**
-   * @description className
-   */
+  /** className */
   className?: string;
 };
 
-export type BaseCarouselPropsKeys = keyof BaseCarouselProps;
 export type CarouselProps = BaseCarouselProps &
   DOMAttributes<HTMLDivElement> &
   RefAttributes<HTMLDivElement>;
-
-const privateKeys: BaseCarouselPropsKeys[] = [
-  'items',
-  'current',
-  'autoplay',
-  'autoplayDelay',
-  'type',
-  'style',
-  'className',
-  'dotStyle',
-  'onChange',
-  'style',
-  'className',
-];
 
 export type CarouselFC = React.ForwardRefExoticComponent<CarouselProps> & {
   Item: CarouselItemFC;
@@ -103,12 +67,23 @@ const Carousel: CarouselFC = React.forwardRef(function (
   props: CarouselProps,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
-  const { autoplayDelay = 2000 } = props;
+  const {
+    autoplayDelay = 2000,
+    items,
+    current: propsCurrent,
+    autoplay,
+    type,
+    style,
+    className,
+    dotStyle,
+    onChange,
+    children,
+    ...rest
+  } = props;
   const prefix = usePrefix('carousel');
-  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
 
   // is use current outside.
-  const isForceCurrentRef = useRef(props?.current !== undefined);
+  const isForceCurrentRef = useRef(propsCurrent !== undefined);
   // current step (from 0).
   const [current, setCurrent, currentRef] = useStateWithRef<number>(0);
   // container dom reference.
@@ -126,16 +101,16 @@ const Carousel: CarouselFC = React.forwardRef(function (
 
   const timerIdRef = useRef<any>();
 
-  const children: React.ReactElement[] = props?.items?.length
-    ? props?.items.map((x) => (
+  const childrenList: React.ReactElement[] = items?.length
+    ? items.map((x) => (
         <Item key={x.key} style={x.style}>
           {x.children}
         </Item>
       ))
-    : Array.isArray(props?.children)
-    ? props?.children
-    : props?.children
-    ? [props?.children]
+    : Array.isArray(children)
+    ? children
+    : children
+    ? [children]
     : [];
 
   function clearTimer() {
@@ -146,7 +121,7 @@ const Carousel: CarouselFC = React.forwardRef(function (
   }
 
   function handleChange(current: number) {
-    props?.onChange?.(current);
+    onChange?.(current);
     if (!isForceCurrentRef.current) {
       setCurrent(current);
     }
@@ -169,53 +144,48 @@ const Carousel: CarouselFC = React.forwardRef(function (
 
   useEffect(() => {
     clearTimer();
-    if (props?.autoplay) {
+    if (autoplay) {
       // loop.
       timerIdRef.current = setInterval(() => {
-        const target = (currentRef.current + 1) % children.length;
+        const target = (currentRef.current + 1) % childrenList.length;
         // if control 'current' from outside, don't change ui immediately.
         if (!isForceCurrentRef.current) {
           setCurrent(target);
         }
         // emit outside.
-        props?.onChange?.(target);
+        onChange?.(target);
       }, autoplayDelay);
     }
     return clearTimer;
-  }, [props?.autoplay, autoplayDelay]);
+  }, [autoplay, autoplayDelay]);
 
   useEffect(() => {
     // sync current.
     if (isForceCurrentRef.current) {
-      setCurrent(props?.current || 0);
+      setCurrent(current || 0);
     }
-  }, [props?.current]);
+  }, [current]);
 
   return (
-    <div
-      {...originProps}
-      ref={containerRef}
-      style={props?.style}
-      className={classNames(props?.className, prefix)}
-    >
+    <div {...rest} ref={containerRef} style={style} className={classNames(className, prefix)}>
       {containerSize && (
         <div
           style={{
-            width: containerSize.width * children.length,
+            width: containerSize.width * childrenList.length,
             transform: `translate3d(-${containerSize.width * current}px, 0, 0)`,
           }}
           className={`${prefix}-body`}
         >
-          {children}
+          {childrenList}
         </div>
       )}
 
       <SwitchBar
-        type={props?.type}
+        type={type}
         current={current}
-        total={children?.length}
+        total={childrenList?.length}
         onChange={handleChange}
-        itemStyle={props?.dotStyle}
+        itemStyle={dotStyle}
         style={{
           left: '50%',
           bottom: 16,

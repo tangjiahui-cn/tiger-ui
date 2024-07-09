@@ -9,7 +9,6 @@ import { DOMAttributes, ForwardedRef, RefAttributes, useState } from 'react';
 import classNames from 'classnames';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
 import './tabs.less';
-import { omit } from '@/_utils/object';
 
 export interface TabsOption {
   key: string;
@@ -18,60 +17,29 @@ export interface TabsOption {
 }
 
 export interface BaseTabsProps {
-  /**
-   * @description tabs的选项配置
-   */
+  /** tabs options */
   options?: TabsOption[];
-  /**
-   * @description tabsBar 样式
-   */
+  /** tabs bar style */
   barStyle?: React.CSSProperties;
-  /**
-   * @description tabsBody 样式
-   */
+  /** tabs body style */
   bodyStyle?: React.CSSProperties;
-  /**
-   * @description 切换时是否销毁
-   * @default false
-   */
+  /** if destroy on close */
   destroy?: boolean;
-  /**
-   * @description 默认激活tab
-   */
+  /** default active key */
   defaultActiveKey?: string;
-  /**
-   * @description 受控值
-   */
+  /** controlled active key from outside */
   activeKey?: string;
-  /**
-   * @description 切换tab回调
-   */
+  /** change callback */
   onChange?: (activeKey: string, node: TabsOption) => void;
-  /**
-   * @description 样式
-   */
+  /** style */
   style?: React.CSSProperties;
-  /**
-   * className
-   */
+  /** className */
   className?: string;
 }
-export type BaseTabsPropsKeys = keyof BaseTabsProps;
+
 export type TabsProps = BaseTabsProps &
   DOMAttributes<HTMLDivElement> &
   RefAttributes<HTMLDivElement>;
-
-const privateKeys: BaseTabsPropsKeys[] = [
-  'options',
-  'barStyle',
-  'bodyStyle',
-  'destroy',
-  'defaultActiveKey',
-  'activeKey',
-  'onChange',
-  'className',
-  'style',
-];
 
 export type TabsFC = React.ForwardRefExoticComponent<TabsProps>;
 
@@ -79,31 +47,37 @@ const Tabs: TabsFC = React.forwardRef(function Tabs(
   props: TabsProps,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
+  const {
+    options,
+    barStyle,
+    bodyStyle,
+    destroy,
+    defaultActiveKey,
+    activeKey,
+    onChange,
+    className,
+    style,
+    ...rest
+  } = props;
   const prefix = usePrefix('tabs');
-  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
 
-  const [activeKey, setActiveKey] = useState<string>(
-    props?.activeKey || props?.defaultActiveKey || props?.options?.[0]?.key || '',
+  const [innerActiveKey, setInnerActiveKey] = useState<string>(
+    activeKey || defaultActiveKey || options?.[0]?.key || '',
   );
 
   function handleClick(option: TabsOption) {
-    if (props?.onChange || props?.activeKey) {
-      props?.onChange?.(option?.key, option);
+    if (onChange || activeKey) {
+      onChange?.(option?.key, option);
       return;
     }
-    setActiveKey(option?.key);
+    setInnerActiveKey(option?.key);
   }
 
   return (
-    <div
-      {...originProps}
-      className={classNames(props?.className, prefix)}
-      style={props?.style}
-      ref={ref}
-    >
-      <div className={`${prefix}-bar`} style={props?.barStyle}>
-        {props?.options?.map((x) => {
-          const isChoose = activeKey === x.key;
+    <div {...rest} className={classNames(className, prefix)} style={style} ref={ref}>
+      <div className={`${prefix}-bar`} style={barStyle}>
+        {options?.map((x) => {
+          const isChoose = innerActiveKey === x.key;
           return (
             <div
               key={x?.key}
@@ -115,14 +89,14 @@ const Tabs: TabsFC = React.forwardRef(function Tabs(
           );
         })}
       </div>
-      {props?.options?.map((x) => {
-        const isVisible = x.key === activeKey;
+      {options?.map((x) => {
+        const isVisible = x.key === innerActiveKey;
         return (
-          (isVisible || !props?.destroy) && (
+          (isVisible || !destroy) && (
             <div
               key={x.key}
               className={`${prefix}-body`}
-              style={{ display: isVisible ? 'block' : 'none', ...props?.bodyStyle }}
+              style={{ display: isVisible ? 'block' : 'none', ...bodyStyle }}
             >
               {x?.value}
             </div>

@@ -19,7 +19,6 @@ import moment, { Moment } from 'moment';
 import { doubleString, isEmpty } from '@/_utils';
 import cloneDeep from 'lodash/cloneDeep';
 import { useUpdateEffect } from '@/_hooks';
-import { omit } from '@/_utils/object';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
 import classNames from 'classnames';
 import './timepicker.less';
@@ -68,55 +67,34 @@ const getValue = (now: Moment, type: TimeType) => {
 };
 
 export interface BaseTimePickerProps {
-  /**
-   * @description 受控值
-   */
+  /** controlled value from outside */
   value?: Moment;
-  /**
-   * @description 类型
-   * @default hour
-   */
+  /** time type */
   type?: TimeType;
-  /**
-   * @description 占位符
-   * @default 请输入
-   */
+  /** placeholder */
   placeholder?: React.ReactNode;
-  /**
-   * @description 切换回调
-   */
+  /** change callback */
   onChange?: (value?: Moment) => void;
-  /**
-   * style
-   */
+  /** style */
   style?: React.CSSProperties;
-  /**
-   * className
-   */
+  /** className */
   className?: string;
 }
-export type BaseTimePickerKeys = keyof BaseTimePickerProps;
+
 export type TimePickerProps = BaseTimePickerProps &
   DOMAttributes<HTMLDivElement> &
   RefAttributes<HTMLDivElement>;
-
-const privateKeys: BaseTimePickerKeys[] = [
-  'value',
-  'type',
-  'placeholder',
-  'onChange',
-  'style',
-  'className',
-];
 
 export type TimePickerFC = React.ForwardRefExoticComponent<TimePickerProps>;
 const TimePicker: TimePickerFC = React.forwardRef(function TimePicker(
   props: TimePickerProps,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
+  const { value, type = 'hour', placeholder, onChange, style, className, ...rest } = props;
+
   const prefix = usePrefix('timepicker');
   const types: TimeType[] = useMemo(() => {
-    switch (props?.type) {
+    switch (type) {
       case 'second':
         return ['second'];
       case 'minute':
@@ -125,11 +103,9 @@ const TimePicker: TimePickerFC = React.forwardRef(function TimePicker(
       default:
         return ['hour', 'minute', 'second'];
     }
-  }, [props?.type]);
+  }, [type]);
 
-  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
-
-  const isOuter = useRef(props?.value !== undefined);
+  const isOuter = useRef(value !== undefined);
   const [visible, setVisible] = useState(false);
 
   const [data, setData] = useState<TimeData[]>([]);
@@ -174,7 +150,7 @@ const TimePicker: TimePickerFC = React.forwardRef(function TimePicker(
     const result: any[] = data.map((x) => x?.value);
     const isNull = isArrayHasEmpty(result);
 
-    props?.onChange?.(isNull ? undefined : moment(ArrayToString(result as any), FORMAT[type]));
+    onChange?.(isNull ? undefined : moment(ArrayToString(result as any), FORMAT[type]));
   }
 
   function updateData(data: TimeData[]) {
@@ -198,7 +174,7 @@ const TimePicker: TimePickerFC = React.forwardRef(function TimePicker(
 
   useEffect(() => {
     if (isOuter?.current) {
-      if (props?.value && props?.value instanceof moment) {
+      if (value && value instanceof moment) {
         const data: TimeData[] = types.map((type) => {
           return {
             type,
@@ -209,7 +185,7 @@ const TimePicker: TimePickerFC = React.forwardRef(function TimePicker(
         updateData(data);
       }
     }
-  }, [props?.value]);
+  }, [value]);
 
   useUpdateEffect(() => {
     updateData(
@@ -232,12 +208,7 @@ const TimePicker: TimePickerFC = React.forwardRef(function TimePicker(
         }
       }}
       popupPanel={
-        <div
-          {...originProps}
-          className={classNames(props?.className, prefix)}
-          style={props?.style}
-          ref={ref}
-        >
+        <div {...rest} className={classNames(className, prefix)} style={style} ref={ref}>
           <div className={`${prefix}-body`}>
             {data
               .filter((x) => {
@@ -280,7 +251,7 @@ const TimePicker: TimePickerFC = React.forwardRef(function TimePicker(
     >
       <div tabIndex={0} className={`${prefix}-placeholder`}>
         {displayText || (
-          <span className={`${prefix}-placeholder-text`}>{props?.placeholder || '请选择'}</span>
+          <span className={`${prefix}-placeholder-text`}>{placeholder || '请选择'}</span>
         )}
       </div>
     </DropDown>

@@ -26,7 +26,6 @@ import {
 } from '@ant-design/icons';
 import Line from '@/DatePicker/components/Line';
 import { DropDown } from '@/index';
-import { omit } from '@/_utils/object';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
 import './datepicker.less';
 
@@ -38,37 +37,26 @@ export interface DateType {
 }
 
 export interface BaseDatePickerProps {
-  /**
-   * @description 受控制
-   */
+  /** controlled value from outside */
   value?: Moment | null;
-  /**
-   * @description 值回调
-   */
+  /** change callback */
   onChange?: (value?: Moment | null) => void;
-  /**
-   * @description style
-   */
+  /** style */
   style?: React.CSSProperties;
-  /**
-   * @description className
-   */
+  /** className */
   className?: string;
 }
 
-export type BaseDatePickerPropsKeys = keyof BaseDatePickerProps;
 export type DatePickerProps = BaseDatePickerProps &
   DOMAttributes<HTMLDivElement> &
   RefAttributes<HTMLDivElement>;
-
-const privateKeys: BaseDatePickerPropsKeys[] = ['value', 'onChange', 'style', 'className'];
 
 export type DatePickerFC = React.ForwardRefExoticComponent<DatePickerProps>;
 const DatePicker: DatePickerFC = React.forwardRef(function (
   props: DatePickerProps,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
-  const originProps: DOMAttributes<HTMLDivElement> = omit(props, privateKeys);
+  const { value, onChange, style, className, ...rest } = props;
   const [visible, setVisible] = useState(false);
   const prefix = usePrefix('datepicker');
   const panelPrefix = `${prefix}Panel`;
@@ -89,7 +77,7 @@ const DatePicker: DatePickerFC = React.forwardRef(function (
   });
 
   const [calendar, setCalendar] = useState<any[][]>([]);
-  const isOuterRef = useRef(props?.value !== undefined);
+  const isOuterRef = useRef(value !== undefined);
 
   function changeYear(type: 'add' | 'dec', count: number = 1) {
     setCalendarDate(getChangeDate(calendarDate, count, 'year', type));
@@ -103,32 +91,27 @@ const DatePicker: DatePickerFC = React.forwardRef(function (
     setCalendarDate(date);
     setVisible(false);
     if (isOuterRef.current) {
-      props?.onChange?.(dateToMoment(date));
+      onChange?.(dateToMoment(date));
     } else {
       setDate(date);
     }
   }
 
   useEffect(() => {
-    const dateMom = moment(props?.value || undefined);
+    const dateMom = moment(value || undefined);
     const date = momentToDate(dateMom);
     if (isOuterRef.current) {
       setDate(date);
     }
     setCalendarDate(date);
-  }, [props?.value]);
+  }, [value]);
 
   useUpdateEffect(() => {
     setCalendar(createCalendar(calendarDate.year, calendarDate.month));
   }, [calendarDate.year, calendarDate.month]);
 
   const renderPopupPanel = (
-    <div
-      {...originProps}
-      className={classNames(props?.className, panelPrefix)}
-      style={props?.style}
-      ref={ref}
-    >
+    <div {...rest} className={classNames(className, panelPrefix)} style={style} ref={ref}>
       <div className={`${panelPrefix}-head`}>
         <Space size={0} itemStyle={{ height: '100%' }}>
           <div className={`${panelPrefix}-head-icon`} onClick={() => changeYear('dec')}>
