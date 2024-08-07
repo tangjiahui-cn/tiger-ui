@@ -12,3 +12,4 @@ export * from './useForceUpdate';
 export * from './useListenValue';
 export * from './useThrottleFn';
 export * from './useListenRef';
+export * from './useInterval';
