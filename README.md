@@ -19,13 +19,13 @@ pnpm docs
 
 ## 特性
 ```text
-- 单元测试
-- 文档站点
-- 国际化
-- 全局主题色配置
-- 局域主题色配置
-- 打包UMD、CJS、ESM产物
-- 自动发布 NPM
+- ✅文档站点
+- ✅国际化
+- ✅全局主题色配置
+- ✅局域主题色配置
+- ✅打包UMD、CJS、ESM产物
+- ✅自动发布 NPM
+- 🔨单元测试 （增加中 ... ）
 ```
 
 ## Done（32 / 32）
@@ -65,5 +65,34 @@ components
 - Carousel
 ```
 
+## Next (25)
+```text
+- Form
+- ShrinkPanel
+- Flex
+- Grid
+- BreadCrumb
+- Menu
+- Steps
+- AutoComplete
+- Cascader
+- RangePicker
+- Rate
+- Transfer
+- TreeSelect
+- Avatar
+- Badge
+- Card
+- Calendar
+- QrCode
+- Segmented
+- Tour
+- Progress
+- Skeleton
+- Spin
+- WaterMark
+- Affix
+```
+
 ## 示例网址
-[http://www.tiger-ui.top](http://www.tiger-ui.top)
+在线文档：[http://www.tiger-ui.top](http://www.tiger-ui.top)
