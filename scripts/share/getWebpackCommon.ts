@@ -1,5 +1,5 @@
 import miniCssExtractPlugin from 'mini-css-extract-plugin';
-import { alias, PKG_DIR, NAME, root } from '.';
+import { alias, PKG_DIR, NAME } from '.';
 import cssMinimizerWebpackPlugin from 'css-minimizer-webpack-plugin';
 import terserWebpackPlugin from 'terser-webpack-plugin';
 import WebpackBar from 'webpackbar';
@@ -56,7 +56,7 @@ export function getWebpackCommon(): Configuration {
         },
     resolve: {
       alias,
-      extensions: ['.ts', '.tsx', '.css', '.less', '...'],
+      extensions: ['.js', '.ts', '.tsx', '.css', '.less', '...'],
     },
     module: {
       rules: [
