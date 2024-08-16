@@ -10,7 +10,7 @@ import { createPortal } from 'react-dom';
 import Panel from './panel';
 
 export type ToolTipBgColor =
-  | string
+  | (string & {})
   | 'pink'
   | 'red'
   | 'yellow'
@@ -22,6 +22,7 @@ export type ToolTipBgColor =
   | 'magenta'
   | 'gold'
   | 'lime';
+
 export type ToolTipTrigger = TriggerType | TriggerType[];
 export interface ToolTipProps {
   /** popover color. */
