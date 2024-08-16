@@ -96,5 +96,3 @@ components
 
 ## 示例网址
 在线文档：[http://www.tiger-ui.top](http://www.tiger-ui.top)
-wolf.dnspod.net
-doll.dnspod.net
