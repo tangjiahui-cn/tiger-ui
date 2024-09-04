@@ -22,7 +22,7 @@ export default defineConfig({
     logo: false,
     title: NAME,
     name: NAME,
-    footer: false,
+    footer: `<a href="https://beian.miit.gov.cn/" target="_blank">浙ICP备2024117433号-1</a>`,
     apiHeader: false,
     prefersColor: {
       default: 'light',
