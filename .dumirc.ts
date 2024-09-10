@@ -5,10 +5,10 @@
  * @date 2024/5/15
  */
 import { defineConfig } from 'dumi';
-// @ts-ignore
-import path from 'path';
+import * as path from 'path';
 import { NAME } from './scripts/share';
 import { DefinePlugin } from 'webpack';
+import * as fs from 'fs';
 
 const { deploy } = process.env;
 const publicPath = deploy === 'github' ? `/${NAME}/` : '/';
@@ -22,7 +22,7 @@ export default defineConfig({
     logo: false,
     title: NAME,
     name: NAME,
-    footer: `<a href="https://beian.miit.gov.cn/" target="_blank">浙ICP备2024117433号-1</a>`,
+    footer: fs.readFileSync('./footer.html', 'utf-8'),
     apiHeader: false,
     prefersColor: {
       default: 'light',
@@ -36,7 +36,7 @@ export default defineConfig({
     docDirs: ['docs'],
     entryFile: path.resolve(__dirname, './packages/index.ts'),
   },
-  styles: [`[class*='dumi'] p {font-size:0.875em;}`],
+  styles: [fs.readFileSync('./dumi-styles.css', 'utf-8')],
   chainWebpack(memo) {
     memo.resolve.alias
       .set('tiger-ui', path.resolve(__dirname, './packages'))
