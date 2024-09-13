@@ -14,3 +14,4 @@ export * from './useThrottleFn';
 export * from './useListenRef';
 export * from './useInterval';
 export * from './useUUID';
+export * from './useControlledValue';
