@@ -23,6 +23,7 @@ import SwitchBar from './components/SwitchBar';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
 import classNames from 'classnames';
 import './carousel.less';
+import { resizeEl } from '@/_utils';
 
 export type CarouselItem = {
   key: string;
@@ -128,18 +129,13 @@ const Carousel: CarouselFC = React.forwardRef(function (
   }
 
   useEffect(() => {
-    // listen window resize, and resize carousel.
-    const resize = throttle(() => {
+    const resize = throttle((domRect: DOMRect) => {
       setContainerSize({
-        width: containerRef.current?.clientWidth || 0,
-        height: containerRef.current?.clientHeight || 0,
+        width: domRect.width,
+        height: domRect.height,
       });
     }, 10);
-    setTimeout(resize);
-    window.addEventListener('resize', resize);
-    return () => {
-      window.removeEventListener('resize', resize);
-    };
+    return resizeEl(containerRef.current!, resize);
   }, []);
 
   useEffect(() => {

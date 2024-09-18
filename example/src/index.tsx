@@ -3,7 +3,7 @@
  */
 import { useLogRenderTime } from '../hooks/useLogRenderTime';
 import Button from '@/Button';
-import { Input, Space, Drawer } from '@/.';
+import { Input, Space, Drawer, Carousel } from '@/.';
 import { useState } from 'react';
 
 export default function () {
@@ -21,6 +21,13 @@ export default function () {
       }}
       direction={'vertical'}
     >
+      <div>
+        <Carousel style={{ height: 180, width: '100%' }}>
+          <Carousel.Item style={{ background: 'red', height: '100%' }}></Carousel.Item>
+          <Carousel.Item style={{ background: 'blue', height: '100%' }}></Carousel.Item>
+          <Carousel.Item style={{ background: 'black', height: '100%' }}></Carousel.Item>
+        </Carousel>
+      </div>
       <Space>
         {['top', 'left', 'right', 'bottom'].map((x) => {
           return (
