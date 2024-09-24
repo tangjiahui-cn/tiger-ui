@@ -1,6 +1,6 @@
 import './_theme/default.less';
 
-export { default as Alert } from './Alert/alert';
+export { default as Alert } from './Alert';
 export type { AlertProps } from './Alert';
 export { default as Button } from './Button';
 export type { ButtonProps } from './Button';
