@@ -29,7 +29,8 @@
   },
   "files": [
     "lib",
-    "es"
+    "es",
+    "typings.d.ts"
   ],
   "repository": {
     "type": "git",

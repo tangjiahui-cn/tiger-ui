@@ -10,6 +10,7 @@ import { rimrafSync } from 'rimraf';
 import { loggerPath } from './gulp-plugins/loggerPath';
 import { loggerContent } from './gulp-plugins/loggerContent';
 import { replaceAlias } from './gulp-plugins/replaceAlias';
+import through2 from 'through2';
 
 const root = (...args: string[]) => path.resolve(__dirname, '..', ...args);
 const ROOT_DIR = root();
