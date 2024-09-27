@@ -1,3 +1,61 @@
+## [0.0.7](https://github.com/tangjiahui-cn/tiger-ui/compare/v0.0.6...v0.0.7) (2024-09-27)
+
+
+### Bug Fixes
+
+* **.:** delete LINCENCE ([06251cb](https://github.com/tangjiahui-cn/tiger-ui/commit/06251cb7f5e6ec062a20323b7b882cd35174e07d))
+* **.:** delete useless file ([c0c61de](https://github.com/tangjiahui-cn/tiger-ui/commit/c0c61deb91cf9aeb69f1c21cd221281a8a439bbe))
+* **.:** use randomId replace nanoId ([1f3d7f0](https://github.com/tangjiahui-cn/tiger-ui/commit/1f3d7f0f4fd2d0b934a0073b14ac4e49849c8ce9))
+* **alert:** delete isNullable ([6f8120e](https://github.com/tangjiahui-cn/tiger-ui/commit/6f8120e55aff50975614d0fbdafdfcfd7dfc4bc6))
+* **alert:** fix export ([a4dc0e0](https://github.com/tangjiahui-cn/tiger-ui/commit/a4dc0e0f457bcbaf7cf8b85dd3cc1783ac1122ae))
+* **alert:** fix memoCompareFunc func ([e75f223](https://github.com/tangjiahui-cn/tiger-ui/commit/e75f223fccb3bbac480c2653ca57172e91a7e528))
+* **checkbox:** rewrite style ([980e5a9](https://github.com/tangjiahui-cn/tiger-ui/commit/980e5a9df5887a9163958cd42ac6157685aadac7))
+* **checkbox:** while disable, close line-wave effect ([0abcd3e](https://github.com/tangjiahui-cn/tiger-ui/commit/0abcd3eea46490fe715ce20e88982620eb741ba6))
+* **dev-server:** improve the '.js' priority in resolve.extensions ([24a7b31](https://github.com/tangjiahui-cn/tiger-ui/commit/24a7b316728e0a144c40e4bd10bb6bb920e72901))
+* **dropdown:** fix originProps ([59cca98](https://github.com/tangjiahui-cn/tiger-ui/commit/59cca98ea2fe625b492d3339b7cf1f1dc07056a2))
+* **shallowcompare:** fix error while b value is null ([6e7ccf2](https://github.com/tangjiahui-cn/tiger-ui/commit/6e7ccf278c2c5b26fadbe72a0e633d65c7da1996))
+* **tooltip:** fix triangle auto offset, because set the transforlateX(-50%) ([3cae463](https://github.com/tangjiahui-cn/tiger-ui/commit/3cae46340773cc6a81112c5bf130134bf701a47f))
+* **tooltip:** panel triangle set 'point-event' with 'none' ([6514e98](https://github.com/tangjiahui-cn/tiger-ui/commit/6514e9835e83dbd626bbcba325cba7ee7c5d8c81))
+* **tooltip:** while enable focus trigger, dont close when leave panel ([cb2e26c](https://github.com/tangjiahui-cn/tiger-ui/commit/cb2e26c520b7b94635c8b349aace9b097c605ab0))
+* **trigger:** fix effect with delete 'disabled' ([36ae749](https://github.com/tangjiahui-cn/tiger-ui/commit/36ae7494c28b2045fe4ba10e310c90cde1b4d5d8))
+* **trigger:** while visible change, reset 'isTriggerRef.current' ([fd18e24](https://github.com/tangjiahui-cn/tiger-ui/commit/fd18e2481ae537da1b6d8cd69c4266d51d41b2f7))
+* **windowlistener:** delete windowListener model ([6c87ca8](https://github.com/tangjiahui-cn/tiger-ui/commit/6c87ca8b7b0bde3aa0d59bcd98d7c0304583a8de))
+
+
+### Features
+
+* **alert:** add types ([3da69e5](https://github.com/tangjiahui-cn/tiger-ui/commit/3da69e559b5191f57848624f9b7e7d5b35a64383))
+* **alert:** delete the description check in node ([4b7f5ca](https://github.com/tangjiahui-cn/tiger-ui/commit/4b7f5ca19cf7fc69c4a172d1d3623217a48cfe78))
+* **alert:** support DOMAttributes types ([461c8bd](https://github.com/tangjiahui-cn/tiger-ui/commit/461c8bdb233b99be5cf952d28dd4fe856d51faea))
+* **alert:** use memo to optimize the codes ([4aaa20a](https://github.com/tangjiahui-cn/tiger-ui/commit/4aaa20a5b8f6b93bb7d0b1f35e4ca169810f5b4f))
+* **button:** change small button height to 24px; ([e3431a5](https://github.com/tangjiahui-cn/tiger-ui/commit/e3431a589de0bbe19d41dc26904823816d6e7725))
+* **button:** change wave style ([556634e](https://github.com/tangjiahui-cn/tiger-ui/commit/556634ed09efeae6a9a4e66f12b91259373542dd))
+* **button:** expose btnRef ([e188854](https://github.com/tangjiahui-cn/tiger-ui/commit/e18885478c94e6266f81d9f97574aacfb2e11b7d))
+* **button:** rewrite button component ([23ac20d](https://github.com/tangjiahui-cn/tiger-ui/commit/23ac20dc60d0ae16a0ca1ec35e4a29b655d8de50))
+* **button:** set wave duration with 1200ms ([e484063](https://github.com/tangjiahui-cn/tiger-ui/commit/e484063458e77acd995a19a2078d01deced080e9))
+* **button:** support wave ([5b7afe5](https://github.com/tangjiahui-cn/tiger-ui/commit/5b7afe5591b0b728a23996c5d1025cd0c34c9af9))
+* **carousel:** listen resize event on target dom ([a5fb3f1](https://github.com/tangjiahui-cn/tiger-ui/commit/a5fb3f1e35bed31a0153f1d12ce111b49415d2c7))
+* **checkbox:** add disabled background color ([8e17e8b](https://github.com/tangjiahui-cn/tiger-ui/commit/8e17e8b6735513d0770ef59d74df48be7a8378dc))
+* **checkbox:** add transition .1s to the lable disabled effect ([6b73b1d](https://github.com/tangjiahui-cn/tiger-ui/commit/6b73b1d9712e0f56d759f8e67ea4fbd4f59ea09e))
+* **checkbox:** change font-color while disabled ([3d6e35f](https://github.com/tangjiahui-cn/tiger-ui/commit/3d6e35f2f2a2f6d9cea99a8d0dcafc814cde37f0))
+* **checkbox:** changeto disabled status quickily ([8cbc99a](https://github.com/tangjiahui-cn/tiger-ui/commit/8cbc99a561d4a7387723a1088cd49eedb096df5b))
+* **hooks:** add useControlledValue ([ed5e418](https://github.com/tangjiahui-cn/tiger-ui/commit/ed5e4184b97e97bf3b31dbabc552e532f2e6a2d0))
+* **hooks:** add useUUID ([3a63f99](https://github.com/tangjiahui-cn/tiger-ui/commit/3a63f99c9c452f643069af96928b738940339179))
+* **line-wave:** line-wave width change to 1px ([9dc85d6](https://github.com/tangjiahui-cn/tiger-ui/commit/9dc85d6630e533afa851baf9ccc3c242aafc4220))
+* **shallowcompare:** update tips ([e0006e4](https://github.com/tangjiahui-cn/tiger-ui/commit/e0006e4e09f5355748a8467ee600a957e59864af))
+* **tool-tip:** change the ToolTipBgColor type ([f8fee4b](https://github.com/tangjiahui-cn/tiger-ui/commit/f8fee4b37ef717504b1e25b5e88fec0071c9ecd1))
+* **tooltip:** add box-shadow style ([605f2c1](https://github.com/tangjiahui-cn/tiger-ui/commit/605f2c146dc1ecc2a3599ac4a3851749e4d76306))
+* **tree:** rewrite tree component ([547813d](https://github.com/tangjiahui-cn/tiger-ui/commit/547813d2012454e00440bc353eec4fffeecc851e))
+* **tree:** support virtual-list ([6a3deec](https://github.com/tangjiahui-cn/tiger-ui/commit/6a3deecbbf6915c2cbb24c4248152e28250ff3b7))
+* **useforceupdate:** add new hook ([0bb0933](https://github.com/tangjiahui-cn/tiger-ui/commit/0bb0933b042eed7c2c0eb691d01bd396846e3fca))
+* **useforceupdate:** rewrite useForceUpdate hook ([ffc3ea4](https://github.com/tangjiahui-cn/tiger-ui/commit/ffc3ea4354e9aa7d64077907c74d00038630b3d3))
+* **useinterval:** add new hook 'useInterval' ([28fc081](https://github.com/tangjiahui-cn/tiger-ui/commit/28fc08106c52e5e4b7ad24102109bad48484ff89))
+* **usemount:** add new hook ([058a272](https://github.com/tangjiahui-cn/tiger-ui/commit/058a272c78b22cb131707fef09ddc362e272f121))
+* **windowlistener:** add WindowListener model ([2ad6848](https://github.com/tangjiahui-cn/tiger-ui/commit/2ad684807f75afbc78cb25101a9c38962ecf41de))
+* **windowlistener:** support run at once ([d44d9ac](https://github.com/tangjiahui-cn/tiger-ui/commit/d44d9acf701de31a91f5512a8de9db6283873622))
+
+
+
 ## [0.0.6](https://github.com/tangjiahui-cn/tiger-ui/compare/v0.0.5...v0.0.6) (2024-05-19)
 
 
