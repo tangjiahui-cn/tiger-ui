@@ -6,7 +6,7 @@ export function replaceAlias(stream: any, isESM?: boolean) {
   const dir = isESM ? 'es' : 'lib';
   return (
     stream
-      .pipe(replace(/PACKAGE_NAME/, NAME))
+      .pipe(replace(/PACKAGE_NAME/, `"${NAME}"`))
       .pipe(replace(/(import\s+['"][.\/\w-]*).less(['"])/g, '$1.css$2'))
       // replace alias: @/.
       .pipe(replace(/(import[\s{},\w]*['"])(@\/\.)([\w-\/]+['"])/g, `$1${NAME}/${dir}$3`))
