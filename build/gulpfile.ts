@@ -41,8 +41,8 @@ async function compileTSXForESM() {
         baseUrl: root(),
       }),
     );
-  const jsStream = replaceAlias(tsStream.js).pipe(gulpBabel(getBabelConfig(true) as any));
-  const dtsStream = replaceAlias(tsStream.dts);
+  const jsStream = replaceAlias(tsStream.js, true).pipe(gulpBabel(getBabelConfig(true) as any));
+  const dtsStream = replaceAlias(tsStream.dts, true);
   return merge2([jsStream, dtsStream]).pipe(gulp.dest(ESM_DIR));
 }
 

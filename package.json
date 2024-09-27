@@ -60,12 +60,23 @@
       "path": "@commitlint/cz-commitlint"
     }
   },
+  "packageManager": "pnpm@7.30.5",
   "peerDependencies": {
     "react": ">= 18",
     "react-dom": ">= 18"
   },
-  "devDependencies": {
+  "dependencies": {
+    "moment": "^2.30.1",
+    "lodash": "^4.17.21",
     "@ant-design/icons": "^5.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "nanoid": "^5.0.7",
+    "class-css": "^1.0.28",
+    "class-css-stringify": "^1.0.29",
+    "classnames": "^2.3.2"
+  },
+  "devDependencies": {
     "@babel/core": "^7.24.5",
     "@babel/preset-env": "^7.24.5",
     "@babel/preset-react": "^7.24.1",
@@ -105,10 +116,6 @@
     "autoprefixer": "^10.4.14",
     "babel-jest": "^29.5.0",
     "babel-loader": "^9.1.2",
-    "chalk": "^5.3.0",
-    "class-css": "^1.0.28",
-    "class-css-stringify": "^1.0.29",
-    "classnames": "^2.3.2",
     "commitizen": "^4.3.0",
     "concurrently": "^8.2.2",
     "conventional-changelog-cli": "^2.2.2",
@@ -139,15 +146,11 @@
     "less": "^4.2.0",
     "less-loader": "^11.1.0",
     "lint-staged": "^13.2.1",
-    "lodash": "^4.17.21",
     "merge2": "^1.4.1",
     "mini-css-extract-plugin": "^2.7.5",
-    "moment": "^2.30.1",
     "postcss": "^8.4.21",
     "postcss-loader": "^7.2.4",
     "prettier": "^2.8.7",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "react-test-renderer": "^18.2.0",
     "rimraf": "^5.0.0",
     "rollup": "^4.9.5",
@@ -164,7 +167,9 @@
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.13.3",
     "webpack-merge": "^5.8.0",
-    "webpackbar": "^5.0.2"
+    "webpackbar": "^5.0.2",
+    "dumi": "2.2.17",
+    "chalk": "^5.3.0"
   },
   "browserslist": [
     "defaults",
@@ -173,9 +178,5 @@
     "> 1%",
     "iOS 7",
     "last 3 iOS versions"
-  ],
-  "dependencies": {
-    "dumi": "2.2.17",
-    "nanoid": "^5.0.7"
-  }
+  ]
 }
