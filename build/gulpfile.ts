@@ -97,6 +97,6 @@ async function moveLessForCJS() {
 }
 
 export default (gulp.series as Function)(
-  gulp.series(clearESM, compileTSXForESM, compileLessForESM, moveLessForESM),
-  gulp.series(clearCJS, compileTSXForCJS, compileLessForCJS, moveLessForCJS),
+  gulp.series(clearESM, compileTSXForESM, compileLessForESM),
+  gulp.series(clearCJS, compileTSXForCJS, compileLessForCJS),
 );
