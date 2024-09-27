@@ -1,6 +1,6 @@
 {
   "name": "tiger-ui",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "A React components library.",
   "module": "es/index.js",
   "types": "es/index.d.ts",
