@@ -5,6 +5,7 @@ lib
 .DS_Store
 .dumi/tmp*
 docs-dist
+.vscode
 
 # build product
 /umd
