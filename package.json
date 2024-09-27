@@ -27,7 +27,7 @@
     "publish-npm": "sh scripts/publish/checkLogin.sh && pnpm build && sh scripts/publish/publish.sh"
   },
   "files": [
-    "umd",
+    "lib",
     "es"
   ],
   "repository": {
