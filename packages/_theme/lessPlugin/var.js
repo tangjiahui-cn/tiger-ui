@@ -6,6 +6,7 @@
  * @description support use 'useVar' and 'setVar' and 'prefix' in less files.
  * */
 const pkg = require('../../../package.json');
+
 const varPrefix = `--${pkg.name}-var`;
 
 function getVarName(name) {
@@ -28,5 +29,3 @@ module.exports = {
     });
   },
 };
-
-module.exports.getVarName = getVarName;

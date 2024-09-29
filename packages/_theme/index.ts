@@ -5,8 +5,13 @@
  * @date 2024/04/12
  */
 import { ThemeCache } from './utils/themeCache';
+import pkg from '../../package.json';
 
-const { getVarName } = require('./lessPlugin/var.js');
+const varPrefix = `--${pkg.name}-var`;
+export function getVarName(name: ThemeKey): string {
+  return `${varPrefix}-${name}`;
+}
+
 const cache = new ThemeCache({
   id: `${PACKAGE_NAME}-var`,
   effectDom: document.body,
@@ -89,7 +94,7 @@ export function toLegalTheme(theme?: Theme): Theme {
   for (const key in theme) {
     const value = (theme as any)[key];
     if (value) {
-      result[getVarName(key)] = value;
+      result[getVarName(key as any)] = value;
     }
   }
   return result;

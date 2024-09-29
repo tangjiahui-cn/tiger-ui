@@ -2,7 +2,6 @@
  * 一组预设的主题图标
  */
 import React from 'react';
-import styles from './index.less';
 import {
   SuccessFill,
   CloseFill,

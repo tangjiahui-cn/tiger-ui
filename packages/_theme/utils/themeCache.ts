@@ -4,9 +4,7 @@
  * @author tangjiahui
  * @date 2024/04/13
  */
-import type { ThemeKey } from '../index';
-
-type ThemeCacheType = Map<ThemeKey, string>;
+type ThemeCacheType = Map<string, string>;
 type ThemeCacheProps = {
   /**
    * style attributes 'id', which also a value for 'className'.
@@ -40,7 +38,7 @@ export class ThemeCache {
    * @param key variable-key
    * @param value variable-value
    */
-  public add(key: ThemeKey, value: string) {
+  public add(key: string, value: string) {
     // if 'key' and 'value' exist, don't generate continue.
     if (this.cache.get(key) === value) {
       return;
@@ -53,7 +51,7 @@ export class ThemeCache {
    * get variable value.
    * @param key
    */
-  public get(key: ThemeKey): string {
+  public get(key: string): string {
     return this.cache.get(key) || this.getFromRoot(key);
   }
 
@@ -61,7 +59,7 @@ export class ThemeCache {
    * remove a cache.
    * @param key
    */
-  public remove(key?: ThemeKey): void {
+  public remove(key?: string): void {
     if (!key) {
       this.cache.clear();
       this.flush();
@@ -97,7 +95,7 @@ export class ThemeCache {
    * @param key variable-key
    * @private
    */
-  private getFromRoot(key: ThemeKey): string {
+  private getFromRoot(key: string): string {
     const root = document.querySelector(':root');
     if (!root) {
       return '';

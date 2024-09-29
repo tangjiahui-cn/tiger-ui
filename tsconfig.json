@@ -1,35 +1,38 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES6",
+    "allowJs": true,
+    "baseUrl": ".",
+    "outDir": "lib",
+    "declaration": true,
     "useDefineForClassFields": true,
     "lib": [
       "DOM",
       "DOM.Iterable",
       "ESNext"
     ],
-    "allowJs": false,
     "skipLibCheck": true,
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "CommonJS",
+    "module": "ES6",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "emitDeclarationOnly": true,
     "jsx": "react-jsx",
     "paths": {
       "@/*": [
         "./packages/*"
       ]
-    },
+    }
   },
   "include": [
     "**/*.ts",
-    "**/*.tsx",
+    "**/*.tsx"
   ],
   "exclude": [
-    "**/__tests__"
+    "node_modules",
+    "**/__tests__/*",
+    "es"
   ]
 }
