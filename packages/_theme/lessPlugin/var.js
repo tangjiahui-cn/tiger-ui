@@ -6,7 +6,12 @@
  * @description support use 'useVar' and 'setVar' and 'prefix' in less files.
  * */
 const pkg = require('../../../package.json');
-const { getVarName } = require('../utils/getVarName');
+
+const varPrefix = `--${pkg.name}-var`;
+
+function getVarName(name) {
+  return `${varPrefix}-${name}`;
+}
 
 module.exports = {
   install: function (less, pluginManager, functions) {
@@ -24,5 +29,3 @@ module.exports = {
     });
   },
 };
-
-module.exports.getVarName = getVarName;
