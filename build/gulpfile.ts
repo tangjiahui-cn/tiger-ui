@@ -7,12 +7,9 @@ import gulpLess from 'gulp-less';
 import { getBabelConfig } from './getBabelConfig';
 import tsConfig from '../tsconfig.json';
 import { rimrafSync } from 'rimraf';
-import { loggerPath } from './gulp-plugins/loggerPath';
-import { loggerContent } from './gulp-plugins/loggerContent';
 import { replaceAlias } from './gulp-plugins/replaceAlias';
-import through2 from 'through2';
 
-const root = (...args: string[]) => path.resolve(__dirname, '..', ...args);
+export const root = (...args: string[]) => path.resolve(__dirname, '..', ...args);
 const ROOT_DIR = root();
 const PKG_DIR = root('packages');
 const ESM_DIR = root('es');
@@ -42,8 +39,8 @@ async function compileTSXForESM() {
         baseUrl: root(),
       }),
     );
-  const jsStream = replaceAlias(tsStream.js, true).pipe(gulpBabel(getBabelConfig(true) as any));
-  const dtsStream = replaceAlias(tsStream.dts, true);
+  const jsStream = replaceAlias(tsStream.js).pipe(gulpBabel(getBabelConfig(true) as any));
+  const dtsStream = replaceAlias(tsStream.dts);
   return merge2([jsStream, dtsStream]).pipe(gulp.dest(ESM_DIR));
 }
 
@@ -75,22 +72,22 @@ function compileLessTo(path: string) {
     .pipe(gulp.dest(path));
 }
 
+async function compileLessForESM() {
+  return compileLessTo(ESM_DIR);
+}
+
+async function compileLessForCJS() {
+  return compileLessTo(CJS_DIR);
+}
+
 function moveLessTo(path: string) {
   return gulp
     .src([`${PKG_DIR}/**/*.less`, '!**/node_modules/**/*.less', '!**/__tests__/**/*.less'])
     .pipe(gulp.dest(path));
 }
 
-async function compileLessForESM() {
-  return compileLessTo(ESM_DIR);
-}
-
 async function moveLessForESM() {
   return moveLessTo(ESM_DIR);
-}
-
-async function compileLessForCJS() {
-  return compileLessTo(CJS_DIR);
 }
 
 async function moveLessForCJS() {

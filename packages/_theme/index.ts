@@ -5,8 +5,9 @@
  * @date 2024/04/12
  */
 import { ThemeCache } from './utils/themeCache';
+import { getVarName as _getVarName } from './utils/getVarName';
 
-const { getVarName } = require('./lessPlugin/var.js');
+const getVarName: (name: string) => ThemeKey = _getVarName as any;
 const cache = new ThemeCache({
   id: `${PACKAGE_NAME}-var`,
   effectDom: document.body,

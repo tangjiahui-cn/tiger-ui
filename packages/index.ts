@@ -1,6 +1,7 @@
 import './_theme/default.less';
 import '../typings.d';
 
+export * from './_theme';
 export { default as Alert } from './Alert';
 export type { AlertProps } from './Alert';
 export { default as Button } from './Button';
