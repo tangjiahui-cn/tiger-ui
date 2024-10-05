@@ -9,6 +9,7 @@ import { useState } from 'react';
 export default function () {
   useLogRenderTime();
 
+  const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [placement, setPlacement] = useState<any>('top');
 
@@ -25,7 +26,18 @@ export default function () {
       }}
       direction={'vertical'}
     >
-      <Button type={'primary'}>测试按钮</Button>
+      <Button
+        type={'primary'}
+        loading={loading}
+        onClick={() => {
+          setLoading(true);
+          setTimeout(() => {
+            setLoading(false);
+          }, 500);
+        }}
+      >
+        测试按钮
+      </Button>
       <Button onClick={() => changePrimary('red')}>红色</Button>
       <Button onClick={() => changePrimary('blue')}>蓝色</Button>
       <Space>
