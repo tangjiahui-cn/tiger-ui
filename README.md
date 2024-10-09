@@ -7,6 +7,7 @@ React18 + TypeScript + Webpack5 + Less + Jest
 ```
 ## 如何运行
 ``` shell
+# based on `v16.20.1` and `pnpm@7.30.5`。
 pnpm install
 
 pnpm dev
@@ -16,7 +17,6 @@ pnpm build
 // 运行文档
 pnpm docs
 ```
-
 ## 特性
 ```text
 - ✅文档站点
