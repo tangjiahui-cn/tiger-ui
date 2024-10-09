@@ -10,7 +10,8 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build:gulp": "gulp -f ./build/gulpfile.ts",
+    "build:unpkg": "cross-env mode=unpkg esno ./build/buildUmdBundle",
+    "build:lib": "gulp -f ./build/gulpfile.ts",
     "dev": "cross-env mode=development esno scripts/server/index.ts",
     "build:types": "tsc -p ./tsconfig.lib.json",
     "build:umd": "cross-env target=umd webpack -c ./scripts/build/index.ts",
