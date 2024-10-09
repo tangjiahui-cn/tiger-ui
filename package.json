@@ -18,7 +18,7 @@
     "build:cjs": "cross-env target=cjs webpack -c ./scripts/build/index.ts",
     "build:esm": "cross-env esno ./scripts/build/copy/buildESM.ts",
     "build:old": "cross-env target=all esno ./scripts/build/index.ts",
-    "build": "pnpm build:gulp",
+    "build": "pnpm build:lib",
     "docs": "dumi dev",
     "docs:build": "dumi build",
     "docs:build-github": "cross-env deploy=github dumi build",

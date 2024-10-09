@@ -3,7 +3,7 @@
  */
 import { useLogRenderTime } from '../hooks/useLogRenderTime';
 import Button from '@/Button';
-import { Input, Space, Drawer, setTheme } from '@/../es';
+import { Input, Space, Drawer, setTheme } from '@/.';
 import { useState } from 'react';
 
 export default function () {
