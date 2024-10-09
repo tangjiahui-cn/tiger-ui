@@ -11,6 +11,7 @@ import WebpackBar from 'webpackbar';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserWebpackPlugin from 'terser-webpack-plugin';
 import CssMinimizerWebpackPlugin from 'css-minimizer-webpack-plugin';
+import MomentLocalesWebpackPlugin from 'moment-locales-webpack-plugin';
 import { rimrafSync } from 'rimraf';
 
 const UMD_DIR = root('umd');
@@ -102,6 +103,9 @@ const config: WebpackConfiguration = {
     ],
   },
   plugins: [
+    new MomentLocalesWebpackPlugin({
+      localesToKeep: ['en'],
+    }),
     new MiniCssExtractPlugin({
       filename: 'index.min.css',
     }),
