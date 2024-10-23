@@ -1,4 +1,4 @@
-import gulp from 'gulp';
+import _gulp from 'gulp';
 import merge2 from 'merge2';
 import path from 'path';
 import gulpTS from 'gulp-typescript';
@@ -8,12 +8,18 @@ import { getBabelConfig } from './getBabelConfig';
 import tsConfig from '../tsconfig.json';
 import { rimrafSync } from 'rimraf';
 import { replaceAlias } from './gulp-plugins/replaceAlias';
+import autoprefixer from 'autoprefixer';
+import cssnano from 'cssnano';
+import gulpPostCss from 'gulp-postcss';
+import pkg from '../package.json';
+const gulp: any = _gulp;
 
 export const root = (...args: string[]) => path.resolve(__dirname, '..', ...args);
-const ROOT_DIR = root();
-const PKG_DIR = root('packages');
-const ESM_DIR = root('es');
-const CJS_DIR = root('lib');
+export const PKG_NAME = pkg.name;
+export const ROOT_DIR = root();
+export const PKG_DIR = root('packages');
+export const ESM_DIR = root('es');
+export const CJS_DIR = root('lib');
 
 async function clearESM() {
   return rimrafSync(ESM_DIR);
@@ -69,6 +75,7 @@ function compileLessTo(path: string) {
   return gulp
     .src([`${PKG_DIR}/**/*.less`, '!**/node_modules/**/*.less', '!**/__tests__/**/*.less'])
     .pipe(gulpLess())
+    .pipe(gulpPostCss([autoprefixer(), cssnano()]))
     .pipe(gulp.dest(path));
 }
 
@@ -80,21 +87,7 @@ async function compileLessForCJS() {
   return compileLessTo(CJS_DIR);
 }
 
-function moveLessTo(path: string) {
-  return gulp
-    .src([`${PKG_DIR}/**/*.less`, '!**/node_modules/**/*.less', '!**/__tests__/**/*.less'])
-    .pipe(gulp.dest(path));
-}
-
-async function moveLessForESM() {
-  return moveLessTo(ESM_DIR);
-}
-
-async function moveLessForCJS() {
-  return moveLessTo(CJS_DIR);
-}
-
-export default (gulp.series as Function)(
+export default (gulp.parallel as Function)(
   gulp.series(clearESM, compileTSXForESM, compileLessForESM),
   gulp.series(clearCJS, compileTSXForCJS, compileLessForCJS),
 );

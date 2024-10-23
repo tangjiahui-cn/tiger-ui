@@ -5,6 +5,7 @@
     "baseUrl": ".",
     "outDir": "lib",
     "declaration": true,
+    "preserveSymlinks": true,
     "useDefineForClassFields": true,
     "lib": [
       "DOM",
