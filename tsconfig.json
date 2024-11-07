@@ -29,7 +29,8 @@
   },
   "include": [
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    ".dumirc.ts"
   ],
   "exclude": [
     "node_modules",

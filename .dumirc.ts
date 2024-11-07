@@ -6,10 +6,10 @@
  */
 import { defineConfig } from 'dumi';
 import * as path from 'path';
-import { NAME } from './scripts/share';
 import { DefinePlugin } from 'webpack';
 import * as fs from 'fs';
 
+const NAME = 'tiger-ui';
 const { deploy } = process.env;
 const publicPath = deploy === 'github' ? `/${NAME}/` : '/';
 
@@ -37,7 +37,7 @@ export default defineConfig({
     entryFile: path.resolve(__dirname, './packages/index.ts'),
   },
   styles: [fs.readFileSync('./dumi-styles.css', 'utf-8')],
-  chainWebpack(memo) {
+  chainWebpack(memo: any) {
     memo.resolve.alias
       .set('tiger-ui', path.resolve(__dirname, './packages'))
       .set('@', path.resolve(__dirname, './packages'));

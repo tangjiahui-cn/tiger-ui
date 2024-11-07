@@ -61,7 +61,6 @@ export default function () {
         title={'标题'}
         visible={visible}
         onCancel={() => {
-          console.log('zz cancel');
           setVisible(false);
         }}
       >
