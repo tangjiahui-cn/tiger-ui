@@ -9,7 +9,7 @@ import type { ResultType } from '@/_types';
 import React, { ForwardedRef, forwardRef, memo, useCallback, useState } from 'react';
 import { usePrefix } from '@/ConfigProvider/ConfigProvider';
 import classNames from 'classnames';
-import Icon, {
+import {
   CloseOutlined,
   InfoCircleFilled,
   CheckCircleFilled,
@@ -69,9 +69,9 @@ const AlertIconMap = {
 };
 
 const AlertIconNode: React.FC<Pick<AlertProps, 'type' | 'className' | 'icon'>> = (props) => {
-  if (props?.icon) return props.icon;
+  if (props?.icon) return <>{props.icon}</>;
   const Icon = AlertIconMap[props?.type || 'info'];
-  return Icon ? <Icon className={props?.className} /> : null;
+  return Icon ? <Icon className={props?.className} /> : <></>;
 };
 
 const AlertCloseNode: React.FC<

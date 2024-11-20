@@ -6,7 +6,7 @@ const NAME = pkg.name;
 export function replaceAlias(stream: any) {
   return (
     stream
-      .pipe(replace(/PACKAGE_NAME/, `"${NAME}"`))
+      .pipe(replace(/PACKAGE_NAME/g, `"${NAME}"`))
       .pipe(replace(/(import\s+['"][.\/\w-]*).less(['"])/g, '$1.css$2'))
       // replace import alias: @/. @/xxx => ../.../xxx;
       .pipe(
