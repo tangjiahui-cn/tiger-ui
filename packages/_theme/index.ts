@@ -5,9 +5,8 @@
  * @date 2024/04/12
  */
 import { ThemeCache } from './utils/themeCache';
-import pkg from '../../package.json';
 
-const varPrefix = `--${pkg.name}-var`;
+const varPrefix = `--${PACKAGE_NAME}-var`;
 export function getVarName(name: ThemeKey): string {
   return `${varPrefix}-${name}`;
 }

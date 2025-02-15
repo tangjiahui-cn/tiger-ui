@@ -96,3 +96,5 @@ components
 
 ## 示例网址
 在线文档：[http://www.tiger-ui.top](http://www.tiger-ui.top)
+
+在线文档-githubPage:  [https://tangjiahui-cn.github.io/tiger-ui](https://tangjiahui-cn.github.io/tiger-ui)

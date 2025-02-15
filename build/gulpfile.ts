@@ -41,7 +41,7 @@ async function compileTSXForESM() {
     .pipe(
       gulpTS({
         ...tsConfig.compilerOptions,
-        rootDir: PKG_DIR,
+        rootDir: ROOT_DIR,
         baseUrl: root(),
       }),
     );
@@ -62,7 +62,7 @@ async function compileTSXForCJS() {
     .pipe(
       gulpTS({
         ...tsConfig.compilerOptions,
-        rootDir: PKG_DIR,
+        rootDir: ROOT_DIR,
         baseUrl: root(),
       }),
     );
