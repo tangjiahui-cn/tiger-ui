@@ -13,14 +13,16 @@ const NAME = 'tiger-ui';
 const { deploy } = process.env;
 const publicPath = deploy === 'github' ? `/${NAME}/` : '/';
 
+const title = `${NAME} 一个前端文档库网站`;
+
 export default defineConfig({
   publicPath,
   base: publicPath,
-  title: NAME,
+  title: title,
   outputPath: 'docs-dist',
   themeConfig: {
     logo: false,
-    title: NAME,
+    title: title,
     name: NAME,
     footer: fs.readFileSync('./footer.html', 'utf-8'),
     apiHeader: false,
