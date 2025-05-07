@@ -46,5 +46,5 @@ jobs:
           REMOTE_USER: "root"
           TARGET: "/var/www/tiger-ui"
           ARGS: "-avzr --delete"
-          SOURCE: "./dist/"
+          SOURCE: "./docs-dist/"
           EXCLUDE: "/node_modules/"
