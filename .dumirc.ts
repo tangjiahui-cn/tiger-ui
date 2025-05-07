@@ -13,7 +13,7 @@ const NAME = 'tiger-ui';
 const { deploy } = process.env;
 const publicPath = deploy === 'github' ? `/${NAME}/` : '/';
 
-const title = `${NAME} 一个前端文档库网站`;
+const title = `${NAME}`; // website title
 
 export default defineConfig({
   publicPath,
